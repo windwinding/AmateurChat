@@ -68,4 +68,31 @@ import javax.annotation.Nullable;
  * <h3>Non-preconditions</h3>
  *
  * <p>It is of course possible to use the methods of this class to check for invalid conditions
- * which are <i>not the caller's fault</i>. Doing so is <b>
+ * which are <i>not the caller's fault</i>. Doing so is <b>not recommended</b> because it is
+ * misleading to future readers of the code and of stack traces. See
+ * <a href="http://code.google.com/p/guava-libraries/wiki/ConditionalFailuresExplained">Conditional
+ * failures explained</a> in the Guava User Guide for more advice.
+ *
+ * <h3>{@code java.util.Objects.requireNonNull()}</h3>
+ *
+ * <p>Projects which use {@code com.google.common} should generally avoid the use of {@link
+ * java.util.Objects#requireNonNull(Object)}. Instead, use whichever of {@link
+ * #checkNotNull(Object)} or {@link com.google.common.base.Verify#verifyNotNull(Object)} is appropriate to the situation.
+ * (The same goes for the message-accepting overloads.)
+ *
+ * <h3>Only {@code %s} is supported</h3>
+ *
+ * <p>In {@code Preconditions} error message template strings, only the {@code "%s"} specifier is
+ * supported, not the full range of {@link java.util.Formatter} specifiers. However, note that if
+ * the number of arguments does not match the number of occurrences of {@code "%s"} in the format
+ * string, {@code Preconditions} will still behave as expected, and will still include all argument
+ * values in the error message; the message will simply not be formatted exactly as intended.
+ *
+ * <h3>More information</h3>
+ *
+ * <p>See the Guava User Guide on
+ * <a href="http://code.google.com/p/guava-libraries/wiki/PreconditionsExplained">using {@code
+ * Preconditions}</a>.
+ *
+ * @author Kevin Bourrillion
+ * @since 2.0 (imported from Google Collections Library)
