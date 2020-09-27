@@ -96,3 +96,41 @@ import javax.annotation.Nullable;
  *
  * @author Kevin Bourrillion
  * @since 2.0 (imported from Google Collections Library)
+ */
+@GwtCompatible
+public final class Preconditions {
+    private Preconditions() {}
+
+    /**
+     * Ensures the truth of an expression involving one or more parameters to the calling method.
+     *
+     * @param expression a boolean expression
+     * @throws IllegalArgumentException if {@code expression} is false
+     */
+    public static void checkArgument(boolean expression) {
+        if (!expression) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    /**
+     * Ensures the truth of an expression involving one or more parameters to the calling method.
+     *
+     * @param expression a boolean expression
+     * @param errorMessage the exception message to use if the check fails; will be converted to a
+     *     string using {@link String#valueOf(Object)}
+     * @throws IllegalArgumentException if {@code expression} is false
+     */
+    public static void checkArgument(boolean expression, @Nullable Object errorMessage) {
+        if (!expression) {
+            throw new IllegalArgumentException(String.valueOf(errorMessage));
+        }
+    }
+
+    /**
+     * Ensures the truth of an expression involving one or more parameters to the calling method.
+     *
+     * @param expression a boolean expression
+     * @param errorMessageTemplate a template for the exception message should the check fail. The
+     *     message is formed by replacing each {@code %s} placeholder in the template with an
+     *     argument. These are 
