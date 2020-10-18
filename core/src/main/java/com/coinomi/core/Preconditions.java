@@ -191,4 +191,39 @@ public final class Preconditions {
      * @param errorMessageArgs the arguments to be substituted into the message template. Arguments
      *     are converted to strings using {@link String#valueOf(Object)}.
      * @throws IllegalStateException if {@code expression} is false
-     
+     * @throws NullPointerException if the check fails and either {@code errorMessageTemplate} or
+     *     {@code errorMessageArgs} is null (don't let this happen)
+     */
+    public static void checkState(boolean expression,
+                                  @Nullable String errorMessageTemplate,
+                                  @Nullable Object... errorMessageArgs) {
+        if (!expression) {
+            throw new IllegalStateException(format(errorMessageTemplate, errorMessageArgs));
+        }
+    }
+
+    /**
+     * Ensures that an object reference passed as a parameter to the calling method is not null.
+     *
+     * @param reference an object reference
+     * @return the non-null reference that was validated
+     * @throws NullPointerException if {@code reference} is null
+     */
+    public static <T> T checkNotNull(T reference) {
+        if (reference == null) {
+            throw new NullPointerException();
+        }
+        return reference;
+    }
+
+    /**
+     * Ensures that an object reference passed as a parameter to the calling method is not null.
+     *
+     * @param reference an object reference
+     * @param errorMessage the exception message to use if the check fails; will be converted to a
+     *     string using {@link String#valueOf(Object)}
+     * @return the non-null reference that was validated
+     * @throws NullPointerException if {@code reference} is null
+     */
+    public static <T> T checkNotNull(T reference, @Nullable Object errorMessage) {
+        if
