@@ -289,4 +289,33 @@ public final class Preconditions {
      * @param index a user-supplied index identifying an element of an array, list or string
      * @param size the size of that array, list or string
      * @return the value of {@code index}
-     * @throw
+     * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than {@code size}
+     * @throws IllegalArgumentException if {@code size} is negative
+     */
+    public static int checkElementIndex(int index, int size) {
+        return checkElementIndex(index, size, "index");
+    }
+
+    /**
+     * Ensures that {@code index} specifies a valid <i>element</i> in an array, list or string of size
+     * {@code size}. An element index may range from zero, inclusive, to {@code size}, exclusive.
+     *
+     * @param index a user-supplied index identifying an element of an array, list or string
+     * @param size the size of that array, list or string
+     * @param desc the text to use to describe this index in an error message
+     * @return the value of {@code index}
+     * @throws IndexOutOfBoundsException if {@code index} is negative or is not less than {@code size}
+     * @throws IllegalArgumentException if {@code size} is negative
+     */
+    public static int checkElementIndex(
+            int index, int size, @Nullable String desc) {
+        // Carefully optimized for execution by hotspot (explanatory comment above)
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException(badElementIndex(index, size, desc));
+        }
+        return index;
+    }
+
+    private static String badElementIndex(int index, int size, String desc) {
+        if (index < 0) {
+            return format("%s (%s) must not be ne
