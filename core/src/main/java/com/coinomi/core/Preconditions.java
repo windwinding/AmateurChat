@@ -318,4 +318,34 @@ public final class Preconditions {
 
     private static String badElementIndex(int index, int size, String desc) {
         if (index < 0) {
-            return format("%s (%s) must not be ne
+            return format("%s (%s) must not be negative", desc, index);
+        } else if (size < 0) {
+            throw new IllegalArgumentException("negative size: " + size);
+        } else { // index >= size
+            return format("%s (%s) must be less than size (%s)", desc, index, size);
+        }
+    }
+
+    /**
+     * Ensures that {@code index} specifies a valid <i>position</i> in an array, list or string of
+     * size {@code size}. A position index may range from zero to {@code size}, inclusive.
+     *
+     * @param index a user-supplied index identifying a position in an array, list or string
+     * @param size the size of that array, list or string
+     * @return the value of {@code index}
+     * @throws IndexOutOfBoundsException if {@code index} is negative or is greater than {@code size}
+     * @throws IllegalArgumentException if {@code size} is negative
+     */
+    public static int checkPositionIndex(int index, int size) {
+        return checkPositionIndex(index, size, "index");
+    }
+
+    /**
+     * Ensures that {@code index} specifies a valid <i>position</i> in an array, list or string of
+     * size {@code size}. A position index may range from zero to {@code size}, inclusive.
+     *
+     * @param index a user-supplied index identifying a position in an array, list or string
+     * @param size the size of that array, list or string
+     * @param desc the text to use to describe this index in an error message
+     * @return the value of {@code index}
+     * @throws IndexOutOfBoundsExcep
