@@ -378,4 +378,35 @@ public final class Preconditions {
      * @param end a user-supplied index identifying a ending position in an array, list or string
      * @param size the size of that array, list or string
      * @throws IndexOutOfBoundsException if either index is negative or is greater than {@code size},
-     *     or if {@code end}
+     *     or if {@code end} is less than {@code start}
+     * @throws IllegalArgumentException if {@code size} is negative
+     */
+    public static void checkPositionIndexes(int start, int end, int size) {
+        // Carefully optimized for execution by hotspot (explanatory comment above)
+        if (start < 0 || end < start || end > size) {
+            throw new IndexOutOfBoundsException(badPositionIndexes(start, end, size));
+        }
+    }
+
+    private static String badPositionIndexes(int start, int end, int size) {
+        if (start < 0 || start > size) {
+            return badPositionIndex(start, size, "start index");
+        }
+        if (end < 0 || end > size) {
+            return badPositionIndex(end, size, "end index");
+        }
+        // end < start
+        return format("end index (%s) must not be less than start index (%s)", end, start);
+    }
+
+    /**
+     * Substitutes each {@code %s} in {@code template} with an argument. These are matched by
+     * position: the first {@code %s} gets {@code args[0]}, etc.  If there are more arguments than
+     * placeholders, the unmatched arguments will be appended to the end of the formatted message in
+     * square braces.
+     *
+     * @param template a non-null string containing 0 or more {@code %s} placeholders.
+     * @param args the arguments to be substituted into the message template. Arguments are converted
+     *     to strings using {@link String#valueOf(Object)}. Arguments can be null.
+     */
+    // Note that this is somewhat-improperly used from Verify
