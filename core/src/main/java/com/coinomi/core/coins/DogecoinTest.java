@@ -5,20 +5,20 @@ import com.coinomi.core.coins.families.BitFamily;
 /**
  * @author John L. Jegutanis
  */
-public class DogecoinMain extends BitFamily {
-    private DogecoinMain() {
-        id = "dogecoin.main";
+public class DogecoinTest extends BitFamily {
+    private DogecoinTest() {
+        id = "dogecoin.test";
 
-        addressHeader = 30;
-        p2shHeader = 22;
+        addressHeader = 113;
+        p2shHeader = 196;
         acceptableAddressCodes = new int[] { addressHeader, p2shHeader };
         spendableCoinbaseDepth = 240; // COINBASE_MATURITY_NEW
-        dumpedPrivateKeyHeader = 158;
+        dumpedPrivateKeyHeader = 241;
 
-        name = "Dogecoin";
-        symbol = "DOGE";
+        name = "Dogecoin Test";
+        symbol = "DOGEt";
         uriScheme = "dogecoin";
-        bip44Index = 3;
+        bip44Index = 1;
         unitExponent = 8;
         feeValue = value(100000000L);
         minNonDust = value(1);
@@ -27,7 +27,7 @@ public class DogecoinMain extends BitFamily {
         signedMessageHeader = toBytes("Dogecoin Signed Message:\n");
     }
 
-    private static DogecoinMain instance = new DogecoinMain();
+    private static DogecoinTest instance = new DogecoinTest();
     public static synchronized CoinType get() {
         return instance;
     }
