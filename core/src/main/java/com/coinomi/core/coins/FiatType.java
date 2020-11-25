@@ -39,4 +39,76 @@ public class FiatType implements ValueType {
         if (!types.containsKey(currencyCode)) {
             types.put(currencyCode, new FiatType(currencyCode, Currencies.CURRENCY_NAMES.get(currencyCode)));
         }
-        return types.get(curr
+        return types.get(currencyCode);
+    }
+
+    @Override
+    public String getId() {
+        return getSymbol();
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String getSymbol() {
+        return currencyCode;
+    }
+
+    @Override
+    public int getUnitExponent() {
+        return SMALLEST_UNIT_EXPONENT;
+    }
+
+    @Override
+    public Value oneCoin() {
+        if (oneCoin == null) {
+            BigInteger units = BigInteger.TEN.pow(getUnitExponent());
+            oneCoin = Value.valueOf(this, units.longValue());
+        }
+        return oneCoin;
+    }
+
+    @Override
+    public Value getMinNonDust() {
+        return value(1);
+    }
+
+    @Override
+    public Value value(Coin coin) {
+        return Value.valueOf(this, coin);
+    }
+
+    @Override
+    public Value value(long units) {
+        return Value.valueOf(this, units);
+    }
+
+    @Override
+    public Value value(String string) {
+        return Value.parse(this, string);
+    }
+
+    @Override
+    public MonetaryFormat getMonetaryFormat() {
+        if (friendlyFormat == null) {
+            friendlyFormat = FRIENDLY_FORMAT.code(0, currencyCode);
+        }
+        return friendlyFormat;
+    }
+
+    @Override
+    public MonetaryFormat getPlainFormat() {
+        return PLAIN_FORMAT;
+    }
+
+    @Override
+    public boolean equals(ValueType o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        return currencyCode.equals(o.getSymbol());
+    }
+
+    @Override
