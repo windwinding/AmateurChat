@@ -27,4 +27,8 @@ public class FeathercoinMain extends BitFamily {
         signedMessageHeader = toBytes("Feathercoin Signed Message:\n");
     }
 
-    private static FeathercoinMain instance = new Fea
+    private static FeathercoinMain instance = new FeathercoinMain();
+    public static synchronized CoinType get() {
+        return instance;
+    }
+}
