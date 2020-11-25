@@ -112,3 +112,10 @@ public class FiatType implements ValueType {
     }
 
     @Override
+    public String toString() {
+        return "Fiat {" +
+                "name='" + name + '\'' +
+                ", currencyCode='" + currencyCode +
+                '}';
+    }
+}
