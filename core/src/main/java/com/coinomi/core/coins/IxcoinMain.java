@@ -21,4 +21,13 @@ public class IxcoinMain extends BitFamily {
         unitExponent = 8;
         feeValue = value(10000);
         minNonDust = value(1);
-        s
+        softDustLimit = value(1000000); // 0.01 IXC
+        softDustPolicy = SoftDustPolicy.BASE_FEE_FOR_EACH_SOFT_DUST_TXO;
+        signedMessageHeader = toBytes("Ixcoin Signed Message:\n");
+    }
+
+    private static IxcoinMain instance = new IxcoinMain();
+    public static synchronized IxcoinMain get() {
+        return instance;
+    }
+}
