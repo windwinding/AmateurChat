@@ -5,29 +5,29 @@ import com.coinomi.core.coins.families.NuFamily;
 /**
  * @author John L. Jegutanis
  */
-public class NuBitsMain extends NuFamily {
-    private NuBitsMain() {
-        id = "nubits.main";
+public class NuSharesMain extends NuFamily {
+    private NuSharesMain() {
+        id = "nushares.main";
 
-        addressHeader = 25;
-        p2shHeader = 26;
+        addressHeader = 63;
+        p2shHeader = 64;
         acceptableAddressCodes = new int[] { addressHeader, p2shHeader };
-        dumpedPrivateKeyHeader = 150;
-        tokenId = 0x42;
+        dumpedPrivateKeyHeader = 149;
+        tokenId = 0x53;
 
-        name = "NuBits";
-        symbol = "NBT";
+        name = "NuShares";
+        symbol = "NSR";
         uriScheme = "nu";
-        bip44Index = 12;
+        bip44Index = 11;
         unitExponent = 4;
-        feeValue = value(100); // 0.02NBT, careful NuBits has 10000 units per coin
-        minNonDust = value(100); // 0.01NBT
+        feeValue = value(10000); // 1NSR, careful NuBits has 10000 units per coin
+        minNonDust = value(10000); // 1NSR
         softDustLimit = minNonDust;
         softDustPolicy = SoftDustPolicy.NO_POLICY;
         signedMessageHeader = toBytes("Nu Signed Message:\n");
     }
 
-    private static NuBitsMain instance = new NuBitsMain();
+    private static NuSharesMain instance = new NuSharesMain();
     public static synchronized CoinType get() {
         return instance;
     }
