@@ -25,4 +25,12 @@ public class PotcoinMain extends ReddFamily {
         feeValue = value(100000);
         minNonDust = value(1000);
         softDustLimit = value(100000);
-        softDustPolicy = SoftDustPolicy.BASE_FEE_FOR_EACH
+        softDustPolicy = SoftDustPolicy.BASE_FEE_FOR_EACH_SOFT_DUST_TXO;
+    }
+
+    private static PotcoinMain instance = new PotcoinMain();
+    public static synchronized PotcoinMain get() {
+        return instance;
+    }
+
+}
