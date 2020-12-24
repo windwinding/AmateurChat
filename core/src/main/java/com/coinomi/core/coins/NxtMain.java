@@ -17,4 +17,12 @@ public class NxtMain extends NxtFamily {
         unitExponent = 8;
         addressPrefix = "NXT-";
         feeValue = oneCoin();
-        
+        minNonDust = value(1);
+        feePolicy = FeePolicy.FLAT_FEE;
+    }
+
+    private static NxtMain instance = new NxtMain();
+    public static synchronized CoinType get() {
+        return instance;
+    }
+}
