@@ -27,4 +27,12 @@ public class RichcoinMain extends BitFamily {
         minNonDust = value(1000000);
         softDustLimit = value(100000000);
         softDustPolicy = SoftDustPolicy.BASE_FEE_FOR_EACH_SOFT_DUST_TXO;
-        si
+        signedMessageHeader = toBytes("Richcoin Signed Message:\n");
+        
+    }
+
+    private static RichcoinMain instance = new RichcoinMain();
+    public static synchronized RichcoinMain get() {
+        return instance;
+    }
+}
