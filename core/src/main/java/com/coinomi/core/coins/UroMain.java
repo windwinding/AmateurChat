@@ -27,4 +27,7 @@ public class UroMain extends BitFamily {
     }
 
     private static UroMain instance = new UroMain();
-    pu
+    public static synchronized CoinType get() {
+        return instance;
+    }
+}
