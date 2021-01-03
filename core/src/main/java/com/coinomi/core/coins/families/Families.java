@@ -14,3 +14,17 @@ public enum Families {
     PEERCOIN("peercoin"),
     REDDCOIN("reddcoin"),
     VPNCOIN("vpncoin"),
+    CLAMS("clams"),
+    ;
+
+    public final String family;
+
+    Families(String family) {
+        this.family = family;
+    }
+
+    @Override
+    public String toString() {
+        return family;
+    }
+}
