@@ -836,3 +836,506 @@ public final class Account {
 //        if (this.publicKey == null) {
 //            this.publicKey = publicKeyTable.get(publicKeyDbKeyFactory.newKey(this.id));
 //        }
+//        return publicKey;
+//    }
+//
+//    private int getCreationHeight() {
+//        return creationHeight;
+//    }
+//
+//    int getKeyHeight() {
+//        return keyHeight;
+//    }
+//
+//    public EncryptedData encryptTo(byte[] data, String senderSecretPhrase, boolean compress) {
+//        if (getPublicKey() == null) {
+//            throw new IllegalArgumentException("Recipient account doesn't have a public key set");
+//        }
+//        if (compress && data.length > 0) {
+//            data = com.coinomi.core.coins.nxt.Convert.compress(data);
+//        }
+//        return EncryptedData.encrypt(data, com.coinomi.core.coins.nxt.Crypto.getPrivateKey(senderSecretPhrase), getPublicKey());
+//    }
+//
+//    public byte[] decryptFrom(EncryptedData encryptedData, String recipientSecretPhrase, boolean uncompress) {
+//        if (getPublicKey() == null) {
+//            throw new IllegalArgumentException("Sender account doesn't have a public key set");
+//        }
+//        byte[] decrypted = encryptedData.decrypt(com.coinomi.core.coins.nxt.Crypto.getPrivateKey(recipientSecretPhrase), getPublicKey());
+//        if (uncompress && decrypted.length > 0) {
+//            decrypted = com.coinomi.core.coins.nxt.Convert.uncompress(decrypted);
+//        }
+//        return decrypted;
+//    }
+//
+//    public long getBalanceNQT() {
+//        return balanceNQT;
+//    }
+//
+//    public long getUnconfirmedBalanceNQT() {
+//        return unconfirmedBalanceNQT;
+//    }
+//
+//    public long getForgedBalanceNQT() {
+//        return forgedBalanceNQT;
+//    }
+//
+//    public long getEffectiveBalanceNXT() {
+//        return getEffectiveBalanceNXT(Nxt.getBlockchain().getHeight());
+//    }
+//
+//    public long getEffectiveBalanceNXT(int height) {
+//
+//        if (height >= Constants.TRANSPARENT_FORGING_BLOCK_6
+//                && (keyHeight == 0 || height - keyHeight <= 1440)) {
+//            return 0; // cfb: Accounts with the public key revealed less than 1440 blocks ago are not allowed to generate blocks
+//        }
+//        if (height < Constants.TRANSPARENT_FORGING_BLOCK_3
+//                && this.creationHeight < Constants.TRANSPARENT_FORGING_BLOCK_2) {
+//            if (this.creationHeight == 0) {
+//                return balanceNQT / Constants.ONE_NXT;
+//            }
+//            if (height - this.creationHeight < 1440) {
+//                return 0;
+//            }
+//            long receivedInLastBlock = 0;
+//            for (Transaction transaction : Nxt.getBlockchain().getBlockAtHeight(height).getTransactions()) {
+//                if (id == transaction.getRecipientId()) {
+//                    receivedInLastBlock += transaction.getAmountNQT();
+//                }
+//            }
+//            return (balanceNQT - receivedInLastBlock) / Constants.ONE_NXT;
+//        }
+//        if (activeLesseeId == 0) {
+//            return (getGuaranteedBalanceNQT(Constants.GUARANTEED_BALANCE_CONFIRMATIONS, height) + getLessorsGuaranteedBalanceNQT(height)) / Constants.ONE_NXT;
+//        }
+//        return getLessorsGuaranteedBalanceNQT(height) / Constants.ONE_NXT;
+//    }
+//
+//    private long getLessorsGuaranteedBalanceNQT(int height) {
+//        List<Account> lessors = new ArrayList<>();
+//        try (DbIterator<Account> iterator = getLessors(height)) {
+//            while (iterator.hasNext()) {
+//                lessors.add(iterator.next());
+//            }
+//        }
+//        Long[] lessorIds = new Long[lessors.size()];
+//        long[] balances = new long[lessors.size()];
+//        for (int i = 0; i < lessors.size(); i++) {
+//            lessorIds[i] = lessors.get(i).getId();
+//            balances[i] = lessors.get(i).getBalanceNQT();
+//        }
+//        try (Connection con = Db.db.getConnection();
+//             PreparedStatement pstmt = con.prepareStatement("SELECT account_id, SUM (additions) AS additions "
+//                     + "FROM account_guaranteed_balance, TABLE (id BIGINT=?) T WHERE account_id = T.id AND height > ? "
+//                     + (height < Nxt.getBlockchain().getHeight() ? " AND height <= ? " : "")
+//                     + " GROUP BY account_id ORDER BY account_id")) {
+//            pstmt.setObject(1, lessorIds);
+//            pstmt.setInt(2, height - Constants.GUARANTEED_BALANCE_CONFIRMATIONS);
+//            if (height < Nxt.getBlockchain().getHeight()) {
+//                pstmt.setInt(3, height);
+//            }
+//            long total = 0;
+//            int i = 0;
+//            try (ResultSet rs = pstmt.executeQuery()) {
+//                while (rs.next()) {
+//                    long accountId = rs.getLong("account_id");
+//                    while (lessorIds[i] < accountId && i < lessorIds.length) {
+//                        total += balances[i++];
+//                    }
+//                    if (lessorIds[i] == accountId) {
+//                        total += Math.max(balances[i++] - rs.getLong("additions"), 0);
+//                    }
+//                }
+//            }
+//            while (i < balances.length) {
+//                total += balances[i++];
+//            }
+//            return total;
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e.toString(), e);
+//        }
+//    }
+//
+//    public DbIterator<Account> getLessors() {
+//        return accountTable.getManyBy(new DbClause.LongClause("active_lessee_id", id), 0, -1, " ORDER BY id ASC ");
+//    }
+//
+//    public DbIterator<Account> getLessors(int height) {
+//        return accountTable.getManyBy(new DbClause.LongClause("active_lessee_id", id), height, 0, -1, " ORDER BY id ASC ");
+//    }
+//
+//    public long getGuaranteedBalanceNQT() {
+//        return getGuaranteedBalanceNQT(Constants.GUARANTEED_BALANCE_CONFIRMATIONS, Nxt.getBlockchain().getHeight());
+//    }
+//
+//    public long getGuaranteedBalanceNQT(final int numberOfConfirmations, final int currentHeight) {
+//        int height = currentHeight - numberOfConfirmations;
+//        if (height + Constants.GUARANTEED_BALANCE_CONFIRMATIONS < Nxt.getBlockchainProcessor().getMinRollbackHeight()
+//                || height > Nxt.getBlockchain().getHeight()) {
+//            throw new IllegalArgumentException("Height " + height + " not available for guaranteed balance calculation");
+//        }
+//        try (Connection con = Db.db.getConnection();
+//             PreparedStatement pstmt = con.prepareStatement("SELECT SUM (additions) AS additions "
+//                     + "FROM account_guaranteed_balance WHERE account_id = ? AND height > ? AND height <= ?")) {
+//            pstmt.setLong(1, this.id);
+//            pstmt.setInt(2, height);
+//            pstmt.setInt(3, currentHeight);
+//            try (ResultSet rs = pstmt.executeQuery()) {
+//                if (!rs.next()) {
+//                    return balanceNQT;
+//                }
+//                return Math.max(Math.subtractExact(balanceNQT, rs.getLong("additions")), 0);
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e.toString(), e);
+//        }
+//    }
+//
+//    public DbIterator<AccountAsset> getAssets(int from, int to) {
+//        return accountAssetTable.getManyBy(new DbClause.LongClause("account_id", this.id), from, to);
+//    }
+//
+//    public DbIterator<AccountAsset> getAssets(int height, int from, int to) {
+//        return accountAssetTable.getManyBy(new DbClause.LongClause("account_id", this.id), height, from, to);
+//    }
+//
+//    public DbIterator<Trade> getTrades(int from, int to) {
+//        return Trade.getAccountTrades(this.id, from, to);
+//    }
+//
+//    public DbIterator<AssetTransfer> getAssetTransfers(int from, int to) {
+//        return AssetTransfer.getAccountAssetTransfers(this.id, from, to);
+//    }
+//
+//    public DbIterator<CurrencyTransfer> getCurrencyTransfers(int from, int to) {
+//        return CurrencyTransfer.getAccountCurrencyTransfers(this.id, from, to);
+//    }
+//
+//    public DbIterator<Exchange> getExchanges(int from, int to) {
+//        return Exchange.getAccountExchanges(this.id, from, to);
+//    }
+//
+//    public AccountAsset getAsset(long assetId) {
+//        return accountAssetTable.get(accountAssetDbKeyFactory.newKey(this.id, assetId));
+//    }
+//
+//    public AccountAsset getAsset(long assetId, int height) {
+//        return accountAssetTable.get(accountAssetDbKeyFactory.newKey(this.id, assetId), height);
+//    }
+//
+//    public long getAssetBalanceQNT(long assetId) {
+//        return getAssetBalanceQNT(this.id, assetId);
+//    }
+//
+//    public long getAssetBalanceQNT(long assetId, int height) {
+//        return getAssetBalanceQNT(this.id, assetId, height);
+//    }
+//
+//    public long getUnconfirmedAssetBalanceQNT(long assetId) {
+//        return getUnconfirmedAssetBalanceQNT(this.id, assetId);
+//    }
+//
+//    public AccountCurrency getCurrency(long currencyId) {
+//        return accountCurrencyTable.get(accountCurrencyDbKeyFactory.newKey(this.id, currencyId));
+//    }
+//
+//    public AccountCurrency getCurrency(long currencyId, int height) {
+//        return accountCurrencyTable.get(accountCurrencyDbKeyFactory.newKey(this.id, currencyId), height);
+//    }
+//
+//    public DbIterator<AccountCurrency> getCurrencies(int from, int to) {
+//        return accountCurrencyTable.getManyBy(new DbClause.LongClause("account_id", this.id), from, to);
+//    }
+//
+//    public DbIterator<AccountCurrency> getCurrencies(int height, int from, int to) {
+//        return accountCurrencyTable.getManyBy(new DbClause.LongClause("account_id", this.id), height, from, to);
+//    }
+//
+//    public long getCurrencyUnits(long currencyId) {
+//        return getCurrencyUnits(this.id, currencyId);
+//    }
+//
+//    public long getCurrencyUnits(long currencyId, int height) {
+//        return getCurrencyUnits(this.id, currencyId, height);
+//    }
+//
+//    public long getUnconfirmedCurrencyUnits(long currencyId) {
+//        return getUnconfirmedCurrencyUnits(this.id, currencyId);
+//    }
+//
+//    void leaseEffectiveBalance(long lesseeId, short period) {
+//        Account lessee = Account.getAccount(lesseeId);
+//        if (lessee != null && lessee.getKeyHeight() > 0) {
+//            int height = Nxt.getBlockchain().getHeight();
+//            AccountLease accountLease = accountLeaseTable.get(accountLeaseDbKeyFactory.newKey(id));
+//            if (accountLease == null) {
+//                accountLease = new AccountLease(id,
+//                        height + Constants.LEASING_DELAY,
+//                        height + Constants.LEASING_DELAY + period,
+//                        lesseeId);
+//            } else if (accountLease.currentLesseeId == 0) {
+//                accountLease.currentLeasingHeightFrom = height + Constants.LEASING_DELAY;
+//                accountLease.currentLeasingHeightTo = height + Constants.LEASING_DELAY + period;
+//                accountLease.currentLesseeId = lesseeId;
+//            } else {
+//                accountLease.nextLeasingHeightFrom = height + Constants.LEASING_DELAY;
+//                if (accountLease.nextLeasingHeightFrom < accountLease.currentLeasingHeightTo) {
+//                    accountLease.nextLeasingHeightFrom = accountLease.currentLeasingHeightTo;
+//                }
+//                accountLease.nextLeasingHeightTo = accountLease.nextLeasingHeightFrom + period;
+//                accountLease.nextLesseeId = lesseeId;
+//            }
+//            accountLeaseTable.insert(accountLease);
+//            leaseListeners.notify(accountLease, Event.LEASE_SCHEDULED);
+//        }
+//    }
+//
+//    // returns true iff:
+//    // this.publicKey is set to null (in which case this.publicKey also gets set to key)
+//    // or
+//    // this.publicKey is already set to an array equal to key
+//    boolean setOrVerify(byte[] key) {
+//        if (this.getPublicKey() == null) {
+//            this.publicKey = key;
+//            return true;
+//        } else {
+//            return Arrays.equals(this.publicKey, key);
+//        }
+//    }
+//
+//    void apply(byte[] key) {
+//        if (! setOrVerify(key)) {
+//            throw new IllegalStateException("Public key mismatch");
+//        }
+//        if (this.keyHeight == 0) {
+//            this.keyHeight = Nxt.getBlockchain().getHeight();
+//            accountTable.insert(this);
+//            publicKeyTable.insert(this.publicKey);
+//        }
+//    }
+//
+//    void addToAssetBalanceQNT(long assetId, long quantityQNT) {
+//        if (quantityQNT == 0) {
+//            return;
+//        }
+//        AccountAsset accountAsset;
+//        accountAsset = accountAssetTable.get(accountAssetDbKeyFactory.newKey(this.id, assetId));
+//        long assetBalance = accountAsset == null ? 0 : accountAsset.quantityQNT;
+//        assetBalance = Math.addExact(assetBalance, quantityQNT);
+//        if (accountAsset == null) {
+//            accountAsset = new AccountAsset(this.id, assetId, assetBalance, 0);
+//        } else {
+//            accountAsset.quantityQNT = assetBalance;
+//        }
+//        accountAsset.save();
+//        listeners.notify(this, Event.ASSET_BALANCE);
+//        assetListeners.notify(accountAsset, Event.ASSET_BALANCE);
+//    }
+//
+//    void addToUnconfirmedAssetBalanceQNT(long assetId, long quantityQNT) {
+//        if (quantityQNT == 0) {
+//            return;
+//        }
+//        AccountAsset accountAsset;
+//        accountAsset = accountAssetTable.get(accountAssetDbKeyFactory.newKey(this.id, assetId));
+//        long unconfirmedAssetBalance = accountAsset == null ? 0 : accountAsset.unconfirmedQuantityQNT;
+//        unconfirmedAssetBalance = Math.addExact(unconfirmedAssetBalance, quantityQNT);
+//        if (accountAsset == null) {
+//            accountAsset = new AccountAsset(this.id, assetId, 0, unconfirmedAssetBalance);
+//        } else {
+//            accountAsset.unconfirmedQuantityQNT = unconfirmedAssetBalance;
+//        }
+//        accountAsset.save();
+//        listeners.notify(this, Event.UNCONFIRMED_ASSET_BALANCE);
+//        assetListeners.notify(accountAsset, Event.UNCONFIRMED_ASSET_BALANCE);
+//    }
+//
+//    void addToAssetAndUnconfirmedAssetBalanceQNT(long assetId, long quantityQNT) {
+//        if (quantityQNT == 0) {
+//            return;
+//        }
+//        AccountAsset accountAsset;
+//        accountAsset = accountAssetTable.get(accountAssetDbKeyFactory.newKey(this.id, assetId));
+//        long assetBalance = accountAsset == null ? 0 : accountAsset.quantityQNT;
+//        assetBalance = Math.addExact(assetBalance, quantityQNT);
+//        long unconfirmedAssetBalance = accountAsset == null ? 0 : accountAsset.unconfirmedQuantityQNT;
+//        unconfirmedAssetBalance = Math.addExact(unconfirmedAssetBalance, quantityQNT);
+//        if (accountAsset == null) {
+//            accountAsset = new AccountAsset(this.id, assetId, assetBalance, unconfirmedAssetBalance);
+//        } else {
+//            accountAsset.quantityQNT = assetBalance;
+//            accountAsset.unconfirmedQuantityQNT = unconfirmedAssetBalance;
+//        }
+//        accountAsset.save();
+//        listeners.notify(this, Event.ASSET_BALANCE);
+//        listeners.notify(this, Event.UNCONFIRMED_ASSET_BALANCE);
+//        assetListeners.notify(accountAsset, Event.ASSET_BALANCE);
+//        assetListeners.notify(accountAsset, Event.UNCONFIRMED_ASSET_BALANCE);
+//    }
+//
+//    void addToCurrencyUnits(long currencyId, long units) {
+//        if (units == 0) {
+//            return;
+//        }
+//        AccountCurrency accountCurrency;
+//        accountCurrency = accountCurrencyTable.get(accountCurrencyDbKeyFactory.newKey(this.id, currencyId));
+//        long currencyUnits = accountCurrency == null ? 0 : accountCurrency.units;
+//        currencyUnits = Math.addExact(currencyUnits, units);
+//        if (accountCurrency == null) {
+//            accountCurrency = new AccountCurrency(this.id, currencyId, currencyUnits, 0);
+//        } else {
+//            accountCurrency.units = currencyUnits;
+//        }
+//        accountCurrency.save();
+//        listeners.notify(this, Event.CURRENCY_BALANCE);
+//        currencyListeners.notify(accountCurrency, Event.CURRENCY_BALANCE);
+//    }
+//
+//    void addToUnconfirmedCurrencyUnits(long currencyId, long units) {
+//        if (units == 0) {
+//            return;
+//        }
+//        AccountCurrency accountCurrency = accountCurrencyTable.get(accountCurrencyDbKeyFactory.newKey(this.id, currencyId));
+//        long unconfirmedCurrencyUnits = accountCurrency == null ? 0 : accountCurrency.unconfirmedUnits;
+//        unconfirmedCurrencyUnits = Math.addExact(unconfirmedCurrencyUnits, units);
+//        if (accountCurrency == null) {
+//            accountCurrency = new AccountCurrency(this.id, currencyId, 0, unconfirmedCurrencyUnits);
+//        } else {
+//            accountCurrency.unconfirmedUnits = unconfirmedCurrencyUnits;
+//        }
+//        accountCurrency.save();
+//        listeners.notify(this, Event.UNCONFIRMED_CURRENCY_BALANCE);
+//        currencyListeners.notify(accountCurrency, Event.UNCONFIRMED_CURRENCY_BALANCE);
+//    }
+//
+//    void addToCurrencyAndUnconfirmedCurrencyUnits(long currencyId, long units) {
+//        if (units == 0) {
+//            return;
+//        }
+//        AccountCurrency accountCurrency;
+//        accountCurrency = accountCurrencyTable.get(accountCurrencyDbKeyFactory.newKey(this.id, currencyId));
+//        long currencyUnits = accountCurrency == null ? 0 : accountCurrency.units;
+//        currencyUnits = Math.addExact(currencyUnits, units);
+//        long unconfirmedCurrencyUnits = accountCurrency == null ? 0 : accountCurrency.unconfirmedUnits;
+//        unconfirmedCurrencyUnits = Math.addExact(unconfirmedCurrencyUnits, units);
+//        if (accountCurrency == null) {
+//            accountCurrency = new AccountCurrency(this.id, currencyId, currencyUnits, unconfirmedCurrencyUnits);
+//        } else {
+//            accountCurrency.units = currencyUnits;
+//            accountCurrency.unconfirmedUnits = unconfirmedCurrencyUnits;
+//        }
+//        accountCurrency.save();
+//        listeners.notify(this, Event.CURRENCY_BALANCE);
+//        listeners.notify(this, Event.UNCONFIRMED_CURRENCY_BALANCE);
+//        currencyListeners.notify(accountCurrency, Event.CURRENCY_BALANCE);
+//        currencyListeners.notify(accountCurrency, Event.UNCONFIRMED_CURRENCY_BALANCE);
+//    }
+//
+//    void addToBalanceNQT(long amountNQT) {
+//        if (amountNQT == 0) {
+//            return;
+//        }
+//        this.balanceNQT = Math.addExact(this.balanceNQT, amountNQT);
+//        addToGuaranteedBalanceNQT(amountNQT);
+//        checkBalance(this.id, this.balanceNQT, this.unconfirmedBalanceNQT);
+//        accountTable.insert(this);
+//        listeners.notify(this, Event.BALANCE);
+//    }
+//
+//    void addToUnconfirmedBalanceNQT(long amountNQT) {
+//        if (amountNQT == 0) {
+//            return;
+//        }
+//        this.unconfirmedBalanceNQT = Math.addExact(this.unconfirmedBalanceNQT, amountNQT);
+//        checkBalance(this.id, this.balanceNQT, this.unconfirmedBalanceNQT);
+//        accountTable.insert(this);
+//        listeners.notify(this, Event.UNCONFIRMED_BALANCE);
+//    }
+//
+//    void addToBalanceAndUnconfirmedBalanceNQT(long amountNQT) {
+//        if (amountNQT == 0) {
+//            return;
+//        }
+//        this.balanceNQT = Math.addExact(this.balanceNQT, amountNQT);
+//        this.unconfirmedBalanceNQT = Math.addExact(this.unconfirmedBalanceNQT, amountNQT);
+//        addToGuaranteedBalanceNQT(amountNQT);
+//        checkBalance(this.id, this.balanceNQT, this.unconfirmedBalanceNQT);
+//        accountTable.insert(this);
+//        listeners.notify(this, Event.BALANCE);
+//        listeners.notify(this, Event.UNCONFIRMED_BALANCE);
+//    }
+//
+//    void addToForgedBalanceNQT(long amountNQT) {
+//        if (amountNQT == 0) {
+//            return;
+//        }
+//        this.forgedBalanceNQT = Math.addExact(this.forgedBalanceNQT, amountNQT);
+//        accountTable.insert(this);
+//    }
+//
+//    private static void checkBalance(long accountId, long confirmed, long unconfirmed) {
+//        if (accountId == Genesis.CREATOR_ID) {
+//            return;
+//        }
+//        if (confirmed < 0) {
+//            throw new DoubleSpendingException("Negative balance or quantity: ", accountId, confirmed, unconfirmed);
+//        }
+//        if (unconfirmed < 0) {
+//            throw new DoubleSpendingException("Negative unconfirmed balance or quantity: ", accountId, confirmed, unconfirmed);
+//        }
+//        if (unconfirmed > confirmed) {
+//            throw new DoubleSpendingException("Unconfirmed exceeds confirmed balance or quantity: ", accountId, confirmed, unconfirmed);
+//        }
+//    }
+//
+//    private void addToGuaranteedBalanceNQT(long amountNQT) {
+//        if (amountNQT <= 0) {
+//            return;
+//        }
+//        int blockchainHeight = Nxt.getBlockchain().getHeight();
+//        try (Connection con = Db.db.getConnection();
+//             PreparedStatement pstmtSelect = con.prepareStatement("SELECT additions FROM account_guaranteed_balance "
+//                     + "WHERE account_id = ? and height = ?");
+//             PreparedStatement pstmtUpdate = con.prepareStatement("MERGE INTO account_guaranteed_balance (account_id, "
+//                     + " additions, height) KEY (account_id, height) VALUES(?, ?, ?)")) {
+//            pstmtSelect.setLong(1, this.id);
+//            pstmtSelect.setInt(2, blockchainHeight);
+//            try (ResultSet rs = pstmtSelect.executeQuery()) {
+//                long additions = amountNQT;
+//                if (rs.next()) {
+//                    additions = Math.addExact(additions, rs.getLong("additions"));
+//                }
+//                pstmtUpdate.setLong(1, this.id);
+//                pstmtUpdate.setLong(2, additions);
+//                pstmtUpdate.setInt(3, blockchainHeight);
+//                pstmtUpdate.executeUpdate();
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e.toString(), e);
+//        }
+//    }
+//
+//    void payDividends(final long assetId, final int height, final long amountNQTPerQNT) {
+//        long totalDividend = 0;
+//        List<AccountAsset> accountAssets = new ArrayList<>();
+//        try (DbIterator<AccountAsset> iterator = getAssetAccounts(assetId, height, 0, -1)) {
+//            while (iterator.hasNext()) {
+//                accountAssets.add(iterator.next());
+//            }
+//        }
+//        for (final AccountAsset accountAsset : accountAssets) {
+//            if (accountAsset.getAccountId() != this.id && accountAsset.getAccountId() != Genesis.CREATOR_ID && accountAsset.getQuantityQNT() != 0) {
+//                long dividend = Math.multiplyExact(accountAsset.getQuantityQNT(), amountNQTPerQNT);
+//                Account.getAccount(accountAsset.getAccountId()).addToBalanceAndUnconfirmedBalanceNQT(dividend);
+//                totalDividend += dividend;
+//            }
+//        }
+//        this.addToBalanceNQT(-totalDividend);
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return "Account " + Long.toUnsignedString(getId());
+//    }
+}
