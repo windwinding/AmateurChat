@@ -676,3 +676,889 @@ public interface Attachment extends Appendix {
         void putMyJSON(JSONObject attachment) {
             attachment.put("name", name);
             attachment.put("description", description);
+            attachment.put("quantityQNT", quantityQNT);
+            attachment.put("decimals", decimals);
+        }*/
+
+        @Override
+        public TransactionType getTransactionType() {
+            return TransactionType.ColoredCoins.ASSET_ISSUANCE;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public long getQuantityQNT() {
+            return quantityQNT;
+        }
+
+        public byte getDecimals() {
+            return decimals;
+        }
+    }
+
+    public final static class ColoredCoinsAssetTransfer extends AbstractAttachment {
+
+        private final long assetId;
+        private final long quantityQNT;
+        private final String comment;
+
+        ColoredCoinsAssetTransfer(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+            super(buffer, transactionVersion);
+            this.assetId = buffer.getLong();
+            this.quantityQNT = buffer.getLong();
+            this.comment = getVersion() == 0 ? Convert.readString(buffer, buffer.getShort(), Constants.MAX_ASSET_TRANSFER_COMMENT_LENGTH) : null;
+        }
+
+        ColoredCoinsAssetTransfer(JSONObject attachmentData) throws JSONException {
+            super(attachmentData);
+            this.assetId = Convert.parseUnsignedLong((String) attachmentData.get("asset"));
+            this.quantityQNT = Convert.parseLong(attachmentData.get("quantityQNT"));
+            this.comment = getVersion() == 0 ? Convert.nullToEmpty((String) attachmentData.get("comment")) : null;
+        }
+
+        public ColoredCoinsAssetTransfer(long assetId, long quantityQNT) {
+            this.assetId = assetId;
+            this.quantityQNT = quantityQNT;
+            this.comment = null;
+        }
+
+        @Override
+        String getAppendixName() {
+            return "AssetTransfer";
+        }
+
+        @Override
+        int getMySize() {
+            return 8 + 8 + (getVersion() == 0 ? (2 + Convert.toBytes(comment).length) : 0);
+        }
+
+        @Override
+        void putMyBytes(ByteBuffer buffer) {
+            buffer.putLong(assetId);
+            buffer.putLong(quantityQNT);
+            if (getVersion() == 0 && comment != null) {
+                byte[] commentBytes = Convert.toBytes(this.comment);
+                buffer.putShort((short) commentBytes.length);
+                buffer.put(commentBytes);
+            }
+        }
+
+        /*@Override
+        void putMyJSON(JSONObject attachment) {
+            attachment.put("asset", Convert.toUnsignedLong(assetId));
+            attachment.put("quantityQNT", quantityQNT);
+            if (getVersion() == 0) {
+                attachment.put("comment", comment);
+            }
+        }*/
+
+        @Override
+        public TransactionType getTransactionType() {
+            return TransactionType.ColoredCoins.ASSET_TRANSFER;
+        }
+
+        public long getAssetId() {
+            return assetId;
+        }
+
+        public long getQuantityQNT() {
+            return quantityQNT;
+        }
+
+        public String getComment() {
+            return comment;
+        }
+
+    }
+
+    abstract static class ColoredCoinsOrderPlacement extends AbstractAttachment {
+
+        private final long assetId;
+        private final long quantityQNT;
+        private final long priceNQT;
+
+        private ColoredCoinsOrderPlacement(ByteBuffer buffer, byte transactionVersion) {
+            super(buffer, transactionVersion);
+            this.assetId = buffer.getLong();
+            this.quantityQNT = buffer.getLong();
+            this.priceNQT = buffer.getLong();
+        }
+
+        private ColoredCoinsOrderPlacement(JSONObject attachmentData) throws JSONException {
+            super(attachmentData);
+            this.assetId = Convert.parseUnsignedLong((String) attachmentData.get("asset"));
+            this.quantityQNT = Convert.parseLong(attachmentData.get("quantityQNT"));
+            this.priceNQT = Convert.parseLong(attachmentData.get("priceNQT"));
+        }
+
+        private ColoredCoinsOrderPlacement(long assetId, long quantityQNT, long priceNQT) {
+            this.assetId = assetId;
+            this.quantityQNT = quantityQNT;
+            this.priceNQT = priceNQT;
+        }
+
+        @Override
+        int getMySize() {
+            return 8 + 8 + 8;
+        }
+
+        @Override
+        void putMyBytes(ByteBuffer buffer) {
+            buffer.putLong(assetId);
+            buffer.putLong(quantityQNT);
+            buffer.putLong(priceNQT);
+        }
+
+        /*@Override
+        void putMyJSON(JSONObject attachment) {
+            attachment.put("asset", Convert.toUnsignedLong(assetId));
+            attachment.put("quantityQNT", quantityQNT);
+            attachment.put("priceNQT", priceNQT);
+        }*/
+
+        public long getAssetId() {
+            return assetId;
+        }
+
+        public long getQuantityQNT() {
+            return quantityQNT;
+        }
+
+        public long getPriceNQT() {
+            return priceNQT;
+        }
+    }
+
+    public final static class ColoredCoinsAskOrderPlacement extends ColoredCoinsOrderPlacement {
+
+        ColoredCoinsAskOrderPlacement(ByteBuffer buffer, byte transactionVersion) {
+            super(buffer, transactionVersion);
+        }
+
+        ColoredCoinsAskOrderPlacement(JSONObject attachmentData) throws JSONException {
+            super(attachmentData);
+        }
+
+        public ColoredCoinsAskOrderPlacement(long assetId, long quantityQNT, long priceNQT) {
+            super(assetId, quantityQNT, priceNQT);
+        }
+
+        @Override
+        String getAppendixName() {
+            return "AskOrderPlacement";
+        }
+
+        @Override
+        public TransactionType getTransactionType() {
+            return TransactionType.ColoredCoins.ASK_ORDER_PLACEMENT;
+        }
+
+    }
+
+    public final static class ColoredCoinsBidOrderPlacement extends ColoredCoinsOrderPlacement {
+
+        ColoredCoinsBidOrderPlacement(ByteBuffer buffer, byte transactionVersion) {
+            super(buffer, transactionVersion);
+        }
+
+        ColoredCoinsBidOrderPlacement(JSONObject attachmentData) throws JSONException {
+            super(attachmentData);
+        }
+
+        public ColoredCoinsBidOrderPlacement(long assetId, long quantityQNT, long priceNQT) {
+            super(assetId, quantityQNT, priceNQT);
+        }
+
+        @Override
+        String getAppendixName() {
+            return "BidOrderPlacement";
+        }
+
+        @Override
+        public TransactionType getTransactionType() {
+            return TransactionType.ColoredCoins.BID_ORDER_PLACEMENT;
+        }
+
+    }
+
+    abstract static class ColoredCoinsOrderCancellation extends AbstractAttachment {
+
+        private final long orderId;
+
+        private ColoredCoinsOrderCancellation(ByteBuffer buffer, byte transactionVersion) {
+            super(buffer, transactionVersion);
+            this.orderId = buffer.getLong();
+        }
+
+        private ColoredCoinsOrderCancellation(JSONObject attachmentData) throws JSONException {
+            super(attachmentData);
+            this.orderId = Convert.parseUnsignedLong((String) attachmentData.get("order"));
+        }
+
+        private ColoredCoinsOrderCancellation(long orderId) {
+            this.orderId = orderId;
+        }
+
+        @Override
+        int getMySize() {
+            return 8;
+        }
+
+        @Override
+        void putMyBytes(ByteBuffer buffer) {
+            buffer.putLong(orderId);
+        }
+
+        /*@Override
+        void putMyJSON(JSONObject attachment) {
+            attachment.put("order", Convert.toUnsignedLong(orderId));
+        }*/
+
+        public long getOrderId() {
+            return orderId;
+        }
+    }
+
+    public final static class ColoredCoinsAskOrderCancellation extends ColoredCoinsOrderCancellation {
+
+        ColoredCoinsAskOrderCancellation(ByteBuffer buffer, byte transactionVersion) {
+            super(buffer, transactionVersion);
+        }
+
+        ColoredCoinsAskOrderCancellation(JSONObject attachmentData) throws JSONException {
+            super(attachmentData);
+        }
+
+        public ColoredCoinsAskOrderCancellation(long orderId) {
+            super(orderId);
+        }
+
+        @Override
+        String getAppendixName() {
+            return "AskOrderCancellation";
+        }
+
+        @Override
+        public TransactionType getTransactionType() {
+            return TransactionType.ColoredCoins.ASK_ORDER_CANCELLATION;
+        }
+
+    }
+
+    public final static class ColoredCoinsBidOrderCancellation extends ColoredCoinsOrderCancellation {
+
+        ColoredCoinsBidOrderCancellation(ByteBuffer buffer, byte transactionVersion) {
+            super(buffer, transactionVersion);
+        }
+
+        ColoredCoinsBidOrderCancellation(JSONObject attachmentData) throws JSONException {
+            super(attachmentData);
+        }
+
+        public ColoredCoinsBidOrderCancellation(long orderId) {
+            super(orderId);
+        }
+
+        @Override
+        String getAppendixName() {
+            return "BidOrderCancellation";
+        }
+
+        @Override
+        public TransactionType getTransactionType() {
+            return TransactionType.ColoredCoins.BID_ORDER_CANCELLATION;
+        }
+
+    }
+
+    public final static class DigitalGoodsListing extends AbstractAttachment {
+
+        private final String name;
+        private final String description;
+        private final String tags;
+        private final int quantity;
+        private final long priceNQT;
+
+        DigitalGoodsListing(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+            super(buffer, transactionVersion);
+            this.name = Convert.readString(buffer, buffer.getShort(), Constants.MAX_DGS_LISTING_NAME_LENGTH);
+            this.description = Convert.readString(buffer, buffer.getShort(), Constants.MAX_DGS_LISTING_DESCRIPTION_LENGTH);
+            this.tags = Convert.readString(buffer, buffer.getShort(), Constants.MAX_DGS_LISTING_TAGS_LENGTH);
+            this.quantity = buffer.getInt();
+            this.priceNQT = buffer.getLong();
+        }
+
+        DigitalGoodsListing(JSONObject attachmentData) throws JSONException {
+            super(attachmentData);
+            this.name = (String) attachmentData.get("name");
+            this.description = (String) attachmentData.get("description");
+            this.tags = (String) attachmentData.get("tags");
+            this.quantity = ((Long) attachmentData.get("quantity")).intValue();
+            this.priceNQT = Convert.parseLong(attachmentData.get("priceNQT"));
+        }
+
+        public DigitalGoodsListing(String name, String description, String tags, int quantity, long priceNQT) {
+            this.name = name;
+            this.description = description;
+            this.tags = tags;
+            this.quantity = quantity;
+            this.priceNQT = priceNQT;
+        }
+
+        @Override
+        String getAppendixName() {
+            return "DigitalGoodsListing";
+        }
+
+        @Override
+        int getMySize() {
+            return 2 + Convert.toBytes(name).length + 2 + Convert.toBytes(description).length + 2
+                        + Convert.toBytes(tags).length + 4 + 8;
+        }
+
+        @Override
+        void putMyBytes(ByteBuffer buffer) {
+            byte[] nameBytes = Convert.toBytes(name);
+            buffer.putShort((short) nameBytes.length);
+            buffer.put(nameBytes);
+            byte[] descriptionBytes = Convert.toBytes(description);
+            buffer.putShort((short) descriptionBytes.length);
+            buffer.put(descriptionBytes);
+            byte[] tagsBytes = Convert.toBytes(tags);
+            buffer.putShort((short) tagsBytes.length);
+            buffer.put(tagsBytes);
+            buffer.putInt(quantity);
+            buffer.putLong(priceNQT);
+        }
+
+        /*@Override
+        void putMyJSON(JSONObject attachment) {
+            attachment.put("name", name);
+            attachment.put("description", description);
+            attachment.put("tags", tags);
+            attachment.put("quantity", quantity);
+            attachment.put("priceNQT", priceNQT);
+        }*/
+
+        @Override
+        public TransactionType getTransactionType() {
+            return TransactionType.DigitalGoods.LISTING;
+        }
+
+        public String getName() { return name; }
+
+        public String getDescription() { return description; }
+
+        public String getTags() { return tags; }
+
+        public int getQuantity() { return quantity; }
+
+        public long getPriceNQT() { return priceNQT; }
+
+    }
+
+    public final static class DigitalGoodsDelisting extends AbstractAttachment {
+
+        private final long goodsId;
+
+        DigitalGoodsDelisting(ByteBuffer buffer, byte transactionVersion) {
+            super(buffer, transactionVersion);
+            this.goodsId = buffer.getLong();
+        }
+
+        DigitalGoodsDelisting(JSONObject attachmentData) throws JSONException {
+            super(attachmentData);
+            this.goodsId = Convert.parseUnsignedLong((String)attachmentData.get("goods"));
+        }
+
+        public DigitalGoodsDelisting(long goodsId) {
+            this.goodsId = goodsId;
+        }
+
+        @Override
+        String getAppendixName() {
+            return "DigitalGoodsDelisting";
+        }
+
+        @Override
+        int getMySize() {
+            return 8;
+        }
+
+        @Override
+        void putMyBytes(ByteBuffer buffer) {
+            buffer.putLong(goodsId);
+        }
+
+        /*@Override
+        void putMyJSON(JSONObject attachment) {
+            attachment.put("goods", Convert.toUnsignedLong(goodsId));
+        }*/
+
+        @Override
+        public TransactionType getTransactionType() {
+            return TransactionType.DigitalGoods.DELISTING;
+        }
+
+        public long getGoodsId() { return goodsId; }
+
+    }
+
+    public final static class DigitalGoodsPriceChange extends AbstractAttachment {
+
+        private final long goodsId;
+        private final long priceNQT;
+
+        DigitalGoodsPriceChange(ByteBuffer buffer, byte transactionVersion) {
+            super(buffer, transactionVersion);
+            this.goodsId = buffer.getLong();
+            this.priceNQT = buffer.getLong();
+        }
+
+        DigitalGoodsPriceChange(JSONObject attachmentData) throws JSONException {
+            super(attachmentData);
+            this.goodsId = Convert.parseUnsignedLong((String)attachmentData.get("goods"));
+            this.priceNQT = Convert.parseLong(attachmentData.get("priceNQT"));
+        }
+
+        public DigitalGoodsPriceChange(long goodsId, long priceNQT) {
+            this.goodsId = goodsId;
+            this.priceNQT = priceNQT;
+        }
+
+        @Override
+        String getAppendixName() {
+            return "DigitalGoodsPriceChange";
+        }
+
+        @Override
+        int getMySize() {
+            return 8 + 8;
+        }
+
+        @Override
+        void putMyBytes(ByteBuffer buffer) {
+            buffer.putLong(goodsId);
+            buffer.putLong(priceNQT);
+        }
+
+        /*@Override
+        void putMyJSON(JSONObject attachment) {
+            attachment.put("goods", Convert.toUnsignedLong(goodsId));
+            attachment.put("priceNQT", priceNQT);
+        }*/
+
+        @Override
+        public TransactionType getTransactionType() {
+            return TransactionType.DigitalGoods.PRICE_CHANGE;
+        }
+
+        public long getGoodsId() { return goodsId; }
+
+        public long getPriceNQT() { return priceNQT; }
+
+    }
+
+    public final static class DigitalGoodsQuantityChange extends AbstractAttachment {
+
+        private final long goodsId;
+        private final int deltaQuantity;
+
+        DigitalGoodsQuantityChange(ByteBuffer buffer, byte transactionVersion) {
+            super(buffer, transactionVersion);
+            this.goodsId = buffer.getLong();
+            this.deltaQuantity = buffer.getInt();
+        }
+
+        DigitalGoodsQuantityChange(JSONObject attachmentData) throws JSONException {
+            super(attachmentData);
+            this.goodsId = Convert.parseUnsignedLong((String)attachmentData.get("goods"));
+            this.deltaQuantity = ((Long)attachmentData.get("deltaQuantity")).intValue();
+        }
+
+        public DigitalGoodsQuantityChange(long goodsId, int deltaQuantity) {
+            this.goodsId = goodsId;
+            this.deltaQuantity = deltaQuantity;
+        }
+
+        @Override
+        String getAppendixName() {
+            return "DigitalGoodsQuantityChange";
+        }
+
+        @Override
+        int getMySize() {
+            return 8 + 4;
+        }
+
+        @Override
+        void putMyBytes(ByteBuffer buffer) {
+            buffer.putLong(goodsId);
+            buffer.putInt(deltaQuantity);
+        }
+
+        /*@Override
+        void putMyJSON(JSONObject attachment) {
+            attachment.put("goods", Convert.toUnsignedLong(goodsId));
+            attachment.put("deltaQuantity", deltaQuantity);
+        }*/
+
+        @Override
+        public TransactionType getTransactionType() {
+            return TransactionType.DigitalGoods.QUANTITY_CHANGE;
+        }
+
+        public long getGoodsId() { return goodsId; }
+
+        public int getDeltaQuantity() { return deltaQuantity; }
+
+    }
+
+    public final static class DigitalGoodsPurchase extends AbstractAttachment {
+
+        private final long goodsId;
+        private final int quantity;
+        private final long priceNQT;
+        private final int deliveryDeadlineTimestamp;
+
+        DigitalGoodsPurchase(ByteBuffer buffer, byte transactionVersion) {
+            super(buffer, transactionVersion);
+            this.goodsId = buffer.getLong();
+            this.quantity = buffer.getInt();
+            this.priceNQT = buffer.getLong();
+            this.deliveryDeadlineTimestamp = buffer.getInt();
+        }
+
+        DigitalGoodsPurchase(JSONObject attachmentData) throws JSONException {
+            super(attachmentData);
+            this.goodsId = Convert.parseUnsignedLong((String)attachmentData.get("goods"));
+            this.quantity = ((Long)attachmentData.get("quantity")).intValue();
+            this.priceNQT = Convert.parseLong(attachmentData.get("priceNQT"));
+            this.deliveryDeadlineTimestamp = ((Long)attachmentData.get("deliveryDeadlineTimestamp")).intValue();
+        }
+
+        public DigitalGoodsPurchase(long goodsId, int quantity, long priceNQT, int deliveryDeadlineTimestamp) {
+            this.goodsId = goodsId;
+            this.quantity = quantity;
+            this.priceNQT = priceNQT;
+            this.deliveryDeadlineTimestamp = deliveryDeadlineTimestamp;
+        }
+
+        @Override
+        String getAppendixName() {
+            return "DigitalGoodsPurchase";
+        }
+
+        @Override
+        int getMySize() {
+            return 8 + 4 + 8 + 4;
+        }
+
+        @Override
+        void putMyBytes(ByteBuffer buffer) {
+            buffer.putLong(goodsId);
+            buffer.putInt(quantity);
+            buffer.putLong(priceNQT);
+            buffer.putInt(deliveryDeadlineTimestamp);
+        }
+
+        /*@Override
+        void putMyJSON(JSONObject attachment) {
+            attachment.put("goods", Convert.toUnsignedLong(goodsId));
+            attachment.put("quantity", quantity);
+            attachment.put("priceNQT", priceNQT);
+            attachment.put("deliveryDeadlineTimestamp", deliveryDeadlineTimestamp);
+        }*/
+
+        @Override
+        public TransactionType getTransactionType() {
+            return TransactionType.DigitalGoods.PURCHASE;
+        }
+
+        public long getGoodsId() { return goodsId; }
+
+        public int getQuantity() { return quantity; }
+
+        public long getPriceNQT() { return priceNQT; }
+
+        public int getDeliveryDeadlineTimestamp() { return deliveryDeadlineTimestamp; }
+
+    }
+
+    public final static class DigitalGoodsDelivery extends AbstractAttachment {
+
+        private final long purchaseId;
+        private final EncryptedData goods;
+        private final long discountNQT;
+        private final boolean goodsIsText;
+
+        DigitalGoodsDelivery(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+            super(buffer, transactionVersion);
+            this.purchaseId = buffer.getLong();
+            int length = buffer.getInt();
+            goodsIsText = length < 0;
+            if (length < 0) {
+                length &= Integer.MAX_VALUE;
+            }
+            this.goods = EncryptedData.readEncryptedData(buffer, length, Constants.MAX_DGS_GOODS_LENGTH);
+            this.discountNQT = buffer.getLong();
+        }
+
+        DigitalGoodsDelivery(JSONObject attachmentData) throws JSONException {
+            super(attachmentData);
+            this.purchaseId = Convert.parseUnsignedLong((String)attachmentData.get("purchase"));
+            this.goods = new EncryptedData(Convert.parseHexString((String)attachmentData.get("goodsData")),
+                    Convert.parseHexString((String)attachmentData.get("goodsNonce")));
+            this.discountNQT = Convert.parseLong(attachmentData.get("discountNQT"));
+            this.goodsIsText = Boolean.TRUE.equals(attachmentData.get("goodsIsText"));
+        }
+
+        public DigitalGoodsDelivery(long purchaseId, EncryptedData goods, boolean goodsIsText, long discountNQT) {
+            this.purchaseId = purchaseId;
+            this.goods = goods;
+            this.discountNQT = discountNQT;
+            this.goodsIsText = goodsIsText;
+        }
+
+        @Override
+        String getAppendixName() {
+            return "DigitalGoodsDelivery";
+        }
+
+        @Override
+        int getMySize() {
+            return 8 + 4 + goods.getSize() + 8;
+        }
+
+        @Override
+        void putMyBytes(ByteBuffer buffer) {
+            buffer.putLong(purchaseId);
+            buffer.putInt(goodsIsText ? goods.getData().length | Integer.MIN_VALUE : goods.getData().length);
+            buffer.put(goods.getData());
+            buffer.put(goods.getNonce());
+            buffer.putLong(discountNQT);
+        }
+
+        /*@Override
+        void putMyJSON(JSONObject attachment) {
+            attachment.put("purchase", Convert.toUnsignedLong(purchaseId));
+            attachment.put("goodsData", Convert.toHexString(goods.getData()));
+            attachment.put("goodsNonce", Convert.toHexString(goods.getNonce()));
+            attachment.put("discountNQT", discountNQT);
+            attachment.put("goodsIsText", goodsIsText);
+        }*/
+
+        @Override
+        public TransactionType getTransactionType() {
+            return TransactionType.DigitalGoods.DELIVERY;
+        }
+
+        public long getPurchaseId() { return purchaseId; }
+
+        public EncryptedData getGoods() { return goods; }
+
+        public long getDiscountNQT() { return discountNQT; }
+
+        public boolean goodsIsText() {
+            return goodsIsText;
+        }
+
+    }
+
+    public final static class DigitalGoodsFeedback extends AbstractAttachment {
+
+        private final long purchaseId;
+
+        DigitalGoodsFeedback(ByteBuffer buffer, byte transactionVersion) {
+            super(buffer, transactionVersion);
+            this.purchaseId = buffer.getLong();
+        }
+
+        DigitalGoodsFeedback(JSONObject attachmentData) throws JSONException {
+            super(attachmentData);
+            this.purchaseId = Convert.parseUnsignedLong((String)attachmentData.get("purchase"));
+        }
+
+        public DigitalGoodsFeedback(long purchaseId) {
+            this.purchaseId = purchaseId;
+        }
+
+        @Override
+        String getAppendixName() {
+            return "DigitalGoodsFeedback";
+        }
+
+        @Override
+        int getMySize() {
+            return 8;
+        }
+
+        @Override
+        void putMyBytes(ByteBuffer buffer) {
+            buffer.putLong(purchaseId);
+        }
+
+        /*@Override
+        void putMyJSON(JSONObject attachment) {
+            attachment.put("purchase", Convert.toUnsignedLong(purchaseId));
+        }*/
+
+        @Override
+        public TransactionType getTransactionType() {
+            return TransactionType.DigitalGoods.FEEDBACK;
+        }
+
+        public long getPurchaseId() { return purchaseId; }
+
+    }
+
+    public final static class DigitalGoodsRefund extends AbstractAttachment {
+
+        private final long purchaseId;
+        private final long refundNQT;
+
+        DigitalGoodsRefund(ByteBuffer buffer, byte transactionVersion) {
+            super(buffer, transactionVersion);
+            this.purchaseId = buffer.getLong();
+            this.refundNQT = buffer.getLong();
+        }
+
+        DigitalGoodsRefund(JSONObject attachmentData) throws JSONException {
+            super(attachmentData);
+            this.purchaseId = Convert.parseUnsignedLong((String)attachmentData.get("purchase"));
+            this.refundNQT = Convert.parseLong(attachmentData.get("refundNQT"));
+        }
+
+        public DigitalGoodsRefund(long purchaseId, long refundNQT) {
+            this.purchaseId = purchaseId;
+            this.refundNQT = refundNQT;
+        }
+
+        @Override
+        String getAppendixName() {
+            return "DigitalGoodsRefund";
+        }
+
+        @Override
+        int getMySize() {
+            return 8 + 8;
+        }
+
+        @Override
+        void putMyBytes(ByteBuffer buffer) {
+            buffer.putLong(purchaseId);
+            buffer.putLong(refundNQT);
+        }
+
+        /*@Override
+        void putMyJSON(JSONObject attachment) {
+            attachment.put("purchase", Convert.toUnsignedLong(purchaseId));
+            attachment.put("refundNQT", refundNQT);
+        }*/
+
+        @Override
+        public TransactionType getTransactionType() {
+            return TransactionType.DigitalGoods.REFUND;
+        }
+
+        public long getPurchaseId() { return purchaseId; }
+
+        public long getRefundNQT() { return refundNQT; }
+
+    }
+
+    public final static class AccountControlEffectiveBalanceLeasing extends AbstractAttachment {
+
+        private final short period;
+
+        AccountControlEffectiveBalanceLeasing(ByteBuffer buffer, byte transactionVersion) {
+            super(buffer, transactionVersion);
+            this.period = buffer.getShort();
+        }
+
+        /*AccountControlEffectiveBalanceLeasing(JSONObject attachmentData) {
+            super(attachmentData);
+            this.period = ((Long) attachmentData.get("period")).shortValue();
+        }*/
+
+        public AccountControlEffectiveBalanceLeasing(JSONObject period) {
+            //TODO check that
+            this.period = 0;
+        }
+
+        @Override
+        String getAppendixName() {
+            return "EffectiveBalanceLeasing";
+        }
+
+        @Override
+        int getMySize() {
+            return 2;
+        }
+
+        @Override
+        void putMyBytes(ByteBuffer buffer) {
+            buffer.putShort(period);
+        }
+
+        /*@Override
+        void putMyJSON(JSONObject attachment) {
+            attachment.put("period", period);
+        }*/
+
+        @Override
+        public TransactionType getTransactionType() {
+            return TransactionType.AccountControl.EFFECTIVE_BALANCE_LEASING;
+        }
+
+        public short getPeriod() {
+            return period;
+        }
+    }
+    
+   /* public final static class BurstMiningRewardRecipientAssignment extends AbstractAttachment {
+
+        BurstMiningRewardRecipientAssignment(ByteBuffer buffer, byte transactionVersion) {
+            super(buffer, transactionVersion);
+        }
+
+        BurstMiningRewardRecipientAssignment(JSONObject attachmentData) {
+            super(attachmentData);
+        }
+
+        public BurstMiningRewardRecipientAssignment() {
+        }
+
+        @Override
+        String getAppendixName() {
+            return "RewardRecipientAssignment";
+        }
+
+        @Override
+        int getMySize() {
+            return 0;
+        }
+
+        @Override
+        void putMyBytes(ByteBuffer buffer) {
+        }
+
+        @Override
+        void putMyJSON(JSONObject attachment) {
+        }
+
+        @Override
+        public TransactionType getTransactionType() {
+            return TransactionType.BurstMining.REWARD_RECIPIENT_ASSIGNMENT;
+        }
+    }*/
+    
+    
+
+}
