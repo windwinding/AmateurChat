@@ -59,4 +59,33 @@ public final class Constants {
 //    public static final boolean ENABLE_PRUNING;
 //    static {
 //        int maxPrunableLifetime = Nxt.getIntProperty("nxt.maxPrunableLifetime");
-//        ENABLE_PRUNING = maxPrunableLifetime 
+//        ENABLE_PRUNING = maxPrunableLifetime >= 0;
+//        MAX_PRUNABLE_LIFETIME = ENABLE_PRUNING ? Math.max(maxPrunableLifetime, MIN_PRUNABLE_LIFETIME) : Integer.MAX_VALUE;
+//    }
+//    public static final boolean INCLUDE_EXPIRED_PRUNABLE = Nxt.getBooleanProperty("nxt.includeExpiredPrunable");
+
+    public static final int MAX_ACCOUNT_NAME_LENGTH = 100;
+    public static final int MAX_ACCOUNT_DESCRIPTION_LENGTH = 1000;
+
+    public static final long MAX_ASSET_QUANTITY_QNT = 1000000000L * 100000000L;
+    public static final int MIN_ASSET_NAME_LENGTH = 3;
+    public static final int MAX_ASSET_NAME_LENGTH = 10;
+    public static final int MAX_ASSET_DESCRIPTION_LENGTH = 1000;
+    public static final int MAX_ASSET_TRANSFER_COMMENT_LENGTH = 1000;
+    public static final int MAX_DIVIDEND_PAYMENT_ROLLBACK = 1441;
+
+    public static final int MAX_POLL_NAME_LENGTH = 100;
+    public static final int MAX_POLL_DESCRIPTION_LENGTH = 1000;
+    public static final int MAX_POLL_OPTION_LENGTH = 100;
+    public static final int MAX_POLL_OPTION_COUNT = 100;
+    public static final int MAX_POLL_DURATION = 14 * 1440;
+
+    public static final byte MIN_VOTE_VALUE = -92;
+    public static final byte MAX_VOTE_VALUE = 92;
+    public static final byte NO_VOTE_VALUE = Byte.MIN_VALUE;
+
+    public static final int MAX_DGS_LISTING_QUANTITY = 1000000000;
+    public static final int MAX_DGS_LISTING_NAME_LENGTH = 100;
+    public static final int MAX_DGS_LISTING_DESCRIPTION_LENGTH = 1000;
+    public static final int MAX_DGS_LISTING_TAGS_LENGTH = 100;
+    public static final int MAX_DGS_GOODS_LENGT
