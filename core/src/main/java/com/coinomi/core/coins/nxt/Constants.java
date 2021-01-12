@@ -133,4 +133,40 @@ public final class Constants {
     //public static final int MAX_REFERENCED_TRANSACTION_TIMESPAN = 60 * 1440 * 60;
 //    public static final int DIGITAL_GOODS_STORE_BLOCK = isTestnet ? 77341 : 213000;
 //    public static final int MONETARY_SYSTEM_BLOCK = isTestnet ? 150000 : 330000;
-//    public static final 
+//    public static final int VOTING_SYSTEM_BLOCK = isTestnet ? 220000 : 445000;
+//    public static final int PHASING_BLOCK = isTestnet ? 220000 : 445000;
+
+//    public static final int LAST_KNOWN_BLOCK = isTestnet ? 300000 : 445000;
+
+    public static final int[] MIN_VERSION = new int[] {1, 5};
+
+//    static final long UNCONFIRMED_POOL_DEPOSIT_NQT = (isTestnet ? 50 : 100) * ONE_NXT;
+
+    public static final long NXT_EPOCH_BEGINNING;
+    static {
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendar.set(Calendar.YEAR, 2013);
+        calendar.set(Calendar.MONTH, Calendar.NOVEMBER);
+        calendar.set(Calendar.DAY_OF_MONTH, 24);
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        NXT_EPOCH_BEGINNING = calendar.getTimeInMillis();
+    }
+
+    public static final long BURST_EPOCH_BEGINNING;
+    static {
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendar.set(Calendar.YEAR, 2014);
+        calendar.set(Calendar.MONTH, Calendar.AUGUST);
+        calendar.set(Calendar.DAY_OF_MONTH, 11);
+        calendar.set(Calendar.HOUR_OF_DAY, 2);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        BURST_EPOCH_BEGINNING = calendar.getTimeInMillis();
+    }
+
+    public static final String ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyz";
+    public stat
