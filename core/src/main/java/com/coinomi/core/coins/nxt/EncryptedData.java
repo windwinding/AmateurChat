@@ -49,3 +49,51 @@ public final class EncryptedData {
         }
         if (length > maxLength) {
             throw new NxtException.NotValidException("Max encrypted data length exceeded: " + length);
+        }
+        byte[] data = new byte[length];
+        buffer.get(data);
+        byte[] nonce = new byte[32];
+        buffer.get(nonce);
+        return new EncryptedData(data, nonce);
+    }
+
+    /*
+    public static EncryptedData readEncryptedData(ByteBuffer buffer, int length, int maxLength, long nonce)
+            throws NxtException.NotValidException {
+        if (length == 0) {
+            return EMPTY_DATA;
+        }
+        if (length > maxLength) {
+            throw new NxtException.NotValidException("Max encrypted data length exceeded: " + length);
+        }
+        byte[] data = new byte[length];
+        buffer.get(data);
+        return new EncryptedData(data, ByteBuffer.allocate(8).putLong(nonce).array());
+    }
+    */
+
+    public static EncryptedData readEncryptedData(byte[] bytes) {
+        if (bytes.length == 0) {
+            return EMPTY_DATA;
+        }
+        ByteBuffer buffer = ByteBuffer.wrap(bytes);
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        try {
+            return readEncryptedData(buffer, bytes.length - 32, Integer.MAX_VALUE);
+        } catch (NxtException.NotValidException e) {
+            throw new RuntimeException(e.toString(), e); // never
+        }
+    }
+
+    private final byte[] data;
+    private final byte[] nonce;
+
+    public EncryptedData(byte[] data, byte[] nonce) {
+        this.data = data;
+        this.nonce = nonce;
+    }
+
+    /*
+    public EncryptedData(byte[] data, long nonce) {
+        this.data = data;
+        this.nonce
