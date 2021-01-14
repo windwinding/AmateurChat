@@ -96,4 +96,40 @@ public final class EncryptedData {
     /*
     public EncryptedData(byte[] data, long nonce) {
         this.data = data;
-        this.nonce
+        this.nonce = ByteBuffer.allocate(8).putLong(nonce).array();
+    }
+    */
+
+    public byte[] decrypt(byte[] myPrivateKey, byte[] theirPublicKey) {
+        if (data.length == 0) {
+            return data;
+        }
+        return Crypto.aesDecrypt(data, myPrivateKey, theirPublicKey, nonce);
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public byte[] getNonce() {
+        return nonce;
+    }
+
+    public int getSize() {
+        return data.length + nonce.length;
+    }
+
+    public byte[] getBytes() {
+        ByteBuffer buffer = ByteBuffer.allocate(nonce.length + data.length);
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        buffer.put(data);
+        buffer.put(nonce);
+        return buffer.array();
+    }
+
+    @Override
+    public String toString() {
+        return "data: " + Convert.toHexString(data) + " nonce: " + Convert.toHexString(nonce);
+    }
+
+}
