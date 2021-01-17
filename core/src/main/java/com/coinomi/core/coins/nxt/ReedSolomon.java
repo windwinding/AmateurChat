@@ -84,4 +84,45 @@ final class ReedSolomon {
         for (int i = 0; i < cypher_string.length(); i++) {
             int position_in_alphabet = ReedSolomon.alphabet.indexOf(cypher_string.charAt(i));
 
-            if (positi
+            if (position_in_alphabet <= -1 || position_in_alphabet > ReedSolomon.alphabet.length()) {
+                continue;
+            }
+
+            if (codeword_length > 16) {
+                throw new CodewordTooLongException();
+            }
+
+            int codework_index = ReedSolomon.codeword_map[codeword_length];
+            codeword[codework_index] = position_in_alphabet;
+            codeword_length += 1;
+        }
+
+        if (codeword_length == 17 && !ReedSolomon.is_codeword_valid(codeword) || codeword_length != 17) {
+            throw new CodewordInvalidException();
+        }
+
+        int length = ReedSolomon.base_32_length;
+        int[] cypher_string_32 = new int[length];
+        for (int i = 0; i < length; i++) {
+            cypher_string_32[i] = codeword[length - i - 1];
+        }
+
+        StringBuilder plain_string_builder = new StringBuilder();
+        do { // base 32 to base 10 conversion
+            int new_length = 0;
+            int digit_10 = 0;
+
+            for (int i = 0; i < length; i++) {
+                digit_10 = digit_10 * 32 + cypher_string_32[i];
+
+                if (digit_10 >= 10) {
+                    cypher_string_32[new_length] = digit_10 / 10;
+                    digit_10 %= 10;
+                    new_length += 1;
+                } else if (new_length > 0) {
+                    cypher_string_32[new_length] = 0;
+                    new_length += 1;
+                }
+            }
+            length = new_length;
+            plain_string_builder.appe
