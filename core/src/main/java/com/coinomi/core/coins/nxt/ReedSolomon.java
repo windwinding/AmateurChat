@@ -125,4 +125,58 @@ final class ReedSolomon {
                 }
             }
             length = new_length;
-            plain_string_builder.appe
+            plain_string_builder.append((char)(digit_10 + (int)'0'));
+        } while (length > 0);
+
+        BigInteger bigInt = new BigInteger(plain_string_builder.reverse().toString());
+        return bigInt.longValue();
+    }
+
+    private static int gmult(int a, int b) {
+        if (a == 0 || b == 0) {
+            return 0;
+        }
+
+        int idx = (ReedSolomon.glog[a] + ReedSolomon.glog[b]) % 31;
+
+        return ReedSolomon.gexp[idx];
+    }
+
+    private static boolean is_codeword_valid(int[] codeword) {
+        int sum = 0;
+
+        for (int i = 1; i < 5; i++) {
+            int t = 0;
+
+            for (int j = 0; j < 31; j++) {
+                if (j > 12 && j < 27) {
+                    continue;
+                }
+
+                int pos = j;
+                if (j > 26) {
+                    pos -= 14;
+                }
+
+                t ^= ReedSolomon.gmult(codeword[pos], ReedSolomon.gexp[(i * j) % 31]);
+            }
+
+            sum |= t;
+        }
+
+        return sum == 0;
+    }
+
+    abstract static class DecodeException extends Exception {
+    }
+
+    static final class CodewordTooLongException extends DecodeException {
+    }
+
+    static final class CodewordInvalidException extends DecodeException {
+    }
+
+    private ReedSolomon() {} // never
+}
+
+
