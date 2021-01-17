@@ -49,4 +49,39 @@ final class ReedSolomon {
             length = new_length;
             codeword[codeword_length] = digit_32;
             codeword_length += 1;
-  
+        } while(length > 0);
+
+        int[] p = {0, 0, 0, 0};
+        for (int i = ReedSolomon.base_32_length - 1; i >= 0; i--) {
+            final int fb = codeword[i] ^ p[3];
+            p[3] = p[2] ^ ReedSolomon.gmult(30, fb);
+            p[2] = p[1] ^ ReedSolomon.gmult(6, fb);
+            p[1] = p[0] ^ ReedSolomon.gmult(9, fb);
+            p[0] =        ReedSolomon.gmult(17, fb);
+        }
+
+        System.arraycopy(p, 0, codeword, ReedSolomon.base_32_length, ReedSolomon.initial_codeword.length - ReedSolomon.base_32_length);
+
+        StringBuilder cypher_string_builder = new StringBuilder();
+        for (int i = 0; i < 17; i++) {
+            final int codework_index = ReedSolomon.codeword_map[i];
+            final int alphabet_index = codeword[codework_index];
+            cypher_string_builder.append(ReedSolomon.alphabet.charAt(alphabet_index));
+
+            if ((i & 3) == 3 && i < 13) {
+                cypher_string_builder.append('-');
+            }
+        }
+        return cypher_string_builder.toString();
+    }
+
+    static long decode(String cypher_string) throws DecodeException {
+
+        int[] codeword = new int[ReedSolomon.initial_codeword.length];
+        System.arraycopy(ReedSolomon.initial_codeword, 0, codeword, 0, ReedSolomon.initial_codeword.length);
+
+        int codeword_length = 0;
+        for (int i = 0; i < cypher_string.length(); i++) {
+            int position_in_alphabet = ReedSolomon.alphabet.indexOf(cypher_string.charAt(i));
+
+            if (positi
