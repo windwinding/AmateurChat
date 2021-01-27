@@ -92,4 +92,6 @@ public interface Transaction extends Comparable<Transaction> {
 
     int getECBlockHeight();
 
-    long getECBlo
+    long getECBlockId();
+
+}
