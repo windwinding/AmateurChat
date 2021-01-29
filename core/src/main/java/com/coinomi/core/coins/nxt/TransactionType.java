@@ -108,4 +108,30 @@ public abstract class TransactionType {
                 switch (subtype) {
                     case SUBTYPE_COLORED_COINS_ASSET_ISSUANCE:
                         return ColoredCoins.ASSET_ISSUANCE;
-            
+                    case SUBTYPE_COLORED_COINS_ASSET_TRANSFER:
+                        return ColoredCoins.ASSET_TRANSFER;
+                    case SUBTYPE_COLORED_COINS_ASK_ORDER_PLACEMENT:
+                        return ColoredCoins.ASK_ORDER_PLACEMENT;
+                    case SUBTYPE_COLORED_COINS_BID_ORDER_PLACEMENT:
+                        return ColoredCoins.BID_ORDER_PLACEMENT;
+                    case SUBTYPE_COLORED_COINS_ASK_ORDER_CANCELLATION:
+                        return ColoredCoins.ASK_ORDER_CANCELLATION;
+                    case SUBTYPE_COLORED_COINS_BID_ORDER_CANCELLATION:
+                        return ColoredCoins.BID_ORDER_CANCELLATION;
+                    default:
+                        return null;
+                }
+            case TYPE_DIGITAL_GOODS:
+                switch (subtype) {
+                    case SUBTYPE_DIGITAL_GOODS_LISTING:
+                        return DigitalGoods.LISTING;
+                    case SUBTYPE_DIGITAL_GOODS_DELISTING:
+                        return DigitalGoods.DELISTING;
+                    case SUBTYPE_DIGITAL_GOODS_PRICE_CHANGE:
+                        return DigitalGoods.PRICE_CHANGE;
+                    case SUBTYPE_DIGITAL_GOODS_QUANTITY_CHANGE:
+                        return DigitalGoods.QUANTITY_CHANGE;
+                    case SUBTYPE_DIGITAL_GOODS_PURCHASE:
+                        return DigitalGoods.PURCHASE;
+                    case SUBTYPE_DIGITAL_GOODS_DELIVERY:
+                        return DigitalGoods.DELIVERY
