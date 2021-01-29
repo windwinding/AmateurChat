@@ -134,4 +134,36 @@ public abstract class TransactionType {
                     case SUBTYPE_DIGITAL_GOODS_PURCHASE:
                         return DigitalGoods.PURCHASE;
                     case SUBTYPE_DIGITAL_GOODS_DELIVERY:
-                        return DigitalGoods.DELIVERY
+                        return DigitalGoods.DELIVERY;
+                    case SUBTYPE_DIGITAL_GOODS_FEEDBACK:
+                        return DigitalGoods.FEEDBACK;
+                    case SUBTYPE_DIGITAL_GOODS_REFUND:
+                        return DigitalGoods.REFUND;
+                    default:
+                        return null;
+                }
+            case TYPE_ACCOUNT_CONTROL:
+                switch (subtype) {
+                    case SUBTYPE_ACCOUNT_CONTROL_EFFECTIVE_BALANCE_LEASING:
+                        return AccountControl.EFFECTIVE_BALANCE_LEASING;
+                    default:
+                        return null;
+                }
+                /*case TYPE_BURST_MINING:
+                switch (subtype) {
+                    case SUBTYPE_BURST_MINING_REWARD_RECIPIENT_ASSIGNMENT:
+                        return BurstMining.REWARD_RECIPIENT_ASSIGNMENT;
+                    default:
+                        return null;
+                }
+            case TYPE_ADVANCED_PAYMENT:
+                switch (subtype) {
+                    case SUBTYPE_ADVANCED_PAYMENT_ESCROW_CREATION:
+                        return AdvancedPayment.ESCROW_CREATION;
+                    case SUBTYPE_ADVANCED_PAYMENT_ESCROW_SIGN:
+                        return AdvancedPayment.ESCROW_SIGN;
+                    case SUBTYPE_ADVANCED_PAYMENT_ESCROW_RESULT:
+                        return AdvancedPayment.ESCROW_RESULT;
+                    case SUBTYPE_ADVANCED_PAYMENT_SUBSCRIPTION_SUBSCRIBE:
+                        return AdvancedPayment.SUBSCRIPTION_SUBSCRIBE;
+                    case SUBTYPE_ADVANCED_PAYMENT_
