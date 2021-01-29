@@ -77,4 +77,35 @@ public abstract class TransactionType {
     public static TransactionType findTransactionType(byte type, byte subtype) {
         switch (type) {
             case TYPE_PAYMENT:
- 
+                switch (subtype) {
+                    case SUBTYPE_PAYMENT_ORDINARY_PAYMENT:
+                        return Payment.ORDINARY;
+                    default:
+                        return null;
+                }
+            case TYPE_MESSAGING:
+                switch (subtype) {
+                    case SUBTYPE_MESSAGING_ARBITRARY_MESSAGE:
+                        return Messaging.ARBITRARY_MESSAGE;
+                    case SUBTYPE_MESSAGING_ALIAS_ASSIGNMENT:
+                        return Messaging.ALIAS_ASSIGNMENT;
+                    case SUBTYPE_MESSAGING_POLL_CREATION:
+                        return Messaging.POLL_CREATION;
+                    case SUBTYPE_MESSAGING_VOTE_CASTING:
+                        return Messaging.VOTE_CASTING;
+                    case SUBTYPE_MESSAGING_HUB_ANNOUNCEMENT:
+                        return Messaging.HUB_ANNOUNCEMENT;
+                    case SUBTYPE_MESSAGING_ACCOUNT_INFO:
+                        return Messaging.ACCOUNT_INFO;
+                    case SUBTYPE_MESSAGING_ALIAS_SELL:
+                        return Messaging.ALIAS_SELL;
+                    case SUBTYPE_MESSAGING_ALIAS_BUY:
+                        return Messaging.ALIAS_BUY;
+                    default:
+                        return null;
+                }
+            case TYPE_COLORED_COINS:
+                switch (subtype) {
+                    case SUBTYPE_COLORED_COINS_ASSET_ISSUANCE:
+                        return ColoredCoins.ASSET_ISSUANCE;
+            
