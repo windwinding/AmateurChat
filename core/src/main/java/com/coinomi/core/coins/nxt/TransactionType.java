@@ -166,4 +166,49 @@ public abstract class TransactionType {
                         return AdvancedPayment.ESCROW_RESULT;
                     case SUBTYPE_ADVANCED_PAYMENT_SUBSCRIPTION_SUBSCRIBE:
                         return AdvancedPayment.SUBSCRIPTION_SUBSCRIBE;
-                    case SUBTYPE_ADVANCED_PAYMENT_
+                    case SUBTYPE_ADVANCED_PAYMENT_SUBSCRIPTION_CANCEL:
+                        return AdvancedPayment.SUBSCRIPTION_CANCEL;
+                    case SUBTYPE_ADVANCED_PAYMENT_SUBSCRIPTION_PAYMENT:
+                        return AdvancedPayment.SUBSCRIPTION_PAYMENT;
+                    default:
+                        return null;
+                }
+            case TYPE_AUTOMATED_TRANSACTIONS:
+                switch (subtype) {
+                    case SUBTYPE_AT_CREATION:
+                        return AutomatedTransactions.AUTOMATED_TRANSACTION_CREATION;
+                    case SUBTYPE_AT_NXT_PAYMENT:
+                        return AutomatedTransactions.AT_PAYMENT;
+                    default:
+                        return null;
+                }*/
+            default:
+                return null;
+        }
+    }
+
+    private TransactionType() {
+    }
+
+    public abstract byte getType();
+
+    public abstract byte getSubtype();
+
+    abstract Attachment.AbstractAttachment parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException;
+
+    abstract Attachment.AbstractAttachment parseAttachment(JSONObject attachmentData) throws JSONException, NxtException.NotValidException;
+
+    //abstract void validateAttachment(Transaction transaction) throws NxtException.ValidationException;
+
+    // return false iff double spending
+    
+
+    public abstract boolean hasRecipient();
+    
+    public boolean isSigned() {
+        return true;
+    }
+
+    @Override
+    public final String toString() {
+        return "type: " + getType() + ", subtyp
