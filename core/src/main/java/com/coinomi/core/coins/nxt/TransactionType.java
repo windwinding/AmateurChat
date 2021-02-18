@@ -211,4 +211,66 @@ public abstract class TransactionType {
 
     @Override
     public final String toString() {
-        return "type: " + getType() + ", subtyp
+        return "type: " + getType() + ", subtype: " + getSubtype();
+    }
+
+    /*
+    Collection<TransactionType> getPhasingTransactionTypes() {
+        return Collections.emptyList();
+    }
+
+    Collection<TransactionType> getPhasedTransactionTypes() {
+        return Collections.emptyList();
+    }
+    */
+
+    public static abstract class Payment extends TransactionType {
+
+        private Payment() {
+        }
+
+        @Override
+        public final byte getType() {
+            return TransactionType.TYPE_PAYMENT;
+        }
+
+        @Override
+        final public boolean hasRecipient() {
+            return true;
+        }
+
+        public static final TransactionType ORDINARY = new Payment() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_PAYMENT_ORDINARY_PAYMENT;
+            }
+
+            @Override
+            Attachment.EmptyAttachment parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return Attachment.ORDINARY_PAYMENT;
+            }
+
+            @Override
+            Attachment.EmptyAttachment parseAttachment(JSONObject attachmentData) throws JSONException {
+                return Attachment.ORDINARY_PAYMENT;
+            }
+
+
+        };
+
+    }
+
+    public static abstract class Messaging extends TransactionType {
+
+        private Messaging() {
+        }
+
+        @Override
+        public final byte getType() {
+            return TransactionType.TYPE_MESSAGING;
+        }
+
+     
+
+        public final static TransactionType ARBITRARY_MESSAGE = ne
