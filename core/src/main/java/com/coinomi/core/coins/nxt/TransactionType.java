@@ -273,4 +273,50 @@ public abstract class TransactionType {
 
      
 
-        public final static TransactionType ARBITRARY_MESSAGE = ne
+        public final static TransactionType ARBITRARY_MESSAGE = new Messaging() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_MESSAGING_ARBITRARY_MESSAGE;
+            }
+
+            @Override
+            Attachment.EmptyAttachment parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return Attachment.ARBITRARY_MESSAGE;
+            }
+
+            @Override
+            Attachment.EmptyAttachment parseAttachment(JSONObject attachmentData) throws JSONException {
+                return Attachment.ARBITRARY_MESSAGE;
+            }
+
+
+            @Override
+            public boolean hasRecipient() {
+                return true;
+            }
+
+        };
+
+        public static final TransactionType ALIAS_ASSIGNMENT = new Messaging() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_MESSAGING_ALIAS_ASSIGNMENT;
+            }
+
+            @Override
+            Attachment.MessagingAliasAssignment parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.MessagingAliasAssignment(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.MessagingAliasAssignment parseAttachment(JSONObject attachmentData) throws JSONException {
+                return new Attachment.MessagingAliasAssignment(attachmentData);
+            }
+
+
+            @Override
+            public boolean hasRecipient() {
+                return false;
+     
