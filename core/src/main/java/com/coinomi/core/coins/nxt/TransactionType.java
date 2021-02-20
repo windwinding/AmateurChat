@@ -361,4 +361,50 @@ public abstract class TransactionType {
 
             @Override
             Attachment.MessagingAliasBuy parseAttachment(JSONObject attachmentData) throws JSONException {
-                return new Attachment.
+                return new Attachment.MessagingAliasBuy(attachmentData);
+            }
+
+            @Override
+            public boolean hasRecipient() {
+                return true;
+            }
+
+        };
+
+        public final static TransactionType POLL_CREATION = new Messaging() {
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_MESSAGING_POLL_CREATION;
+            }
+
+            @Override
+            Attachment.MessagingPollCreation parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.MessagingPollCreation(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.MessagingPollCreation parseAttachment(JSONObject attachmentData) throws JSONException {
+                return new Attachment.MessagingPollCreation(attachmentData);
+            }
+            
+            @Override
+            public boolean hasRecipient() {
+                return false;
+            }
+
+        };
+
+        public final static TransactionType VOTE_CASTING = new Messaging() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_MESSAGING_VOTE_CASTING;
+            }
+
+            @Override
+            Attachment.MessagingVoteCasting parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.MessagingVoteCasting(buffer, transactionVersion);
+            }
+
+            @Override
+        
