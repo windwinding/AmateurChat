@@ -319,4 +319,46 @@ public abstract class TransactionType {
             @Override
             public boolean hasRecipient() {
                 return false;
-     
+            }
+
+        };
+
+        public static final TransactionType ALIAS_SELL = new Messaging() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_MESSAGING_ALIAS_SELL;
+            }
+
+            @Override
+            Attachment.MessagingAliasSell parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.MessagingAliasSell(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.MessagingAliasSell parseAttachment(JSONObject attachmentData) throws JSONException {
+                return new Attachment.MessagingAliasSell(attachmentData);
+            }
+
+            @Override
+            public boolean hasRecipient() {
+                return true;
+            }
+
+        };
+
+        public static final TransactionType ALIAS_BUY = new Messaging() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_MESSAGING_ALIAS_BUY;
+            }
+
+            @Override
+            Attachment.MessagingAliasBuy parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.MessagingAliasBuy(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.MessagingAliasBuy parseAttachment(JSONObject attachmentData) throws JSONException {
+                return new Attachment.
