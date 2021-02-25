@@ -407,4 +407,47 @@ public abstract class TransactionType {
             }
 
             @Override
-        
+            Attachment.MessagingVoteCasting parseAttachment(JSONObject attachmentData) throws JSONException {
+                return new Attachment.MessagingVoteCasting(attachmentData);
+            }
+
+            @Override
+            public boolean hasRecipient() {
+                return false;
+            }
+
+        };
+
+        public static final TransactionType HUB_ANNOUNCEMENT = new Messaging() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_MESSAGING_HUB_ANNOUNCEMENT;
+            }
+
+            @Override
+            Attachment.MessagingHubAnnouncement parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.MessagingHubAnnouncement(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.MessagingHubAnnouncement parseAttachment(JSONObject attachmentData) throws NxtException.NotValidException, JSONException {
+                return new Attachment.MessagingHubAnnouncement(attachmentData);
+            }
+
+            @Override
+            public boolean hasRecipient() {
+                return false;
+            }
+
+        };
+
+        public static final Messaging ACCOUNT_INFO = new Messaging() {
+
+            @Override
+            public byte getSubtype() {
+                return TransactionType.SUBTYPE_MESSAGING_ACCOUNT_INFO;
+            }
+
+            @Override
+            Attachment.MessagingAccountInfo parseAttachment(Byte
