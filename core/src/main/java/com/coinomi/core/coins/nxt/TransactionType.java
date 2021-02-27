@@ -496,4 +496,50 @@ public abstract class TransactionType {
 
             @Override
             Attachment.ColoredCoinsAssetIssuance parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
-                return new Attachment.ColoredCoinsA
+                return new Attachment.ColoredCoinsAssetIssuance(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.ColoredCoinsAssetIssuance parseAttachment(JSONObject attachmentData) throws NxtException.NotValidException, JSONException {
+                return new Attachment.ColoredCoinsAssetIssuance(attachmentData);
+            }
+
+            @Override
+            public boolean hasRecipient() {
+                return false;
+            }
+
+        };
+
+        public static final TransactionType ASSET_TRANSFER = new ColoredCoins() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_COLORED_COINS_ASSET_TRANSFER;
+            }
+
+            @Override
+            Attachment.ColoredCoinsAssetTransfer parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.ColoredCoinsAssetTransfer(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.ColoredCoinsAssetTransfer parseAttachment(JSONObject attachmentData) throws NxtException.NotValidException, JSONException {
+                return new Attachment.ColoredCoinsAssetTransfer(attachmentData);
+            }
+
+         
+
+            @Override
+            public boolean hasRecipient() {
+                return true;
+            }
+
+        };
+
+        abstract static class ColoredCoinsOrderPlacement extends ColoredCoins {
+
+           
+
+            @Override
+            final public boolean ha
