@@ -621,4 +621,47 @@ public abstract class TransactionType {
 
             @Override
             public final byte getSubtype() {
-                r
+                return TransactionType.SUBTYPE_COLORED_COINS_BID_ORDER_CANCELLATION;
+            }
+
+            @Override
+            Attachment.ColoredCoinsBidOrderCancellation parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.ColoredCoinsBidOrderCancellation(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.ColoredCoinsBidOrderCancellation parseAttachment(JSONObject attachmentData) throws NxtException.NotValidException, JSONException {
+                return new Attachment.ColoredCoinsBidOrderCancellation(attachmentData);
+            }
+
+       
+        };
+    }
+
+    public static abstract class DigitalGoods extends TransactionType {
+
+        private DigitalGoods() {
+        }
+
+        @Override
+        public final byte getType() {
+            return TransactionType.TYPE_DIGITAL_GOODS;
+        }
+
+       
+
+
+        public static final TransactionType LISTING = new DigitalGoods() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_DIGITAL_GOODS_LISTING;
+            }
+
+            @Override
+            Attachment.DigitalGoodsListing parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.DigitalGoodsListing(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.DigitalGoodsListing parseAttachment(JSONObject attachmentDat
