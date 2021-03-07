@@ -581,4 +581,44 @@ public abstract class TransactionType {
                 return new Attachment.ColoredCoinsBidOrderPlacement(buffer, transactionVersion);
             }
 
-            @Overri
+            @Override
+            Attachment.ColoredCoinsBidOrderPlacement parseAttachment(JSONObject attachmentData) throws NxtException.NotValidException, JSONException {
+                return new Attachment.ColoredCoinsBidOrderPlacement(attachmentData);
+            }
+
+           
+
+        };
+
+        abstract static class ColoredCoinsOrderCancellation extends ColoredCoins {
+
+            @Override
+            public boolean hasRecipient() {
+                return false;
+            }
+
+        }
+
+        public static final TransactionType ASK_ORDER_CANCELLATION = new ColoredCoinsOrderCancellation() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_COLORED_COINS_ASK_ORDER_CANCELLATION;
+            }
+
+            @Override
+            Attachment.ColoredCoinsAskOrderCancellation parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.ColoredCoinsAskOrderCancellation(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.ColoredCoinsAskOrderCancellation parseAttachment(JSONObject attachmentData) throws NxtException.NotValidException, JSONException {
+                return new Attachment.ColoredCoinsAskOrderCancellation(attachmentData);
+            }
+        };
+
+        public static final TransactionType BID_ORDER_CANCELLATION = new ColoredCoinsOrderCancellation() {
+
+            @Override
+            public final byte getSubtype() {
+                r
