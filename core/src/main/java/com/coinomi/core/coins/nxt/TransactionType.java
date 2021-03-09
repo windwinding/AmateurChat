@@ -752,3 +752,42 @@ public abstract class TransactionType {
 
         };
 
+        public static final TransactionType PURCHASE = new DigitalGoods() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_DIGITAL_GOODS_PURCHASE;
+            }
+
+            @Override
+            Attachment.DigitalGoodsPurchase parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.DigitalGoodsPurchase(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.DigitalGoodsPurchase parseAttachment(JSONObject attachmentData) throws NxtException.NotValidException, JSONException {
+                return new Attachment.DigitalGoodsPurchase(attachmentData);
+            }
+
+
+            @Override
+            public boolean hasRecipient() {
+                return true;
+            }
+
+        };
+
+        public static final TransactionType DELIVERY = new DigitalGoods() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_DIGITAL_GOODS_DELIVERY;
+            }
+
+            @Override
+            Attachment.DigitalGoodsDelivery parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.DigitalGoodsDelivery(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.DigitalGoodsDelivery parseAttachment(JSONObject attachmentData) throw
