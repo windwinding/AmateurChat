@@ -710,4 +710,45 @@ public abstract class TransactionType {
             }
 
             @Override
-            Attac
+            Attachment.DigitalGoodsPriceChange parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.DigitalGoodsPriceChange(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.DigitalGoodsPriceChange parseAttachment(JSONObject attachmentData) throws NxtException.NotValidException, JSONException {
+                return new Attachment.DigitalGoodsPriceChange(attachmentData);
+            }
+
+            @Override
+            public boolean hasRecipient() {
+                return false;
+            }
+
+        };
+
+        public static final TransactionType QUANTITY_CHANGE = new DigitalGoods() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_DIGITAL_GOODS_QUANTITY_CHANGE;
+            }
+
+            @Override
+            Attachment.DigitalGoodsQuantityChange parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.DigitalGoodsQuantityChange(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.DigitalGoodsQuantityChange parseAttachment(JSONObject attachmentData) throws NxtException.NotValidException, JSONException {
+                return new Attachment.DigitalGoodsQuantityChange(attachmentData);
+            }
+
+        
+
+            @Override
+            public boolean hasRecipient() {
+                return false;
+            }
+
+        };
+
