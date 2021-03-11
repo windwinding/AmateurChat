@@ -790,4 +790,47 @@ public abstract class TransactionType {
             }
 
             @Override
-            Attachment.DigitalGoodsDelivery parseAttachment(JSONObject attachmentData) throw
+            Attachment.DigitalGoodsDelivery parseAttachment(JSONObject attachmentData) throws NxtException.NotValidException, JSONException {
+                return new Attachment.DigitalGoodsDelivery(attachmentData);
+            }
+
+            @Override
+            public boolean hasRecipient() {
+                return true;
+            }
+
+        };
+
+        public static final TransactionType FEEDBACK = new DigitalGoods() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_DIGITAL_GOODS_FEEDBACK;
+            }
+
+            @Override
+            Attachment.DigitalGoodsFeedback parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.DigitalGoodsFeedback(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.DigitalGoodsFeedback parseAttachment(JSONObject attachmentData) throws NxtException.NotValidException, JSONException {
+                return new Attachment.DigitalGoodsFeedback(attachmentData);
+            }
+
+            @Override
+            public boolean hasRecipient() {
+                return true;
+            }
+
+        };
+
+        public static final TransactionType REFUND = new DigitalGoods() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_DIGITAL_GOODS_REFUND;
+            }
+
+            @Override
+            Attachment.DigitalGoodsRefund parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidEx
