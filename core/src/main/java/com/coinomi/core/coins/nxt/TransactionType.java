@@ -833,4 +833,46 @@ public abstract class TransactionType {
             }
 
             @Override
-            Attachment.DigitalGoodsRefund parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidEx
+            Attachment.DigitalGoodsRefund parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.DigitalGoodsRefund(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.DigitalGoodsRefund parseAttachment(JSONObject attachmentData) throws NxtException.NotValidException, JSONException {
+                return new Attachment.DigitalGoodsRefund(attachmentData);
+            }
+
+            @Override
+            public boolean hasRecipient() {
+                return true;
+            }
+
+        };
+
+    }
+
+    public static abstract class AccountControl extends TransactionType {
+
+        private AccountControl() {
+        }
+
+        @Override
+        public final byte getType() {
+            return TransactionType.TYPE_ACCOUNT_CONTROL;
+        }
+
+        public static final TransactionType EFFECTIVE_BALANCE_LEASING = new AccountControl() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_ACCOUNT_CONTROL_EFFECTIVE_BALANCE_LEASING;
+            }
+
+            @Override
+            Attachment.AccountControlEffectiveBalanceLeasing parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.AccountControlEffectiveBalanceLeasing(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.AccountControlEffectiveBalanceLeasing parseAttachment(JSONObject attachmentData) throws NxtException.NotValidException {
+     
