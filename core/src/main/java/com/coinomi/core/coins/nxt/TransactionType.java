@@ -875,4 +875,45 @@ public abstract class TransactionType {
 
             @Override
             Attachment.AccountControlEffectiveBalanceLeasing parseAttachment(JSONObject attachmentData) throws NxtException.NotValidException {
-     
+                return new Attachment.AccountControlEffectiveBalanceLeasing(attachmentData);
+            }
+
+
+            @Override
+            public boolean hasRecipient() {
+                return true;
+            }
+
+        };
+
+    }
+    
+    /*public static abstract class AdvancedPayment extends TransactionType {
+
+        private AdvancedPayment() {}
+
+        @Override
+        public final byte getType() {
+            return TransactionType.TYPE_ADVANCED_PAYMENT;
+        }
+
+        public final static TransactionType ESCROW_CREATION = new AdvancedPayment() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_ADVANCED_PAYMENT_ESCROW_CREATION;
+            }
+
+            @Override
+            Attachment.AdvancedPaymentEscrowCreation parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.AdvancedPaymentEscrowCreation(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.AdvancedPaymentEscrowCreation parseAttachment(JSONObject attachmentData) throws NxtException.NotValidException {
+                return new Attachment.AdvancedPaymentEscrowCreation(attachmentData);
+            }
+
+            @Override
+            final boolean applyAttachmentUnconfirmed(Transaction transaction, Account senderAccount) {
+                Attachment.AdvancedPaymentEscrowCreation attachment = (Attachment.Advan
