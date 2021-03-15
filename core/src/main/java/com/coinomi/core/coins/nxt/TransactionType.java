@@ -939,4 +939,28 @@ public abstract class TransactionType {
                                             transaction.getId(),
                                             attachment.getAmountNQT(),
                                             attachment.getRequiredSigners(),
-                                            attachment.getSigner
+                                            attachment.getSigners(),
+                                            transaction.getTimestamp() + attachment.getDeadline(),
+                                            attachment.getDeadlineAction());
+            }
+
+            @Override
+            final void undoAttachmentUnconfirmed(Transaction transaction, Account senderAccount) {
+                Attachment.AdvancedPaymentEscrowCreation attachment = (Attachment.AdvancedPaymentEscrowCreation) transaction.getAttachment();
+                Long totalAmountNQT = Convert.safeAdd(attachment.getAmountNQT(), attachment.getTotalSigners() * Constants.ONE_NXT);
+                senderAccount.addToUnconfirmedBalanceNQT(totalAmountNQT);
+            }
+
+            @Override
+            boolean isDuplicate(Transaction transaction, Map<TransactionType, Set<String>> duplicates) {
+                return false;
+            }
+
+            @Override
+            void validateAttachment(Transaction transaction) throws NxtException.ValidationException {
+                Attachment.AdvancedPaymentEscrowCreation attachment = (Attachment.AdvancedPaymentEscrowCreation) transaction.getAttachment();
+                Long totalAmountNQT = Convert.safeAdd(attachment.getAmountNQT(), transaction.getFeeNQT());
+                if(transaction.getSenderId() == transaction.getRecipientId()) {
+                    throw new NxtException.NotValidException("Escrow must have different sender and recipient");
+                }
+                totalAmountNQT = Convert.safeAdd(totalAmountNQT, attachment.getTotalSi
