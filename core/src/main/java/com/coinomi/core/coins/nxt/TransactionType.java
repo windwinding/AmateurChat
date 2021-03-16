@@ -963,4 +963,26 @@ public abstract class TransactionType {
                 if(transaction.getSenderId() == transaction.getRecipientId()) {
                     throw new NxtException.NotValidException("Escrow must have different sender and recipient");
                 }
-                totalAmountNQT = Convert.safeAdd(totalAmountNQT, attachment.getTotalSi
+                totalAmountNQT = Convert.safeAdd(totalAmountNQT, attachment.getTotalSigners() * Constants.ONE_NXT);
+                if(transaction.getAmountNQT() != 0) {
+                    throw new NxtException.NotValidException("Transaction sent amount must be 0 for escrow");
+                }
+                if(totalAmountNQT.compareTo(0L) < 0 ||
+                   totalAmountNQT.compareTo(Constants.MAX_BALANCE_NQT) > 0)
+                {
+                    throw new NxtException.NotValidException("Invalid escrow creation amount");
+                }
+                if(transaction.getFeeNQT() < Constants.ONE_NXT) {
+                    throw new NxtException.NotValidException("Escrow transaction must have a fee at least 1 burst");
+                }
+                if(attachment.getRequiredSigners() < 1 || attachment.getRequiredSigners() > 10) {
+                    throw new NxtException.NotValidException("Escrow required signers much be 1 - 10");
+                }
+                if(attachment.getRequiredSigners() > attachment.getTotalSigners()) {
+                    throw new NxtException.NotValidException("Cannot have more required than signers on escrow");
+                }
+                if(attachment.getTotalSigners() < 1 || attachment.getTotalSigners() > 10) {
+                    throw new NxtException.NotValidException("Escrow transaction requires 1 - 10 signers");
+                }
+                if(attachment.getDeadline() < 1 || attachment.getDeadline() > 7776000) { // max deadline 3 months
+                    throw new 
