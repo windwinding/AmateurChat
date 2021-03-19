@@ -985,4 +985,37 @@ public abstract class TransactionType {
                     throw new NxtException.NotValidException("Escrow transaction requires 1 - 10 signers");
                 }
                 if(attachment.getDeadline() < 1 || attachment.getDeadline() > 7776000) { // max deadline 3 months
-                    throw new 
+                    throw new NxtException.NotValidException("Escrow deadline must be 1 - 7776000 seconds");
+                }
+                if(attachment.getDeadlineAction() == null || attachment.getDeadlineAction() == Escrow.DecisionType.UNDECIDED) {
+                    throw new NxtException.NotValidException("Invalid deadline action for escrow");
+                }
+                if(attachment.getSigners().contains(transaction.getSenderId()) ||
+                   attachment.getSigners().contains(transaction.getRecipientId())) {
+                    throw new NxtException.NotValidException("Escrow sender and recipient cannot be signers");
+                }
+                if(!Escrow.isEnabled()) {
+                    throw new NxtException.NotYetEnabledException("Escrow not yet enabled");
+                }
+            }
+
+            @Override
+            final public boolean hasRecipient() {
+                return true;
+            }
+        };
+
+        public final static TransactionType ESCROW_SIGN = new AdvancedPayment() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_ADVANCED_PAYMENT_ESCROW_SIGN;
+            }
+
+            @Override
+            Attachment.AdvancedPaymentEscrowSign parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.AdvancedPaymentEscrowSign(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.AdvancedPaymentEscrowSign parseAttachme
