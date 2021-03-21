@@ -1018,4 +1018,34 @@ public abstract class TransactionType {
             }
 
             @Override
-            Attachment.AdvancedPaymentEscrowSign parseAttachme
+            Attachment.AdvancedPaymentEscrowSign parseAttachment(JSONObject attachmentData) throws NxtException.NotValidException {
+                return new Attachment.AdvancedPaymentEscrowSign(attachmentData);
+            }
+
+            @Override
+            final boolean applyAttachmentUnconfirmed(Transaction transaction, Account senderAccount) {
+                return true;
+            }
+
+            @Override
+            final void applyAttachment(Transaction transaction, Account senderAccount, Account recipientAccount) {
+                Attachment.AdvancedPaymentEscrowSign attachment = (Attachment.AdvancedPaymentEscrowSign) transaction.getAttachment();
+                Escrow escrow = Escrow.getEscrowTransaction(attachment.getEscrowId());
+                escrow.sign(senderAccount.getId(), attachment.getDecision());
+            }
+
+            @Override
+            final void undoAttachmentUnconfirmed(Transaction transaction, Account senderAccount) {
+            }
+
+            @Override
+            boolean isDuplicate(Transaction transaction, Map<TransactionType, Set<String>> duplicates) {
+                Attachment.AdvancedPaymentEscrowSign attachment = (Attachment.AdvancedPaymentEscrowSign) transaction.getAttachment();
+                String uniqueString = Convert.toUnsignedLong(attachment.getEscrowId()) + ":" +
+                                      Convert.toUnsignedLong(transaction.getSenderId());
+                return isDuplicate(AdvancedPayment.ESCROW_SIGN, uniqueString, duplicates);
+            }
+
+            @Override
+            void validateAttachment(Transaction transaction) throws NxtException.ValidationException {
+                Attachment.Advance
