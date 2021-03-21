@@ -1048,4 +1048,23 @@ public abstract class TransactionType {
 
             @Override
             void validateAttachment(Transaction transaction) throws NxtException.ValidationException {
-                Attachment.Advance
+                Attachment.AdvancedPaymentEscrowSign attachment = (Attachment.AdvancedPaymentEscrowSign) transaction.getAttachment();
+                if(transaction.getAmountNQT() != 0 || transaction.getFeeNQT() != Constants.ONE_NXT) {
+                    throw new NxtException.NotValidException("Escrow signing must have amount 0 and fee of 1");
+                }
+                if(attachment.getEscrowId() == null || attachment.getDecision() == null) {
+                    throw new NxtException.NotValidException("Escrow signing requires escrow id and decision set");
+                }
+                Escrow escrow = Escrow.getEscrowTransaction(attachment.getEscrowId());
+                if(escrow == null) {
+                    throw new NxtException.NotValidException("Escrow transaction not found");
+                }
+                if(!escrow.isIdSigner(transaction.getSenderId()) &&
+                   !escrow.getSenderId().equals(transaction.getSenderId()) &&
+                   !escrow.getRecipientId().equals(transaction.getSenderId())) {
+                    throw new NxtException.NotValidException("Sender is not a participant in specified escrow");
+                }
+                if(escrow.getSenderId().equals(transaction.getSenderId()) && attachment.getDecision() != Escrow.DecisionType.RELEASE) {
+                    throw new NxtException.NotValidException("Escrow sender can only release");
+                }
+                if(escrow.getRecipientId().equals(transaction.getSenderId()) && attachment.getDecision() != Esc
