@@ -1145,4 +1145,31 @@ public abstract class TransactionType {
             }
 
             @Override
-            Attachment.AdvancedPaymentSubscriptionSubscr
+            Attachment.AdvancedPaymentSubscriptionSubscribe parseAttachment(JSONObject attachmentData) throws NxtException.NotValidException {
+                return new Attachment.AdvancedPaymentSubscriptionSubscribe(attachmentData);
+            }
+
+            @Override
+            final boolean applyAttachmentUnconfirmed(Transaction transaction, Account senderAccount) {
+                return true;
+            }
+
+            @Override
+            final void applyAttachment(Transaction transaction, Account senderAccount, Account recipientAccount) {
+                Attachment.AdvancedPaymentSubscriptionSubscribe attachment = (Attachment.AdvancedPaymentSubscriptionSubscribe) transaction.getAttachment();
+                Subscription.addSubscription(senderAccount, recipientAccount, transaction.getId(), transaction.getAmountNQT(), transaction.getTimestamp(), attachment.getFrequency());
+            }
+
+            @Override
+            final void undoAttachmentUnconfirmed(Transaction transaction, Account senderAccount) {
+            }
+
+            @Override
+            boolean isDuplicate(Transaction transaction, Map<TransactionType, Set<String>> duplicates) {
+                return false;
+            }
+
+            @Override
+            void validateAttachment(Transaction transaction) throws NxtException.ValidationException {
+                Attachment.AdvancedPaymentSubscriptionSubscribe attachment = (Attachment.AdvancedPaymentSubscriptionSubscribe) transaction.getAttachment();
+                if(attachment.getFrequency() == n
