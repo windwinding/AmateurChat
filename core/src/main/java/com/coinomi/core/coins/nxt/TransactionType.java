@@ -1067,4 +1067,41 @@ public abstract class TransactionType {
                 if(escrow.getSenderId().equals(transaction.getSenderId()) && attachment.getDecision() != Escrow.DecisionType.RELEASE) {
                     throw new NxtException.NotValidException("Escrow sender can only release");
                 }
-                if(escrow.getRecipientId().equals(transaction.getSenderId()) && attachment.getDecision() != Esc
+                if(escrow.getRecipientId().equals(transaction.getSenderId()) && attachment.getDecision() != Escrow.DecisionType.REFUND) {
+                    throw new NxtException.NotValidException("Escrow recipient can only refund");
+                }
+                if(!Escrow.isEnabled()) {
+                    throw new NxtException.NotYetEnabledException("Escrow not yet enabled");
+                }
+            }
+
+            @Override
+            final public boolean hasRecipient() {
+                return false;
+            }
+        };
+
+        public final static TransactionType ESCROW_RESULT = new AdvancedPayment() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_ADVANCED_PAYMENT_ESCROW_RESULT;
+            }
+
+            @Override
+            Attachment.AdvancedPaymentEscrowResult parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.AdvancedPaymentEscrowResult(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.AdvancedPaymentEscrowResult parseAttachment(JSONObject attachmentData) throws NxtException.NotValidException {
+                return new Attachment.AdvancedPaymentEscrowResult(attachmentData);
+            }
+
+            @Override
+            final boolean applyAttachmentUnconfirmed(Transaction transaction, Account senderAccount) {
+                return false;
+            }
+
+            @Override
+            final void applyAttachment(Transaction transaction, Account senderAccount, Account recipientAcco
