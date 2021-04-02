@@ -1104,4 +1104,45 @@ public abstract class TransactionType {
             }
 
             @Override
-            final void applyAttachment(Transaction transaction, Account senderAccount, Account recipientAcco
+            final void applyAttachment(Transaction transaction, Account senderAccount, Account recipientAccount) {
+            }
+
+            @Override
+            final void undoAttachmentUnconfirmed(Transaction transaction, Account senderAccount) {
+            }
+
+            @Override
+            boolean isDuplicate(Transaction transaction, Map<TransactionType, Set<String>> duplicates) {
+                return true;
+            }
+
+            @Override
+            void validateAttachment(Transaction transaction) throws NxtException.ValidationException {
+                throw new NxtException.NotValidException("Escrow result never validates");
+            }
+
+            @Override
+            final public boolean hasRecipient() {
+                return true;
+            }
+
+            @Override
+            final public boolean isSigned() {
+                return false;
+            }
+        };
+
+        public final static TransactionType SUBSCRIPTION_SUBSCRIBE = new AdvancedPayment() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_ADVANCED_PAYMENT_SUBSCRIPTION_SUBSCRIBE;
+            }
+
+            @Override
+            Attachment.AdvancedPaymentSubscriptionSubscribe parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return new Attachment.AdvancedPaymentSubscriptionSubscribe(buffer, transactionVersion);
+            }
+
+            @Override
+            Attachment.AdvancedPaymentSubscriptionSubscr
