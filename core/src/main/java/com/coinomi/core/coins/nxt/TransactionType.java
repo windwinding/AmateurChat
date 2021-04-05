@@ -1172,4 +1172,35 @@ public abstract class TransactionType {
             @Override
             void validateAttachment(Transaction transaction) throws NxtException.ValidationException {
                 Attachment.AdvancedPaymentSubscriptionSubscribe attachment = (Attachment.AdvancedPaymentSubscriptionSubscribe) transaction.getAttachment();
-                if(attachment.getFrequency() == n
+                if(attachment.getFrequency() == null ||
+                   attachment.getFrequency().intValue() < Constants.BURST_SUBSCRIPTION_MIN_FREQ ||
+                   attachment.getFrequency().intValue() > Constants.BURST_SUBSCRIPTION_MAX_FREQ) {
+                    throw new NxtException.NotValidException("Invalid subscription frequency");
+                }
+                if(transaction.getAmountNQT() < Constants.ONE_NXT || transaction.getAmountNQT() > Constants.MAX_BALANCE_NQT) {
+                    throw new NxtException.NotValidException("Subscriptions must be at least one burst");
+                }
+                if(transaction.getSenderId() == transaction.getRecipientId()) {
+                    throw new NxtException.NotValidException("Cannot create subscription to same address");
+                }
+                if(!Subscription.isEnabled()) {
+                    throw new NxtException.NotYetEnabledException("Subscriptions not yet enabled");
+                }
+            }
+
+            @Override
+            final public boolean hasRecipient() {
+                return true;
+            }
+        };
+
+        public final static TransactionType SUBSCRIPTION_CANCEL = new AdvancedPayment() {
+
+            @Override
+            public final byte getSubtype() {
+                return TransactionType.SUBTYPE_ADVANCED_PAYMENT_SUBSCRIPTION_CANCEL;
+            }
+
+            @Override
+            Attachment.AdvancedPaymentSubscriptionCancel parseAttachment(ByteBuffer buffer, byte transactionVersion) throws NxtException.NotValidException {
+                return ne
