@@ -1230,4 +1230,34 @@ public abstract class TransactionType {
 
             @Override
             boolean isDuplicate(Transaction transaction, Map<TransactionType, Set<String>> duplicates) {
-                Attachment.AdvancedPaymentSubscriptionCancel attachment = (Attachment.AdvancedPaymentSubscriptio
+                Attachment.AdvancedPaymentSubscriptionCancel attachment = (Attachment.AdvancedPaymentSubscriptionCancel) transaction.getAttachment();
+                return isDuplicate(AdvancedPayment.SUBSCRIPTION_CANCEL, Convert.toUnsignedLong(attachment.getSubscriptionId()), duplicates);
+            }
+
+            @Override
+            void validateAttachment(Transaction transaction) throws NxtException.ValidationException {
+                Attachment.AdvancedPaymentSubscriptionCancel attachment = (Attachment.AdvancedPaymentSubscriptionCancel) transaction.getAttachment();
+                if(attachment.getSubscriptionId() == null) {
+                    throw new NxtException.NotValidException("Subscription cancel must include subscription id");
+                }
+
+                Subscription subscription = Subscription.getSubscription(attachment.getSubscriptionId());
+                if(subscription == null) {
+                    throw new NxtException.NotValidException("Subscription cancel must contain current subscription id");
+                }
+
+                if(!subscription.getSenderId().equals(transaction.getSenderId()) &&
+                   !subscription.getRecipientId().equals(transaction.getSenderId())) {
+                    throw new NxtException.NotValidException("Subscription cancel can only be done by participants");
+                }
+
+                if(!Subscription.isEnabled()) {
+                    throw new NxtException.NotYetEnabledException("Subscription cancel not yet enabled");
+                }
+            }
+
+            @Override
+            final public boolean hasRecipient() {
+                return false;
+            }
+    
