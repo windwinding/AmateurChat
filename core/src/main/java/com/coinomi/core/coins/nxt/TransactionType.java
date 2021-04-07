@@ -1295,4 +1295,61 @@ public abstract class TransactionType {
             @Override
             boolean isDuplicate(Transaction transaction, Map<TransactionType, Set<String>> duplicates) {
                 return true;
-           
+            }
+
+            @Override
+            void validateAttachment(Transaction transaction) throws NxtException.ValidationException {
+                throw new NxtException.NotValidException("Subscription payment never validates");
+            }
+
+            @Override
+            final public boolean hasRecipient() {
+                return true;
+            }
+
+            @Override
+            final public boolean isSigned() {
+                return false;
+            }
+        };
+    }*/
+
+    long minimumFeeNQT(int height, int appendagesSize) {
+        if (height < BASELINE_FEE_HEIGHT) {
+            return 0; // No need to validate fees before baseline block
+        }
+        Fee fee;
+        if (height >= NEXT_FEE_HEIGHT) {
+            fee = getNextFee();
+        } else {
+            fee = getBaselineFee();
+        }
+        return Convert.safeAdd(fee.getConstantFee(), Convert.safeMultiply(appendagesSize, fee.getAppendagesFee()));
+    }
+
+    protected Fee getBaselineFee() {
+        return BASELINE_FEE;
+    }
+
+    protected Fee getNextFee() {
+        return NEXT_FEE;
+    }
+
+    public static final class Fee {
+        private final long constantFee;
+        private final long appendagesFee;
+
+        public Fee(long constantFee, long appendagesFee) {
+            this.constantFee = constantFee;
+            this.appendagesFee = appendagesFee;
+        }
+
+        public long getConstantFee() {
+            return constantFee;
+        }
+
+        public long getAppendagesFee() {
+            return appendagesFee;
+        }
+
+        @Override
