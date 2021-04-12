@@ -221,3 +221,102 @@ public class ShapeShift extends Connection {
 
         String apiUrl = getApiUrl(FIXED_AMOUNT_TX_API);
         RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, requestJson.toString());
+        Request request = new Request.Builder().url(apiUrl).post(body).build();
+        ShapeShiftAmountTx reply = new ShapeShiftAmountTx(getMakeApiCall(request));
+        if (!reply.isError) {
+            checkPair(pair, reply.pair);
+            checkValue(amount, reply.withdrawalAmount);
+            checkAddress(withdrawal, reply.withdrawal);
+        }
+        return reply;
+    }
+
+    /**
+     * Request email receipt
+     *
+     * This call allows you to request a fixed amount to be sent to the {@code withdrawal} address.
+     * You provide a withdrawal address and the amount you want sent to it. We return the amount
+     * to deposit and the address to deposit to. This allows you to use shapeshift as a payment
+     * mechanism.
+     *
+     * The exchange pair is determined from the {@link CoinType}s of {@code refund} and
+     * {@code withdrawal}.
+     */
+    public ShapeShiftEmail requestEmailReceipt(String email, ShapeShiftTxStatus txStatus)
+            throws ShapeShiftException, IOException {
+
+        JSONObject requestJson = new JSONObject();
+        try {
+            requestJson.put("email", email);
+            checkState(txStatus.status == ShapeShiftTxStatus.Status.COMPLETE,
+                    "Transaction not complete");
+            requestJson.put("txid", checkNotNull(txStatus.transactionId, "Null transaction id"));
+        } catch (Exception e) {
+            throw new ShapeShiftException("Could not create a JSON request", e);
+        }
+
+        String apiUrl = getApiUrl(EMAIL_RECEIPT_API);
+        RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, requestJson.toString());
+        Request request = new Request.Builder().url(apiUrl).post(body).build();
+        return new ShapeShiftEmail(getMakeApiCall(request));
+    }
+
+
+    /**
+     * Convert types to the ShapeShift format. For example Bitcoin to Litecoin will become btc_ltc.
+     */
+    public static String getPair(CoinType typeFrom, CoinType typeTo) {
+        return typeFrom.getSymbol().toLowerCase() + "_" + typeTo.getSymbol().toLowerCase();
+    }
+
+    private void checkPair(String expectedPair, String pair)
+            throws ShapeShiftException {
+        if (!expectedPair.equals(pair)) {
+            String errorMsg = String.format("Pair mismatch, expected %s but got %s.",
+                    expectedPair, pair);
+            throw new ShapeShiftException(errorMsg);
+        }
+    }
+
+    private void checkValue(Value expected, Value value) throws ShapeShiftException {
+        if (!expected.equals(value)) {
+            String errorMsg = String.format("Value mismatch, expected %s but got %s.",
+                    expected, value);
+            throw new ShapeShiftException(errorMsg);
+        }
+    }
+
+    private void checkAddress(AbstractAddress expected, AbstractAddress address) throws ShapeShiftException {
+        if (!expected.getType().equals(address.getType()) ||
+            !expected.toString().equals(address.toString())) {
+            String errorMsg = String.format("Address mismatch, expected %s but got %s.",
+                    expected, address);
+            throw new ShapeShiftException(errorMsg);
+        }
+    }
+
+    private JSONObject getMakeApiCall(Request request) throws ShapeShiftException, IOException {
+        try {
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) {
+                JSONObject reply = parseReply(response);
+                String genericMessage = "Error code " + response.code();
+                throw new IOException(
+                        reply != null ? reply.optString("error", genericMessage) : genericMessage);
+            }
+            return parseReply(response);
+        } catch (JSONException e) {
+            throw new ShapeShiftException("Could not parse JSON", e);
+        }
+    }
+
+    private static JSONObject parseReply(Response response) throws IOException, JSONException {
+        return new JSONObject(response.body().string());
+    }
+
+    public static CoinType[] parsePair(String pair) {
+        String[] pairs = pair.split("_");
+        checkState(pairs.length == 2);
+        return new CoinType[]{CoinID.typeFromSymbol(pairs[0]), CoinID.typeFromSymbol(pairs[1])};
+    }
+}
