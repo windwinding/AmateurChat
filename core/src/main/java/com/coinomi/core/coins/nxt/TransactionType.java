@@ -1353,3 +1353,12 @@ public abstract class TransactionType {
         }
 
         @Override
+        public String toString() {
+            return "Fee{" +
+                    "constantFee=" + constantFee +
+                    ", appendagesFee=" + appendagesFee +
+                    '}';
+        }
+    }
+
+}
