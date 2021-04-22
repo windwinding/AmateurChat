@@ -62,4 +62,19 @@ public class ShapeShiftExchangeRate extends ExchangeRateBase {
     public Value convert(Value convertingValue) {
         Value converted = convertValue(convertingValue);
         if (!converted.isZero() && minerFee != null) {
-    
+            Value fee;
+            // Deposit -> withdrawal
+            if (converted.type.equals(minerFee.type)) {
+                fee = minerFee.negate(); // Miner fee is removed from withdraw value
+            } else { // Withdrawal -> deposit
+                fee = convertValue(minerFee); // Miner fee is added to the deposit value
+            }
+            converted = converted.add(fee);
+
+            // If the miner fee is higher than the value we are converting we get 0
+            if (converted.isNegative()) converted = converted.multiply(0);
+        }
+        return converted;
+    }
+
+}
