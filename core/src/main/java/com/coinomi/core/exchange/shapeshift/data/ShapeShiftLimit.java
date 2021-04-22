@@ -26,4 +26,13 @@ public class ShapeShiftLimit extends ShapeShiftPairBase {
                 checkState(pairs.length == 2);
                 CoinType typeFrom = CoinID.typeFromSymbol(pairs[0]);
                 limit = parseValue(typeFrom, data.getString("limit"), RoundingMode.DOWN);
-                minimum = parseValue(typeFro
+                minimum = parseValue(typeFrom, data.getString("min"), RoundingMode.UP);
+            } catch (Exception e) {
+                throw new ShapeShiftException("Could not parse object", e);
+            }
+        } else {
+            limit = null;
+            minimum = null;
+        }
+    }
+}
