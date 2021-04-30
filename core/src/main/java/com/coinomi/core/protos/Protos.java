@@ -2001,3 +2001,1543 @@ public final class Protos {
         return this;
       }
       /**
+       * <code>repeated uint32 path = 2;</code>
+       *
+       * <pre>
+       * The path through the key tree. Each number is encoded in the standard form: high bit set for private derivation
+       * and high bit unset for public derivation.
+       * </pre>
+       */
+      public Builder clearPath() {
+        path_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+
+      private int issuedSubkeys_ ;
+      /**
+       * <code>optional uint32 issued_subkeys = 3;</code>
+       *
+       * <pre>
+       * How many children of this key have been issued, that is, given to the user when they requested a fresh key?
+       * For the parents of keys being handed out, this is always less than the true number of children: the difference is
+       * called the lookahead zone. These keys are put into Bloom filters so we can spot transactions made by clones of
+       * this wallet - for instance when restoring from backup or if the seed was shared between devices.
+       * If this field is missing it means we're not issuing subkeys of this key to users.
+       * </pre>
+       */
+      public boolean hasIssuedSubkeys() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional uint32 issued_subkeys = 3;</code>
+       *
+       * <pre>
+       * How many children of this key have been issued, that is, given to the user when they requested a fresh key?
+       * For the parents of keys being handed out, this is always less than the true number of children: the difference is
+       * called the lookahead zone. These keys are put into Bloom filters so we can spot transactions made by clones of
+       * this wallet - for instance when restoring from backup or if the seed was shared between devices.
+       * If this field is missing it means we're not issuing subkeys of this key to users.
+       * </pre>
+       */
+      public int getIssuedSubkeys() {
+        return issuedSubkeys_;
+      }
+      /**
+       * <code>optional uint32 issued_subkeys = 3;</code>
+       *
+       * <pre>
+       * How many children of this key have been issued, that is, given to the user when they requested a fresh key?
+       * For the parents of keys being handed out, this is always less than the true number of children: the difference is
+       * called the lookahead zone. These keys are put into Bloom filters so we can spot transactions made by clones of
+       * this wallet - for instance when restoring from backup or if the seed was shared between devices.
+       * If this field is missing it means we're not issuing subkeys of this key to users.
+       * </pre>
+       */
+      public Builder setIssuedSubkeys(int value) {
+        bitField0_ |= 0x00000004;
+        issuedSubkeys_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 issued_subkeys = 3;</code>
+       *
+       * <pre>
+       * How many children of this key have been issued, that is, given to the user when they requested a fresh key?
+       * For the parents of keys being handed out, this is always less than the true number of children: the difference is
+       * called the lookahead zone. These keys are put into Bloom filters so we can spot transactions made by clones of
+       * this wallet - for instance when restoring from backup or if the seed was shared between devices.
+       * If this field is missing it means we're not issuing subkeys of this key to users.
+       * </pre>
+       */
+      public Builder clearIssuedSubkeys() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        issuedSubkeys_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int lookaheadSize_ ;
+      /**
+       * <code>optional uint32 lookahead_size = 4;</code>
+       */
+      public boolean hasLookaheadSize() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional uint32 lookahead_size = 4;</code>
+       */
+      public int getLookaheadSize() {
+        return lookaheadSize_;
+      }
+      /**
+       * <code>optional uint32 lookahead_size = 4;</code>
+       */
+      public Builder setLookaheadSize(int value) {
+        bitField0_ |= 0x00000008;
+        lookaheadSize_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 lookahead_size = 4;</code>
+       */
+      public Builder clearLookaheadSize() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        lookaheadSize_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private boolean isFollowing_ ;
+      /**
+       * <code>optional bool isFollowing = 5;</code>
+       *
+       * <pre>
+       **
+       * Flag indicating that this key is a root of a following chain. This chain is following the next non-following chain.
+       * Following/followed chains concept is used for married keychains, where the set of keys combined together to produce
+       * a single P2SH multisignature address
+       * </pre>
+       */
+      public boolean hasIsFollowing() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional bool isFollowing = 5;</code>
+       *
+       * <pre>
+       **
+       * Flag indicating that this key is a root of a following chain. This chain is following the next non-following chain.
+       * Following/followed chains concept is used for married keychains, where the set of keys combined together to produce
+       * a single P2SH multisignature address
+       * </pre>
+       */
+      public boolean getIsFollowing() {
+        return isFollowing_;
+      }
+      /**
+       * <code>optional bool isFollowing = 5;</code>
+       *
+       * <pre>
+       **
+       * Flag indicating that this key is a root of a following chain. This chain is following the next non-following chain.
+       * Following/followed chains concept is used for married keychains, where the set of keys combined together to produce
+       * a single P2SH multisignature address
+       * </pre>
+       */
+      public Builder setIsFollowing(boolean value) {
+        bitField0_ |= 0x00000010;
+        isFollowing_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool isFollowing = 5;</code>
+       *
+       * <pre>
+       **
+       * Flag indicating that this key is a root of a following chain. This chain is following the next non-following chain.
+       * Following/followed chains concept is used for married keychains, where the set of keys combined together to produce
+       * a single P2SH multisignature address
+       * </pre>
+       */
+      public Builder clearIsFollowing() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        isFollowing_ = false;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:com.coinomi.core.protos.DeterministicKey)
+    }
+
+    static {
+      defaultInstance = new DeterministicKey(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:com.coinomi.core.protos.DeterministicKey)
+  }
+
+  public interface KeyOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:com.coinomi.core.protos.Key)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required .com.coinomi.core.protos.Key.Type type = 1;</code>
+     */
+    boolean hasType();
+    /**
+     * <code>required .com.coinomi.core.protos.Key.Type type = 1;</code>
+     */
+    com.coinomi.core.protos.Protos.Key.Type getType();
+
+    /**
+     * <code>optional bytes secret_bytes = 2;</code>
+     *
+     * <pre>
+     * Either the private EC key bytes (without any ASN.1 wrapping), or the deterministic root seed.
+     * If the secret is encrypted, or this is a "watching entry" then this is missing.
+     * </pre>
+     */
+    boolean hasSecretBytes();
+    /**
+     * <code>optional bytes secret_bytes = 2;</code>
+     *
+     * <pre>
+     * Either the private EC key bytes (without any ASN.1 wrapping), or the deterministic root seed.
+     * If the secret is encrypted, or this is a "watching entry" then this is missing.
+     * </pre>
+     */
+    com.google.protobuf.ByteString getSecretBytes();
+
+    /**
+     * <code>optional .com.coinomi.core.protos.EncryptedData encrypted_data = 3;</code>
+     *
+     * <pre>
+     * If the secret data is encrypted, then secret_bytes is missing and this field is set.
+     * </pre>
+     */
+    boolean hasEncryptedData();
+    /**
+     * <code>optional .com.coinomi.core.protos.EncryptedData encrypted_data = 3;</code>
+     *
+     * <pre>
+     * If the secret data is encrypted, then secret_bytes is missing and this field is set.
+     * </pre>
+     */
+    com.coinomi.core.protos.Protos.EncryptedData getEncryptedData();
+    /**
+     * <code>optional .com.coinomi.core.protos.EncryptedData encrypted_data = 3;</code>
+     *
+     * <pre>
+     * If the secret data is encrypted, then secret_bytes is missing and this field is set.
+     * </pre>
+     */
+    com.coinomi.core.protos.Protos.EncryptedDataOrBuilder getEncryptedDataOrBuilder();
+
+    /**
+     * <code>optional bytes public_key = 4;</code>
+     *
+     * <pre>
+     * The public EC key derived from the private key. We allow both to be stored to avoid mobile clients having to
+     * do lots of slow EC math on startup. For DETERMINISTIC_MNEMONIC entries this is missing.
+     * </pre>
+     */
+    boolean hasPublicKey();
+    /**
+     * <code>optional bytes public_key = 4;</code>
+     *
+     * <pre>
+     * The public EC key derived from the private key. We allow both to be stored to avoid mobile clients having to
+     * do lots of slow EC math on startup. For DETERMINISTIC_MNEMONIC entries this is missing.
+     * </pre>
+     */
+    com.google.protobuf.ByteString getPublicKey();
+
+    /**
+     * <code>optional string label = 5;</code>
+     *
+     * <pre>
+     * User-provided label associated with the key.
+     * </pre>
+     */
+    boolean hasLabel();
+    /**
+     * <code>optional string label = 5;</code>
+     *
+     * <pre>
+     * User-provided label associated with the key.
+     * </pre>
+     */
+    java.lang.String getLabel();
+    /**
+     * <code>optional string label = 5;</code>
+     *
+     * <pre>
+     * User-provided label associated with the key.
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getLabelBytes();
+
+    /**
+     * <code>optional .com.coinomi.core.protos.DeterministicKey deterministic_key = 6;</code>
+     */
+    boolean hasDeterministicKey();
+    /**
+     * <code>optional .com.coinomi.core.protos.DeterministicKey deterministic_key = 6;</code>
+     */
+    com.coinomi.core.protos.Protos.DeterministicKey getDeterministicKey();
+    /**
+     * <code>optional .com.coinomi.core.protos.DeterministicKey deterministic_key = 6;</code>
+     */
+    com.coinomi.core.protos.Protos.DeterministicKeyOrBuilder getDeterministicKeyOrBuilder();
+  }
+  /**
+   * Protobuf type {@code com.coinomi.core.protos.Key}
+   *
+   * <pre>
+   **
+   * A key used to control Bitcoin spending.
+   * Either the private key, the public key or both may be present.  It is recommended that
+   * if the private key is provided that the public key is provided too because deriving it is slow.
+   * If only the public key is provided, the key can only be used to watch the blockchain and verify
+   * transactions, and not for spending.
+   * </pre>
+   */
+  public static final class Key extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:com.coinomi.core.protos.Key)
+      KeyOrBuilder {
+    // Use Key.newBuilder() to construct.
+    private Key(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private Key(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final Key defaultInstance;
+    public static Key getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public Key getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Key(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.coinomi.core.protos.Protos.Key.Type value = com.coinomi.core.protos.Protos.Key.Type.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                type_ = value;
+              }
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              secretBytes_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              com.coinomi.core.protos.Protos.EncryptedData.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                subBuilder = encryptedData_.toBuilder();
+              }
+              encryptedData_ = input.readMessage(com.coinomi.core.protos.Protos.EncryptedData.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(encryptedData_);
+                encryptedData_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000004;
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
+              publicKey_ = input.readBytes();
+              break;
+            }
+            case 42: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000010;
+              label_ = bs;
+              break;
+            }
+            case 50: {
+              com.coinomi.core.protos.Protos.DeterministicKey.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000020) == 0x00000020)) {
+                subBuilder = deterministicKey_.toBuilder();
+              }
+              deterministicKey_ = input.readMessage(com.coinomi.core.protos.Protos.DeterministicKey.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(deterministicKey_);
+                deterministicKey_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000020;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.coinomi.core.protos.Protos.internal_static_com_coinomi_core_protos_Key_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.coinomi.core.protos.Protos.internal_static_com_coinomi_core_protos_Key_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.coinomi.core.protos.Protos.Key.class, com.coinomi.core.protos.Protos.Key.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<Key> PARSER =
+        new com.google.protobuf.AbstractParser<Key>() {
+      public Key parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Key(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Key> getParserForType() {
+      return PARSER;
+    }
+
+    /**
+     * Protobuf enum {@code com.coinomi.core.protos.Key.Type}
+     */
+    public enum Type
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>ORIGINAL = 1;</code>
+       *
+       * <pre>
+       ** Unencrypted - Original bitcoin secp256k1 curve 
+       * </pre>
+       */
+      ORIGINAL(0, 1),
+      /**
+       * <code>ENCRYPTED_SCRYPT_AES = 2;</code>
+       *
+       * <pre>
+       ** Encrypted with Scrypt and AES - Original bitcoin secp256k1 curve 
+       * </pre>
+       */
+      ENCRYPTED_SCRYPT_AES(1, 2),
+      /**
+       * <code>DETERMINISTIC_MNEMONIC = 3;</code>
+       *
+       * <pre>
+       **
+       * Not really a key, but rather contains the mnemonic phrase for a deterministic key hierarchy in the private_key field.
+       * The label and public_key fields are missing. Creation timestamp will exist.
+       * </pre>
+       */
+      DETERMINISTIC_MNEMONIC(2, 3),
+      /**
+       * <code>DETERMINISTIC_KEY = 4;</code>
+       *
+       * <pre>
+       **
+       * A key that was derived deterministically. Note that the root seed that created it may NOT be present in the
+       * wallet, for the case of watching wallets. A deterministic key may or may not have the private key bytes present.
+       * However the public key bytes and the deterministic_key field are guaranteed to exist. In a wallet where there
+       * is a path from this key up to a key that has (possibly encrypted) private bytes, it's expected that the private
+       * key can be rederived on the fly.
+       * </pre>
+       */
+      DETERMINISTIC_KEY(3, 4),
+      ;
+
+      /**
+       * <code>ORIGINAL = 1;</code>
+       *
+       * <pre>
+       ** Unencrypted - Original bitcoin secp256k1 curve 
+       * </pre>
+       */
+      public static final int ORIGINAL_VALUE = 1;
+      /**
+       * <code>ENCRYPTED_SCRYPT_AES = 2;</code>
+       *
+       * <pre>
+       ** Encrypted with Scrypt and AES - Original bitcoin secp256k1 curve 
+       * </pre>
+       */
+      public static final int ENCRYPTED_SCRYPT_AES_VALUE = 2;
+      /**
+       * <code>DETERMINISTIC_MNEMONIC = 3;</code>
+       *
+       * <pre>
+       **
+       * Not really a key, but rather contains the mnemonic phrase for a deterministic key hierarchy in the private_key field.
+       * The label and public_key fields are missing. Creation timestamp will exist.
+       * </pre>
+       */
+      public static final int DETERMINISTIC_MNEMONIC_VALUE = 3;
+      /**
+       * <code>DETERMINISTIC_KEY = 4;</code>
+       *
+       * <pre>
+       **
+       * A key that was derived deterministically. Note that the root seed that created it may NOT be present in the
+       * wallet, for the case of watching wallets. A deterministic key may or may not have the private key bytes present.
+       * However the public key bytes and the deterministic_key field are guaranteed to exist. In a wallet where there
+       * is a path from this key up to a key that has (possibly encrypted) private bytes, it's expected that the private
+       * key can be rederived on the fly.
+       * </pre>
+       */
+      public static final int DETERMINISTIC_KEY_VALUE = 4;
+
+
+      public final int getNumber() { return value; }
+
+      public static Type valueOf(int value) {
+        switch (value) {
+          case 1: return ORIGINAL;
+          case 2: return ENCRYPTED_SCRYPT_AES;
+          case 3: return DETERMINISTIC_MNEMONIC;
+          case 4: return DETERMINISTIC_KEY;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<Type>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static com.google.protobuf.Internal.EnumLiteMap<Type>
+          internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<Type>() {
+              public Type findValueByNumber(int number) {
+                return Type.valueOf(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(index);
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return com.coinomi.core.protos.Protos.Key.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final Type[] VALUES = values();
+
+      public static Type valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int index;
+      private final int value;
+
+      private Type(int index, int value) {
+        this.index = index;
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:com.coinomi.core.protos.Key.Type)
+    }
+
+    private int bitField0_;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private com.coinomi.core.protos.Protos.Key.Type type_;
+    /**
+     * <code>required .com.coinomi.core.protos.Key.Type type = 1;</code>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .com.coinomi.core.protos.Key.Type type = 1;</code>
+     */
+    public com.coinomi.core.protos.Protos.Key.Type getType() {
+      return type_;
+    }
+
+    public static final int SECRET_BYTES_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString secretBytes_;
+    /**
+     * <code>optional bytes secret_bytes = 2;</code>
+     *
+     * <pre>
+     * Either the private EC key bytes (without any ASN.1 wrapping), or the deterministic root seed.
+     * If the secret is encrypted, or this is a "watching entry" then this is missing.
+     * </pre>
+     */
+    public boolean hasSecretBytes() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional bytes secret_bytes = 2;</code>
+     *
+     * <pre>
+     * Either the private EC key bytes (without any ASN.1 wrapping), or the deterministic root seed.
+     * If the secret is encrypted, or this is a "watching entry" then this is missing.
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getSecretBytes() {
+      return secretBytes_;
+    }
+
+    public static final int ENCRYPTED_DATA_FIELD_NUMBER = 3;
+    private com.coinomi.core.protos.Protos.EncryptedData encryptedData_;
+    /**
+     * <code>optional .com.coinomi.core.protos.EncryptedData encrypted_data = 3;</code>
+     *
+     * <pre>
+     * If the secret data is encrypted, then secret_bytes is missing and this field is set.
+     * </pre>
+     */
+    public boolean hasEncryptedData() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional .com.coinomi.core.protos.EncryptedData encrypted_data = 3;</code>
+     *
+     * <pre>
+     * If the secret data is encrypted, then secret_bytes is missing and this field is set.
+     * </pre>
+     */
+    public com.coinomi.core.protos.Protos.EncryptedData getEncryptedData() {
+      return encryptedData_;
+    }
+    /**
+     * <code>optional .com.coinomi.core.protos.EncryptedData encrypted_data = 3;</code>
+     *
+     * <pre>
+     * If the secret data is encrypted, then secret_bytes is missing and this field is set.
+     * </pre>
+     */
+    public com.coinomi.core.protos.Protos.EncryptedDataOrBuilder getEncryptedDataOrBuilder() {
+      return encryptedData_;
+    }
+
+    public static final int PUBLIC_KEY_FIELD_NUMBER = 4;
+    private com.google.protobuf.ByteString publicKey_;
+    /**
+     * <code>optional bytes public_key = 4;</code>
+     *
+     * <pre>
+     * The public EC key derived from the private key. We allow both to be stored to avoid mobile clients having to
+     * do lots of slow EC math on startup. For DETERMINISTIC_MNEMONIC entries this is missing.
+     * </pre>
+     */
+    public boolean hasPublicKey() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional bytes public_key = 4;</code>
+     *
+     * <pre>
+     * The public EC key derived from the private key. We allow both to be stored to avoid mobile clients having to
+     * do lots of slow EC math on startup. For DETERMINISTIC_MNEMONIC entries this is missing.
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getPublicKey() {
+      return publicKey_;
+    }
+
+    public static final int LABEL_FIELD_NUMBER = 5;
+    private java.lang.Object label_;
+    /**
+     * <code>optional string label = 5;</code>
+     *
+     * <pre>
+     * User-provided label associated with the key.
+     * </pre>
+     */
+    public boolean hasLabel() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string label = 5;</code>
+     *
+     * <pre>
+     * User-provided label associated with the key.
+     * </pre>
+     */
+    public java.lang.String getLabel() {
+      java.lang.Object ref = label_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          label_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string label = 5;</code>
+     *
+     * <pre>
+     * User-provided label associated with the key.
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getLabelBytes() {
+      java.lang.Object ref = label_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        label_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DETERMINISTIC_KEY_FIELD_NUMBER = 6;
+    private com.coinomi.core.protos.Protos.DeterministicKey deterministicKey_;
+    /**
+     * <code>optional .com.coinomi.core.protos.DeterministicKey deterministic_key = 6;</code>
+     */
+    public boolean hasDeterministicKey() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional .com.coinomi.core.protos.DeterministicKey deterministic_key = 6;</code>
+     */
+    public com.coinomi.core.protos.Protos.DeterministicKey getDeterministicKey() {
+      return deterministicKey_;
+    }
+    /**
+     * <code>optional .com.coinomi.core.protos.DeterministicKey deterministic_key = 6;</code>
+     */
+    public com.coinomi.core.protos.Protos.DeterministicKeyOrBuilder getDeterministicKeyOrBuilder() {
+      return deterministicKey_;
+    }
+
+    private void initFields() {
+      type_ = com.coinomi.core.protos.Protos.Key.Type.ORIGINAL;
+      secretBytes_ = com.google.protobuf.ByteString.EMPTY;
+      encryptedData_ = com.coinomi.core.protos.Protos.EncryptedData.getDefaultInstance();
+      publicKey_ = com.google.protobuf.ByteString.EMPTY;
+      label_ = "";
+      deterministicKey_ = com.coinomi.core.protos.Protos.DeterministicKey.getDefaultInstance();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (hasEncryptedData()) {
+        if (!getEncryptedData().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasDeterministicKey()) {
+        if (!getDeterministicKey().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, type_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, secretBytes_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(3, encryptedData_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, publicKey_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(5, getLabelBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeMessage(6, deterministicKey_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, type_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, secretBytes_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, encryptedData_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, publicKey_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getLabelBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, deterministicKey_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.coinomi.core.protos.Protos.Key parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.coinomi.core.protos.Protos.Key parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.coinomi.core.protos.Protos.Key parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.coinomi.core.protos.Protos.Key parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.coinomi.core.protos.Protos.Key parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.coinomi.core.protos.Protos.Key parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.coinomi.core.protos.Protos.Key parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.coinomi.core.protos.Protos.Key parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.coinomi.core.protos.Protos.Key parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.coinomi.core.protos.Protos.Key parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.coinomi.core.protos.Protos.Key prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code com.coinomi.core.protos.Key}
+     *
+     * <pre>
+     **
+     * A key used to control Bitcoin spending.
+     * Either the private key, the public key or both may be present.  It is recommended that
+     * if the private key is provided that the public key is provided too because deriving it is slow.
+     * If only the public key is provided, the key can only be used to watch the blockchain and verify
+     * transactions, and not for spending.
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:com.coinomi.core.protos.Key)
+        com.coinomi.core.protos.Protos.KeyOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.coinomi.core.protos.Protos.internal_static_com_coinomi_core_protos_Key_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.coinomi.core.protos.Protos.internal_static_com_coinomi_core_protos_Key_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.coinomi.core.protos.Protos.Key.class, com.coinomi.core.protos.Protos.Key.Builder.class);
+      }
+
+      // Construct using com.coinomi.core.protos.Protos.Key.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getEncryptedDataFieldBuilder();
+          getDeterministicKeyFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        type_ = com.coinomi.core.protos.Protos.Key.Type.ORIGINAL;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        secretBytes_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        if (encryptedDataBuilder_ == null) {
+          encryptedData_ = com.coinomi.core.protos.Protos.EncryptedData.getDefaultInstance();
+        } else {
+          encryptedDataBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        publicKey_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        label_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
+        if (deterministicKeyBuilder_ == null) {
+          deterministicKey_ = com.coinomi.core.protos.Protos.DeterministicKey.getDefaultInstance();
+        } else {
+          deterministicKeyBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.coinomi.core.protos.Protos.internal_static_com_coinomi_core_protos_Key_descriptor;
+      }
+
+      public com.coinomi.core.protos.Protos.Key getDefaultInstanceForType() {
+        return com.coinomi.core.protos.Protos.Key.getDefaultInstance();
+      }
+
+      public com.coinomi.core.protos.Protos.Key build() {
+        com.coinomi.core.protos.Protos.Key result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.coinomi.core.protos.Protos.Key buildPartial() {
+        com.coinomi.core.protos.Protos.Key result = new com.coinomi.core.protos.Protos.Key(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.secretBytes_ = secretBytes_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        if (encryptedDataBuilder_ == null) {
+          result.encryptedData_ = encryptedData_;
+        } else {
+          result.encryptedData_ = encryptedDataBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.publicKey_ = publicKey_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.label_ = label_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        if (deterministicKeyBuilder_ == null) {
+          result.deterministicKey_ = deterministicKey_;
+        } else {
+          result.deterministicKey_ = deterministicKeyBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.coinomi.core.protos.Protos.Key) {
+          return mergeFrom((com.coinomi.core.protos.Protos.Key)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.coinomi.core.protos.Protos.Key other) {
+        if (other == com.coinomi.core.protos.Protos.Key.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
+        }
+        if (other.hasSecretBytes()) {
+          setSecretBytes(other.getSecretBytes());
+        }
+        if (other.hasEncryptedData()) {
+          mergeEncryptedData(other.getEncryptedData());
+        }
+        if (other.hasPublicKey()) {
+          setPublicKey(other.getPublicKey());
+        }
+        if (other.hasLabel()) {
+          bitField0_ |= 0x00000010;
+          label_ = other.label_;
+          onChanged();
+        }
+        if (other.hasDeterministicKey()) {
+          mergeDeterministicKey(other.getDeterministicKey());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasType()) {
+          
+          return false;
+        }
+        if (hasEncryptedData()) {
+          if (!getEncryptedData().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasDeterministicKey()) {
+          if (!getDeterministicKey().isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.coinomi.core.protos.Protos.Key parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.coinomi.core.protos.Protos.Key) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.coinomi.core.protos.Protos.Key.Type type_ = com.coinomi.core.protos.Protos.Key.Type.ORIGINAL;
+      /**
+       * <code>required .com.coinomi.core.protos.Key.Type type = 1;</code>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .com.coinomi.core.protos.Key.Type type = 1;</code>
+       */
+      public com.coinomi.core.protos.Protos.Key.Type getType() {
+        return type_;
+      }
+      /**
+       * <code>required .com.coinomi.core.protos.Key.Type type = 1;</code>
+       */
+      public Builder setType(com.coinomi.core.protos.Protos.Key.Type value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .com.coinomi.core.protos.Key.Type type = 1;</code>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = com.coinomi.core.protos.Protos.Key.Type.ORIGINAL;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString secretBytes_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes secret_bytes = 2;</code>
+       *
+       * <pre>
+       * Either the private EC key bytes (without any ASN.1 wrapping), or the deterministic root seed.
+       * If the secret is encrypted, or this is a "watching entry" then this is missing.
+       * </pre>
+       */
+      public boolean hasSecretBytes() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional bytes secret_bytes = 2;</code>
+       *
+       * <pre>
+       * Either the private EC key bytes (without any ASN.1 wrapping), or the deterministic root seed.
+       * If the secret is encrypted, or this is a "watching entry" then this is missing.
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getSecretBytes() {
+        return secretBytes_;
+      }
+      /**
+       * <code>optional bytes secret_bytes = 2;</code>
+       *
+       * <pre>
+       * Either the private EC key bytes (without any ASN.1 wrapping), or the deterministic root seed.
+       * If the secret is encrypted, or this is a "watching entry" then this is missing.
+       * </pre>
+       */
+      public Builder setSecretBytes(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        secretBytes_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes secret_bytes = 2;</code>
+       *
+       * <pre>
+       * Either the private EC key bytes (without any ASN.1 wrapping), or the deterministic root seed.
+       * If the secret is encrypted, or this is a "watching entry" then this is missing.
+       * </pre>
+       */
+      public Builder clearSecretBytes() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        secretBytes_ = getDefaultInstance().getSecretBytes();
+        onChanged();
+        return this;
+      }
+
+      private com.coinomi.core.protos.Protos.EncryptedData encryptedData_ = com.coinomi.core.protos.Protos.EncryptedData.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.coinomi.core.protos.Protos.EncryptedData, com.coinomi.core.protos.Protos.EncryptedData.Builder, com.coinomi.core.protos.Protos.EncryptedDataOrBuilder> encryptedDataBuilder_;
+      /**
+       * <code>optional .com.coinomi.core.protos.EncryptedData encrypted_data = 3;</code>
+       *
+       * <pre>
+       * If the secret data is encrypted, then secret_bytes is missing and this field is set.
+       * </pre>
+       */
+      public boolean hasEncryptedData() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.EncryptedData encrypted_data = 3;</code>
+       *
+       * <pre>
+       * If the secret data is encrypted, then secret_bytes is missing and this field is set.
+       * </pre>
+       */
+      public com.coinomi.core.protos.Protos.EncryptedData getEncryptedData() {
+        if (encryptedDataBuilder_ == null) {
+          return encryptedData_;
+        } else {
+          return encryptedDataBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.EncryptedData encrypted_data = 3;</code>
+       *
+       * <pre>
+       * If the secret data is encrypted, then secret_bytes is missing and this field is set.
+       * </pre>
+       */
+      public Builder setEncryptedData(com.coinomi.core.protos.Protos.EncryptedData value) {
+        if (encryptedDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          encryptedData_ = value;
+          onChanged();
+        } else {
+          encryptedDataBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.EncryptedData encrypted_data = 3;</code>
+       *
+       * <pre>
+       * If the secret data is encrypted, then secret_bytes is missing and this field is set.
+       * </pre>
+       */
+      public Builder setEncryptedData(
+          com.coinomi.core.protos.Protos.EncryptedData.Builder builderForValue) {
+        if (encryptedDataBuilder_ == null) {
+          encryptedData_ = builderForValue.build();
+          onChanged();
+        } else {
+          encryptedDataBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.EncryptedData encrypted_data = 3;</code>
+       *
+       * <pre>
+       * If the secret data is encrypted, then secret_bytes is missing and this field is set.
+       * </pre>
+       */
+      public Builder mergeEncryptedData(com.coinomi.core.protos.Protos.EncryptedData value) {
+        if (encryptedDataBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              encryptedData_ != com.coinomi.core.protos.Protos.EncryptedData.getDefaultInstance()) {
+            encryptedData_ =
+              com.coinomi.core.protos.Protos.EncryptedData.newBuilder(encryptedData_).mergeFrom(value).buildPartial();
+          } else {
+            encryptedData_ = value;
+          }
+          onChanged();
+        } else {
+          encryptedDataBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.EncryptedData encrypted_data = 3;</code>
+       *
+       * <pre>
+       * If the secret data is encrypted, then secret_bytes is missing and this field is set.
+       * </pre>
+       */
+      public Builder clearEncryptedData() {
+        if (encryptedDataBuilder_ == null) {
+          encryptedData_ = com.coinomi.core.protos.Protos.EncryptedData.getDefaultInstance();
+          onChanged();
+        } else {
+          encryptedDataBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.EncryptedData encrypted_data = 3;</code>
+       *
+       * <pre>
+       * If the secret data is encrypted, then secret_bytes is missing and this field is set.
+       * </pre>
+       */
+      public com.coinomi.core.protos.Protos.EncryptedData.Builder getEncryptedDataBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getEncryptedDataFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.EncryptedData encrypted_data = 3;</code>
+       *
+       * <pre>
+       * If the secret data is encrypted, then secret_bytes is missing and this field is set.
+       * </pre>
+       */
+      public com.coinomi.core.protos.Protos.EncryptedDataOrBuilder getEncryptedDataOrBuilder() {
+        if (encryptedDataBuilder_ != null) {
+          return encryptedDataBuilder_.getMessageOrBuilder();
+        } else {
+          return encryptedData_;
+        }
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.EncryptedData encrypted_data = 3;</code>
+       *
+       * <pre>
+       * If the secret data is encrypted, then secret_bytes is missing and this field is set.
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.coinomi.core.protos.Protos.EncryptedData, com.coinomi.core.protos.Protos.EncryptedData.Builder, com.coinomi.core.protos.Protos.EncryptedDataOrBuilder> 
+          getEncryptedDataFieldBuilder() {
+        if (encryptedDataBuilder_ == null) {
+          encryptedDataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.coinomi.core.protos.Protos.EncryptedData, com.coinomi.core.protos.Protos.EncryptedData.Builder, com.coinomi.core.protos.Protos.EncryptedDataOrBuilder>(
+                  getEncryptedData(),
+                  getParentForChildren(),
+                  isClean());
+          encryptedData_ = null;
+        }
+        return encryptedDataBuilder_;
+      }
+
+      private com.google.protobuf.ByteString publicKey_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes public_key = 4;</code>
+       *
+       * <pre>
+       * The public EC key derived from the private key. We allow both to be stored to avoid mobile clients having to
+       * do lots of slow EC math on startup. For DETERMINISTIC_MNEMONIC entries this is missing.
+       * </pre>
+       */
+      public boolean hasPublicKey() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional bytes public_key = 4;</code>
+       *
+       * <pre>
+       * The public EC key derived from the private key. We allow both to be stored to avoid mobile clients having to
+       * do lots of slow EC math on startup. For DETERMINISTIC_MNEMONIC entries this is missing.
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getPublicKey() {
+        return publicKey_;
+      }
+      /**
+       * <code>optional bytes public_key = 4;</code>
+       *
+       * <pre>
+       * The public EC key derived from the private key. We allow both to be stored to avoid mobile clients having to
+       * do lots of slow EC math on startup. For DETERMINISTIC_MNEMONIC entries this is missing.
+       * </pre>
+       */
+      public Builder setPublicKey(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        publicKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes public_key = 4;</code>
+       *
+       * <pre>
+       * The public EC key derived from the private key. We allow both to be stored to avoid mobile clients having to
+       * do lots of slow EC math on startup. For DETERMINISTIC_MNEMONIC entries this is missing.
+       * </pre>
+       */
+      public Builder clearPublicKey() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        publicKey_ = getDefaultInstance().getPublicKey();
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object label_ = "";
+      /**
+       * <code>optional string label = 5;</code>
+       *
+       * <pre>
+       * User-provided label associated with the key.
+       * </pre>
+       */
+      public boolean hasLabel() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional string label = 5;</code>
+       *
+       * <pre>
+       * User-provided label associated with the key.
+       * </pre>
+       */
+      public java.lang.String getLabel() {
+        java.lang.Object ref = label_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            label_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string label = 5;</code>
+       *
+       * <pre>
+       * User-provided label associated with the key.
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getLabelBytes() {
+        java.lang.Object ref = label_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          label_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string label = 5;</code>
+       *
+       * <pre>
+       * User-provided label associated with the key.
+       * </pre>
+       */
+      public Builder setLabel(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        label_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string label = 5;</code>
+       *
+       * <pre>
+       * User-provided label associated with the key.
+       * </pre>
+       */
+      public Builder clearLabel() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        label_ = getDefaultInstance().getLabel();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string label = 5;</code>
+       *
+       * <pre>
+       * User-provided label associated with the key.
+       * </pre>
+       */
+      public Builder setLabelBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        label_ = value;
+        onChanged();
+        return this;
+      }
