@@ -3541,3 +3541,1544 @@ public final class Protos {
         onChanged();
         return this;
       }
+
+      private com.coinomi.core.protos.Protos.DeterministicKey deterministicKey_ = com.coinomi.core.protos.Protos.DeterministicKey.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.coinomi.core.protos.Protos.DeterministicKey, com.coinomi.core.protos.Protos.DeterministicKey.Builder, com.coinomi.core.protos.Protos.DeterministicKeyOrBuilder> deterministicKeyBuilder_;
+      /**
+       * <code>optional .com.coinomi.core.protos.DeterministicKey deterministic_key = 6;</code>
+       */
+      public boolean hasDeterministicKey() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.DeterministicKey deterministic_key = 6;</code>
+       */
+      public com.coinomi.core.protos.Protos.DeterministicKey getDeterministicKey() {
+        if (deterministicKeyBuilder_ == null) {
+          return deterministicKey_;
+        } else {
+          return deterministicKeyBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.DeterministicKey deterministic_key = 6;</code>
+       */
+      public Builder setDeterministicKey(com.coinomi.core.protos.Protos.DeterministicKey value) {
+        if (deterministicKeyBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          deterministicKey_ = value;
+          onChanged();
+        } else {
+          deterministicKeyBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.DeterministicKey deterministic_key = 6;</code>
+       */
+      public Builder setDeterministicKey(
+          com.coinomi.core.protos.Protos.DeterministicKey.Builder builderForValue) {
+        if (deterministicKeyBuilder_ == null) {
+          deterministicKey_ = builderForValue.build();
+          onChanged();
+        } else {
+          deterministicKeyBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.DeterministicKey deterministic_key = 6;</code>
+       */
+      public Builder mergeDeterministicKey(com.coinomi.core.protos.Protos.DeterministicKey value) {
+        if (deterministicKeyBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020) &&
+              deterministicKey_ != com.coinomi.core.protos.Protos.DeterministicKey.getDefaultInstance()) {
+            deterministicKey_ =
+              com.coinomi.core.protos.Protos.DeterministicKey.newBuilder(deterministicKey_).mergeFrom(value).buildPartial();
+          } else {
+            deterministicKey_ = value;
+          }
+          onChanged();
+        } else {
+          deterministicKeyBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.DeterministicKey deterministic_key = 6;</code>
+       */
+      public Builder clearDeterministicKey() {
+        if (deterministicKeyBuilder_ == null) {
+          deterministicKey_ = com.coinomi.core.protos.Protos.DeterministicKey.getDefaultInstance();
+          onChanged();
+        } else {
+          deterministicKeyBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.DeterministicKey deterministic_key = 6;</code>
+       */
+      public com.coinomi.core.protos.Protos.DeterministicKey.Builder getDeterministicKeyBuilder() {
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return getDeterministicKeyFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.DeterministicKey deterministic_key = 6;</code>
+       */
+      public com.coinomi.core.protos.Protos.DeterministicKeyOrBuilder getDeterministicKeyOrBuilder() {
+        if (deterministicKeyBuilder_ != null) {
+          return deterministicKeyBuilder_.getMessageOrBuilder();
+        } else {
+          return deterministicKey_;
+        }
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.DeterministicKey deterministic_key = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.coinomi.core.protos.Protos.DeterministicKey, com.coinomi.core.protos.Protos.DeterministicKey.Builder, com.coinomi.core.protos.Protos.DeterministicKeyOrBuilder> 
+          getDeterministicKeyFieldBuilder() {
+        if (deterministicKeyBuilder_ == null) {
+          deterministicKeyBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.coinomi.core.protos.Protos.DeterministicKey, com.coinomi.core.protos.Protos.DeterministicKey.Builder, com.coinomi.core.protos.Protos.DeterministicKeyOrBuilder>(
+                  getDeterministicKey(),
+                  getParentForChildren(),
+                  isClean());
+          deterministicKey_ = null;
+        }
+        return deterministicKeyBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:com.coinomi.core.protos.Key)
+    }
+
+    static {
+      defaultInstance = new Key(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:com.coinomi.core.protos.Key)
+  }
+
+  public interface TransactionInputOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:com.coinomi.core.protos.TransactionInput)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required bytes transaction_out_point_hash = 1;</code>
+     *
+     * <pre>
+     * Hash of the transaction this input is using.
+     * </pre>
+     */
+    boolean hasTransactionOutPointHash();
+    /**
+     * <code>required bytes transaction_out_point_hash = 1;</code>
+     *
+     * <pre>
+     * Hash of the transaction this input is using.
+     * </pre>
+     */
+    com.google.protobuf.ByteString getTransactionOutPointHash();
+
+    /**
+     * <code>required uint32 transaction_out_point_index = 2;</code>
+     *
+     * <pre>
+     * Index of transaction output used by this input.
+     * </pre>
+     */
+    boolean hasTransactionOutPointIndex();
+    /**
+     * <code>required uint32 transaction_out_point_index = 2;</code>
+     *
+     * <pre>
+     * Index of transaction output used by this input.
+     * </pre>
+     */
+    int getTransactionOutPointIndex();
+
+    /**
+     * <code>required bytes script_bytes = 3;</code>
+     *
+     * <pre>
+     * Script that contains the signatures/pubkeys.
+     * </pre>
+     */
+    boolean hasScriptBytes();
+    /**
+     * <code>required bytes script_bytes = 3;</code>
+     *
+     * <pre>
+     * Script that contains the signatures/pubkeys.
+     * </pre>
+     */
+    com.google.protobuf.ByteString getScriptBytes();
+
+    /**
+     * <code>optional uint32 sequence = 4;</code>
+     *
+     * <pre>
+     * Sequence number. Currently unused, but intended for contracts in future.
+     * </pre>
+     */
+    boolean hasSequence();
+    /**
+     * <code>optional uint32 sequence = 4;</code>
+     *
+     * <pre>
+     * Sequence number. Currently unused, but intended for contracts in future.
+     * </pre>
+     */
+    int getSequence();
+
+    /**
+     * <code>optional int64 value = 5;</code>
+     *
+     * <pre>
+     * Value of connected output, if known
+     * </pre>
+     */
+    boolean hasValue();
+    /**
+     * <code>optional int64 value = 5;</code>
+     *
+     * <pre>
+     * Value of connected output, if known
+     * </pre>
+     */
+    long getValue();
+  }
+  /**
+   * Protobuf type {@code com.coinomi.core.protos.TransactionInput}
+   */
+  public static final class TransactionInput extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:com.coinomi.core.protos.TransactionInput)
+      TransactionInputOrBuilder {
+    // Use TransactionInput.newBuilder() to construct.
+    private TransactionInput(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private TransactionInput(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TransactionInput defaultInstance;
+    public static TransactionInput getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public TransactionInput getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TransactionInput(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              transactionOutPointHash_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              transactionOutPointIndex_ = input.readUInt32();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              scriptBytes_ = input.readBytes();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              sequence_ = input.readUInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              value_ = input.readInt64();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.coinomi.core.protos.Protos.internal_static_com_coinomi_core_protos_TransactionInput_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.coinomi.core.protos.Protos.internal_static_com_coinomi_core_protos_TransactionInput_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.coinomi.core.protos.Protos.TransactionInput.class, com.coinomi.core.protos.Protos.TransactionInput.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<TransactionInput> PARSER =
+        new com.google.protobuf.AbstractParser<TransactionInput>() {
+      public TransactionInput parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TransactionInput(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TransactionInput> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int TRANSACTION_OUT_POINT_HASH_FIELD_NUMBER = 1;
+    private com.google.protobuf.ByteString transactionOutPointHash_;
+    /**
+     * <code>required bytes transaction_out_point_hash = 1;</code>
+     *
+     * <pre>
+     * Hash of the transaction this input is using.
+     * </pre>
+     */
+    public boolean hasTransactionOutPointHash() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required bytes transaction_out_point_hash = 1;</code>
+     *
+     * <pre>
+     * Hash of the transaction this input is using.
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getTransactionOutPointHash() {
+      return transactionOutPointHash_;
+    }
+
+    public static final int TRANSACTION_OUT_POINT_INDEX_FIELD_NUMBER = 2;
+    private int transactionOutPointIndex_;
+    /**
+     * <code>required uint32 transaction_out_point_index = 2;</code>
+     *
+     * <pre>
+     * Index of transaction output used by this input.
+     * </pre>
+     */
+    public boolean hasTransactionOutPointIndex() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required uint32 transaction_out_point_index = 2;</code>
+     *
+     * <pre>
+     * Index of transaction output used by this input.
+     * </pre>
+     */
+    public int getTransactionOutPointIndex() {
+      return transactionOutPointIndex_;
+    }
+
+    public static final int SCRIPT_BYTES_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString scriptBytes_;
+    /**
+     * <code>required bytes script_bytes = 3;</code>
+     *
+     * <pre>
+     * Script that contains the signatures/pubkeys.
+     * </pre>
+     */
+    public boolean hasScriptBytes() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required bytes script_bytes = 3;</code>
+     *
+     * <pre>
+     * Script that contains the signatures/pubkeys.
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getScriptBytes() {
+      return scriptBytes_;
+    }
+
+    public static final int SEQUENCE_FIELD_NUMBER = 4;
+    private int sequence_;
+    /**
+     * <code>optional uint32 sequence = 4;</code>
+     *
+     * <pre>
+     * Sequence number. Currently unused, but intended for contracts in future.
+     * </pre>
+     */
+    public boolean hasSequence() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional uint32 sequence = 4;</code>
+     *
+     * <pre>
+     * Sequence number. Currently unused, but intended for contracts in future.
+     * </pre>
+     */
+    public int getSequence() {
+      return sequence_;
+    }
+
+    public static final int VALUE_FIELD_NUMBER = 5;
+    private long value_;
+    /**
+     * <code>optional int64 value = 5;</code>
+     *
+     * <pre>
+     * Value of connected output, if known
+     * </pre>
+     */
+    public boolean hasValue() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int64 value = 5;</code>
+     *
+     * <pre>
+     * Value of connected output, if known
+     * </pre>
+     */
+    public long getValue() {
+      return value_;
+    }
+
+    private void initFields() {
+      transactionOutPointHash_ = com.google.protobuf.ByteString.EMPTY;
+      transactionOutPointIndex_ = 0;
+      scriptBytes_ = com.google.protobuf.ByteString.EMPTY;
+      sequence_ = 0;
+      value_ = 0L;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasTransactionOutPointHash()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTransactionOutPointIndex()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasScriptBytes()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, transactionOutPointHash_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeUInt32(2, transactionOutPointIndex_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, scriptBytes_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeUInt32(4, sequence_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt64(5, value_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, transactionOutPointHash_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, transactionOutPointIndex_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, scriptBytes_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(4, sequence_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(5, value_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.coinomi.core.protos.Protos.TransactionInput parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.coinomi.core.protos.Protos.TransactionInput parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.coinomi.core.protos.Protos.TransactionInput parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.coinomi.core.protos.Protos.TransactionInput parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.coinomi.core.protos.Protos.TransactionInput parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.coinomi.core.protos.Protos.TransactionInput parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.coinomi.core.protos.Protos.TransactionInput parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.coinomi.core.protos.Protos.TransactionInput parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.coinomi.core.protos.Protos.TransactionInput parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.coinomi.core.protos.Protos.TransactionInput parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.coinomi.core.protos.Protos.TransactionInput prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code com.coinomi.core.protos.TransactionInput}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:com.coinomi.core.protos.TransactionInput)
+        com.coinomi.core.protos.Protos.TransactionInputOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.coinomi.core.protos.Protos.internal_static_com_coinomi_core_protos_TransactionInput_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.coinomi.core.protos.Protos.internal_static_com_coinomi_core_protos_TransactionInput_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.coinomi.core.protos.Protos.TransactionInput.class, com.coinomi.core.protos.Protos.TransactionInput.Builder.class);
+      }
+
+      // Construct using com.coinomi.core.protos.Protos.TransactionInput.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        transactionOutPointHash_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        transactionOutPointIndex_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        scriptBytes_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        sequence_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        value_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.coinomi.core.protos.Protos.internal_static_com_coinomi_core_protos_TransactionInput_descriptor;
+      }
+
+      public com.coinomi.core.protos.Protos.TransactionInput getDefaultInstanceForType() {
+        return com.coinomi.core.protos.Protos.TransactionInput.getDefaultInstance();
+      }
+
+      public com.coinomi.core.protos.Protos.TransactionInput build() {
+        com.coinomi.core.protos.Protos.TransactionInput result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.coinomi.core.protos.Protos.TransactionInput buildPartial() {
+        com.coinomi.core.protos.Protos.TransactionInput result = new com.coinomi.core.protos.Protos.TransactionInput(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.transactionOutPointHash_ = transactionOutPointHash_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.transactionOutPointIndex_ = transactionOutPointIndex_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.scriptBytes_ = scriptBytes_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.sequence_ = sequence_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.value_ = value_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.coinomi.core.protos.Protos.TransactionInput) {
+          return mergeFrom((com.coinomi.core.protos.Protos.TransactionInput)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.coinomi.core.protos.Protos.TransactionInput other) {
+        if (other == com.coinomi.core.protos.Protos.TransactionInput.getDefaultInstance()) return this;
+        if (other.hasTransactionOutPointHash()) {
+          setTransactionOutPointHash(other.getTransactionOutPointHash());
+        }
+        if (other.hasTransactionOutPointIndex()) {
+          setTransactionOutPointIndex(other.getTransactionOutPointIndex());
+        }
+        if (other.hasScriptBytes()) {
+          setScriptBytes(other.getScriptBytes());
+        }
+        if (other.hasSequence()) {
+          setSequence(other.getSequence());
+        }
+        if (other.hasValue()) {
+          setValue(other.getValue());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasTransactionOutPointHash()) {
+          
+          return false;
+        }
+        if (!hasTransactionOutPointIndex()) {
+          
+          return false;
+        }
+        if (!hasScriptBytes()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.coinomi.core.protos.Protos.TransactionInput parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.coinomi.core.protos.Protos.TransactionInput) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.ByteString transactionOutPointHash_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>required bytes transaction_out_point_hash = 1;</code>
+       *
+       * <pre>
+       * Hash of the transaction this input is using.
+       * </pre>
+       */
+      public boolean hasTransactionOutPointHash() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required bytes transaction_out_point_hash = 1;</code>
+       *
+       * <pre>
+       * Hash of the transaction this input is using.
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getTransactionOutPointHash() {
+        return transactionOutPointHash_;
+      }
+      /**
+       * <code>required bytes transaction_out_point_hash = 1;</code>
+       *
+       * <pre>
+       * Hash of the transaction this input is using.
+       * </pre>
+       */
+      public Builder setTransactionOutPointHash(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        transactionOutPointHash_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bytes transaction_out_point_hash = 1;</code>
+       *
+       * <pre>
+       * Hash of the transaction this input is using.
+       * </pre>
+       */
+      public Builder clearTransactionOutPointHash() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        transactionOutPointHash_ = getDefaultInstance().getTransactionOutPointHash();
+        onChanged();
+        return this;
+      }
+
+      private int transactionOutPointIndex_ ;
+      /**
+       * <code>required uint32 transaction_out_point_index = 2;</code>
+       *
+       * <pre>
+       * Index of transaction output used by this input.
+       * </pre>
+       */
+      public boolean hasTransactionOutPointIndex() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required uint32 transaction_out_point_index = 2;</code>
+       *
+       * <pre>
+       * Index of transaction output used by this input.
+       * </pre>
+       */
+      public int getTransactionOutPointIndex() {
+        return transactionOutPointIndex_;
+      }
+      /**
+       * <code>required uint32 transaction_out_point_index = 2;</code>
+       *
+       * <pre>
+       * Index of transaction output used by this input.
+       * </pre>
+       */
+      public Builder setTransactionOutPointIndex(int value) {
+        bitField0_ |= 0x00000002;
+        transactionOutPointIndex_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required uint32 transaction_out_point_index = 2;</code>
+       *
+       * <pre>
+       * Index of transaction output used by this input.
+       * </pre>
+       */
+      public Builder clearTransactionOutPointIndex() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        transactionOutPointIndex_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString scriptBytes_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>required bytes script_bytes = 3;</code>
+       *
+       * <pre>
+       * Script that contains the signatures/pubkeys.
+       * </pre>
+       */
+      public boolean hasScriptBytes() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required bytes script_bytes = 3;</code>
+       *
+       * <pre>
+       * Script that contains the signatures/pubkeys.
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getScriptBytes() {
+        return scriptBytes_;
+      }
+      /**
+       * <code>required bytes script_bytes = 3;</code>
+       *
+       * <pre>
+       * Script that contains the signatures/pubkeys.
+       * </pre>
+       */
+      public Builder setScriptBytes(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        scriptBytes_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bytes script_bytes = 3;</code>
+       *
+       * <pre>
+       * Script that contains the signatures/pubkeys.
+       * </pre>
+       */
+      public Builder clearScriptBytes() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        scriptBytes_ = getDefaultInstance().getScriptBytes();
+        onChanged();
+        return this;
+      }
+
+      private int sequence_ ;
+      /**
+       * <code>optional uint32 sequence = 4;</code>
+       *
+       * <pre>
+       * Sequence number. Currently unused, but intended for contracts in future.
+       * </pre>
+       */
+      public boolean hasSequence() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional uint32 sequence = 4;</code>
+       *
+       * <pre>
+       * Sequence number. Currently unused, but intended for contracts in future.
+       * </pre>
+       */
+      public int getSequence() {
+        return sequence_;
+      }
+      /**
+       * <code>optional uint32 sequence = 4;</code>
+       *
+       * <pre>
+       * Sequence number. Currently unused, but intended for contracts in future.
+       * </pre>
+       */
+      public Builder setSequence(int value) {
+        bitField0_ |= 0x00000008;
+        sequence_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 sequence = 4;</code>
+       *
+       * <pre>
+       * Sequence number. Currently unused, but intended for contracts in future.
+       * </pre>
+       */
+      public Builder clearSequence() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        sequence_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long value_ ;
+      /**
+       * <code>optional int64 value = 5;</code>
+       *
+       * <pre>
+       * Value of connected output, if known
+       * </pre>
+       */
+      public boolean hasValue() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int64 value = 5;</code>
+       *
+       * <pre>
+       * Value of connected output, if known
+       * </pre>
+       */
+      public long getValue() {
+        return value_;
+      }
+      /**
+       * <code>optional int64 value = 5;</code>
+       *
+       * <pre>
+       * Value of connected output, if known
+       * </pre>
+       */
+      public Builder setValue(long value) {
+        bitField0_ |= 0x00000010;
+        value_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 value = 5;</code>
+       *
+       * <pre>
+       * Value of connected output, if known
+       * </pre>
+       */
+      public Builder clearValue() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        value_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:com.coinomi.core.protos.TransactionInput)
+    }
+
+    static {
+      defaultInstance = new TransactionInput(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:com.coinomi.core.protos.TransactionInput)
+  }
+
+  public interface TransactionOutputOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:com.coinomi.core.protos.TransactionOutput)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required int64 value = 1;</code>
+     */
+    boolean hasValue();
+    /**
+     * <code>required int64 value = 1;</code>
+     */
+    long getValue();
+
+    /**
+     * <code>required bytes script_bytes = 2;</code>
+     *
+     * <pre>
+     * script of transaction output
+     * </pre>
+     */
+    boolean hasScriptBytes();
+    /**
+     * <code>required bytes script_bytes = 2;</code>
+     *
+     * <pre>
+     * script of transaction output
+     * </pre>
+     */
+    com.google.protobuf.ByteString getScriptBytes();
+
+    /**
+     * <code>optional bytes spent_by_transaction_hash = 3;</code>
+     *
+     * <pre>
+     * If spent, the hash of the transaction doing the spend.
+     * </pre>
+     */
+    boolean hasSpentByTransactionHash();
+    /**
+     * <code>optional bytes spent_by_transaction_hash = 3;</code>
+     *
+     * <pre>
+     * If spent, the hash of the transaction doing the spend.
+     * </pre>
+     */
+    com.google.protobuf.ByteString getSpentByTransactionHash();
+
+    /**
+     * <code>optional int32 spent_by_transaction_index = 4;</code>
+     *
+     * <pre>
+     * If spent, the index of the transaction input of the transaction doing the spend.
+     * </pre>
+     */
+    boolean hasSpentByTransactionIndex();
+    /**
+     * <code>optional int32 spent_by_transaction_index = 4;</code>
+     *
+     * <pre>
+     * If spent, the index of the transaction input of the transaction doing the spend.
+     * </pre>
+     */
+    int getSpentByTransactionIndex();
+
+    /**
+     * <code>optional bool is_spent = 5 [default = false];</code>
+     *
+     * <pre>
+     * If the output is generally spent
+     * </pre>
+     */
+    boolean hasIsSpent();
+    /**
+     * <code>optional bool is_spent = 5 [default = false];</code>
+     *
+     * <pre>
+     * If the output is generally spent
+     * </pre>
+     */
+    boolean getIsSpent();
+
+    /**
+     * <code>optional int32 index = 6;</code>
+     *
+     * <pre>
+     * The index of this output, used in trimmed transactions
+     * </pre>
+     */
+    boolean hasIndex();
+    /**
+     * <code>optional int32 index = 6;</code>
+     *
+     * <pre>
+     * The index of this output, used in trimmed transactions
+     * </pre>
+     */
+    int getIndex();
+  }
+  /**
+   * Protobuf type {@code com.coinomi.core.protos.TransactionOutput}
+   */
+  public static final class TransactionOutput extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:com.coinomi.core.protos.TransactionOutput)
+      TransactionOutputOrBuilder {
+    // Use TransactionOutput.newBuilder() to construct.
+    private TransactionOutput(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private TransactionOutput(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TransactionOutput defaultInstance;
+    public static TransactionOutput getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public TransactionOutput getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TransactionOutput(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              value_ = input.readInt64();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              scriptBytes_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              spentByTransactionHash_ = input.readBytes();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              spentByTransactionIndex_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              isSpent_ = input.readBool();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000020;
+              index_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.coinomi.core.protos.Protos.internal_static_com_coinomi_core_protos_TransactionOutput_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.coinomi.core.protos.Protos.internal_static_com_coinomi_core_protos_TransactionOutput_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.coinomi.core.protos.Protos.TransactionOutput.class, com.coinomi.core.protos.Protos.TransactionOutput.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<TransactionOutput> PARSER =
+        new com.google.protobuf.AbstractParser<TransactionOutput>() {
+      public TransactionOutput parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TransactionOutput(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TransactionOutput> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int VALUE_FIELD_NUMBER = 1;
+    private long value_;
+    /**
+     * <code>required int64 value = 1;</code>
+     */
+    public boolean hasValue() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int64 value = 1;</code>
+     */
+    public long getValue() {
+      return value_;
+    }
+
+    public static final int SCRIPT_BYTES_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString scriptBytes_;
+    /**
+     * <code>required bytes script_bytes = 2;</code>
+     *
+     * <pre>
+     * script of transaction output
+     * </pre>
+     */
+    public boolean hasScriptBytes() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required bytes script_bytes = 2;</code>
+     *
+     * <pre>
+     * script of transaction output
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getScriptBytes() {
+      return scriptBytes_;
+    }
+
+    public static final int SPENT_BY_TRANSACTION_HASH_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString spentByTransactionHash_;
+    /**
+     * <code>optional bytes spent_by_transaction_hash = 3;</code>
+     *
+     * <pre>
+     * If spent, the hash of the transaction doing the spend.
+     * </pre>
+     */
+    public boolean hasSpentByTransactionHash() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional bytes spent_by_transaction_hash = 3;</code>
+     *
+     * <pre>
+     * If spent, the hash of the transaction doing the spend.
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getSpentByTransactionHash() {
+      return spentByTransactionHash_;
+    }
+
+    public static final int SPENT_BY_TRANSACTION_INDEX_FIELD_NUMBER = 4;
+    private int spentByTransactionIndex_;
+    /**
+     * <code>optional int32 spent_by_transaction_index = 4;</code>
+     *
+     * <pre>
+     * If spent, the index of the transaction input of the transaction doing the spend.
+     * </pre>
+     */
+    public boolean hasSpentByTransactionIndex() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 spent_by_transaction_index = 4;</code>
+     *
+     * <pre>
+     * If spent, the index of the transaction input of the transaction doing the spend.
+     * </pre>
+     */
+    public int getSpentByTransactionIndex() {
+      return spentByTransactionIndex_;
+    }
+
+    public static final int IS_SPENT_FIELD_NUMBER = 5;
+    private boolean isSpent_;
+    /**
+     * <code>optional bool is_spent = 5 [default = false];</code>
+     *
+     * <pre>
+     * If the output is generally spent
+     * </pre>
+     */
+    public boolean hasIsSpent() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional bool is_spent = 5 [default = false];</code>
+     *
+     * <pre>
+     * If the output is generally spent
+     * </pre>
+     */
+    public boolean getIsSpent() {
+      return isSpent_;
+    }
+
+    public static final int INDEX_FIELD_NUMBER = 6;
+    private int index_;
+    /**
+     * <code>optional int32 index = 6;</code>
+     *
+     * <pre>
+     * The index of this output, used in trimmed transactions
+     * </pre>
+     */
+    public boolean hasIndex() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional int32 index = 6;</code>
+     *
+     * <pre>
+     * The index of this output, used in trimmed transactions
+     * </pre>
+     */
+    public int getIndex() {
+      return index_;
+    }
+
+    private void initFields() {
+      value_ = 0L;
+      scriptBytes_ = com.google.protobuf.ByteString.EMPTY;
+      spentByTransactionHash_ = com.google.protobuf.ByteString.EMPTY;
+      spentByTransactionIndex_ = 0;
+      isSpent_ = false;
+      index_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasValue()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasScriptBytes()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt64(1, value_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, scriptBytes_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, spentByTransactionHash_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, spentByTransactionIndex_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBool(5, isSpent_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(6, index_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, value_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, scriptBytes_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, spentByTransactionHash_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, spentByTransactionIndex_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(5, isSpent_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, index_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.coinomi.core.protos.Protos.TransactionOutput parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.coinomi.core.protos.Protos.TransactionOutput parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.coinomi.core.protos.Protos.TransactionOutput parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.coinomi.core.protos.Protos.TransactionOutput parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.coinomi.core.protos.Protos.TransactionOutput parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.coinomi.core.protos.Protos.TransactionOutput parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.coinomi.core.protos.Protos.TransactionOutput parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.coinomi.core.protos.Protos.TransactionOutput parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.coinomi.core.protos.Protos.TransactionOutput parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.coinomi.core.protos.Protos.TransactionOutput parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.coinomi.core.protos.Protos.TransactionOutput prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code com.coinomi.core.protos.TransactionOutput}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:com.coinomi.core.protos.TransactionOutput)
