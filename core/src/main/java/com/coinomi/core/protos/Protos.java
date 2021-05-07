@@ -11058,3 +11058,1560 @@ public final class Protos {
        * <pre>
        * The value that the wallet sends, it is the sum of the inputs that are spending coins with keys in the wallet.
        * </pre>
+       */
+      public long getValueSent() {
+        return valueSent_;
+      }
+      /**
+       * <code>optional int64 value_sent = 15 [default = 0];</code>
+       *
+       * <pre>
+       * The value that the wallet sends, it is the sum of the inputs that are spending coins with keys in the wallet.
+       * </pre>
+       */
+      public Builder setValueSent(long value) {
+        bitField0_ |= 0x00008000;
+        valueSent_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 value_sent = 15 [default = 0];</code>
+       *
+       * <pre>
+       * The value that the wallet sends, it is the sum of the inputs that are spending coins with keys in the wallet.
+       * </pre>
+       */
+      public Builder clearValueSent() {
+        bitField0_ = (bitField0_ & ~0x00008000);
+        valueSent_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long valueReceived_ ;
+      /**
+       * <code>optional int64 value_received = 16 [default = 0];</code>
+       *
+       * <pre>
+       * The value that the wallet received, it is the sum of the outputs that are sending coins to a key in the wallet.
+       * </pre>
+       */
+      public boolean hasValueReceived() {
+        return ((bitField0_ & 0x00010000) == 0x00010000);
+      }
+      /**
+       * <code>optional int64 value_received = 16 [default = 0];</code>
+       *
+       * <pre>
+       * The value that the wallet received, it is the sum of the outputs that are sending coins to a key in the wallet.
+       * </pre>
+       */
+      public long getValueReceived() {
+        return valueReceived_;
+      }
+      /**
+       * <code>optional int64 value_received = 16 [default = 0];</code>
+       *
+       * <pre>
+       * The value that the wallet received, it is the sum of the outputs that are sending coins to a key in the wallet.
+       * </pre>
+       */
+      public Builder setValueReceived(long value) {
+        bitField0_ |= 0x00010000;
+        valueReceived_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 value_received = 16 [default = 0];</code>
+       *
+       * <pre>
+       * The value that the wallet received, it is the sum of the outputs that are sending coins to a key in the wallet.
+       * </pre>
+       */
+      public Builder clearValueReceived() {
+        bitField0_ = (bitField0_ & ~0x00010000);
+        valueReceived_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long fee_ ;
+      /**
+       * <code>optional int64 fee = 17;</code>
+       *
+       * <pre>
+       * The transaction fee
+       * </pre>
+       */
+      public boolean hasFee() {
+        return ((bitField0_ & 0x00020000) == 0x00020000);
+      }
+      /**
+       * <code>optional int64 fee = 17;</code>
+       *
+       * <pre>
+       * The transaction fee
+       * </pre>
+       */
+      public long getFee() {
+        return fee_;
+      }
+      /**
+       * <code>optional int64 fee = 17;</code>
+       *
+       * <pre>
+       * The transaction fee
+       * </pre>
+       */
+      public Builder setFee(long value) {
+        bitField0_ |= 0x00020000;
+        fee_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 fee = 17;</code>
+       *
+       * <pre>
+       * The transaction fee
+       * </pre>
+       */
+      public Builder clearFee() {
+        bitField0_ = (bitField0_ & ~0x00020000);
+        fee_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:com.coinomi.core.protos.Transaction)
+    }
+
+    static {
+      defaultInstance = new Transaction(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:com.coinomi.core.protos.Transaction)
+  }
+
+  public interface AddressStatusOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:com.coinomi.core.protos.AddressStatus)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required string address = 1;</code>
+     *
+     * <pre>
+     * The address that the wallet watches
+     * </pre>
+     */
+    boolean hasAddress();
+    /**
+     * <code>required string address = 1;</code>
+     *
+     * <pre>
+     * The address that the wallet watches
+     * </pre>
+     */
+    java.lang.String getAddress();
+    /**
+     * <code>required string address = 1;</code>
+     *
+     * <pre>
+     * The address that the wallet watches
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getAddressBytes();
+
+    /**
+     * <code>required string status = 2;</code>
+     *
+     * <pre>
+     * The address status
+     * </pre>
+     */
+    boolean hasStatus();
+    /**
+     * <code>required string status = 2;</code>
+     *
+     * <pre>
+     * The address status
+     * </pre>
+     */
+    java.lang.String getStatus();
+    /**
+     * <code>required string status = 2;</code>
+     *
+     * <pre>
+     * The address status
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getStatusBytes();
+  }
+  /**
+   * Protobuf type {@code com.coinomi.core.protos.AddressStatus}
+   */
+  public static final class AddressStatus extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:com.coinomi.core.protos.AddressStatus)
+      AddressStatusOrBuilder {
+    // Use AddressStatus.newBuilder() to construct.
+    private AddressStatus(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private AddressStatus(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final AddressStatus defaultInstance;
+    public static AddressStatus getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public AddressStatus getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AddressStatus(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000001;
+              address_ = bs;
+              break;
+            }
+            case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000002;
+              status_ = bs;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.coinomi.core.protos.Protos.internal_static_com_coinomi_core_protos_AddressStatus_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.coinomi.core.protos.Protos.internal_static_com_coinomi_core_protos_AddressStatus_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.coinomi.core.protos.Protos.AddressStatus.class, com.coinomi.core.protos.Protos.AddressStatus.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<AddressStatus> PARSER =
+        new com.google.protobuf.AbstractParser<AddressStatus>() {
+      public AddressStatus parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AddressStatus(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AddressStatus> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int ADDRESS_FIELD_NUMBER = 1;
+    private java.lang.Object address_;
+    /**
+     * <code>required string address = 1;</code>
+     *
+     * <pre>
+     * The address that the wallet watches
+     * </pre>
+     */
+    public boolean hasAddress() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string address = 1;</code>
+     *
+     * <pre>
+     * The address that the wallet watches
+     * </pre>
+     */
+    public java.lang.String getAddress() {
+      java.lang.Object ref = address_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          address_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string address = 1;</code>
+     *
+     * <pre>
+     * The address that the wallet watches
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getAddressBytes() {
+      java.lang.Object ref = address_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        address_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int STATUS_FIELD_NUMBER = 2;
+    private java.lang.Object status_;
+    /**
+     * <code>required string status = 2;</code>
+     *
+     * <pre>
+     * The address status
+     * </pre>
+     */
+    public boolean hasStatus() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string status = 2;</code>
+     *
+     * <pre>
+     * The address status
+     * </pre>
+     */
+    public java.lang.String getStatus() {
+      java.lang.Object ref = status_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          status_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string status = 2;</code>
+     *
+     * <pre>
+     * The address status
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getStatusBytes() {
+      java.lang.Object ref = status_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        status_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      address_ = "";
+      status_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasAddress()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasStatus()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getAddressBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getStatusBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getAddressBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getStatusBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.coinomi.core.protos.Protos.AddressStatus parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.coinomi.core.protos.Protos.AddressStatus parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.coinomi.core.protos.Protos.AddressStatus parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.coinomi.core.protos.Protos.AddressStatus parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.coinomi.core.protos.Protos.AddressStatus parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.coinomi.core.protos.Protos.AddressStatus parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.coinomi.core.protos.Protos.AddressStatus parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.coinomi.core.protos.Protos.AddressStatus parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.coinomi.core.protos.Protos.AddressStatus parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.coinomi.core.protos.Protos.AddressStatus parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.coinomi.core.protos.Protos.AddressStatus prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code com.coinomi.core.protos.AddressStatus}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:com.coinomi.core.protos.AddressStatus)
+        com.coinomi.core.protos.Protos.AddressStatusOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.coinomi.core.protos.Protos.internal_static_com_coinomi_core_protos_AddressStatus_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.coinomi.core.protos.Protos.internal_static_com_coinomi_core_protos_AddressStatus_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.coinomi.core.protos.Protos.AddressStatus.class, com.coinomi.core.protos.Protos.AddressStatus.Builder.class);
+      }
+
+      // Construct using com.coinomi.core.protos.Protos.AddressStatus.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        address_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        status_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.coinomi.core.protos.Protos.internal_static_com_coinomi_core_protos_AddressStatus_descriptor;
+      }
+
+      public com.coinomi.core.protos.Protos.AddressStatus getDefaultInstanceForType() {
+        return com.coinomi.core.protos.Protos.AddressStatus.getDefaultInstance();
+      }
+
+      public com.coinomi.core.protos.Protos.AddressStatus build() {
+        com.coinomi.core.protos.Protos.AddressStatus result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.coinomi.core.protos.Protos.AddressStatus buildPartial() {
+        com.coinomi.core.protos.Protos.AddressStatus result = new com.coinomi.core.protos.Protos.AddressStatus(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.address_ = address_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.status_ = status_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.coinomi.core.protos.Protos.AddressStatus) {
+          return mergeFrom((com.coinomi.core.protos.Protos.AddressStatus)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.coinomi.core.protos.Protos.AddressStatus other) {
+        if (other == com.coinomi.core.protos.Protos.AddressStatus.getDefaultInstance()) return this;
+        if (other.hasAddress()) {
+          bitField0_ |= 0x00000001;
+          address_ = other.address_;
+          onChanged();
+        }
+        if (other.hasStatus()) {
+          bitField0_ |= 0x00000002;
+          status_ = other.status_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasAddress()) {
+          
+          return false;
+        }
+        if (!hasStatus()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.coinomi.core.protos.Protos.AddressStatus parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.coinomi.core.protos.Protos.AddressStatus) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object address_ = "";
+      /**
+       * <code>required string address = 1;</code>
+       *
+       * <pre>
+       * The address that the wallet watches
+       * </pre>
+       */
+      public boolean hasAddress() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string address = 1;</code>
+       *
+       * <pre>
+       * The address that the wallet watches
+       * </pre>
+       */
+      public java.lang.String getAddress() {
+        java.lang.Object ref = address_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            address_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string address = 1;</code>
+       *
+       * <pre>
+       * The address that the wallet watches
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getAddressBytes() {
+        java.lang.Object ref = address_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          address_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string address = 1;</code>
+       *
+       * <pre>
+       * The address that the wallet watches
+       * </pre>
+       */
+      public Builder setAddress(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        address_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string address = 1;</code>
+       *
+       * <pre>
+       * The address that the wallet watches
+       * </pre>
+       */
+      public Builder clearAddress() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        address_ = getDefaultInstance().getAddress();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string address = 1;</code>
+       *
+       * <pre>
+       * The address that the wallet watches
+       * </pre>
+       */
+      public Builder setAddressBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        address_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object status_ = "";
+      /**
+       * <code>required string status = 2;</code>
+       *
+       * <pre>
+       * The address status
+       * </pre>
+       */
+      public boolean hasStatus() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string status = 2;</code>
+       *
+       * <pre>
+       * The address status
+       * </pre>
+       */
+      public java.lang.String getStatus() {
+        java.lang.Object ref = status_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            status_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string status = 2;</code>
+       *
+       * <pre>
+       * The address status
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getStatusBytes() {
+        java.lang.Object ref = status_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          status_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string status = 2;</code>
+       *
+       * <pre>
+       * The address status
+       * </pre>
+       */
+      public Builder setStatus(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        status_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string status = 2;</code>
+       *
+       * <pre>
+       * The address status
+       * </pre>
+       */
+      public Builder clearStatus() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        status_ = getDefaultInstance().getStatus();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string status = 2;</code>
+       *
+       * <pre>
+       * The address status
+       * </pre>
+       */
+      public Builder setStatusBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        status_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:com.coinomi.core.protos.AddressStatus)
+    }
+
+    static {
+      defaultInstance = new AddressStatus(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:com.coinomi.core.protos.AddressStatus)
+  }
+
+  public interface WalletPocketOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:com.coinomi.core.protos.WalletPocket)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required string network_identifier = 1;</code>
+     *
+     * <pre>
+     * the network used by this wallet
+     * </pre>
+     */
+    boolean hasNetworkIdentifier();
+    /**
+     * <code>required string network_identifier = 1;</code>
+     *
+     * <pre>
+     * the network used by this wallet
+     * </pre>
+     */
+    java.lang.String getNetworkIdentifier();
+    /**
+     * <code>required string network_identifier = 1;</code>
+     *
+     * <pre>
+     * the network used by this wallet
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getNetworkIdentifierBytes();
+
+    /**
+     * <code>optional string description = 2;</code>
+     *
+     * <pre>
+     * A UTF8 encoded text description of the wallet that is intended for end user provided text.
+     * </pre>
+     */
+    boolean hasDescription();
+    /**
+     * <code>optional string description = 2;</code>
+     *
+     * <pre>
+     * A UTF8 encoded text description of the wallet that is intended for end user provided text.
+     * </pre>
+     */
+    java.lang.String getDescription();
+    /**
+     * <code>optional string description = 2;</code>
+     *
+     * <pre>
+     * A UTF8 encoded text description of the wallet that is intended for end user provided text.
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getDescriptionBytes();
+
+    /**
+     * <code>repeated .com.coinomi.core.protos.Key key = 3;</code>
+     */
+    java.util.List<com.coinomi.core.protos.Protos.Key> 
+        getKeyList();
+    /**
+     * <code>repeated .com.coinomi.core.protos.Key key = 3;</code>
+     */
+    com.coinomi.core.protos.Protos.Key getKey(int index);
+    /**
+     * <code>repeated .com.coinomi.core.protos.Key key = 3;</code>
+     */
+    int getKeyCount();
+    /**
+     * <code>repeated .com.coinomi.core.protos.Key key = 3;</code>
+     */
+    java.util.List<? extends com.coinomi.core.protos.Protos.KeyOrBuilder> 
+        getKeyOrBuilderList();
+    /**
+     * <code>repeated .com.coinomi.core.protos.Key key = 3;</code>
+     */
+    com.coinomi.core.protos.Protos.KeyOrBuilder getKeyOrBuilder(
+        int index);
+
+    /**
+     * <code>optional bytes last_seen_block_hash = 4;</code>
+     *
+     * <pre>
+     * The SHA256 hash of the head of the best chain seen by this wallet.
+     * </pre>
+     */
+    boolean hasLastSeenBlockHash();
+    /**
+     * <code>optional bytes last_seen_block_hash = 4;</code>
+     *
+     * <pre>
+     * The SHA256 hash of the head of the best chain seen by this wallet.
+     * </pre>
+     */
+    com.google.protobuf.ByteString getLastSeenBlockHash();
+
+    /**
+     * <code>optional uint32 last_seen_block_height = 5;</code>
+     *
+     * <pre>
+     * The height in the chain of the last seen block.
+     * </pre>
+     */
+    boolean hasLastSeenBlockHeight();
+    /**
+     * <code>optional uint32 last_seen_block_height = 5;</code>
+     *
+     * <pre>
+     * The height in the chain of the last seen block.
+     * </pre>
+     */
+    int getLastSeenBlockHeight();
+
+    /**
+     * <code>optional int64 last_seen_block_time_secs = 6;</code>
+     */
+    boolean hasLastSeenBlockTimeSecs();
+    /**
+     * <code>optional int64 last_seen_block_time_secs = 6;</code>
+     */
+    long getLastSeenBlockTimeSecs();
+
+    /**
+     * <code>repeated .com.coinomi.core.protos.Transaction transaction = 7;</code>
+     */
+    java.util.List<com.coinomi.core.protos.Protos.Transaction> 
+        getTransactionList();
+    /**
+     * <code>repeated .com.coinomi.core.protos.Transaction transaction = 7;</code>
+     */
+    com.coinomi.core.protos.Protos.Transaction getTransaction(int index);
+    /**
+     * <code>repeated .com.coinomi.core.protos.Transaction transaction = 7;</code>
+     */
+    int getTransactionCount();
+    /**
+     * <code>repeated .com.coinomi.core.protos.Transaction transaction = 7;</code>
+     */
+    java.util.List<? extends com.coinomi.core.protos.Protos.TransactionOrBuilder> 
+        getTransactionOrBuilderList();
+    /**
+     * <code>repeated .com.coinomi.core.protos.Transaction transaction = 7;</code>
+     */
+    com.coinomi.core.protos.Protos.TransactionOrBuilder getTransactionOrBuilder(
+        int index);
+
+    /**
+     * <code>repeated .com.coinomi.core.protos.AddressStatus address_status = 8;</code>
+     */
+    java.util.List<com.coinomi.core.protos.Protos.AddressStatus> 
+        getAddressStatusList();
+    /**
+     * <code>repeated .com.coinomi.core.protos.AddressStatus address_status = 8;</code>
+     */
+    com.coinomi.core.protos.Protos.AddressStatus getAddressStatus(int index);
+    /**
+     * <code>repeated .com.coinomi.core.protos.AddressStatus address_status = 8;</code>
+     */
+    int getAddressStatusCount();
+    /**
+     * <code>repeated .com.coinomi.core.protos.AddressStatus address_status = 8;</code>
+     */
+    java.util.List<? extends com.coinomi.core.protos.Protos.AddressStatusOrBuilder> 
+        getAddressStatusOrBuilderList();
+    /**
+     * <code>repeated .com.coinomi.core.protos.AddressStatus address_status = 8;</code>
+     */
+    com.coinomi.core.protos.Protos.AddressStatusOrBuilder getAddressStatusOrBuilder(
+        int index);
+
+    /**
+     * <code>optional string id = 9;</code>
+     */
+    boolean hasId();
+    /**
+     * <code>optional string id = 9;</code>
+     */
+    java.lang.String getId();
+    /**
+     * <code>optional string id = 9;</code>
+     */
+    com.google.protobuf.ByteString
+        getIdBytes();
+
+    /**
+     * <code>repeated .com.coinomi.core.protos.UnspentOutput unspent_output = 10;</code>
+     */
+    java.util.List<com.coinomi.core.protos.Protos.UnspentOutput> 
+        getUnspentOutputList();
+    /**
+     * <code>repeated .com.coinomi.core.protos.UnspentOutput unspent_output = 10;</code>
+     */
+    com.coinomi.core.protos.Protos.UnspentOutput getUnspentOutput(int index);
+    /**
+     * <code>repeated .com.coinomi.core.protos.UnspentOutput unspent_output = 10;</code>
+     */
+    int getUnspentOutputCount();
+    /**
+     * <code>repeated .com.coinomi.core.protos.UnspentOutput unspent_output = 10;</code>
+     */
+    java.util.List<? extends com.coinomi.core.protos.Protos.UnspentOutputOrBuilder> 
+        getUnspentOutputOrBuilderList();
+    /**
+     * <code>repeated .com.coinomi.core.protos.UnspentOutput unspent_output = 10;</code>
+     */
+    com.coinomi.core.protos.Protos.UnspentOutputOrBuilder getUnspentOutputOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code com.coinomi.core.protos.WalletPocket}
+   *
+   * <pre>
+   ** A wallet pocket
+   * </pre>
+   */
+  public static final class WalletPocket extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:com.coinomi.core.protos.WalletPocket)
+      WalletPocketOrBuilder {
+    // Use WalletPocket.newBuilder() to construct.
+    private WalletPocket(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private WalletPocket(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final WalletPocket defaultInstance;
+    public static WalletPocket getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public WalletPocket getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private WalletPocket(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000001;
+              networkIdentifier_ = bs;
+              break;
+            }
+            case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000002;
+              description_ = bs;
+              break;
+            }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                key_ = new java.util.ArrayList<com.coinomi.core.protos.Protos.Key>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              key_.add(input.readMessage(com.coinomi.core.protos.Protos.Key.PARSER, extensionRegistry));
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000004;
+              lastSeenBlockHash_ = input.readBytes();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000008;
+              lastSeenBlockHeight_ = input.readUInt32();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000010;
+              lastSeenBlockTimeSecs_ = input.readInt64();
+              break;
+            }
+            case 58: {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+                transaction_ = new java.util.ArrayList<com.coinomi.core.protos.Protos.Transaction>();
+                mutable_bitField0_ |= 0x00000040;
+              }
+              transaction_.add(input.readMessage(com.coinomi.core.protos.Protos.Transaction.PARSER, extensionRegistry));
+              break;
+            }
+            case 66: {
+              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+                addressStatus_ = new java.util.ArrayList<com.coinomi.core.protos.Protos.AddressStatus>();
+                mutable_bitField0_ |= 0x00000080;
+              }
+              addressStatus_.add(input.readMessage(com.coinomi.core.protos.Protos.AddressStatus.PARSER, extensionRegistry));
+              break;
+            }
+            case 74: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000020;
+              id_ = bs;
+              break;
+            }
+            case 82: {
+              if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+                unspentOutput_ = new java.util.ArrayList<com.coinomi.core.protos.Protos.UnspentOutput>();
+                mutable_bitField0_ |= 0x00000200;
+              }
+              unspentOutput_.add(input.readMessage(com.coinomi.core.protos.Protos.UnspentOutput.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          key_ = java.util.Collections.unmodifiableList(key_);
+        }
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+          transaction_ = java.util.Collections.unmodifiableList(transaction_);
+        }
+        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+          addressStatus_ = java.util.Collections.unmodifiableList(addressStatus_);
+        }
+        if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+          unspentOutput_ = java.util.Collections.unmodifiableList(unspentOutput_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.coinomi.core.protos.Protos.internal_static_com_coinomi_core_protos_WalletPocket_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.coinomi.core.protos.Protos.internal_static_com_coinomi_core_protos_WalletPocket_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.coinomi.core.protos.Protos.WalletPocket.class, com.coinomi.core.protos.Protos.WalletPocket.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<WalletPocket> PARSER =
+        new com.google.protobuf.AbstractParser<WalletPocket>() {
+      public WalletPocket parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new WalletPocket(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<WalletPocket> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int NETWORK_IDENTIFIER_FIELD_NUMBER = 1;
+    private java.lang.Object networkIdentifier_;
+    /**
+     * <code>required string network_identifier = 1;</code>
+     *
+     * <pre>
+     * the network used by this wallet
+     * </pre>
+     */
+    public boolean hasNetworkIdentifier() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string network_identifier = 1;</code>
+     *
+     * <pre>
+     * the network used by this wallet
+     * </pre>
+     */
+    public java.lang.String getNetworkIdentifier() {
+      java.lang.Object ref = networkIdentifier_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          networkIdentifier_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string network_identifier = 1;</code>
+     *
+     * <pre>
+     * the network used by this wallet
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getNetworkIdentifierBytes() {
+      java.lang.Object ref = networkIdentifier_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        networkIdentifier_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DESCRIPTION_FIELD_NUMBER = 2;
+    private java.lang.Object description_;
+    /**
+     * <code>optional string description = 2;</code>
+     *
+     * <pre>
+     * A UTF8 encoded text description of the wallet that is intended for end user provided text.
+     * </pre>
+     */
+    public boolean hasDescription() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional string description = 2;</code>
+     *
+     * <pre>
+     * A UTF8 encoded text description of the wallet that is intended for end user provided text.
+     * </pre>
+     */
+    public java.lang.String getDescription() {
+      java.lang.Object ref = description_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          description_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string description = 2;</code>
+     *
+     * <pre>
+     * A UTF8 encoded text description of the wallet that is intended for end user provided text.
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getDescriptionBytes() {
+      java.lang.Object ref = description_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        description_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int KEY_FIELD_NUMBER = 3;
+    private java.util.List<com.coinomi.core.protos.Protos.Key> key_;
+    /**
+     * <code>repeated .com.coinomi.core.protos.Key key = 3;</code>
+     */
+    public java.util.List<com.coinomi.core.protos.Protos.Key> getKeyList() {
+      return key_;
+    }
+    /**
+     * <code>repeated .com.coinomi.core.protos.Key key = 3;</code>
+     */
+    public java.util.List<? extends com.coinomi.core.protos.Protos.KeyOrBuilder> 
+        getKeyOrBuilderList() {
+      return key_;
+    }
+    /**
+     * <code>repeated .com.coinomi.core.protos.Key key = 3;</code>
+     */
+    public int getKeyCount() {
+      return key_.size();
+    }
+    /**
+     * <code>repeated .com.coinomi.core.protos.Key key = 3;</code>
+     */
+    public com.coinomi.core.protos.Protos.Key getKey(int index) {
+      return key_.get(index);
+    }
+    /**
+     * <code>repeated .com.coinomi.core.protos.Key key = 3;</code>
+     */
+    public com.coinomi.core.protos.Protos.KeyOrBuilder getKeyOrBuilder(
+        int index) {
+      return key_.get(index);
+    }
+
+    public static final int LAST_SEEN_BLOCK_HASH_FIELD_NUMBER = 4;
+    private com.google.protobuf.ByteString lastSeenBlockHash_;
+    /**
+     * <code>optional bytes last_seen_block_hash = 4;</code>
+     *
+     * <pre>
+     * The SHA256 hash of the head of the best chain seen by this wallet.
+     * </pre>
+     */
+    public boolean hasLastSeenBlockHash() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional bytes last_seen_block_hash = 4;</code>
+     *
+     * <pre>
+     * The SHA256 hash of the head of the best chain seen by this wallet.
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getLastSeenBlockHash() {
+      return lastSeenBlockHash_;
+    }
+
+    public static final int LAST_SEEN_BLOCK_HEIGHT_FIELD_NUMBER = 5;
+    private int lastSeenBlockHeight_;
+    /**
+     * <code>optional uint32 last_seen_block_height = 5;</code>
+     *
+     * <pre>
+     * The height in the chain of the last seen block.
+     * </pre>
+     */
+    public boolean hasLastSeenBlockHeight() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional uint32 last_seen_block_height = 5;</code>
+     *
+     * <pre>
+     * The height in the chain of the last seen block.
+     * </pre>
+     */
+    public int getLastSeenBlockHeight() {
+      return lastSeenBlockHeight_;
+    }
+
+    public static final int LAST_SEEN_BLOCK_TIME_SECS_FIELD_NUMBER = 6;
+    private long lastSeenBlockTimeSecs_;
+    /**
+     * <code>optional int64 last_seen_block_time_secs = 6;</code>
+     */
+    public boolean hasLastSeenBlockTimeSecs() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int64 last_seen_block_time_secs = 6;</code>
+     */
+    public long getLastSeenBlockTimeSecs() {
+      return lastSeenBlockTimeSecs_;
+    }
+
+    public static final int TRANSACTION_FIELD_NUMBER = 7;
+    private java.util.List<com.coinomi.core.protos.Protos.Transaction> transaction_;
+    /**
+     * <code>repeated .com.coinomi.core.protos.Transaction transaction = 7;</code>
+     */
+    public java.util.List<com.coinomi.core.protos.Protos.Transaction> getTransactionList() {
+      return transaction_;
+    }
+    /**
+     * <code>repeated .com.coinomi.core.protos.Transaction transaction = 7;</code>
+     */
+    public java.util.List<? extends com.coinomi.core.protos.Protos.TransactionOrBuilder> 
+        getTransactionOrBuilderList() {
+      return transaction_;
+    }
+    /**
+     * <code>repeated .com.coinomi.core.protos.Transaction transaction = 7;</code>
+     */
+    public int getTransactionCount() {
+      return transaction_.size();
+    }
+    /**
+     * <code>repeated .com.coinomi.core.protos.Transaction transaction = 7;</code>
+     */
+    public com.coinomi.core.protos.Protos.Transaction getTransaction(int index) {
+      return transaction_.get(index);
+    }
+    /**
+     * <code>repeated .com.coinomi.core.protos.Transaction transaction = 7;</code>
+     */
+    public com.coinomi.core.protos.Protos.TransactionOrBuilder getTransactionOrBuilder(
+        int index) {
+      return transaction_.get(index);
+    }
+
+    public static final int ADDRESS_STATUS_FIELD_NUMBER = 8;
+    private java.util.List<com.coinomi.core.protos.Protos.AddressStatus> addressStatus_;
+    /**
+     * <code>repeated .com.coinomi.core.protos.AddressStatus address_status = 8;</code>
+     */
+    public java.util.List<com.coinomi.core.protos.Protos.AddressStatus> getAddressStatusList() {
+      return addressStatus_;
+    }
+    /**
+     * <code>repeated .com.coinomi.core.protos.AddressStatus address_status = 8;</code>
+     */
+    public java.util.List<? extends com.coinomi.core.protos.Protos.AddressStatusOrBuilder> 
+        getAddressStatusOrBuilderList() {
+      return addressStatus_;
+    }
+    /**
+     * <code>repeated .com.coinomi.core.protos.AddressStatus address_status = 8;</code>
+     */
+    public int getAddressStatusCount() {
+      return addressStatus_.size();
+    }
+    /**
+     * <code>repeated .com.coinomi.core.protos.AddressStatus address_status = 8;</code>
+     */
+    public com.coinomi.core.protos.Protos.AddressStatus getAddressStatus(int index) {
+      return addressStatus_.get(index);
+    }
+    /**
+     * <code>repeated .com.coinomi.core.protos.AddressStatus address_status = 8;</code>
+     */
+    public com.coinomi.core.protos.Protos.AddressStatusOrBuilder getAddressStatusOrBuilder(
+        int index) {
+      return addressStatus_.get(index);
+    }
+
+    public static final int ID_FIELD_NUMBER = 9;
+    private java.lang.Object id_;
+    /**
+     * <code>optional string id = 9;</code>
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional string id = 9;</code>
+     */
+    public java.lang.String getId() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
