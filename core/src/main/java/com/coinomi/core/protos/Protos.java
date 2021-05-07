@@ -9538,3 +9538,1523 @@ public final class Protos {
         result.updatedAt_ = updatedAt_;
         if (transactionInputBuilder_ == null) {
           if (((bitField0_ & 0x00000040) == 0x00000040)) {
+            transactionInput_ = java.util.Collections.unmodifiableList(transactionInput_);
+            bitField0_ = (bitField0_ & ~0x00000040);
+          }
+          result.transactionInput_ = transactionInput_;
+        } else {
+          result.transactionInput_ = transactionInputBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.numOfOutputs_ = numOfOutputs_;
+        if (transactionOutputBuilder_ == null) {
+          if (((bitField0_ & 0x00000100) == 0x00000100)) {
+            transactionOutput_ = java.util.Collections.unmodifiableList(transactionOutput_);
+            bitField0_ = (bitField0_ & ~0x00000100);
+          }
+          result.transactionOutput_ = transactionOutput_;
+        } else {
+          result.transactionOutput_ = transactionOutputBuilder_.build();
+        }
+        if (((bitField0_ & 0x00000200) == 0x00000200)) {
+          blockHash_ = java.util.Collections.unmodifiableList(blockHash_);
+          bitField0_ = (bitField0_ & ~0x00000200);
+        }
+        result.blockHash_ = blockHash_;
+        if (((bitField0_ & 0x00000400) == 0x00000400)) {
+          blockRelativityOffsets_ = java.util.Collections.unmodifiableList(blockRelativityOffsets_);
+          bitField0_ = (bitField0_ & ~0x00000400);
+        }
+        result.blockRelativityOffsets_ = blockRelativityOffsets_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        if (confidenceBuilder_ == null) {
+          result.confidence_ = confidence_;
+        } else {
+          result.confidence_ = confidenceBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.tokenId_ = tokenId_;
+        if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.extraBytes_ = extraBytes_;
+        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.isTrimmed_ = isTrimmed_;
+        if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.valueSent_ = valueSent_;
+        if (((from_bitField0_ & 0x00010000) == 0x00010000)) {
+          to_bitField0_ |= 0x00001000;
+        }
+        result.valueReceived_ = valueReceived_;
+        if (((from_bitField0_ & 0x00020000) == 0x00020000)) {
+          to_bitField0_ |= 0x00002000;
+        }
+        result.fee_ = fee_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.coinomi.core.protos.Protos.Transaction) {
+          return mergeFrom((com.coinomi.core.protos.Protos.Transaction)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.coinomi.core.protos.Protos.Transaction other) {
+        if (other == com.coinomi.core.protos.Protos.Transaction.getDefaultInstance()) return this;
+        if (other.hasVersion()) {
+          setVersion(other.getVersion());
+        }
+        if (other.hasTime()) {
+          setTime(other.getTime());
+        }
+        if (other.hasHash()) {
+          setHash(other.getHash());
+        }
+        if (other.hasPool()) {
+          setPool(other.getPool());
+        }
+        if (other.hasLockTime()) {
+          setLockTime(other.getLockTime());
+        }
+        if (other.hasUpdatedAt()) {
+          setUpdatedAt(other.getUpdatedAt());
+        }
+        if (transactionInputBuilder_ == null) {
+          if (!other.transactionInput_.isEmpty()) {
+            if (transactionInput_.isEmpty()) {
+              transactionInput_ = other.transactionInput_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+            } else {
+              ensureTransactionInputIsMutable();
+              transactionInput_.addAll(other.transactionInput_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.transactionInput_.isEmpty()) {
+            if (transactionInputBuilder_.isEmpty()) {
+              transactionInputBuilder_.dispose();
+              transactionInputBuilder_ = null;
+              transactionInput_ = other.transactionInput_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+              transactionInputBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getTransactionInputFieldBuilder() : null;
+            } else {
+              transactionInputBuilder_.addAllMessages(other.transactionInput_);
+            }
+          }
+        }
+        if (other.hasNumOfOutputs()) {
+          setNumOfOutputs(other.getNumOfOutputs());
+        }
+        if (transactionOutputBuilder_ == null) {
+          if (!other.transactionOutput_.isEmpty()) {
+            if (transactionOutput_.isEmpty()) {
+              transactionOutput_ = other.transactionOutput_;
+              bitField0_ = (bitField0_ & ~0x00000100);
+            } else {
+              ensureTransactionOutputIsMutable();
+              transactionOutput_.addAll(other.transactionOutput_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.transactionOutput_.isEmpty()) {
+            if (transactionOutputBuilder_.isEmpty()) {
+              transactionOutputBuilder_.dispose();
+              transactionOutputBuilder_ = null;
+              transactionOutput_ = other.transactionOutput_;
+              bitField0_ = (bitField0_ & ~0x00000100);
+              transactionOutputBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getTransactionOutputFieldBuilder() : null;
+            } else {
+              transactionOutputBuilder_.addAllMessages(other.transactionOutput_);
+            }
+          }
+        }
+        if (!other.blockHash_.isEmpty()) {
+          if (blockHash_.isEmpty()) {
+            blockHash_ = other.blockHash_;
+            bitField0_ = (bitField0_ & ~0x00000200);
+          } else {
+            ensureBlockHashIsMutable();
+            blockHash_.addAll(other.blockHash_);
+          }
+          onChanged();
+        }
+        if (!other.blockRelativityOffsets_.isEmpty()) {
+          if (blockRelativityOffsets_.isEmpty()) {
+            blockRelativityOffsets_ = other.blockRelativityOffsets_;
+            bitField0_ = (bitField0_ & ~0x00000400);
+          } else {
+            ensureBlockRelativityOffsetsIsMutable();
+            blockRelativityOffsets_.addAll(other.blockRelativityOffsets_);
+          }
+          onChanged();
+        }
+        if (other.hasConfidence()) {
+          mergeConfidence(other.getConfidence());
+        }
+        if (other.hasTokenId()) {
+          setTokenId(other.getTokenId());
+        }
+        if (other.hasExtraBytes()) {
+          setExtraBytes(other.getExtraBytes());
+        }
+        if (other.hasIsTrimmed()) {
+          setIsTrimmed(other.getIsTrimmed());
+        }
+        if (other.hasValueSent()) {
+          setValueSent(other.getValueSent());
+        }
+        if (other.hasValueReceived()) {
+          setValueReceived(other.getValueReceived());
+        }
+        if (other.hasFee()) {
+          setFee(other.getFee());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasVersion()) {
+          
+          return false;
+        }
+        if (!hasHash()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getTransactionInputCount(); i++) {
+          if (!getTransactionInput(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getTransactionOutputCount(); i++) {
+          if (!getTransactionOutput(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasConfidence()) {
+          if (!getConfidence().isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.coinomi.core.protos.Protos.Transaction parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.coinomi.core.protos.Protos.Transaction) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int version_ ;
+      /**
+       * <code>required int32 version = 1;</code>
+       *
+       * <pre>
+       * See Wallet.java for detailed description of pool semantics
+       * </pre>
+       */
+      public boolean hasVersion() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 version = 1;</code>
+       *
+       * <pre>
+       * See Wallet.java for detailed description of pool semantics
+       * </pre>
+       */
+      public int getVersion() {
+        return version_;
+      }
+      /**
+       * <code>required int32 version = 1;</code>
+       *
+       * <pre>
+       * See Wallet.java for detailed description of pool semantics
+       * </pre>
+       */
+      public Builder setVersion(int value) {
+        bitField0_ |= 0x00000001;
+        version_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 version = 1;</code>
+       *
+       * <pre>
+       * See Wallet.java for detailed description of pool semantics
+       * </pre>
+       */
+      public Builder clearVersion() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        version_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int time_ ;
+      /**
+       * <code>optional int32 time = 11;</code>
+       *
+       * <pre>
+       * Used by Peercoin family
+       * </pre>
+       */
+      public boolean hasTime() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 time = 11;</code>
+       *
+       * <pre>
+       * Used by Peercoin family
+       * </pre>
+       */
+      public int getTime() {
+        return time_;
+      }
+      /**
+       * <code>optional int32 time = 11;</code>
+       *
+       * <pre>
+       * Used by Peercoin family
+       * </pre>
+       */
+      public Builder setTime(int value) {
+        bitField0_ |= 0x00000002;
+        time_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 time = 11;</code>
+       *
+       * <pre>
+       * Used by Peercoin family
+       * </pre>
+       */
+      public Builder clearTime() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        time_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString hash_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>required bytes hash = 2;</code>
+       */
+      public boolean hasHash() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required bytes hash = 2;</code>
+       */
+      public com.google.protobuf.ByteString getHash() {
+        return hash_;
+      }
+      /**
+       * <code>required bytes hash = 2;</code>
+       */
+      public Builder setHash(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        hash_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bytes hash = 2;</code>
+       */
+      public Builder clearHash() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        hash_ = getDefaultInstance().getHash();
+        onChanged();
+        return this;
+      }
+
+      private com.coinomi.core.protos.Protos.Transaction.Pool pool_ = com.coinomi.core.protos.Protos.Transaction.Pool.UNSPENT;
+      /**
+       * <code>optional .com.coinomi.core.protos.Transaction.Pool pool = 3;</code>
+       *
+       * <pre>
+       * If pool is not present, that means either:
+       *  - This Transaction is either not in a wallet at all (the proto is re-used elsewhere)
+       *  - Or it is stored but for other purposes, for example, because it is the overriding transaction of a double spend.
+       *  - Or the Pool enum got a new value which your software is too old to parse.
+       * </pre>
+       */
+      public boolean hasPool() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.Transaction.Pool pool = 3;</code>
+       *
+       * <pre>
+       * If pool is not present, that means either:
+       *  - This Transaction is either not in a wallet at all (the proto is re-used elsewhere)
+       *  - Or it is stored but for other purposes, for example, because it is the overriding transaction of a double spend.
+       *  - Or the Pool enum got a new value which your software is too old to parse.
+       * </pre>
+       */
+      public com.coinomi.core.protos.Protos.Transaction.Pool getPool() {
+        return pool_;
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.Transaction.Pool pool = 3;</code>
+       *
+       * <pre>
+       * If pool is not present, that means either:
+       *  - This Transaction is either not in a wallet at all (the proto is re-used elsewhere)
+       *  - Or it is stored but for other purposes, for example, because it is the overriding transaction of a double spend.
+       *  - Or the Pool enum got a new value which your software is too old to parse.
+       * </pre>
+       */
+      public Builder setPool(com.coinomi.core.protos.Protos.Transaction.Pool value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000008;
+        pool_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.Transaction.Pool pool = 3;</code>
+       *
+       * <pre>
+       * If pool is not present, that means either:
+       *  - This Transaction is either not in a wallet at all (the proto is re-used elsewhere)
+       *  - Or it is stored but for other purposes, for example, because it is the overriding transaction of a double spend.
+       *  - Or the Pool enum got a new value which your software is too old to parse.
+       * </pre>
+       */
+      public Builder clearPool() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        pool_ = com.coinomi.core.protos.Protos.Transaction.Pool.UNSPENT;
+        onChanged();
+        return this;
+      }
+
+      private int lockTime_ ;
+      /**
+       * <code>optional uint32 lock_time = 4;</code>
+       *
+       * <pre>
+       * The nLockTime field is useful for contracts.
+       * </pre>
+       */
+      public boolean hasLockTime() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional uint32 lock_time = 4;</code>
+       *
+       * <pre>
+       * The nLockTime field is useful for contracts.
+       * </pre>
+       */
+      public int getLockTime() {
+        return lockTime_;
+      }
+      /**
+       * <code>optional uint32 lock_time = 4;</code>
+       *
+       * <pre>
+       * The nLockTime field is useful for contracts.
+       * </pre>
+       */
+      public Builder setLockTime(int value) {
+        bitField0_ |= 0x00000010;
+        lockTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 lock_time = 4;</code>
+       *
+       * <pre>
+       * The nLockTime field is useful for contracts.
+       * </pre>
+       */
+      public Builder clearLockTime() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        lockTime_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long updatedAt_ ;
+      /**
+       * <code>optional int64 updated_at = 5;</code>
+       *
+       * <pre>
+       * millis since epoch the transaction was last updated
+       * </pre>
+       */
+      public boolean hasUpdatedAt() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional int64 updated_at = 5;</code>
+       *
+       * <pre>
+       * millis since epoch the transaction was last updated
+       * </pre>
+       */
+      public long getUpdatedAt() {
+        return updatedAt_;
+      }
+      /**
+       * <code>optional int64 updated_at = 5;</code>
+       *
+       * <pre>
+       * millis since epoch the transaction was last updated
+       * </pre>
+       */
+      public Builder setUpdatedAt(long value) {
+        bitField0_ |= 0x00000020;
+        updatedAt_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 updated_at = 5;</code>
+       *
+       * <pre>
+       * millis since epoch the transaction was last updated
+       * </pre>
+       */
+      public Builder clearUpdatedAt() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        updatedAt_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<com.coinomi.core.protos.Protos.TransactionInput> transactionInput_ =
+        java.util.Collections.emptyList();
+      private void ensureTransactionInputIsMutable() {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+          transactionInput_ = new java.util.ArrayList<com.coinomi.core.protos.Protos.TransactionInput>(transactionInput_);
+          bitField0_ |= 0x00000040;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.coinomi.core.protos.Protos.TransactionInput, com.coinomi.core.protos.Protos.TransactionInput.Builder, com.coinomi.core.protos.Protos.TransactionInputOrBuilder> transactionInputBuilder_;
+
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionInput transaction_input = 6;</code>
+       */
+      public java.util.List<com.coinomi.core.protos.Protos.TransactionInput> getTransactionInputList() {
+        if (transactionInputBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(transactionInput_);
+        } else {
+          return transactionInputBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionInput transaction_input = 6;</code>
+       */
+      public int getTransactionInputCount() {
+        if (transactionInputBuilder_ == null) {
+          return transactionInput_.size();
+        } else {
+          return transactionInputBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionInput transaction_input = 6;</code>
+       */
+      public com.coinomi.core.protos.Protos.TransactionInput getTransactionInput(int index) {
+        if (transactionInputBuilder_ == null) {
+          return transactionInput_.get(index);
+        } else {
+          return transactionInputBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionInput transaction_input = 6;</code>
+       */
+      public Builder setTransactionInput(
+          int index, com.coinomi.core.protos.Protos.TransactionInput value) {
+        if (transactionInputBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTransactionInputIsMutable();
+          transactionInput_.set(index, value);
+          onChanged();
+        } else {
+          transactionInputBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionInput transaction_input = 6;</code>
+       */
+      public Builder setTransactionInput(
+          int index, com.coinomi.core.protos.Protos.TransactionInput.Builder builderForValue) {
+        if (transactionInputBuilder_ == null) {
+          ensureTransactionInputIsMutable();
+          transactionInput_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          transactionInputBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionInput transaction_input = 6;</code>
+       */
+      public Builder addTransactionInput(com.coinomi.core.protos.Protos.TransactionInput value) {
+        if (transactionInputBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTransactionInputIsMutable();
+          transactionInput_.add(value);
+          onChanged();
+        } else {
+          transactionInputBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionInput transaction_input = 6;</code>
+       */
+      public Builder addTransactionInput(
+          int index, com.coinomi.core.protos.Protos.TransactionInput value) {
+        if (transactionInputBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTransactionInputIsMutable();
+          transactionInput_.add(index, value);
+          onChanged();
+        } else {
+          transactionInputBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionInput transaction_input = 6;</code>
+       */
+      public Builder addTransactionInput(
+          com.coinomi.core.protos.Protos.TransactionInput.Builder builderForValue) {
+        if (transactionInputBuilder_ == null) {
+          ensureTransactionInputIsMutable();
+          transactionInput_.add(builderForValue.build());
+          onChanged();
+        } else {
+          transactionInputBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionInput transaction_input = 6;</code>
+       */
+      public Builder addTransactionInput(
+          int index, com.coinomi.core.protos.Protos.TransactionInput.Builder builderForValue) {
+        if (transactionInputBuilder_ == null) {
+          ensureTransactionInputIsMutable();
+          transactionInput_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          transactionInputBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionInput transaction_input = 6;</code>
+       */
+      public Builder addAllTransactionInput(
+          java.lang.Iterable<? extends com.coinomi.core.protos.Protos.TransactionInput> values) {
+        if (transactionInputBuilder_ == null) {
+          ensureTransactionInputIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, transactionInput_);
+          onChanged();
+        } else {
+          transactionInputBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionInput transaction_input = 6;</code>
+       */
+      public Builder clearTransactionInput() {
+        if (transactionInputBuilder_ == null) {
+          transactionInput_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+          onChanged();
+        } else {
+          transactionInputBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionInput transaction_input = 6;</code>
+       */
+      public Builder removeTransactionInput(int index) {
+        if (transactionInputBuilder_ == null) {
+          ensureTransactionInputIsMutable();
+          transactionInput_.remove(index);
+          onChanged();
+        } else {
+          transactionInputBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionInput transaction_input = 6;</code>
+       */
+      public com.coinomi.core.protos.Protos.TransactionInput.Builder getTransactionInputBuilder(
+          int index) {
+        return getTransactionInputFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionInput transaction_input = 6;</code>
+       */
+      public com.coinomi.core.protos.Protos.TransactionInputOrBuilder getTransactionInputOrBuilder(
+          int index) {
+        if (transactionInputBuilder_ == null) {
+          return transactionInput_.get(index);  } else {
+          return transactionInputBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionInput transaction_input = 6;</code>
+       */
+      public java.util.List<? extends com.coinomi.core.protos.Protos.TransactionInputOrBuilder> 
+           getTransactionInputOrBuilderList() {
+        if (transactionInputBuilder_ != null) {
+          return transactionInputBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(transactionInput_);
+        }
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionInput transaction_input = 6;</code>
+       */
+      public com.coinomi.core.protos.Protos.TransactionInput.Builder addTransactionInputBuilder() {
+        return getTransactionInputFieldBuilder().addBuilder(
+            com.coinomi.core.protos.Protos.TransactionInput.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionInput transaction_input = 6;</code>
+       */
+      public com.coinomi.core.protos.Protos.TransactionInput.Builder addTransactionInputBuilder(
+          int index) {
+        return getTransactionInputFieldBuilder().addBuilder(
+            index, com.coinomi.core.protos.Protos.TransactionInput.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionInput transaction_input = 6;</code>
+       */
+      public java.util.List<com.coinomi.core.protos.Protos.TransactionInput.Builder> 
+           getTransactionInputBuilderList() {
+        return getTransactionInputFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.coinomi.core.protos.Protos.TransactionInput, com.coinomi.core.protos.Protos.TransactionInput.Builder, com.coinomi.core.protos.Protos.TransactionInputOrBuilder> 
+          getTransactionInputFieldBuilder() {
+        if (transactionInputBuilder_ == null) {
+          transactionInputBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.coinomi.core.protos.Protos.TransactionInput, com.coinomi.core.protos.Protos.TransactionInput.Builder, com.coinomi.core.protos.Protos.TransactionInputOrBuilder>(
+                  transactionInput_,
+                  ((bitField0_ & 0x00000040) == 0x00000040),
+                  getParentForChildren(),
+                  isClean());
+          transactionInput_ = null;
+        }
+        return transactionInputBuilder_;
+      }
+
+      private int numOfOutputs_ ;
+      /**
+       * <code>optional int32 num_of_outputs = 18;</code>
+       *
+       * <pre>
+       * The original number of outputs, used in trimmed transactions
+       * </pre>
+       */
+      public boolean hasNumOfOutputs() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional int32 num_of_outputs = 18;</code>
+       *
+       * <pre>
+       * The original number of outputs, used in trimmed transactions
+       * </pre>
+       */
+      public int getNumOfOutputs() {
+        return numOfOutputs_;
+      }
+      /**
+       * <code>optional int32 num_of_outputs = 18;</code>
+       *
+       * <pre>
+       * The original number of outputs, used in trimmed transactions
+       * </pre>
+       */
+      public Builder setNumOfOutputs(int value) {
+        bitField0_ |= 0x00000080;
+        numOfOutputs_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 num_of_outputs = 18;</code>
+       *
+       * <pre>
+       * The original number of outputs, used in trimmed transactions
+       * </pre>
+       */
+      public Builder clearNumOfOutputs() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        numOfOutputs_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<com.coinomi.core.protos.Protos.TransactionOutput> transactionOutput_ =
+        java.util.Collections.emptyList();
+      private void ensureTransactionOutputIsMutable() {
+        if (!((bitField0_ & 0x00000100) == 0x00000100)) {
+          transactionOutput_ = new java.util.ArrayList<com.coinomi.core.protos.Protos.TransactionOutput>(transactionOutput_);
+          bitField0_ |= 0x00000100;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.coinomi.core.protos.Protos.TransactionOutput, com.coinomi.core.protos.Protos.TransactionOutput.Builder, com.coinomi.core.protos.Protos.TransactionOutputOrBuilder> transactionOutputBuilder_;
+
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionOutput transaction_output = 7;</code>
+       */
+      public java.util.List<com.coinomi.core.protos.Protos.TransactionOutput> getTransactionOutputList() {
+        if (transactionOutputBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(transactionOutput_);
+        } else {
+          return transactionOutputBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionOutput transaction_output = 7;</code>
+       */
+      public int getTransactionOutputCount() {
+        if (transactionOutputBuilder_ == null) {
+          return transactionOutput_.size();
+        } else {
+          return transactionOutputBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionOutput transaction_output = 7;</code>
+       */
+      public com.coinomi.core.protos.Protos.TransactionOutput getTransactionOutput(int index) {
+        if (transactionOutputBuilder_ == null) {
+          return transactionOutput_.get(index);
+        } else {
+          return transactionOutputBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionOutput transaction_output = 7;</code>
+       */
+      public Builder setTransactionOutput(
+          int index, com.coinomi.core.protos.Protos.TransactionOutput value) {
+        if (transactionOutputBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTransactionOutputIsMutable();
+          transactionOutput_.set(index, value);
+          onChanged();
+        } else {
+          transactionOutputBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionOutput transaction_output = 7;</code>
+       */
+      public Builder setTransactionOutput(
+          int index, com.coinomi.core.protos.Protos.TransactionOutput.Builder builderForValue) {
+        if (transactionOutputBuilder_ == null) {
+          ensureTransactionOutputIsMutable();
+          transactionOutput_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          transactionOutputBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionOutput transaction_output = 7;</code>
+       */
+      public Builder addTransactionOutput(com.coinomi.core.protos.Protos.TransactionOutput value) {
+        if (transactionOutputBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTransactionOutputIsMutable();
+          transactionOutput_.add(value);
+          onChanged();
+        } else {
+          transactionOutputBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionOutput transaction_output = 7;</code>
+       */
+      public Builder addTransactionOutput(
+          int index, com.coinomi.core.protos.Protos.TransactionOutput value) {
+        if (transactionOutputBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTransactionOutputIsMutable();
+          transactionOutput_.add(index, value);
+          onChanged();
+        } else {
+          transactionOutputBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionOutput transaction_output = 7;</code>
+       */
+      public Builder addTransactionOutput(
+          com.coinomi.core.protos.Protos.TransactionOutput.Builder builderForValue) {
+        if (transactionOutputBuilder_ == null) {
+          ensureTransactionOutputIsMutable();
+          transactionOutput_.add(builderForValue.build());
+          onChanged();
+        } else {
+          transactionOutputBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionOutput transaction_output = 7;</code>
+       */
+      public Builder addTransactionOutput(
+          int index, com.coinomi.core.protos.Protos.TransactionOutput.Builder builderForValue) {
+        if (transactionOutputBuilder_ == null) {
+          ensureTransactionOutputIsMutable();
+          transactionOutput_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          transactionOutputBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionOutput transaction_output = 7;</code>
+       */
+      public Builder addAllTransactionOutput(
+          java.lang.Iterable<? extends com.coinomi.core.protos.Protos.TransactionOutput> values) {
+        if (transactionOutputBuilder_ == null) {
+          ensureTransactionOutputIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, transactionOutput_);
+          onChanged();
+        } else {
+          transactionOutputBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionOutput transaction_output = 7;</code>
+       */
+      public Builder clearTransactionOutput() {
+        if (transactionOutputBuilder_ == null) {
+          transactionOutput_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000100);
+          onChanged();
+        } else {
+          transactionOutputBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionOutput transaction_output = 7;</code>
+       */
+      public Builder removeTransactionOutput(int index) {
+        if (transactionOutputBuilder_ == null) {
+          ensureTransactionOutputIsMutable();
+          transactionOutput_.remove(index);
+          onChanged();
+        } else {
+          transactionOutputBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionOutput transaction_output = 7;</code>
+       */
+      public com.coinomi.core.protos.Protos.TransactionOutput.Builder getTransactionOutputBuilder(
+          int index) {
+        return getTransactionOutputFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionOutput transaction_output = 7;</code>
+       */
+      public com.coinomi.core.protos.Protos.TransactionOutputOrBuilder getTransactionOutputOrBuilder(
+          int index) {
+        if (transactionOutputBuilder_ == null) {
+          return transactionOutput_.get(index);  } else {
+          return transactionOutputBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionOutput transaction_output = 7;</code>
+       */
+      public java.util.List<? extends com.coinomi.core.protos.Protos.TransactionOutputOrBuilder> 
+           getTransactionOutputOrBuilderList() {
+        if (transactionOutputBuilder_ != null) {
+          return transactionOutputBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(transactionOutput_);
+        }
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionOutput transaction_output = 7;</code>
+       */
+      public com.coinomi.core.protos.Protos.TransactionOutput.Builder addTransactionOutputBuilder() {
+        return getTransactionOutputFieldBuilder().addBuilder(
+            com.coinomi.core.protos.Protos.TransactionOutput.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionOutput transaction_output = 7;</code>
+       */
+      public com.coinomi.core.protos.Protos.TransactionOutput.Builder addTransactionOutputBuilder(
+          int index) {
+        return getTransactionOutputFieldBuilder().addBuilder(
+            index, com.coinomi.core.protos.Protos.TransactionOutput.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.TransactionOutput transaction_output = 7;</code>
+       */
+      public java.util.List<com.coinomi.core.protos.Protos.TransactionOutput.Builder> 
+           getTransactionOutputBuilderList() {
+        return getTransactionOutputFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.coinomi.core.protos.Protos.TransactionOutput, com.coinomi.core.protos.Protos.TransactionOutput.Builder, com.coinomi.core.protos.Protos.TransactionOutputOrBuilder> 
+          getTransactionOutputFieldBuilder() {
+        if (transactionOutputBuilder_ == null) {
+          transactionOutputBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.coinomi.core.protos.Protos.TransactionOutput, com.coinomi.core.protos.Protos.TransactionOutput.Builder, com.coinomi.core.protos.Protos.TransactionOutputOrBuilder>(
+                  transactionOutput_,
+                  ((bitField0_ & 0x00000100) == 0x00000100),
+                  getParentForChildren(),
+                  isClean());
+          transactionOutput_ = null;
+        }
+        return transactionOutputBuilder_;
+      }
+
+      private java.util.List<com.google.protobuf.ByteString> blockHash_ = java.util.Collections.emptyList();
+      private void ensureBlockHashIsMutable() {
+        if (!((bitField0_ & 0x00000200) == 0x00000200)) {
+          blockHash_ = new java.util.ArrayList<com.google.protobuf.ByteString>(blockHash_);
+          bitField0_ |= 0x00000200;
+         }
+      }
+      /**
+       * <code>repeated bytes block_hash = 8;</code>
+       *
+       * <pre>
+       * A list of blocks in which the transaction has been observed (on any chain). Also, a number used to disambiguate
+       * ordering within a block.
+       * </pre>
+       */
+      public java.util.List<com.google.protobuf.ByteString>
+          getBlockHashList() {
+        return java.util.Collections.unmodifiableList(blockHash_);
+      }
+      /**
+       * <code>repeated bytes block_hash = 8;</code>
+       *
+       * <pre>
+       * A list of blocks in which the transaction has been observed (on any chain). Also, a number used to disambiguate
+       * ordering within a block.
+       * </pre>
+       */
+      public int getBlockHashCount() {
+        return blockHash_.size();
+      }
+      /**
+       * <code>repeated bytes block_hash = 8;</code>
+       *
+       * <pre>
+       * A list of blocks in which the transaction has been observed (on any chain). Also, a number used to disambiguate
+       * ordering within a block.
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getBlockHash(int index) {
+        return blockHash_.get(index);
+      }
+      /**
+       * <code>repeated bytes block_hash = 8;</code>
+       *
+       * <pre>
+       * A list of blocks in which the transaction has been observed (on any chain). Also, a number used to disambiguate
+       * ordering within a block.
+       * </pre>
+       */
+      public Builder setBlockHash(
+          int index, com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureBlockHashIsMutable();
+        blockHash_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bytes block_hash = 8;</code>
+       *
+       * <pre>
+       * A list of blocks in which the transaction has been observed (on any chain). Also, a number used to disambiguate
+       * ordering within a block.
+       * </pre>
+       */
+      public Builder addBlockHash(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureBlockHashIsMutable();
+        blockHash_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bytes block_hash = 8;</code>
+       *
+       * <pre>
+       * A list of blocks in which the transaction has been observed (on any chain). Also, a number used to disambiguate
+       * ordering within a block.
+       * </pre>
+       */
+      public Builder addAllBlockHash(
+          java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
+        ensureBlockHashIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, blockHash_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bytes block_hash = 8;</code>
+       *
+       * <pre>
+       * A list of blocks in which the transaction has been observed (on any chain). Also, a number used to disambiguate
+       * ordering within a block.
+       * </pre>
+       */
+      public Builder clearBlockHash() {
+        blockHash_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000200);
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<java.lang.Integer> blockRelativityOffsets_ = java.util.Collections.emptyList();
+      private void ensureBlockRelativityOffsetsIsMutable() {
+        if (!((bitField0_ & 0x00000400) == 0x00000400)) {
+          blockRelativityOffsets_ = new java.util.ArrayList<java.lang.Integer>(blockRelativityOffsets_);
+          bitField0_ |= 0x00000400;
+         }
+      }
+      /**
+       * <code>repeated int32 block_relativity_offsets = 9;</code>
+       */
+      public java.util.List<java.lang.Integer>
+          getBlockRelativityOffsetsList() {
+        return java.util.Collections.unmodifiableList(blockRelativityOffsets_);
+      }
+      /**
+       * <code>repeated int32 block_relativity_offsets = 9;</code>
+       */
+      public int getBlockRelativityOffsetsCount() {
+        return blockRelativityOffsets_.size();
+      }
+      /**
+       * <code>repeated int32 block_relativity_offsets = 9;</code>
+       */
+      public int getBlockRelativityOffsets(int index) {
+        return blockRelativityOffsets_.get(index);
+      }
+      /**
+       * <code>repeated int32 block_relativity_offsets = 9;</code>
+       */
+      public Builder setBlockRelativityOffsets(
+          int index, int value) {
+        ensureBlockRelativityOffsetsIsMutable();
+        blockRelativityOffsets_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 block_relativity_offsets = 9;</code>
+       */
+      public Builder addBlockRelativityOffsets(int value) {
+        ensureBlockRelativityOffsetsIsMutable();
+        blockRelativityOffsets_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 block_relativity_offsets = 9;</code>
+       */
+      public Builder addAllBlockRelativityOffsets(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureBlockRelativityOffsetsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, blockRelativityOffsets_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 block_relativity_offsets = 9;</code>
+       */
+      public Builder clearBlockRelativityOffsets() {
+        blockRelativityOffsets_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000400);
+        onChanged();
+        return this;
+      }
+
+      private com.coinomi.core.protos.Protos.TransactionConfidence confidence_ = com.coinomi.core.protos.Protos.TransactionConfidence.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.coinomi.core.protos.Protos.TransactionConfidence, com.coinomi.core.protos.Protos.TransactionConfidence.Builder, com.coinomi.core.protos.Protos.TransactionConfidenceOrBuilder> confidenceBuilder_;
+      /**
+       * <code>optional .com.coinomi.core.protos.TransactionConfidence confidence = 10;</code>
+       *
+       * <pre>
+       * Data describing where the transaction is in the chain.
+       * </pre>
+       */
+      public boolean hasConfidence() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.TransactionConfidence confidence = 10;</code>
+       *
+       * <pre>
+       * Data describing where the transaction is in the chain.
+       * </pre>
+       */
+      public com.coinomi.core.protos.Protos.TransactionConfidence getConfidence() {
+        if (confidenceBuilder_ == null) {
+          return confidence_;
+        } else {
+          return confidenceBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.TransactionConfidence confidence = 10;</code>
+       *
+       * <pre>
+       * Data describing where the transaction is in the chain.
+       * </pre>
+       */
+      public Builder setConfidence(com.coinomi.core.protos.Protos.TransactionConfidence value) {
+        if (confidenceBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          confidence_ = value;
+          onChanged();
+        } else {
+          confidenceBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000800;
+        return this;
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.TransactionConfidence confidence = 10;</code>
+       *
+       * <pre>
+       * Data describing where the transaction is in the chain.
+       * </pre>
+       */
+      public Builder setConfidence(
+          com.coinomi.core.protos.Protos.TransactionConfidence.Builder builderForValue) {
+        if (confidenceBuilder_ == null) {
+          confidence_ = builderForValue.build();
+          onChanged();
+        } else {
+          confidenceBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000800;
+        return this;
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.TransactionConfidence confidence = 10;</code>
+       *
+       * <pre>
+       * Data describing where the transaction is in the chain.
+       * </pre>
+       */
+      public Builder mergeConfidence(com.coinomi.core.protos.Protos.TransactionConfidence value) {
+        if (confidenceBuilder_ == null) {
+          if (((bitField0_ & 0x00000800) == 0x00000800) &&
+              confidence_ != com.coinomi.core.protos.Protos.TransactionConfidence.getDefaultInstance()) {
+            confidence_ =
+              com.coinomi.core.protos.Protos.TransactionConfidence.newBuilder(confidence_).mergeFrom(value).buildPartial();
+          } else {
+            confidence_ = value;
+          }
+          onChanged();
+        } else {
+          confidenceBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000800;
+        return this;
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.TransactionConfidence confidence = 10;</code>
+       *
+       * <pre>
+       * Data describing where the transaction is in the chain.
+       * </pre>
+       */
+      public Builder clearConfidence() {
+        if (confidenceBuilder_ == null) {
+          confidence_ = com.coinomi.core.protos.Protos.TransactionConfidence.getDefaultInstance();
+          onChanged();
+        } else {
+          confidenceBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000800);
+        return this;
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.TransactionConfidence confidence = 10;</code>
+       *
+       * <pre>
+       * Data describing where the transaction is in the chain.
+       * </pre>
+       */
+      public com.coinomi.core.protos.Protos.TransactionConfidence.Builder getConfidenceBuilder() {
+        bitField0_ |= 0x00000800;
+        onChanged();
+        return getConfidenceFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.TransactionConfidence confidence = 10;</code>
+       *
+       * <pre>
+       * Data describing where the transaction is in the chain.
+       * </pre>
+       */
+      public com.coinomi.core.protos.Protos.TransactionConfidenceOrBuilder getConfidenceOrBuilder() {
+        if (confidenceBuilder_ != null) {
+          return confidenceBuilder_.getMessageOrBuilder();
+        } else {
+          return confidence_;
+        }
+      }
+      /**
+       * <code>optional .com.coinomi.core.protos.TransactionConfidence confidence = 10;</code>
+       *
+       * <pre>
+       * Data describing where the transaction is in the chain.
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.coinomi.core.protos.Protos.TransactionConfidence, com.coinomi.core.protos.Protos.TransactionConfidence.Builder, com.coinomi.core.protos.Protos.TransactionConfidenceOrBuilder> 
+          getConfidenceFieldBuilder() {
+        if (confidenceBuilder_ == null) {
+          confidenceBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.coinomi.core.protos.Protos.TransactionConfidence, com.coinomi.core.protos.Protos.TransactionConfidence.Builder, com.coinomi.core.protos.Protos.TransactionConfidenceOrBuilder>(
+                  getConfidence(),
+                  getParentForChildren(),
+                  isClean());
+          confidence_ = null;
+        }
+        return confidenceBuilder_;
+      }
+
+      private int tokenId_ ;
+      /**
+       * <code>optional int32 token_id = 12;</code>
+       */
+      public boolean hasTokenId() {
+        return ((bitField0_ & 0x00001000) == 0x00001000);
+      }
+      /**
+       * <code>optional int32 token_id = 12;</code>
+       */
+      public int getTokenId() {
+        return tokenId_;
+      }
+      /**
+       * <code>optional int32 token_id = 12;</code>
+       */
+      public Builder setTokenId(int value) {
+        bitField0_ |= 0x00001000;
+        tokenId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 token_id = 12;</code>
+       */
+      public Builder clearTokenId() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        tokenId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString extraBytes_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes extra_bytes = 13;</code>
+       */
+      public boolean hasExtraBytes() {
+        return ((bitField0_ & 0x00002000) == 0x00002000);
+      }
+      /**
+       * <code>optional bytes extra_bytes = 13;</code>
+       */
+      public com.google.protobuf.ByteString getExtraBytes() {
+        return extraBytes_;
+      }
+      /**
+       * <code>optional bytes extra_bytes = 13;</code>
+       */
+      public Builder setExtraBytes(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00002000;
+        extraBytes_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes extra_bytes = 13;</code>
+       */
+      public Builder clearExtraBytes() {
+        bitField0_ = (bitField0_ & ~0x00002000);
+        extraBytes_ = getDefaultInstance().getExtraBytes();
+        onChanged();
+        return this;
+      }
+
+      private boolean isTrimmed_ ;
+      /**
+       * <code>optional bool is_trimmed = 14 [default = false];</code>
+       *
+       * <pre>
+       * A transaction can be stored in a trimmed state where some inputs or outputs are stripped to save space.
+       * </pre>
+       */
+      public boolean hasIsTrimmed() {
+        return ((bitField0_ & 0x00004000) == 0x00004000);
+      }
+      /**
+       * <code>optional bool is_trimmed = 14 [default = false];</code>
+       *
+       * <pre>
+       * A transaction can be stored in a trimmed state where some inputs or outputs are stripped to save space.
+       * </pre>
+       */
+      public boolean getIsTrimmed() {
+        return isTrimmed_;
+      }
+      /**
+       * <code>optional bool is_trimmed = 14 [default = false];</code>
+       *
+       * <pre>
+       * A transaction can be stored in a trimmed state where some inputs or outputs are stripped to save space.
+       * </pre>
+       */
+      public Builder setIsTrimmed(boolean value) {
+        bitField0_ |= 0x00004000;
+        isTrimmed_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool is_trimmed = 14 [default = false];</code>
+       *
+       * <pre>
+       * A transaction can be stored in a trimmed state where some inputs or outputs are stripped to save space.
+       * </pre>
+       */
+      public Builder clearIsTrimmed() {
+        bitField0_ = (bitField0_ & ~0x00004000);
+        isTrimmed_ = false;
+        onChanged();
+        return this;
+      }
+
+      private long valueSent_ ;
+      /**
+       * <code>optional int64 value_sent = 15 [default = 0];</code>
+       *
+       * <pre>
+       * The value that the wallet sends, it is the sum of the inputs that are spending coins with keys in the wallet.
+       * </pre>
+       */
+      public boolean hasValueSent() {
+        return ((bitField0_ & 0x00008000) == 0x00008000);
+      }
+      /**
+       * <code>optional int64 value_sent = 15 [default = 0];</code>
+       *
+       * <pre>
+       * The value that the wallet sends, it is the sum of the inputs that are spending coins with keys in the wallet.
+       * </pre>
