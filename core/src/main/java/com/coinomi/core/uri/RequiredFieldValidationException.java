@@ -12,4 +12,11 @@ import com.coinomi.core.uri.CoinURIParseException;
  */
 public class RequiredFieldValidationException extends CoinURIParseException {
 
-    public RequiredFieldValidationException
+    public RequiredFieldValidationException(String s) {
+        super(s);
+    }
+
+    public RequiredFieldValidationException(String s, Throwable throwable) {
+        super(s, throwable);
+    }
+}
