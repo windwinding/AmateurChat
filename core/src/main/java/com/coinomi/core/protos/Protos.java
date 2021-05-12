@@ -17058,3 +17058,325 @@ public final class Protos {
        * <code>repeated .com.coinomi.core.protos.WalletPocket pockets = 6;</code>
        */
       public com.coinomi.core.protos.Protos.WalletPocket.Builder getPocketsBuilder(
+          int index) {
+        return getPocketsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.WalletPocket pockets = 6;</code>
+       */
+      public com.coinomi.core.protos.Protos.WalletPocketOrBuilder getPocketsOrBuilder(
+          int index) {
+        if (pocketsBuilder_ == null) {
+          return pockets_.get(index);  } else {
+          return pocketsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.WalletPocket pockets = 6;</code>
+       */
+      public java.util.List<? extends com.coinomi.core.protos.Protos.WalletPocketOrBuilder> 
+           getPocketsOrBuilderList() {
+        if (pocketsBuilder_ != null) {
+          return pocketsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(pockets_);
+        }
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.WalletPocket pockets = 6;</code>
+       */
+      public com.coinomi.core.protos.Protos.WalletPocket.Builder addPocketsBuilder() {
+        return getPocketsFieldBuilder().addBuilder(
+            com.coinomi.core.protos.Protos.WalletPocket.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.WalletPocket pockets = 6;</code>
+       */
+      public com.coinomi.core.protos.Protos.WalletPocket.Builder addPocketsBuilder(
+          int index) {
+        return getPocketsFieldBuilder().addBuilder(
+            index, com.coinomi.core.protos.Protos.WalletPocket.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .com.coinomi.core.protos.WalletPocket pockets = 6;</code>
+       */
+      public java.util.List<com.coinomi.core.protos.Protos.WalletPocket.Builder> 
+           getPocketsBuilderList() {
+        return getPocketsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.coinomi.core.protos.Protos.WalletPocket, com.coinomi.core.protos.Protos.WalletPocket.Builder, com.coinomi.core.protos.Protos.WalletPocketOrBuilder> 
+          getPocketsFieldBuilder() {
+        if (pocketsBuilder_ == null) {
+          pocketsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.coinomi.core.protos.Protos.WalletPocket, com.coinomi.core.protos.Protos.WalletPocket.Builder, com.coinomi.core.protos.Protos.WalletPocketOrBuilder>(
+                  pockets_,
+                  ((bitField0_ & 0x00000040) == 0x00000040),
+                  getParentForChildren(),
+                  isClean());
+          pockets_ = null;
+        }
+        return pocketsBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:com.coinomi.core.protos.Wallet)
+    }
+
+    static {
+      defaultInstance = new Wallet(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:com.coinomi.core.protos.Wallet)
+  }
+
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_coinomi_core_protos_PeerAddress_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_coinomi_core_protos_PeerAddress_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_coinomi_core_protos_EncryptedData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_coinomi_core_protos_EncryptedData_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_coinomi_core_protos_DeterministicKey_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_coinomi_core_protos_DeterministicKey_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_coinomi_core_protos_Key_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_coinomi_core_protos_Key_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_coinomi_core_protos_TransactionInput_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_coinomi_core_protos_TransactionInput_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_coinomi_core_protos_TransactionOutput_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_coinomi_core_protos_TransactionOutput_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_coinomi_core_protos_UnspentOutput_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_coinomi_core_protos_UnspentOutput_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_coinomi_core_protos_TransactionConfidence_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_coinomi_core_protos_TransactionConfidence_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_coinomi_core_protos_Transaction_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_coinomi_core_protos_Transaction_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_coinomi_core_protos_AddressStatus_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_coinomi_core_protos_AddressStatus_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_coinomi_core_protos_WalletPocket_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_coinomi_core_protos_WalletPocket_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_coinomi_core_protos_ScryptParameters_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_coinomi_core_protos_ScryptParameters_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_coinomi_core_protos_Wallet_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_coinomi_core_protos_Wallet_fieldAccessorTable;
+
+  public static com.google.protobuf.Descriptors.FileDescriptor
+      getDescriptor() {
+    return descriptor;
+  }
+  private static com.google.protobuf.Descriptors.FileDescriptor
+      descriptor;
+  static {
+    java.lang.String[] descriptorData = {
+      "\n\014wallet.proto\022\027com.coinomi.core.protos\"" +
+      "A\n\013PeerAddress\022\022\n\nip_address\030\001 \002(\014\022\014\n\004po" +
+      "rt\030\002 \002(\r\022\020\n\010services\030\003 \002(\004\"M\n\rEncryptedD" +
+      "ata\022\035\n\025initialisation_vector\030\001 \002(\014\022\035\n\025en" +
+      "crypted_private_key\030\002 \002(\014\"y\n\020Determinist" +
+      "icKey\022\022\n\nchain_code\030\001 \002(\014\022\014\n\004path\030\002 \003(\r\022" +
+      "\026\n\016issued_subkeys\030\003 \001(\r\022\026\n\016lookahead_siz" +
+      "e\030\004 \001(\r\022\023\n\013isFollowing\030\005 \001(\010\"\330\002\n\003Key\022/\n\004" +
+      "type\030\001 \002(\0162!.com.coinomi.core.protos.Key" +
+      ".Type\022\024\n\014secret_bytes\030\002 \001(\014\022>\n\016encrypted",
+      "_data\030\003 \001(\0132&.com.coinomi.core.protos.En" +
+      "cryptedData\022\022\n\npublic_key\030\004 \001(\014\022\r\n\005label" +
+      "\030\005 \001(\t\022D\n\021deterministic_key\030\006 \001(\0132).com." +
+      "coinomi.core.protos.DeterministicKey\"a\n\004" +
+      "Type\022\014\n\010ORIGINAL\020\001\022\030\n\024ENCRYPTED_SCRYPT_A" +
+      "ES\020\002\022\032\n\026DETERMINISTIC_MNEMONIC\020\003\022\025\n\021DETE" +
+      "RMINISTIC_KEY\020\004\"\222\001\n\020TransactionInput\022\"\n\032" +
+      "transaction_out_point_hash\030\001 \002(\014\022#\n\033tran" +
+      "saction_out_point_index\030\002 \002(\r\022\024\n\014script_" +
+      "bytes\030\003 \002(\014\022\020\n\010sequence\030\004 \001(\r\022\r\n\005value\030\005",
+      " \001(\003\"\247\001\n\021TransactionOutput\022\r\n\005value\030\001 \002(" +
+      "\003\022\024\n\014script_bytes\030\002 \002(\014\022!\n\031spent_by_tran" +
+      "saction_hash\030\003 \001(\014\022\"\n\032spent_by_transacti" +
+      "on_index\030\004 \001(\005\022\027\n\010is_spent\030\005 \001(\010:\005false\022" +
+      "\r\n\005index\030\006 \001(\005\"\202\001\n\rUnspentOutput\022\026\n\016out_" +
+      "point_hash\030\001 \002(\014\022\027\n\017out_point_index\030\002 \002(" +
+      "\r\022\024\n\014script_bytes\030\003 \002(\014\022\r\n\005value\030\004 \002(\003\022\033" +
+      "\n\014is_generated\030\005 \001(\010:\005false\"\271\003\n\025Transact" +
+      "ionConfidence\022A\n\004type\030\001 \001(\01623.com.coinom" +
+      "i.core.protos.TransactionConfidence.Type",
+      "\022\032\n\022appeared_at_height\030\002 \001(\005\022\036\n\026overridi" +
+      "ng_transaction\030\003 \001(\014\022\r\n\005depth\030\004 \001(\005\022:\n\014b" +
+      "roadcast_by\030\005 \003(\0132$.com.coinomi.core.pro" +
+      "tos.PeerAddress\022E\n\006source\030\006 \001(\01625.com.co" +
+      "inomi.core.protos.TransactionConfidence." +
+      "Source\"8\n\004Type\022\013\n\007UNKNOWN\020\000\022\014\n\010BUILDING\020" +
+      "\001\022\013\n\007PENDING\020\002\022\010\n\004DEAD\020\003\"U\n\006Source\022\022\n\016SO" +
+      "URCE_UNKNOWN\020\000\022\022\n\016SOURCE_NETWORK\020\001\022\017\n\013SO" +
+      "URCE_SELF\020\002\022\022\n\016SOURCE_TRUSTED\020\003\"\362\004\n\013Tran" +
+      "saction\022\017\n\007version\030\001 \002(\005\022\014\n\004time\030\013 \001(\005\022\014",
+      "\n\004hash\030\002 \002(\014\0227\n\004pool\030\003 \001(\0162).com.coinomi" +
+      ".core.protos.Transaction.Pool\022\021\n\tlock_ti" +
+      "me\030\004 \001(\r\022\022\n\nupdated_at\030\005 \001(\003\022D\n\021transact" +
+      "ion_input\030\006 \003(\0132).com.coinomi.core.proto" +
+      "s.TransactionInput\022\026\n\016num_of_outputs\030\022 \001" +
+      "(\005\022F\n\022transaction_output\030\007 \003(\0132*.com.coi" +
+      "nomi.core.protos.TransactionOutput\022\022\n\nbl" +
+      "ock_hash\030\010 \003(\014\022 \n\030block_relativity_offse" +
+      "ts\030\t \003(\005\022B\n\nconfidence\030\n \001(\0132..com.coino" +
+      "mi.core.protos.TransactionConfidence\022\020\n\010",
+      "token_id\030\014 \001(\005\022\023\n\013extra_bytes\030\r \001(\014\022\031\n\ni" +
+      "s_trimmed\030\016 \001(\010:\005false\022\025\n\nvalue_sent\030\017 \001" +
+      "(\003:\0010\022\031\n\016value_received\030\020 \001(\003:\0010\022\013\n\003fee\030" +
+      "\021 \001(\003\"5\n\004Pool\022\013\n\007UNSPENT\020\004\022\t\n\005SPENT\020\005\022\010\n" +
+      "\004DEAD\020\n\022\013\n\007PENDING\020\020\"0\n\rAddressStatus\022\017\n" +
+      "\007address\030\001 \002(\t\022\016\n\006status\030\002 \002(\t\"\222\003\n\014Walle" +
+      "tPocket\022\032\n\022network_identifier\030\001 \002(\t\022\023\n\013d" +
+      "escription\030\002 \001(\t\022)\n\003key\030\003 \003(\0132\034.com.coin" +
+      "omi.core.protos.Key\022\034\n\024last_seen_block_h" +
+      "ash\030\004 \001(\014\022\036\n\026last_seen_block_height\030\005 \001(",
+      "\r\022!\n\031last_seen_block_time_secs\030\006 \001(\003\0229\n\013" +
+      "transaction\030\007 \003(\0132$.com.coinomi.core.pro" +
+      "tos.Transaction\022>\n\016address_status\030\010 \003(\0132" +
+      "&.com.coinomi.core.protos.AddressStatus\022" +
+      "\n\n\002id\030\t \001(\t\022>\n\016unspent_output\030\n \003(\0132&.co" +
+      "m.coinomi.core.protos.UnspentOutput\"N\n\020S" +
+      "cryptParameters\022\014\n\004salt\030\001 \002(\014\022\020\n\001n\030\002 \001(\003" +
+      ":\00516384\022\014\n\001r\030\003 \001(\005:\0018\022\014\n\001p\030\004 \001(\005:\0011\"\303\003\n\006" +
+      "Wallet\022\022\n\007version\030\001 \001(\005:\0011\022*\n\004seed\030\002 \001(\013" +
+      "2\034.com.coinomi.core.protos.Key\022\037\n\027seed_p",
+      "assword_protected\030\007 \001(\010\0220\n\nmaster_key\030\003 " +
+      "\002(\0132\034.com.coinomi.core.protos.Key\022T\n\017enc" +
+      "ryption_type\030\004 \001(\0162..com.coinomi.core.pr" +
+      "otos.Wallet.EncryptionType:\013UNENCRYPTED\022" +
+      "H\n\025encryption_parameters\030\005 \001(\0132).com.coi" +
+      "nomi.core.protos.ScryptParameters\0226\n\007poc" +
+      "kets\030\006 \003(\0132%.com.coinomi.core.protos.Wal" +
+      "letPocket\"N\n\016EncryptionType\022\017\n\013UNENCRYPT" +
+      "ED\020\001\022\030\n\024ENCRYPTED_SCRYPT_AES\020\002\022\021\n\rENCRYP" +
+      "TED_AES\020\003B!\n\027com.coinomi.core.protosB\006Pr",
+      "otos"
+    };
+    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
+        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
+          public com.google.protobuf.ExtensionRegistry assignDescriptors(
+              com.google.protobuf.Descriptors.FileDescriptor root) {
+            descriptor = root;
+            return null;
+          }
+        };
+    com.google.protobuf.Descriptors.FileDescriptor
+      .internalBuildGeneratedFileFrom(descriptorData,
+        new com.google.protobuf.Descriptors.FileDescriptor[] {
+        }, assigner);
+    internal_static_com_coinomi_core_protos_PeerAddress_descriptor =
+      getDescriptor().getMessageTypes().get(0);
+    internal_static_com_coinomi_core_protos_PeerAddress_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_coinomi_core_protos_PeerAddress_descriptor,
+        new java.lang.String[] { "IpAddress", "Port", "Services", });
+    internal_static_com_coinomi_core_protos_EncryptedData_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_com_coinomi_core_protos_EncryptedData_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_coinomi_core_protos_EncryptedData_descriptor,
+        new java.lang.String[] { "InitialisationVector", "EncryptedPrivateKey", });
+    internal_static_com_coinomi_core_protos_DeterministicKey_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_com_coinomi_core_protos_DeterministicKey_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_coinomi_core_protos_DeterministicKey_descriptor,
+        new java.lang.String[] { "ChainCode", "Path", "IssuedSubkeys", "LookaheadSize", "IsFollowing", });
+    internal_static_com_coinomi_core_protos_Key_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_com_coinomi_core_protos_Key_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_coinomi_core_protos_Key_descriptor,
+        new java.lang.String[] { "Type", "SecretBytes", "EncryptedData", "PublicKey", "Label", "DeterministicKey", });
+    internal_static_com_coinomi_core_protos_TransactionInput_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_com_coinomi_core_protos_TransactionInput_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_coinomi_core_protos_TransactionInput_descriptor,
+        new java.lang.String[] { "TransactionOutPointHash", "TransactionOutPointIndex", "ScriptBytes", "Sequence", "Value", });
+    internal_static_com_coinomi_core_protos_TransactionOutput_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_com_coinomi_core_protos_TransactionOutput_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_coinomi_core_protos_TransactionOutput_descriptor,
+        new java.lang.String[] { "Value", "ScriptBytes", "SpentByTransactionHash", "SpentByTransactionIndex", "IsSpent", "Index", });
+    internal_static_com_coinomi_core_protos_UnspentOutput_descriptor =
+      getDescriptor().getMessageTypes().get(6);
+    internal_static_com_coinomi_core_protos_UnspentOutput_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_coinomi_core_protos_UnspentOutput_descriptor,
+        new java.lang.String[] { "OutPointHash", "OutPointIndex", "ScriptBytes", "Value", "IsGenerated", });
+    internal_static_com_coinomi_core_protos_TransactionConfidence_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_com_coinomi_core_protos_TransactionConfidence_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_coinomi_core_protos_TransactionConfidence_descriptor,
+        new java.lang.String[] { "Type", "AppearedAtHeight", "OverridingTransaction", "Depth", "BroadcastBy", "Source", });
+    internal_static_com_coinomi_core_protos_Transaction_descriptor =
+      getDescriptor().getMessageTypes().get(8);
+    internal_static_com_coinomi_core_protos_Transaction_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_coinomi_core_protos_Transaction_descriptor,
+        new java.lang.String[] { "Version", "Time", "Hash", "Pool", "LockTime", "UpdatedAt", "TransactionInput", "NumOfOutputs", "TransactionOutput", "BlockHash", "BlockRelativityOffsets", "Confidence", "TokenId", "ExtraBytes", "IsTrimmed", "ValueSent", "ValueReceived", "Fee", });
+    internal_static_com_coinomi_core_protos_AddressStatus_descriptor =
+      getDescriptor().getMessageTypes().get(9);
+    internal_static_com_coinomi_core_protos_AddressStatus_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_coinomi_core_protos_AddressStatus_descriptor,
+        new java.lang.String[] { "Address", "Status", });
+    internal_static_com_coinomi_core_protos_WalletPocket_descriptor =
+      getDescriptor().getMessageTypes().get(10);
+    internal_static_com_coinomi_core_protos_WalletPocket_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_coinomi_core_protos_WalletPocket_descriptor,
+        new java.lang.String[] { "NetworkIdentifier", "Description", "Key", "LastSeenBlockHash", "LastSeenBlockHeight", "LastSeenBlockTimeSecs", "Transaction", "AddressStatus", "Id", "UnspentOutput", });
+    internal_static_com_coinomi_core_protos_ScryptParameters_descriptor =
+      getDescriptor().getMessageTypes().get(11);
+    internal_static_com_coinomi_core_protos_ScryptParameters_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_coinomi_core_protos_ScryptParameters_descriptor,
+        new java.lang.String[] { "Salt", "N", "R", "P", });
+    internal_static_com_coinomi_core_protos_Wallet_descriptor =
+      getDescriptor().getMessageTypes().get(12);
+    internal_static_com_coinomi_core_protos_Wallet_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_coinomi_core_protos_Wallet_descriptor,
+        new java.lang.String[] { "Version", "Seed", "SeedPasswordProtected", "MasterKey", "EncryptionType", "EncryptionParameters", "Pockets", });
+  }
+
+  // @@protoc_insertion_point(outer_class_scope)
+}
