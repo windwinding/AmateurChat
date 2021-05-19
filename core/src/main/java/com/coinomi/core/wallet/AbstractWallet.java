@@ -64,3 +64,51 @@ public abstract class AbstractWallet<T extends AbstractTransaction, A extends Ab
     public String getDescriptionOrCoinName() {
         if (description == null || description.trim().isEmpty()) {
             return type.getName();
+        } else {
+            return description;
+        }
+    }
+
+    @Override
+    public void completeAndSignTx(SendRequest request) throws WalletAccountException {
+        if (request.isCompleted()) {
+            signTransaction(request);
+        } else {
+            completeTransaction(request);
+        }
+    }
+
+    @Override
+    public boolean isType(WalletAccount other) {
+        return TypeUtils.is(type, other);
+    }
+
+    @Override
+    public boolean isType(ValueType otherType) {
+        return TypeUtils.is(type, otherType);
+    }
+
+    @Override
+    public boolean isType(AbstractAddress address) {
+        return TypeUtils.is(type, address);
+    }
+
+    public WalletConnectivityStatus getConnectivityStatus() {
+        if (!isConnected()) {
+            return WalletConnectivityStatus.DISCONNECTED;
+        } else {
+            if (isLoading()) {
+                return WalletConnectivityStatus.LOADING;
+            } else {
+                return WalletConnectivityStatus.CONNECTED;
+            }
+        }
+    }
+
+    @Override
+    public boolean equals(WalletAccount other) {
+        return other != null &&
+                getId().equals(other.getId()) &&
+                getCoinType().equals(other.getCoinType());
+    }
+}
