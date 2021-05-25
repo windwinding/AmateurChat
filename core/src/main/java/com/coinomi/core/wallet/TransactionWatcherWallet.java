@@ -50,4 +50,40 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Executor;
+
+import javax.annotation.Nullable;
+
+import static com.coinomi.core.Preconditions.checkNotNull;
+import static com.coinomi.core.Preconditions.checkState;
+import static org.bitcoinj.core.TransactionConfidence.ConfidenceType.BUILDING;
+import static org.bitcoinj.core.TransactionConfidence.ConfidenceType.PENDING;
+import static org.bitcoinj.core.TransactionConfidence.ConfidenceType.UNKNOWN;
+
+/**
+ * @author John L. Jegutanis
+ */
+abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransaction, BitAddress>
+        implements TransactionBag, BitTransactionEventListener {
+    private static final Logger log = LoggerFactory.getLogger(TransactionWatcherWallet.class);
+
+    private final static int TX_DEPTH_SAVE_THRESHOLD = 4;
+
+    boolean DISABLE_TX_TRIMMING = false;
+
+    @Nullable private Sha256Hash lastBlockSeenHash;
+    private int lastBlockSeenHeight = -1;
+    private long lastBlockSeenTimeSecs = 0;
+
+    @VisibleForTesting
+    final Map<TrimmedOutPoint, OutPointOutput> unspentOutputs;
+
+    // Holds the status of every address we are watching. When connecting to the server, if we get a
+    // different status for a particular address this means that there are new transactions for that
+    // address and we have to fetch them. The status String could be null when an address is unused.
+    @VisibleForTesting
+    final Map<AbstractAddress, String> addressesStatus;
+
+    @VisibleForTesting final transient ArrayList<AbstractAddress> addressesSubscribed;
+    @
