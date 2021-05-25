@@ -741,3 +741,204 @@ public class SimpleHDKeyChain implements EncryptableKeyChain, KeyBag {
     /**
      * Sets a new lookahead size. See {@link #getLookaheadSize()} for details on what this is. Setting a new size
      * that's larger than the current size will return immediately and the new size will only take effect next time
+     * a fresh filter is requested (e.g. due to a new peer being connected). So you should set this before starting
+     * to sync the chain, if you want to modify it. If you haven't modified the lookahead threshold manually then
+     * it will be automatically set to be a third of the new size.
+     */
+    public void setLookaheadSize(int lookaheadSize) {
+        lock.lock();
+        try {
+            boolean readjustThreshold = this.lookaheadThreshold == calcDefaultLookaheadThreshold();
+            this.lookaheadSize = lookaheadSize;
+            if (readjustThreshold)
+                this.lookaheadThreshold = calcDefaultLookaheadThreshold();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * Sets the threshold for the key pre-generation.
+     * If a key is used in a transaction, the keychain would pre-generate a new key, for every issued key,
+     * even if it is only one. If the blockchain is replayed, every key would trigger a regeneration
+     * of the bloom filter sent to the peers as a consequence.
+     * To prevent this, new keys are only generated, if more than the threshold value are needed.
+     */
+    public void setLookaheadThreshold(int num) {
+        lock.lock();
+        try {
+            if (num >= lookaheadSize)
+                throw new IllegalArgumentException("Threshold larger or equal to the lookaheadSize");
+            this.lookaheadThreshold = num;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * Gets the threshold for the key pre-generation.
+     * See {@link #setLookaheadThreshold(int)} for details on what this is.
+     */
+    public int getLookaheadThreshold() {
+        lock.lock();
+        try {
+            if (lookaheadThreshold >= lookaheadSize)
+                return 0;
+            return lookaheadThreshold;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * Pre-generate enough keys to reach the lookahead size. You can call this if you need to explicitly invoke
+     * the lookahead procedure, but it's normally unnecessary as it will be done automatically when needed.
+     */
+    public void maybeLookAhead() {
+        lock.lock();
+        try {
+            List<DeterministicKey> keys = maybeLookAhead(externalKey, issuedExternalKeys);
+            keys.addAll(maybeLookAhead(internalKey, issuedInternalKeys));
+            // Batch add all keys at once so there's only one event listener invocation, as this will be listened to
+            // by the wallet and used to rebuild/broadcast the Bloom filter. That's expensive so we don't want to do
+            // it more often than necessary.
+            simpleKeyChain.importKeys(keys);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private List<DeterministicKey> maybeLookAhead(DeterministicKey parent, int issued) {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        return maybeLookAhead(parent, issued, getLookaheadSize(), getLookaheadThreshold());
+    }
+
+    /**
+     * Pre-generate enough keys to reach the lookahead size, but only if there are more than the lookaheadThreshold to
+     * be generated, so that the Bloom filter does not have to be regenerated that often.
+     *
+     * The returned mutable list of keys must be inserted into the basic key chain.
+     */
+    private List<DeterministicKey> maybeLookAhead(DeterministicKey parent, int issued, int lookaheadSize, int lookaheadThreshold) {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        final int numChildren = hierarchy.getNumChildren(parent.getPath());
+        final int needed = issued + lookaheadSize + lookaheadThreshold - numChildren;
+
+        if (needed <= lookaheadThreshold)
+            return new ArrayList<DeterministicKey>();
+
+        log.info("{} keys needed for {} = {} issued + {} lookahead size + {} lookahead threshold - {} num children",
+                needed, parent.getPathAsString(), issued, lookaheadSize, lookaheadThreshold, numChildren);
+
+        List<DeterministicKey> result  = new ArrayList<DeterministicKey>(needed);
+        long now = System.currentTimeMillis();
+        int nextChild = numChildren;
+        for (int i = 0; i < needed; i++) {
+            DeterministicKey key = HDKeyDerivation.deriveThisOrNextChildKey(parent, nextChild);
+            key = key.getPubOnly();
+            hierarchy.putKey(key);
+            result.add(key);
+            nextChild = key.getChildNumber().num() + 1;
+        }
+        log.info("Took {} msec", System.currentTimeMillis() - now);
+        return result;
+    }
+
+    /**
+     * Returns keys used on external path. This may be fewer than the number that have been deserialized
+     * or held in memory, because of the lookahead zone.
+     */
+    public ArrayList<DeterministicKey> getIssuedExternalKeys() {
+        lock.lock();
+        try {
+            maybeLookAhead();
+            int treeSize = externalKey.getPath().size();
+            ArrayList<DeterministicKey> issuedKeys = new ArrayList<DeterministicKey>();
+            for (ECKey key : simpleKeyChain.getKeys()) {
+                DeterministicKey detkey = (DeterministicKey) key;
+                DeterministicKey parent = detkey.getParent();
+                if (parent == null) continue;
+                if (detkey.getPath().size() <= treeSize) continue;
+                if (parent.equals(internalKey)) continue;
+                if (parent.equals(externalKey) && detkey.getChildNumber().num() >= issuedExternalKeys) continue;
+                issuedKeys.add(detkey);
+            }
+            return issuedKeys;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * Returns number of keys used on external path. This may be fewer than the number that have been deserialized
+     * or held in memory, because of the lookahead zone.
+     */
+    public int getNumIssuedExternalKeys() {
+        lock.lock();
+        try {
+            return issuedExternalKeys;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * Returns number of keys used on internal path. This may be fewer than the number that have been deserialized
+     * or held in memory, because of the lookahead zone.
+     */
+    public int getNumIssuedInternalKeys() {
+        lock.lock();
+        try {
+            return issuedInternalKeys;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    // For internal usage only
+    /* package */ List<ECKey> getKeys(boolean includeLookahead) {
+        maybeLookAhead();
+        List<ECKey> keys = simpleKeyChain.getKeys();
+        if (!includeLookahead) {
+            int treeSize = internalKey.getPath().size();
+            List<ECKey> issuedKeys = new LinkedList<ECKey>();
+            for (ECKey key : keys) {
+                DeterministicKey detkey = (DeterministicKey) key;
+                DeterministicKey parent = detkey.getParent();
+                if (parent == null) continue;
+                if (detkey.getPath().size() <= treeSize) continue;
+                if (parent.equals(internalKey) && detkey.getChildNumber().num() > issuedInternalKeys) continue;
+                if (parent.equals(externalKey) && detkey.getChildNumber().num() > issuedExternalKeys) continue;
+                issuedKeys.add(detkey);
+            }
+            return issuedKeys;
+        }
+        return keys;
+    }
+
+
+    /**
+     * Returns leaf keys issued by this chain (including lookahead zone but no lookahead threshold)
+     */
+    public List<DeterministicKey> getActiveKeys() {
+        ImmutableList.Builder<DeterministicKey> keys = ImmutableList.builder();
+        for (ECKey key : getKeys(true)) {
+            DeterministicKey dKey = (DeterministicKey) key;
+            if (isLeaf(dKey)) {
+                if (dKey.getParent().equals(internalKey) && dKey.getChildNumber().num() >= issuedInternalKeys + lookaheadSize) continue;
+                if (dKey.getParent().equals(externalKey) && dKey.getChildNumber().num() >= issuedExternalKeys + lookaheadSize) continue;
+
+                keys.add(dKey);
+            }
+        }
+        return keys.build();
+    }
+
+    public boolean isExternal(DeterministicKey key) {
+        return key.getParent() != null && key.getParent().equals(externalKey);
+    }
+
+    public int getAccountIndex() {
+        return rootKey.getChildNumber().num();
+    }
+}
