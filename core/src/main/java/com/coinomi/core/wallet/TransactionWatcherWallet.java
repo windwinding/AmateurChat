@@ -170,4 +170,45 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
 
     // Util
     @Override
-    public void walletSaveLater
+    public void walletSaveLater() {
+        // Save in another thread to avoid cyclic locking of Wallet and WalletPocket
+        Threading.USER_THREAD.execute(saveLaterRunnable);
+    }
+
+    @Override
+    public void walletSaveNow() {
+        // Save in another thread to avoid cyclic locking of Wallet and WalletPocket
+        Threading.USER_THREAD.execute(saveNowRunnable);
+    }
+
+    /**
+     * Returns a set of all WalletTransactions in the wallet.
+     */
+    public Iterable<BitWalletTransaction> getWalletTransactions() {
+        lock.lock();
+        try {
+            Set<BitWalletTransaction> all = new HashSet<>();
+            addWalletTransactionsToSet(all, WalletTransaction.Pool.CONFIRMED, confirmed.values());
+            addWalletTransactionsToSet(all, WalletTransaction.Pool.PENDING, pending.values());
+            return all;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * Just adds the transaction to a pool without doing anything else
+     */
+    private void simpleAddTransaction(WalletTransaction.Pool pool, BitTransaction tx) {
+        lock.lock();
+        try {
+            if (rawTransactions.containsKey(tx.getHash())) return;
+            rawTransactions.put(tx.getHash(), tx);
+            switch (pool) {
+                case CONFIRMED:
+                    checkState(confirmed.put(tx.getHash(), tx) == null);
+                    break;
+                case PENDING:
+                    checkState(pending.put(tx.getHash(), tx) == null);
+                    break;
+          
