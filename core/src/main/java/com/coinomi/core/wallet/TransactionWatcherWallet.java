@@ -86,4 +86,29 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
     final Map<AbstractAddress, String> addressesStatus;
 
     @VisibleForTesting final transient ArrayList<AbstractAddress> addressesSubscribed;
-    @
+    @VisibleForTesting final transient ArrayList<AbstractAddress> addressesPendingSubscription;
+    @VisibleForTesting final transient Map<AbstractAddress, AddressStatus> statusPendingUpdates;
+    @VisibleForTesting final transient Map<Sha256Hash, Integer> fetchingTransactions;
+    @VisibleForTesting final transient Map<Integer, Long> blockTimes;
+    @VisibleForTesting final transient Map<Integer, Set<Sha256Hash>> missingTimestamps;
+    // Transactions that are waiting to be added once transactions that they depend on are added
+    final transient Map<Sha256Hash, Map.Entry<BitTransaction, Set<Sha256Hash>>> outOfOrderTransactions;
+
+    // The various pools below give quick access to wallet-relevant transactions by the state they're in:
+    //
+    // Pending:  Transactions that didn't make it into the best chain yet.
+    // Confirmed:Transactions that appeared in the best chain.
+
+    @VisibleForTesting final Map<Sha256Hash, BitTransaction> pending;
+    @VisibleForTesting final Map<Sha256Hash, BitTransaction> confirmed;
+
+    // All transactions together.
+    final Map<Sha256Hash, BitTransaction> rawTransactions;
+    private BitBlockchainConnection blockchainConnection;
+    private List<ListenerRegistration<WalletAccountEventListener>> listeners;
+
+    // Wallet that this account belongs
+    @Nullable private transient Wallet wallet = null;
+
+    @VisibleForTesting transient Value lastBalance;
+    transient WalletConnectivityStatus lastConnectivity = Wallet
