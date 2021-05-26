@@ -111,4 +111,63 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
     @Nullable private transient Wallet wallet = null;
 
     @VisibleForTesting transient Value lastBalance;
-    transient WalletConnectivityStatus lastConnectivity = Wallet
+    transient WalletConnectivityStatus lastConnectivity = WalletConnectivityStatus.DISCONNECTED;
+
+    private Runnable saveLaterRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (wallet != null) wallet.saveLater();
+        }
+    };
+
+    private Runnable saveNowRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (wallet != null) wallet.saveNow();
+        }
+    };
+
+    // Constructor
+    public TransactionWatcherWallet(CoinType coinType, String id) {
+        super(coinType, id);
+        unspentOutputs = new HashMap<>();
+        addressesStatus = new HashMap<>();
+        addressesSubscribed = new ArrayList<>();
+        addressesPendingSubscription = new ArrayList<>();
+        statusPendingUpdates = new HashMap<>();
+        fetchingTransactions = new HashMap<>();
+        blockTimes = new HashMap<>();
+        missingTimestamps = new HashMap<>();
+        confirmed = new HashMap<>();
+        pending = new HashMap<>();
+        rawTransactions = new HashMap<>();
+        outOfOrderTransactions = new HashMap<>();
+        listeners = new CopyOnWriteArrayList<>();
+        lastBalance = type.value(0);
+    }
+
+
+    @Override
+    public CoinType getCoinType() {
+        return type;
+    }
+
+    @Override
+    public boolean isNew() {
+        return rawTransactions.size() == 0;
+    }
+
+    @Override
+    public void setWallet(@Nullable Wallet wallet) {
+        this.wallet = wallet;
+    }
+
+    @Override
+    @Nullable
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    // Util
+    @Override
+    public void walletSaveLater
