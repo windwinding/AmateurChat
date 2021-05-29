@@ -292,4 +292,40 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
             return false;
         }
 
-        Transaction txFull = transaction.getRa
+        Transaction txFull = transaction.getRawTransaction();
+        List<TransactionOutput> outputs = txFull.getOutputs();
+
+        TrimmedTransaction tx = new TrimmedTransaction(type, hash, outputs.size());
+
+        // Copy confidence
+        TransactionConfidence fullTxConf = txFull.getConfidence();
+        TransactionConfidence txConf = tx.getConfidence();
+        txConf.setSource(fullTxConf.getSource());
+        txConf.setConfidenceType(fullTxConf.getConfidenceType());
+        if (txConf.getConfidenceType() == BUILDING) {
+            txConf.setAppearedAtChainHeight(fullTxConf.getAppearedAtChainHeight());
+            txConf.setDepthInBlocks(fullTxConf.getDepthInBlocks());
+        }
+        // Copy other fields
+        tx.setTime(txFull.getTime());
+        tx.setTokenId(txFull.getTokenId());
+        tx.setExtraBytes(txFull.getExtraBytes());
+        tx.setUpdateTime(txFull.getUpdateTime());
+        tx.setLockTime(txFull.getLockTime());
+
+        if (txFull.getAppearsInHashes() != null) {
+            for (Map.Entry<Sha256Hash, Integer> appears : txFull.getAppearsInHashes().entrySet()) {
+                tx.addBlockAppearance(appears.getKey(), appears.getValue());
+            }
+        }
+
+        tx.setPurpose(txFull.getPurpose());
+
+        // Remove unrelated outputs when receiving coins
+        if (isReceiving) {
+            int outputIndex = 0;
+            for (TransactionOutput output : outputs) {
+                if (output.isMineOrWatched(this)) {
+                    tx.addOutput(outputIndex, output);
+                }
+                outputIndex++;
