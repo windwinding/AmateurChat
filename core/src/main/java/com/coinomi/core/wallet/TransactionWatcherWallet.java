@@ -257,4 +257,39 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
 
         checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
 
-        BitTransaction transaction = 
+        BitTransaction transaction = rawTransactions.get(hash);
+
+        if (transaction == null || transaction.isTrimmed()) return false;
+
+        for (TransactionInput input : transaction.getInputs()) {
+            // If this transaction depends on a previous transaction that is yet fetched
+            if (isInputMine(input) && !rawTransactions.containsKey(input.getOutpoint().getHash())) {
+                log.warn("Tried to trim transaction with unmet dependencies. Tx {} depends on {}.",
+                        hash, input.getOutpoint().getHash());
+                return false;
+            }
+        }
+
+        final Value valueSent = transaction.getValueSent(this);
+        final Value valueReceived = transaction.getValueReceived(this);
+        boolean isReceiving = valueReceived.compareTo(valueSent) > 0;
+
+        // Remove fee when receiving
+        final Value fee = isReceiving ? null : transaction.getRawTxFee(this);
+
+        WalletTransaction.Pool txPool;
+        if (confirmed.containsKey(hash)) {
+            txPool = WalletTransaction.Pool.CONFIRMED;
+        } else if (pending.containsKey(hash)) {
+            txPool = WalletTransaction.Pool.PENDING;
+        } else {
+            throw new RuntimeException("Transaction is not found in any pool");
+        }
+
+        // Do not trim pending sending transactions as we need their inputs to correctly calculate
+        // the UTXO set
+        if (txPool == WalletTransaction.Pool.PENDING && !isReceiving) {
+            return false;
+        }
+
+        Transaction txFull = transaction.getRa
