@@ -211,4 +211,50 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
                 case PENDING:
                     checkState(pending.put(tx.getHash(), tx) == null);
                     break;
-          
+                default:
+                    throw new RuntimeException("Unknown wallet transaction type " + pool);
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private static void addWalletTransactionsToSet(Set<BitWalletTransaction> txs,
+                                                   WalletTransaction.Pool poolType, Collection<BitTransaction> pool) {
+        for (BitTransaction tx : pool) {
+            txs.add(new BitWalletTransaction(poolType, tx));
+        }
+    }
+
+    /**
+     * Adds a transaction that has been associated with a particular wallet pool. This is intended for usage by
+     * deserialization code, such as the {@link WalletPocketProtobufSerializer} class. It isn't normally useful for
+     * applications. It does not trigger auto saving.
+     */
+    public void addWalletTransaction(BitWalletTransaction wtx) {
+        lock.lock();
+        try {
+            addWalletTransaction(wtx.getPool(), wtx.getTransaction(), true);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    boolean trimTransactionIfNeeded(Sha256Hash hash) {
+        lock.lock();
+        try {
+            return trimTransaction(hash);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * Remove irrelevant inputs and outputs. Returns true if transaction trimmed.
+     */
+    private boolean trimTransaction(Sha256Hash hash) {
+        if (DISABLE_TX_TRIMMING) return false;
+
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+
+        BitTransaction transaction = 
