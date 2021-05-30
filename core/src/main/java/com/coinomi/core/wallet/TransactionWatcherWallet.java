@@ -329,3 +329,49 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
                     tx.addOutput(outputIndex, output);
                 }
                 outputIndex++;
+            }
+        } else {
+            // When sending keep all outputs
+            tx.addAllOutputs(outputs);
+        }
+
+        // Replace with trimmed transaction
+        removeTransaction(hash);
+
+        simpleAddTransaction(txPool,
+                BitTransaction.fromTrimmed(hash, tx, valueSent, valueReceived, fee));
+        return true;
+    }
+
+    private void removeTransaction(Sha256Hash hash) {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        rawTransactions.remove(hash);
+        confirmed.remove(hash);
+        pending.remove(hash);
+    }
+
+    /**
+     * Adds the given transaction to the given pools and registers a confidence change listener on it.
+     */
+    private void addWalletTransaction(@Nullable WalletTransaction.Pool pool, BitTransaction tx,
+                                      boolean save) {
+        lock.lock();
+        try {
+            if (pool == null) {
+                switch (tx.getConfidenceType()) {
+                    case BUILDING:
+                        pool = WalletTransaction.Pool.CONFIRMED;
+                        break;
+                    case PENDING:
+                        pool = WalletTransaction.Pool.PENDING;
+                        break;
+                    case DEAD:
+                    case UNKNOWN:
+                    default:
+                        throw new RuntimeException("Unsupported confidence type: " +
+                                tx.getConfidenceType().name());
+                }
+            }
+
+            guessSource(tx);
+            simpleAddTransac
