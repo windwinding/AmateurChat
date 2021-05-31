@@ -374,4 +374,51 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
             }
 
             guessSource(tx);
-            simpleAddTransac
+            simpleAddTransaction(pool, tx);
+            trimTransaction(tx.getHash());
+            if (tx.getSource() == Source.SELF) queueOnNewBalance();
+        } finally {
+            lock.unlock();
+        }
+
+
+        // This is safe even if the listener has been added before, as TransactionConfidence ignores duplicate
+        // registration requests. That makes the code in the wallet simpler.
+        // TODO add txConfidenceListener
+//        tx.getConfidence().addEventListener(txConfidenceListener, Threading.SAME_THREAD);
+        if (save) walletSaveLater();
+    }
+
+    private void guessSource(BitTransaction tx) {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        if (tx.getSource() == Source.UNKNOWN) {
+            boolean isReceiving = tx.getValue(this).isPositive();
+
+            if (isReceiving) {
+                tx.setSource(Source.NETWORK);
+            } else {
+                tx.setSource(Source.SELF);
+            }
+        }
+    }
+
+    /**
+     * Returns a transaction object given its hash, if it exists in this wallet, or null otherwise.
+     */
+    @Nullable
+    public Transaction getRawTransaction(Sha256Hash hash) {
+        lock.lock();
+        try {
+            BitTransaction tx = rawTransactions.get(hash);
+            if (tx != null) {
+                return tx.getRawTransaction();
+            } else {
+                return null;
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * Returns tr
