@@ -421,4 +421,47 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
     }
 
     /**
-     * Returns tr
+     * Returns transactions that match the hashes, some transactions could be missing.
+     */
+    public HashMap<Sha256Hash, BitTransaction> getTransactions(Set<Sha256Hash> hashes) {
+        lock.lock();
+        try {
+            HashMap<Sha256Hash, BitTransaction> txs = new HashMap<>();
+            for (Sha256Hash hash : hashes) {
+                if (rawTransactions.containsKey(hash)) {
+                    txs.put(hash, rawTransactions.get(hash));
+                }
+            }
+            return txs;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * Deletes transactions which appeared above the given block height from the wallet, but does not touch the keys.
+     * This is useful if you have some keys and wish to replay the block chain into the wallet in order to pick them up.
+     * Triggers auto saving.
+     */
+    @Override
+    public void refresh() {
+        lock.lock();
+        try {
+            log.info("Refreshing wallet pocket {}", type);
+            lastBlockSeenHash = null;
+            lastBlockSeenHeight = -1;
+            lastBlockSeenTimeSecs = 0;
+            blockTimes.clear();
+            missingTimestamps.clear();
+            unspentOutputs.clear();
+            confirmed.clear();
+            pending.clear();
+            rawTransactions.clear();
+            addressesStatus.clear();
+            clearTransientState();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /** Returns the hash of the last seen best-chain block, or nul
