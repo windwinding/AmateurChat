@@ -464,4 +464,52 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
         }
     }
 
-    /** Returns the hash of the last seen best-chain block, or nul
+    /** Returns the hash of the last seen best-chain block, or null if the wallet is too old to store this data. */
+    @Nullable
+    public Sha256Hash getLastBlockSeenHash() {
+        lock.lock();
+        try {
+            return lastBlockSeenHash;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void setLastBlockSeenHash(@Nullable Sha256Hash lastBlockSeenHash) {
+        lock.lock();
+        try {
+            this.lastBlockSeenHash = lastBlockSeenHash;
+        } finally {
+            lock.unlock();
+        }
+        walletSaveLater();
+    }
+
+    public void setLastBlockSeenHeight(int lastBlockSeenHeight) {
+        lock.lock();
+        try {
+            this.lastBlockSeenHeight = lastBlockSeenHeight;
+        } finally {
+            lock.unlock();
+        }
+        walletSaveLater();
+    }
+
+    public void setLastBlockSeenTimeSecs(long timeSecs) {
+        lock.lock();
+        try {
+            lastBlockSeenTimeSecs = timeSecs;
+        } finally {
+            lock.unlock();
+        }
+        walletSaveLater();
+    }
+
+    /**
+     * Returns the UNIX time in seconds since the epoch extracted from the last best seen block header. This timestamp
+     * is <b>not</b> the local time at which the block was first observed by this application but rather what the block
+     * (i.e. miner) self declares. It is allowed to have some significant drift from the real time at which the block
+     * was found, although most miners do use accurate times. If this wallet is old and does not have a recorded
+     * time then this method returns zero.
+     */
+    public long getLastB
