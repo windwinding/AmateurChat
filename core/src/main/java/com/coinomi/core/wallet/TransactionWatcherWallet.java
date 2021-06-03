@@ -559,4 +559,45 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
         lock.lock();
         try {
             long value = 0;
-            for (OutPointOutput utxo : getUnspentOutputs(
+            for (OutPointOutput utxo : getUnspentOutputs(includeReceiving).values()) {
+                value = LongMath.checkedAdd(value, utxo.getValueLong());
+            }
+            return type.value(value);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * Sets that the specified status is currently updating i.e. getting transactions.
+     *
+     * Returns true if registered successfully or false if status already updating
+     */
+    @VisibleForTesting boolean registerStatusForUpdate(AddressStatus status) {
+        checkNotNull(status.getStatus());
+
+        lock.lock();
+        try {
+            // If current address is updating
+            if (statusPendingUpdates.containsKey(status.getAddress())) {
+                AddressStatus updatingAddressStatus = statusPendingUpdates.get(status.getAddress());
+                String updatingStatus = updatingAddressStatus.getStatus();
+
+                // If the same status is updating, don't update again
+                if (updatingStatus != null && updatingStatus.equals(status.getStatus())) {
+                    return false;
+                } else { // Status is newer, so replace the updating status
+                    statusPendingUpdates.put(status.getAddress(), status);
+                    return true;
+                }
+            } else { // This status is new
+                statusPendingUpdates.put(status.getAddress(), status);
+                return true;
+            }
+        }
+        finally {
+            lock.unlock();
+        }
+    }
+
+    void commitAddressStatus(Address
