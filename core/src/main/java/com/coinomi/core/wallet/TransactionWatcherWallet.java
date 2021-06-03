@@ -512,4 +512,51 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
      * was found, although most miners do use accurate times. If this wallet is old and does not have a recorded
      * time then this method returns zero.
      */
-    public long getLastB
+    public long getLastBlockSeenTimeSecs() {
+        lock.lock();
+        try {
+            return lastBlockSeenTimeSecs;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * Returns a {@link java.util.Date} representing the time extracted from the last best seen block header. This timestamp
+     * is <b>not</b> the local time at which the block was first observed by this application but rather what the block
+     * (i.e. miner) self declares. It is allowed to have some significant drift from the real time at which the block
+     * was found, although most miners do use accurate times. If this wallet is old and does not have a recorded
+     * time then this method returns null.
+     */
+    @Nullable
+    public Date getLastBlockSeenTime() {
+        final long secs = getLastBlockSeenTimeSecs();
+        if (secs == 0)
+            return null;
+        else
+            return new Date(secs * 1000);
+    }
+
+    /**
+     * Returns the height of the last seen best-chain block. Can be 0 if a wallet is brand new or -1 if the wallet
+     * is old and doesn't have that data.
+     */
+    public int getLastBlockSeenHeight() {
+        lock.lock();
+        try {
+            return lastBlockSeenHeight;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public Value getBalance() {
+        return getBalance(false);
+    }
+
+    public Value getBalance(boolean includeReceiving) {
+        lock.lock();
+        try {
+            long value = 0;
+            for (OutPointOutput utxo : getUnspentOutputs(
