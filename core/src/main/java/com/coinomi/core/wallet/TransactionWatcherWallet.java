@@ -600,4 +600,43 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
         }
     }
 
-    void commitAddressStatus(Address
+    void commitAddressStatus(AddressStatus newStatus) {
+        if (!newStatus.canCommitStatus()) {
+            log.warn("Tried to commit an address status with a non applied state: {}:{}",
+                    newStatus.getAddress(), newStatus.getStatus());
+            return;
+        }
+
+        lock.lock();
+        try {
+            AddressStatus updatingStatus = statusPendingUpdates.get(newStatus.getAddress());
+            if (updatingStatus != null && updatingStatus.equals(newStatus)) {
+                statusPendingUpdates.remove(newStatus.getAddress());
+            }
+            addressesStatus.put(newStatus.getAddress(), newStatus.getStatus());
+            queueOnConnectivity();
+        }
+        finally {
+            lock.unlock();
+        }
+        // Skip saving null statuses
+        if (newStatus.getStatus() != null) {
+            walletSaveLater();
+        }
+    }
+
+    private boolean isAddressStatusChanged(AddressStatus addressStatus) {
+        lock.lock();
+        try {
+            AbstractAddress address = addressStatus.getAddress();
+            String newStatus = addressStatus.getStatus();
+            if (addressesStatus.containsKey(address)) {
+                String previousStatus = addressesStatus.get(address);
+                if (previousStatus == null) {
+                    return newStatus != null; // Status changed if newStatus is not null
+                } else {
+                    return !previousStatus.equals(newStatus);
+                }
+            }
+            else {
+                // Unused add
