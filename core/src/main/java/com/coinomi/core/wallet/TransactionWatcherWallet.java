@@ -639,4 +639,54 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
                 }
             }
             else {
-                // Unused add
+                // Unused address, just mark it that we watch it
+                if (newStatus == null) {
+                    commitAddressStatus(addressStatus);
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Nullable
+    public AddressStatus getAddressStatus(AbstractAddress address) {
+        lock.lock();
+        try {
+            if (addressesStatus.containsKey(address)) {
+                return new AddressStatus(address, addressesStatus.get(address));
+            }
+            else {
+                return null;
+            }
+        }
+        finally {
+            lock.unlock();
+        }
+    }
+
+    public List<AddressStatus> getAllAddressStatus() {
+        lock.lock();
+        try {
+            ArrayList<AddressStatus> statuses = new ArrayList<>(addressesStatus.size());
+            for (Map.Entry<AbstractAddress, String> status : addressesStatus.entrySet()) {
+                statuses.add(new AddressStatus(status.getKey(), status.getValue()));
+            }
+            return statuses;
+        }
+        finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * Returns all the addresses that are not currently watched
+     */
+    @VisibleForTesting List<AbstractAddress> getAddressesToWatch() {
+        lock.lock();
+        try {
+            ImmutableList.Builder<AbstractAddress> addressesToWatch = ImmutableList.builder();
+            for (Abstrac
