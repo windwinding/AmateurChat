@@ -689,4 +689,39 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
         lock.lock();
         try {
             ImmutableList.Builder<AbstractAddress> addressesToWatch = ImmutableList.builder();
-            for (Abstrac
+            for (AbstractAddress address : getActiveAddresses()) {
+                // If address not already subscribed or pending subscription
+                if (!addressesSubscribed.contains(address) && !addressesPendingSubscription.contains(address)) {
+                    addressesToWatch.add(address);
+                }
+            }
+            return addressesToWatch.build();
+        }
+        finally {
+            lock.unlock();
+        }
+    }
+
+    private void confirmAddressSubscription(AbstractAddress address) {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        if (addressesPendingSubscription.contains(address)) {
+            log.debug("Subscribed to {}", address);
+            addressesPendingSubscription.remove(address);
+            addressesSubscribed.add(address);
+        }
+    }
+
+    @Override
+    public void onNewBlock(BlockHeader header) {
+        log.info("Got a {} block: {}", type.getName(), header.getBlockHeight());
+        boolean shouldSave = false;
+        lock.lock();
+        try {
+            lastBlockSeenTimeSecs = header.getTimestamp();
+            lastBlockSeenHeight = header.getBlockHeight();
+            updateTransactionTimes(header);
+            for (BitTransaction tx : rawTransactions.values()) {
+                // Save wallet when we have new TXs
+                if (tx.getDepthInBlocks() < TX_DEPTH_SAVE_THRESHOLD) shouldSave = true;
+                maybeUpdateBlockDepth(tx, true);
+            
