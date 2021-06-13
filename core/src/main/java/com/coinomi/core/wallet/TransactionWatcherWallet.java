@@ -724,4 +724,48 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
                 // Save wallet when we have new TXs
                 if (tx.getDepthInBlocks() < TX_DEPTH_SAVE_THRESHOLD) shouldSave = true;
                 maybeUpdateBlockDepth(tx, true);
-            
+            }
+            queueOnNewBlock();
+        } finally {
+            lock.unlock();
+        }
+        if (shouldSave) walletSaveLater();
+    }
+
+    private void maybeUpdateBlockDepth(BitTransaction tx, boolean updateUtxoSet) {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        if (tx.getConfidenceType() != BUILDING) return;
+        int newDepth = lastBlockSeenHeight - tx.getAppearedAtChainHeight() + 1;
+        if (newDepth > 1) {
+            tx.setDepthInBlocks(newDepth);
+
+            // Update unspent outputs
+            if (updateUtxoSet) {
+                for (TransactionOutput output : tx.getOutputs(false)) {
+                    OutPointOutput unspentOutput = unspentOutputs.get(TrimmedOutPoint.get(output));
+                    if (unspentOutput != null) {
+                        unspentOutput.setDepthInBlocks(newDepth);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onBlockUpdate(BlockHeader header) {
+        log.info("Got a {} block update: {}", type.getName(), header.getBlockHeight());
+        lock.lock();
+        try {
+            updateTransactionTimes(header);
+            queueOnNewBlock();
+        }
+        finally {
+            lock.unlock();
+        }
+    }
+
+    private void updateTransactionTimes(BlockHeader header) {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        Integer height = header.getBlockHeight();
+        Long timestamp = header.getTimestamp();
+       
