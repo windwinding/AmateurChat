@@ -805,4 +805,48 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
                             blockchainConnection.getHistoryTx(status, this);
                         }
                     } else {
-                        log.info("Status {} 
+                        log.info("Status {} already updating", status.getStatus());
+                    }
+                }
+            }
+            else {
+                // Address not used, just update the status
+                commitAddressStatus(status);
+                tryToApplyState();
+            }
+        }
+        finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public void onUnspentTransactionUpdate(AddressStatus status, List<UnspentTx> unspentTxes) {
+        lock.lock();
+        try {
+            AddressStatus updatingStatus = statusPendingUpdates.get(status.getAddress());
+            // Check if this updating status is valid
+            if (updatingStatus != null && updatingStatus.equals(status)) {
+                updatingStatus.queueUnspentTransactions(unspentTxes);
+                fetchTransactionsIfNeeded(unspentTxes);
+                tryToApplyState(updatingStatus);
+            }
+            else {
+                log.info("Ignoring unspent tx call because no entry found or newer entry.");
+            }
+        }
+        finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public void onTransactionHistory(AddressStatus status, List<HistoryTx> historyTxes) {
+        lock.lock();
+        try {
+            AddressStatus updatingStatus = statusPendingUpdates.get(status.getAddress());
+            // Check if this updating status is valid
+            if (updatingStatus != null && updatingStatus.equals(status)) {
+                updatingStatus.queueHistoryTransactions(historyTxes);
+                fetchTransactionsIfNeeded(historyTxes);
+   
