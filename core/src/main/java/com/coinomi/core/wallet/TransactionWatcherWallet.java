@@ -768,4 +768,41 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
         checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
         Integer height = header.getBlockHeight();
         Long timestamp = header.getTimestamp();
-       
+        boolean mustSave = false;
+        blockTimes.put(height, timestamp);
+        if (missingTimestamps.containsKey(height)) {
+            for (Sha256Hash hash : missingTimestamps.get(height)) {
+                if (rawTransactions.containsKey(hash)) {
+                    rawTransactions.get(hash).setTimestamp(timestamp);
+                    mustSave = true;
+                }
+            }
+        }
+        missingTimestamps.remove(height);
+        if (mustSave) {
+            walletSaveLater();
+        }
+    }
+
+    @Override
+    public void onAddressStatusUpdate(AddressStatus status) {
+        log.debug("Got a status {}", status);
+        lock.lock();
+        try {
+            confirmAddressSubscription(status.getAddress());
+            if (status.getStatus() != null) {
+                markAddressAsUsed(status.getAddress());
+                subscribeToAddressesIfNeeded();
+
+                if (isAddressStatusChanged(status)) {
+                    // Status changed, time to update
+                    if (registerStatusForUpdate(status)) {
+                        log.info("Must get transactions for address {}, status {}",
+                                status.getAddress(), status.getStatus());
+
+                        if (blockchainConnection != null) {
+                            blockchainConnection.getUnspentTx(status, this);
+                            blockchainConnection.getHistoryTx(status, this);
+                        }
+                    } else {
+                        log.info("Status {} 
