@@ -890,4 +890,38 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
                 }
                 if (status.isHistoryTxQueued() && !status.isHistoryTxStateApplied()) {
                     Set<Sha256Hash> txHashes = status.getHistoryTxHashes();
-                    HashMap<Sha25
+                    HashMap<Sha256Hash, BitTransaction> txs = getTransactions(txHashes);
+                    // We have all the transactions, apply state
+                    if (txs.size() == txHashes.size()) {
+                        applyHistoryState(status, txs);
+                    }
+                }
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private void applyUnspentState(AddressStatus status, HashMap<Sha256Hash, BitTransaction> txs) {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        checkState(!status.isUnspentTxStateApplied(), "Unspent tx state already applied");
+
+        // Get all the outputs that relate this this address, we will remove some of them if they
+        // are not present in this status update
+        AbstractAddress address = status.getAddress();
+        Set<TrimmedOutPoint> notPresentInStatus = new HashSet<>();
+        for (Map.Entry<TrimmedOutPoint, OutPointOutput> utxo : unspentOutputs.entrySet()) {
+            if (BitAddressUtils.producesAddress(utxo.getValue().getScriptPubKey(), address)) {
+                notPresentInStatus.add(utxo.getKey());
+            }
+        }
+
+        // Update all the unspent outputs in this status
+        for (UnspentTx unspentTx : status.getUnspentTxs()) {
+            TrimmedOutPoint outPoint =
+                    new TrimmedOutPoint(type, unspentTx.getTxPos(), unspentTx.getTxHash());
+
+            // Get the related transaction
+            BitTransaction tx = checkNotNull(txs.get(outPoint.getHash()));
+
+            // Update the transaction
