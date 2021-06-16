@@ -849,4 +849,45 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
             if (updatingStatus != null && updatingStatus.equals(status)) {
                 updatingStatus.queueHistoryTransactions(historyTxes);
                 fetchTransactionsIfNeeded(historyTxes);
-   
+                tryToApplyState();
+            } else {
+                log.info("Ignoring history tx call because no entry found or newer entry.");
+            }
+        }
+        finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * Try to apply all address states
+     */
+    private void tryToApplyState() {
+        lock.lock();
+        try {
+            for (AddressStatus status : Lists.newArrayList(statusPendingUpdates.values())) {
+                tryToApplyState(status);
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * Try to apply the status state
+     */
+    private void tryToApplyState(AddressStatus status) {
+        lock.lock();
+        try {
+            if (statusPendingUpdates.containsKey(status.getAddress())) {
+                if (status.isUnspentTxQueued() && !status.isUnspentTxStateApplied()) {
+                    Set<Sha256Hash> txHashes = status.getUnspentTxHashes();
+                    HashMap<Sha256Hash, BitTransaction> txs = getTransactions(txHashes);
+                    // We have all the transactions, apply state
+                    if (txs.size() == txHashes.size()) {
+                        applyUnspentState(status, txs);
+                    }
+                }
+                if (status.isHistoryTxQueued() && !status.isHistoryTxStateApplied()) {
+                    Set<Sha256Hash> txHashes = status.getHistoryTxHashes();
+                    HashMap<Sha25
