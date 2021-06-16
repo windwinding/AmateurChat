@@ -924,4 +924,37 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
             // Get the related transaction
             BitTransaction tx = checkNotNull(txs.get(outPoint.getHash()));
 
-            // Update the transaction
+            // Update the transaction and UTXO set confirmations
+            checkTxConfirmation(unspentTx, tx);
+
+            // If not present add it now
+            if (!unspentOutputs.containsKey(outPoint)) {
+                OutPointOutput utxo = new OutPointOutput(tx, outPoint.getIndex());
+                if (tx.getConfidenceType() == BUILDING) {
+                    utxo.setAppearedAtChainHeight(tx.getAppearedAtChainHeight());
+                    utxo.setDepthInBlocks(tx.getDepthInBlocks());
+                }
+                unspentOutputs.put(utxo.getOutPoint(), utxo);
+            }
+
+            // Mark this utxo to not be removed
+            notPresentInStatus.remove(outPoint);
+        }
+
+        // Remove all unspent outputs that were not present in this address status
+        for (TrimmedOutPoint toRemove : notPresentInStatus) {
+            unspentOutputs.remove(toRemove);
+        }
+
+        status.setUnspentTxStateApplied(true);
+        if (status.canCommitStatus()) commitAddressStatus(status);
+        queueOnNewBalance();
+    }
+
+    private void applyHistoryState(AddressStatus status, HashMap<Sha256Hash, BitTransaction> txs) {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        checkState(!status.isHistoryTxStateApplied(), "History tx state already applied");
+
+        // Update confirmation status if necessary
+        for (HistoryTx historyTx : status.getHistoryTxs()) {
+            BitTransaction tx = check
