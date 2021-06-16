@@ -957,4 +957,39 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
 
         // Update confirmation status if necessary
         for (HistoryTx historyTx : status.getHistoryTxs()) {
-            BitTransaction tx = check
+            BitTransaction tx = checkNotNull(txs.get(historyTx.getTxHash()));
+            checkTxConfirmation(historyTx, tx);
+        }
+
+        status.setHistoryTxStateApplied(true);
+        if (status.canCommitStatus()) commitAddressStatus(status);
+    }
+
+    private void checkTxConfirmation(HistoryTx historyTx, BitTransaction tx) {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        int height = historyTx.getHeight();
+        TransactionConfidence.ConfidenceType confidence = tx.getConfidenceType();
+        if (height > 0) {
+            switch (confidence) {
+                case BUILDING:
+                    // If the height is the same, don't do anything
+                    if (tx.getAppearedAtChainHeight() == historyTx.getHeight()) {
+                        break;
+                    }
+                case PENDING:
+                    setAppearedAtChainHeight(tx, height, true);
+                    maybeUpdateBlockDepth(tx, true);
+                    maybeMovePool(tx);
+                    break;
+                case DEAD:
+                case UNKNOWN:
+                default:
+                    throw new RuntimeException("Unsupported confidence type: " +
+                            tx.getConfidenceType().name());
+            }
+        }
+    }
+
+    private void setAppearedAtChainHeight(BitTransaction tx, int height, boolean updateUtxoSet) {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        tx.setAppearedAtChainHeight(height)
