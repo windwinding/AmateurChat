@@ -1027,4 +1027,40 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
      * If the transactions outputs are all marked as spent, and it's in the unspent map, move it.
      * If the owned transactions outputs are not all marked as spent, and it's in the spent map, move it.
      */
-    private void maybeMovePool(BitTrans
+    private void maybeMovePool(BitTransaction tx) {
+        lock.lock();
+        try {
+            if (tx.getConfidenceType() == BUILDING) {
+                // Transaction is confirmed, move it
+                if (pending.remove(tx.getHash()) != null) {
+                    confirmed.put(tx.getHash(), tx);
+                    trimTransaction(tx.getHash());
+                }
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private void fetchTransactionsIfNeeded(List<? extends HistoryTx> historyTxes) {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+
+        for (HistoryTx historyTx : historyTxes) {
+            fetchTransactionIfNeeded(historyTx.getTxHash(), historyTx.getHeight());
+        }
+    }
+
+    private void fetchTransactionIfNeeded(Sha256Hash txHash, @Nullable Integer height) {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+
+        // Check if need to fetch the transaction
+        if (!isTransactionAvailableOrQueued(txHash)) {
+            fetchingTransactions.put(txHash, height);
+            log.info("Going to fetch transaction with hash {}", txHash);
+            if (blockchainConnection != null) {
+                blockchainConnection.getTransaction(txHash, this);
+            }
+        } else if (fetchingTransactions.containsKey(txHash)) {
+            // Check if we should update the confirmation height
+            Integer txHeight = fetchingTransactions.get(txHash);
+            if (height != null && txHeight != null && height
