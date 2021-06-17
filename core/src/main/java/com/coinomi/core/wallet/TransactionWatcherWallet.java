@@ -1063,4 +1063,42 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
         } else if (fetchingTransactions.containsKey(txHash)) {
             // Check if we should update the confirmation height
             Integer txHeight = fetchingTransactions.get(txHash);
-            if (height != null && txHeight != null && height
+            if (height != null && txHeight != null && height < txHeight) {
+                fetchingTransactions.put(txHash, height);
+            }
+        }
+    }
+
+    private boolean isTransactionAvailableOrQueued(Sha256Hash txHash) {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        return rawTransactions.containsKey(txHash) || isTransactionQueued(txHash);
+    }
+
+    private boolean isTransactionQueued(Sha256Hash txHash) {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        return outOfOrderTransactions.containsKey(txHash) ||
+                fetchingTransactions.containsKey(txHash);
+    }
+
+
+    @VisibleForTesting
+    void addNewTransactionIfNeeded(Transaction tx) {
+        addNewTransactionIfNeeded(new BitTransaction(tx));
+    }
+
+    @VisibleForTesting
+    void addNewTransactionIfNeeded(BitTransaction tx) {
+        lock.lock();
+        try {
+            Sha256Hash hash = tx.getHash();
+
+            // If was fetching this tx, remove it
+            Integer appearedInHeight = fetchingTransactions.remove(hash);
+
+            // This tx not in wallet, add it
+            if (!rawTransactions.containsKey(hash) && !outOfOrderTransactions.containsKey(hash)) {
+                if (tx.getConfidenceType() == UNKNOWN) {
+                    // Set if transaction is confirmed
+                    if (appearedInHeight != null && appearedInHeight > 0) {
+                        setAppearedAtChainHeight(tx, appearedInHeight, false);
+                        maybeUpdateBlockD
