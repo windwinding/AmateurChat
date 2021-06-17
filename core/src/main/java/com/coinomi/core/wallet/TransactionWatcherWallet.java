@@ -992,4 +992,39 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
 
     private void setAppearedAtChainHeight(BitTransaction tx, int height, boolean updateUtxoSet) {
         checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
-        tx.setAppearedAtChainHeight(height)
+        tx.setAppearedAtChainHeight(height);
+        fetchTimestamp(tx, height);
+        // Update unspent outputs
+        if (updateUtxoSet) {
+            for (TransactionOutput output : tx.getOutputs(false)) {
+                OutPointOutput unspentOutput = unspentOutputs.get(TrimmedOutPoint.get(output));
+                if (unspentOutput != null) {
+                    unspentOutput.setAppearedAtChainHeight(height);
+                }
+            }
+        }
+    }
+
+    private void fetchTimestamp(BitTransaction tx, Integer height) {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        if (blockTimes.containsKey(height)) {
+            tx.setTimestamp(blockTimes.get(height));
+        } else {
+            if (log.isDebugEnabled()) log.debug("Must get timestamp for {} block on height {}", type.getName(), height);
+            if (!missingTimestamps.containsKey(height)) {
+                missingTimestamps.put(height, new HashSet<Sha256Hash>());
+                missingTimestamps.get(height).add(tx.getHash());
+                if (blockchainConnection != null) {
+                    blockchainConnection.getBlock(height, this);
+                }
+            } else {
+                missingTimestamps.get(height).add(tx.getHash());
+            }
+        }
+    }
+
+    /**
+     * If the transactions outputs are all marked as spent, and it's in the unspent map, move it.
+     * If the owned transactions outputs are not all marked as spent, and it's in the spent map, move it.
+     */
+    private void maybeMovePool(BitTrans
