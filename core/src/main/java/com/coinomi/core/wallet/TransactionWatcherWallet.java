@@ -1179,4 +1179,55 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
     }
 
     @Override
-   
+    public void onTransactionBroadcast(BitTransaction tx) {
+        lock.lock();
+        try {
+            log.info("Transaction sent {}", tx);
+            addNewTransactionIfNeeded(tx);
+        } finally {
+            lock.unlock();
+        }
+        queueOnTransactionBroadcastSuccess(tx);
+    }
+
+    @Override
+    public void onTransactionBroadcastError(BitTransaction tx) {
+        queueOnTransactionBroadcastFailure(tx);
+    }
+
+    @Override
+    public void onConnection(BlockchainConnection blockchainConnection) {
+        lock.lock();
+        try {
+            this.blockchainConnection = (BitBlockchainConnection) blockchainConnection;
+            clearTransientState();
+            subscribeToBlockchain();
+            subscribeToAddressesIfNeeded();
+            queueOnConnectivity();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public void onDisconnect() {
+        lock.lock();
+        try {
+            blockchainConnection = null;
+            clearTransientState();
+            queueOnConnectivity();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private void subscribeToBlockchain() {
+        lock.lock();
+        try {
+            if (blockchainConnection != null) {
+                blockchainConnection.subscribeToBlockchain(this);
+                for (Integer missingTimestampOnHeight : missingTimestamps.keySet()) {
+                    blockchainConnection.getBlock(missingTimestampOnHeight, this);
+                }
+            }
+        }
