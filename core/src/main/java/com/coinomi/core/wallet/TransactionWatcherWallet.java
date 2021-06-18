@@ -1132,4 +1132,51 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
                 for (Map.Entry<BitTransaction, Set<Sha256Hash>> outOfOrderTx :
                         Lists.newLinkedList(outOfOrderTransactions.values())) {
                     Set<Sha256Hash> missingTxs = outOfOrderTx.getValue();
-         
+                    // Check if this tx satisfies the dependency
+                    if (missingTxs.contains(hash)) {
+                        missingTxs.remove(hash);
+                        // Try to add the out of order transaction
+                        if (missingTxs.isEmpty()) {
+                            outOfOrderTransactions.remove(outOfOrderTx.getKey().getHash());
+                            addNewTransactionIfNeeded(outOfOrderTx.getKey());
+                        }
+                    }
+                }
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private boolean isInputMine(TransactionInput input) {
+        lock.lock();
+        try {
+            try {
+                Script script = input.getScriptSig();
+                // TODO check multi sig scripts
+                return isPubKeyMine(script.getPubKey());
+            } catch (ScriptException e) {
+                // We didn't understand this input ScriptSig: ignore it.
+                log.debug("Could not parse tx input script: {}", e.toString());
+                return false;
+            }
+        }
+        finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public void onTransactionUpdate(BitTransaction tx) {
+        if (log.isInfoEnabled()) log.info("Got a new transaction {}", tx.getHash());
+        lock.lock();
+        try {
+            addNewTransactionIfNeeded(tx);
+            tryToApplyState();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+   
