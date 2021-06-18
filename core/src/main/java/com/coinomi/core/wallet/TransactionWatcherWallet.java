@@ -1101,4 +1101,35 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
                     // Set if transaction is confirmed
                     if (appearedInHeight != null && appearedInHeight > 0) {
                         setAppearedAtChainHeight(tx, appearedInHeight, false);
-                        maybeUpdateBlockD
+                        maybeUpdateBlockDepth(tx, false);
+                    } else {
+                        tx.setConfidenceType(PENDING);
+                    }
+                }
+
+                // Check if some input transactions are available
+                Set<Sha256Hash> missingTransactions = new HashSet<>();
+                for (TransactionInput input : tx.getInputs()) {
+                    Sha256Hash dependencyTx = input.getOutpoint().getHash();
+                    // If this transaction depends on a previous transaction that is yet fetched
+                    if (isInputMine(input) && !rawTransactions.containsKey(dependencyTx)) {
+                        missingTransactions.add(dependencyTx);
+                    }
+                }
+                if (!missingTransactions.isEmpty()) {
+                    outOfOrderTransactions.put(hash,
+                            new AbstractMap.SimpleImmutableEntry<>(tx, missingTransactions));
+                    // Fetch the missing Transactions
+                    for (Sha256Hash missingTx : missingTransactions) {
+                        fetchTransactionIfNeeded(missingTx, appearedInHeight);
+                    }
+                    return;
+                }
+
+                addWalletTransaction(null, tx, true);
+
+                // Check if out of order transactions can be added
+                for (Map.Entry<BitTransaction, Set<Sha256Hash>> outOfOrderTx :
+                        Lists.newLinkedList(outOfOrderTransactions.values())) {
+                    Set<Sha256Hash> missingTxs = outOfOrderTx.getValue();
+         
