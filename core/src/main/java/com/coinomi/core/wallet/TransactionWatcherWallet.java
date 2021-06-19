@@ -1278,4 +1278,51 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
     public void restoreWalletTransactions(ArrayList<WalletTransaction<BitTransaction>> wtxs) {
         lock.lock();
         try {
-            for (Wal
+            for (WalletTransaction<BitTransaction> wtx : wtxs) {
+                BitTransaction tx = wtx.getTransaction();
+                simpleAddTransaction(wtx.getPool(), tx);
+                if (tx.getConfidenceType() == BUILDING && tx.getTimestamp() == 0) {
+                    fetchTimestamp(tx, tx.getAppearedAtChainHeight());
+                }
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public Map<Sha256Hash, BitTransaction> getBitTransactionPool(WalletTransaction.Pool pool) {
+        lock.lock();
+        try {
+            switch (pool) {
+                case CONFIRMED:
+                    return Maps.newHashMap(confirmed);
+                case PENDING:
+                    return Maps.newHashMap(pending);
+                default:
+                    throw new RuntimeException("Unknown wallet transaction type " + pool);
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public Map<Sha256Hash, Transaction> getTransactionPool(org.bitcoinj.wallet.WalletTransaction.Pool pool) {
+        lock.lock();
+        try {
+            switch (pool) {
+                case UNSPENT:
+                case SPENT:
+                    return toRawTransactions(confirmed);
+                case PENDING:
+                    return toRawTransactions(pending);
+                case DEAD:
+                default:
+                    throw new RuntimeException("Unknown wallet transaction type " + pool);
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    static Map<Sha256Hash, Transacti
