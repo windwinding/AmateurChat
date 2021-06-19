@@ -1325,4 +1325,40 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
         }
     }
 
-    static Map<Sha256Hash, Transacti
+    static Map<Sha256Hash, Transaction> toRawTransactions(Map<Sha256Hash, BitTransaction> txs) {
+        Map<Sha256Hash, Transaction> rawTxs = new HashMap<>(txs.size());
+        for (Map.Entry<Sha256Hash, BitTransaction> tx : txs.entrySet()) {
+            rawTxs.put(tx.getKey(), tx.getValue().getRawTransaction());
+        }
+        return rawTxs;
+    }
+
+    void queueOnNewBalance() {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+
+        final Value balance = getBalance();
+
+        // If balance changed, send event
+        if (balance.compareTo(lastBalance) != 0) {
+            lastBalance = balance;
+            log.info("New balance {}", balance);
+            for (final ListenerRegistration<WalletAccountEventListener> registration : listeners) {
+                registration.executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        registration.listener.onNewBalance(balance);
+                        registration.listener.onWalletChanged(TransactionWatcherWallet.this);
+                    }
+                });
+            }
+        }
+    }
+
+    void queueOnNewBlock() {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        for (final ListenerRegistration<WalletAccountEventListener> registration : listeners) {
+            registration.executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    registration.listener.onNewBlock(TransactionWatcherWallet.this);
+                    regis
