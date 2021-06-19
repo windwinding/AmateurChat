@@ -1230,4 +1230,52 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
                     blockchainConnection.getBlock(missingTimestampOnHeight, this);
                 }
             }
+        } finally {
+            lock.unlock();
         }
+    }
+
+    void subscribeToAddressesIfNeeded() {
+        lock.lock();
+        try {
+            if (blockchainConnection != null) {
+                List<AbstractAddress> addressesToWatch = getAddressesToWatch();
+                if (addressesToWatch.size() > 0) {
+                    addressesPendingSubscription.addAll(addressesToWatch);
+                    blockchainConnection.subscribeToAddresses(addressesToWatch, this);
+                    queueOnConnectivity();
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error subscribing to addresses", e);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private void clearTransientState() {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        addressesSubscribed.clear();
+        addressesPendingSubscription.clear();
+        statusPendingUpdates.clear();
+        fetchingTransactions.clear();
+        outOfOrderTransactions.clear();
+        lastBalance = type.value(0);
+    }
+
+    /**
+     * Used when de-serializing the wallet
+     */
+    void addUnspentOutput(OutPointOutput utxo) {
+        lock.lock();
+        try {
+            unspentOutputs.put(utxo.getOutPoint(), utxo);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void restoreWalletTransactions(ArrayList<WalletTransaction<BitTransaction>> wtxs) {
+        lock.lock();
+        try {
+            for (Wal
