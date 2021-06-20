@@ -1396,4 +1396,44 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
     }
 
     void queueOnTransactionBroadcastFailure(final BitTransaction tx) {
-        for (final ListenerRegistration<WalletAccountEventListener> registration : li
+        for (final ListenerRegistration<WalletAccountEventListener> registration : listeners) {
+            registration.executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    registration.listener.onTransactionBroadcastFailure(TransactionWatcherWallet.this, tx);
+                }
+            });
+        }
+    }
+
+    public void addEventListener(WalletAccountEventListener listener) {
+        addEventListener(listener, Threading.USER_THREAD);
+    }
+
+    public void addEventListener(WalletAccountEventListener listener, Executor executor) {
+        listeners.add(new ListenerRegistration<>(listener, executor));
+    }
+
+    public boolean removeEventListener(WalletAccountEventListener listener) {
+        return ListenerRegistration.removeFromList(listener, listeners);
+    }
+
+    public boolean isLoading() {
+        lock.lock();
+        try {
+            return blockchainConnection != null && (addressesStatus.isEmpty() ||
+                    !addressesPendingSubscription.isEmpty() ||
+                    !statusPendingUpdates.isEmpty() ||
+                    !fetchingTransactions.isEmpty());
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public void broadcastTx(AbstractTransaction tx) throws TransactionBroadcastException {
+        if (tx instanceof BitTransaction) {
+            // TODO throw transaction broadcast exception
+            broadcastTx((BitTransaction) tx, this);
+        } else {
+            throw new TransactionBroadcastException("Incompatible tran
