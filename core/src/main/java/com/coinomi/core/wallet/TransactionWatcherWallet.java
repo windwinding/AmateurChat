@@ -1361,4 +1361,39 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
                 @Override
                 public void run() {
                     registration.listener.onNewBlock(TransactionWatcherWallet.this);
-                    regis
+                    registration.listener.onWalletChanged(TransactionWatcherWallet.this);
+                }
+            });
+        }
+    }
+
+    void queueOnConnectivity() {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        final WalletConnectivityStatus newConnectivity = getConnectivityStatus();
+        if (newConnectivity != lastConnectivity) {
+            lastConnectivity = newConnectivity;
+            for (final ListenerRegistration<WalletAccountEventListener> registration : listeners) {
+                registration.executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        registration.listener.onConnectivityStatus(newConnectivity);
+                        registration.listener.onWalletChanged(TransactionWatcherWallet.this);
+                    }
+                });
+            }
+        }
+    }
+
+    void queueOnTransactionBroadcastSuccess(final BitTransaction tx) {
+        for (final ListenerRegistration<WalletAccountEventListener> registration : listeners) {
+            registration.executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    registration.listener.onTransactionBroadcastSuccess(TransactionWatcherWallet.this, tx);
+                }
+            });
+        }
+    }
+
+    void queueOnTransactionBroadcastFailure(final BitTransaction tx) {
+        for (final ListenerRegistration<WalletAccountEventListener> registration : li
