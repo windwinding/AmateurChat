@@ -1436,4 +1436,46 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
             // TODO throw transaction broadcast exception
             broadcastTx((BitTransaction) tx, this);
         } else {
-            throw new TransactionBroadcastException("Incompatible tran
+            throw new TransactionBroadcastException("Incompatible transaction type: " + tx.getClass().getName());
+        }
+    }
+
+    @Override
+    public boolean broadcastTxSync(AbstractTransaction tx) throws TransactionBroadcastException {
+        if (tx instanceof BitTransaction) {
+            return broadcastBitTxSync((BitTransaction) tx);
+        } else {
+            throw new TransactionBroadcastException("Unsupported transaction class: " +
+                    tx.getClass().getName() + ", need: " + BitTransaction.class.getName());
+        }
+    }
+
+    private boolean broadcastBitTxSync(BitTransaction tx) throws TransactionBroadcastException {
+        if (isConnected()) {
+            lock.lock();
+            try {
+                if (log.isInfoEnabled()) {
+                    log.info("Broadcasting tx {}", Utils.HEX.encode(tx.bitcoinSerialize()));
+                }
+                boolean success = blockchainConnection.broadcastTxSync(tx);
+                if (success) {
+                    onTransactionBroadcast(tx);
+                } else {
+                    onTransactionBroadcastError(tx);
+                }
+                return success;
+            } finally {
+                lock.unlock();
+            }
+        } else {
+            throw new TransactionBroadcastException("No connection available");
+        }
+    }
+
+    private void broadcastTx(BitTransaction tx, TransactionEventListener<BitTransaction> listener)
+            throws TransactionBroadcastException {
+        if (isConnected()) {
+            lock.lock();
+            try {
+                if (log.isInfoEnabled()) {
+        
