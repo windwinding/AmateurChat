@@ -1478,4 +1478,50 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
             lock.lock();
             try {
                 if (log.isInfoEnabled()) {
-        
+                    log.info("Broadcasting tx {}", Utils.HEX.encode(tx.bitcoinSerialize()));
+                }
+                blockchainConnection.broadcastTx(tx, listener != null ? listener : this);
+            } finally {
+                lock.unlock();
+            }
+        } else {
+            throw new TransactionBroadcastException("No connection available");
+        }
+    }
+
+    public boolean isConnected() {
+        lock.lock();
+        try {
+            return blockchainConnection != null;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public void disconnect() {
+        lock.lock();
+        try {
+            if (blockchainConnection != null) {
+                blockchainConnection.stopAsync();
+            }
+        } finally {
+            lock.unlock();
+        }
+
+    }
+
+    Map<TrimmedOutPoint, OutPointOutput> getUnspentOutputs(boolean includeUnsafe) {
+        lock.lock();
+        try {
+            // The confirmed UTXO set
+            Map<TrimmedOutPoint, OutPointOutput> utxoSet = Maps.newHashMap(unspentOutputs);
+            Set<TrimmedOutPoint> spentTxo = new HashSet<>();
+            Set<TrimmedOutPoint> txSpendingTxo = new HashSet<>();
+
+            // The unconfirmed UTXO set originating from transactions the wallet sends
+            for (BitTransaction tx : pending.values()) {
+                if (includeUnsafe || tx.getSource() == Source.SELF) {
+                    boolean isDoubleSpending = false;
+                    txSpendingTxo.clear();
+                    // Remove
