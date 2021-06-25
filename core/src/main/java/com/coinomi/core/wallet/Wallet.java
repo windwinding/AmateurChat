@@ -347,3 +347,387 @@ final public class Wallet {
             if (!accounts.containsKey(id)) {
                 return null;
             }
+
+            WalletAccount deletedAccount = accounts.remove(id);
+            CoinType type = deletedAccount.getCoinType();
+            ArrayList<WalletAccount> sameTypeAccounts = accountsByType.get(type);
+            if (sameTypeAccounts != null) {
+                if (!sameTypeAccounts.remove(deletedAccount)) {
+                    log.warn("Could not find account in accounts by type index");
+                }
+                if (sameTypeAccounts.size() == 0) {
+                    accountsByType.remove(type);
+                }
+            }
+            deletedAccount.setWallet(null);
+            deletedAccount.disconnect();
+            saveNow();
+            return deletedAccount;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * Make the wallet generate all the needed lookahead keys if needed
+     */
+    public void maybeInitializeAllPockets() {
+        lock.lock();
+        try {
+            for (WalletAccount account : accounts.values()) {
+                if (account instanceof WalletPocketHD) {
+                    account.maybeInitializeAllKeys();
+                }
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    //TODO remove public and implement seed password protection check
+    public DeterministicKey getMasterKey() {
+        lock.lock();
+        try {
+            return masterKey;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /** Returns a list of words that represent the seed or null if this chain is a watching chain. */
+    @Nullable
+    public List<String> getMnemonicCode() {
+        if (seed == null) return null;
+
+        lock.lock();
+        try {
+            return seed.getMnemonicCode();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Nullable
+    public DeterministicSeed getSeed() {
+        lock.lock();
+        try {
+            return seed;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /** Returns the {@link KeyCrypter} in use or null if the key chain is not encrypted. */
+    @Nullable
+    public KeyCrypter getKeyCrypter() {
+        lock.lock();
+        try {
+            return masterKey.getKeyCrypter();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public WalletAccount refresh(String accountIdToReset) {
+        lock.lock();
+        try {
+            WalletAccount account = getAccount(accountIdToReset);
+            if (account != null) {
+                account.refresh();
+                saveLater();
+            }
+            return account;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Serialization support
+    //
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @VisibleForTesting
+    Protos.Wallet toProtobuf() {
+        lock.lock();
+        try {
+            return WalletProtobufSerializer.toProtobuf(this);
+        } finally {
+            lock.unlock();
+        }
+    }
+    /**
+     * Returns a wallet deserialized from the given file.
+     */
+    public static Wallet loadFromFile(File f) throws UnreadableWalletException {
+        try {
+            FileInputStream stream = null;
+            try {
+                stream = new FileInputStream(f);
+                return loadFromFileStream(stream);
+            } finally {
+                if (stream != null) stream.close();
+            }
+        } catch (IOException e) {
+            throw new UnreadableWalletException("Could not open file", e);
+        }
+    }
+
+    /**
+     * Returns a wallet deserialized from the given input stream.
+     */
+    public static Wallet loadFromFileStream(InputStream stream) throws UnreadableWalletException {
+        return WalletProtobufSerializer.readWallet(stream);
+    }
+
+    /**
+     * Uses protobuf serialization to save the wallet to the given file stream. To learn more about this file format, see
+     * {@link WalletProtobufSerializer}.
+     */
+    public void saveToFileStream(OutputStream f) throws IOException {
+        lock.lock();
+        try {
+            WalletProtobufSerializer.writeWallet(this, f);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /** Saves the wallet first to the given temp file, then renames to the dest file. */
+    public void saveToFile(File temp, File destFile) throws IOException {
+        FileOutputStream stream = null;
+        lock.lock();
+        try {
+            stream = new FileOutputStream(temp);
+            saveToFileStream(stream);
+            // Attempt to force the bits to hit the disk. In reality the OS or hard disk itself may still decide
+            // to not write through to physical media for at least a few seconds, but this is the best we can do.
+            stream.flush();
+            stream.getFD().sync();
+            stream.close();
+            stream = null;
+            if (!temp.renameTo(destFile)) {
+                throw new IOException("Failed to rename " + temp + " to " + destFile);
+            }
+        } catch (RuntimeException e) {
+            log.error("Failed whilst saving wallet", e);
+            throw e;
+        } finally {
+            lock.unlock();
+            if (stream != null) {
+                stream.close();
+            }
+            if (temp.exists()) {
+                log.warn("Temp file still exists after failed save.");
+            }
+        }
+    }
+
+    /**
+     * <p>Sets up the wallet to auto-save itself to the given file, using temp files with atomic renames to ensure
+     * consistency. After connecting to a file, you no longer need to save the wallet manually, it will do it
+     * whenever necessary. Protocol buffer serialization will be used.</p>
+     *
+     * <p>If delayTime is set, a background thread will be created and the wallet will only be saved to
+     * disk every so many time units. If no changes have occurred for the given time period, nothing will be written.
+     * In this way disk IO can be rate limited. It's a good idea to set this as otherwise the wallet can change very
+     * frequently, eg if there are a lot of transactions in it or during block sync, and there will be a lot of redundant
+     * writes. Note that when a new key is added, that always results in an immediate save regardless of
+     * delayTime. <b>You should still save the wallet manually when your program is about to shut down as the JVM
+     * will not wait for the background thread.</b></p>
+     *
+     * <p>An event listener can be provided. If a delay >0 was specified, it will be called on a background thread
+     * with the wallet locked when an auto-save occurs. If delay is zero or you do something that always triggers
+     * an immediate save, like adding a key, the event listener will be invoked on the calling threads.</p>
+     *
+     * @param f The destination file to save to.
+     * @param delayTime How many time units to wait until saving the wallet on a background thread.
+     * @param timeUnit the unit of measurement for delayTime.
+     * @param eventListener callback to be informed when the auto-save thread does things, or null
+     */
+    public WalletFiles autosaveToFile(File f, long delayTime, TimeUnit timeUnit,
+                                      @Nullable WalletFiles.Listener eventListener) {
+        lock.lock();
+        try {
+            checkState(vFileManager == null, "Already auto saving this wallet.");
+            WalletFiles manager = new WalletFiles(this, f, delayTime, timeUnit);
+            if (eventListener != null) {
+                manager.setListener(eventListener);
+            }
+            vFileManager = manager;
+            return manager;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * <p>
+     * Disables auto-saving, after it had been enabled with
+     * {@link Wallet#autosaveToFile(java.io.File, long, java.util.concurrent.TimeUnit, com.coinomi.core.wallet.WalletFiles.Listener)}
+     * before. This method blocks until finished.
+     * </p>
+     */
+    public void shutdownAutosaveAndWait() {
+        lock.lock();
+        try {
+            WalletFiles files = vFileManager;
+            vFileManager = null;
+            if (files != null) {
+                files.shutdownAndWait();
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /** Requests an asynchronous save on a background thread */
+    public void saveLater() {
+        lock.lock();
+        try {
+            WalletFiles files = vFileManager;
+            if (files != null) {
+                files.saveLater();
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /** If auto saving is enabled, do an immediate sync write to disk ignoring any delays. */
+    public void saveNow() {
+        lock.lock();
+        try {
+            WalletFiles files = vFileManager;
+            if (files != null) {
+                try {
+                    files.saveNow();  // This calls back into saveToFile().
+                } catch (IOException e) {
+                    // Can't really do much at this point, just let the API user know.
+                    log.error("Failed to save wallet to disk!", e);
+                    Thread.UncaughtExceptionHandler handler = Threading.uncaughtExceptionHandler;
+                    if (handler != null)
+                        handler.uncaughtException(Thread.currentThread(), e);
+                }
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Encryption support
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public boolean isEncrypted() {
+        lock.lock();
+        try {
+            return masterKey.isEncrypted();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * Encrypt the keys in the group using the KeyCrypter and the AES key. A good default KeyCrypter to use is
+     * {@link org.bitcoinj.crypto.KeyCrypterScrypt}.
+     *
+     * @throws org.bitcoinj.crypto.KeyCrypterException Thrown if the wallet encryption fails for some reason,
+     *         leaving the group unchanged.
+     */
+    public void encrypt(KeyCrypter keyCrypter, KeyParameter aesKey) {
+        checkNotNull(keyCrypter, "Attempting to encrypt with a null KeyCrypter");
+        checkNotNull(aesKey, "Attempting to encrypt with a null KeyParameter");
+
+        lock.lock();
+        try {
+            if (seed != null) seed = seed.encrypt(keyCrypter, aesKey);
+            masterKey = masterKey.encrypt(keyCrypter, aesKey, null);
+
+            for (WalletAccount account : accounts.values()) {
+                if (account.isEncryptable()) {
+                    account.encrypt(keyCrypter, aesKey);
+                }
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /* package */ void decrypt(KeyParameter aesKey) {
+        checkNotNull(aesKey, "Attemting to decrypt with a null KeyParameter");
+
+        lock.lock();
+        try {
+            checkState(isEncrypted(), "Wallet is already decrypted");
+
+            if (seed != null) {
+                checkState(seed.isEncrypted(), "Seed is already decrypted");
+                List<String> mnemonic = null;
+                try {
+                    mnemonic = decodeMnemonicCode(getKeyCrypter().decrypt(seed.getEncryptedData(), aesKey));
+                } catch (UnreadableWalletException e) {
+                    throw new RuntimeException(e);
+                }
+                seed = new DeterministicSeed(new byte[16], mnemonic, 0);
+            }
+
+            masterKey = masterKey.decrypt(getKeyCrypter(), aesKey);
+
+            for (WalletAccount account : accounts.values()) {
+                if (account.isEncryptable()) {
+                    account.decrypt(aesKey);
+                }
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private static List<String> decodeMnemonicCode(byte[] mnemonicCode) throws UnreadableWalletException {
+        try {
+            return Splitter.on(" ").splitToList(new String(mnemonicCode, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            throw new UnreadableWalletException(e.toString());
+        }
+    }
+
+    public List<Value> getBalances() {
+        ImmutableList.Builder<Value> builder = ImmutableList.builder();
+        lock.lock();
+        try {
+            for (WalletAccount account : accounts.values()) {
+                builder.add(account.getBalance());
+            }
+            return builder.build();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public boolean isLoading() {
+        for (WalletAccount account : accounts.values()) {
+            if (account.isLoading()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // TODO
+//    public void broadcastTx(SendRequest request) throws IOException {
+//        getPocket(request.type).broadcastTx(request.tx);
+//    }
+}
