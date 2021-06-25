@@ -1524,4 +1524,43 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
                 if (includeUnsafe || tx.getSource() == Source.SELF) {
                     boolean isDoubleSpending = false;
                     txSpendingTxo.clear();
-                    // Remove
+                    // Remove any unspent outputs that this transaction spends
+                    for (TransactionInput txi : tx.getInputs()) {
+                        TrimmedOutPoint outPoint = TrimmedOutPoint.get(txi);
+                        // Check if another transaction
+                        if (spentTxo.contains(outPoint)) {
+                            log.warn("Transaction {} double-spends outpoint {}:{}",
+                                    tx.getHash(), outPoint.getHash(), outPoint.getIndex());
+                            isDoubleSpending = true;
+                            break;
+                        }
+                        txSpendingTxo.add(outPoint);
+                    }
+
+                    if (isDoubleSpending) continue;
+
+                    spentTxo.addAll(txSpendingTxo);
+
+                    List<TransactionOutput> outputs = tx.getOutputs();
+                    for (int i = 0; i < outputs.size(); i++) {
+                        TransactionOutput output = outputs.get(i);
+                        if (output.isMineOrWatched(this)) {
+                            OutPointOutput outPointOutput = new OutPointOutput(tx, i);
+                            utxoSet.put(outPointOutput.getOutPoint(), outPointOutput);
+                        }
+                    }
+                }
+            }
+
+            // Remove any outputs that are spent
+            for (TrimmedOutPoint spent : spentTxo) {
+                utxoSet.remove(spent);
+            }
+
+            return utxoSet;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Nullab
