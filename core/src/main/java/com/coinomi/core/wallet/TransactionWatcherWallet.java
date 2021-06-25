@@ -1563,4 +1563,53 @@ abstract public class TransactionWatcherWallet extends AbstractWallet<BitTransac
         }
     }
 
-    @Nullab
+    @Nullable
+    public BitTransaction getTransaction(Sha256Hash txId) {
+        lock.lock();
+        try {
+            return rawTransactions.get(txId);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Nullable
+    @Override
+    public BitTransaction getTransaction(String transactionId) {
+        lock.lock();
+        try {
+            return rawTransactions.get(new Sha256Hash(transactionId));
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public Map<Sha256Hash, BitTransaction> getTransactions() {
+        lock.lock();
+        try {
+            return ImmutableMap.copyOf(rawTransactions);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public Map<Sha256Hash, BitTransaction> getPendingTransactions() {
+        lock.lock();
+        try {
+            return ImmutableMap.copyOf(pending);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public OutPointOutput getUnspentTxOutput(TransactionOutPoint outPoint) {
+        lock.lock();
+        try {
+            return unspentOutputs.get(TrimmedOutPoint.get(outPoint));
+        } finally {
+            lock.unlock();
+        }
+    }
+}
