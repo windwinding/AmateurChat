@@ -40,4 +40,33 @@ public class WalletCoinSelector implements CoinSelector {
             sortOutputs(sortedOutputs);
         }
         // Now iterate over the sorted outputs until we have got as close to the target as possible or a little
-        // bit over (excessive value will b
+        // bit over (excessive value will be change).
+        long total = 0;
+        for (OutPointOutput output : sortedOutputs) {
+            if (total >= target) break;
+            // Only pick chain-included transactions, or transactions that are ours and pending.
+            if (!shouldSelect(output)) continue;
+            selected.add(output);
+            total += output.getValueLong();
+        }
+        // Total may be lower than target here, if the given candidates were insufficient to create to requested
+        // transaction.
+        return new CoinSelection(Coin.valueOf(total), selected);
+    }
+
+    @VisibleForTesting
+    static void sortOutputs(ArrayList<OutPointOutput> outputs) {
+        Collections.sort(outputs, new Comparator<OutPointOutput>() {
+
+            @Override
+            public int compare(OutPointOutput a, OutPointOutput b) {
+                int depth1 = a.getDepthInBlocks();
+                int depth2 = b.getDepthInBlocks();
+                long aValue = a.getValueLong();
+                long bValue = b.getValueLong();
+                BigInteger aCoinDepth = BigInteger.valueOf(aValue).multiply(BigInteger.valueOf(depth1));
+                BigInteger bCoinDepth = BigInteger.valueOf(bValue).multiply(BigInteger.valueOf(depth2));
+                int c1 = bCoinDepth.compareTo(aCoinDepth);
+                if (c1 != 0) return c1;
+                // The "coin*days" destroyed are equal, sort by value alone to get the lowest transaction size.
+                if (aValue != bValue) re
