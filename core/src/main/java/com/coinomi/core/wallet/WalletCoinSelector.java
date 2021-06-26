@@ -69,4 +69,17 @@ public class WalletCoinSelector implements CoinSelector {
                 int c1 = bCoinDepth.compareTo(aCoinDepth);
                 if (c1 != 0) return c1;
                 // The "coin*days" destroyed are equal, sort by value alone to get the lowest transaction size.
-                if (aValue != bValue) re
+                if (aValue != bValue) return aValue > bValue ? 1 : -1;
+                // They are entirely equivalent (possibly pending) so sort by hash to ensure a total ordering.
+                BigInteger aHash = a.getTxHash().toBigInteger();
+                BigInteger bHash = b.getTxHash().toBigInteger();
+                return aHash.compareTo(bHash);
+            }
+        });
+    }
+
+    /** Sub-classes can override this to just customize whether transactions are usable, but keep age sorting. */
+    protected boolean shouldSelect(OutPointOutput utxo) {
+        return true; // Our unspent outputs are already filtered
+    }
+}
