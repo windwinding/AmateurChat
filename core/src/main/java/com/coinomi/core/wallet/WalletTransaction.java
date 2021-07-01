@@ -16,4 +16,17 @@ public abstract class WalletTransaction<T extends AbstractTransaction> {
     private final Pool pool;
 
     public WalletTransaction(Pool pool, T transaction) {
-        this.pool = checkNotNull(p
+        this.pool = checkNotNull(pool);
+        this.transaction = transaction;
+    }
+
+    public T getTransaction() {
+        return transaction;
+    }
+
+    public Pool getPool() {
+        return pool;
+    }
+}
+
+
