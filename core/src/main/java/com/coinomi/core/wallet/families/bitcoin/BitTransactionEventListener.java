@@ -10,4 +10,5 @@ import java.util.List;
  * @author John L. Jegutanis
  */
 public interface BitTransactionEventListener extends TransactionEventListener<BitTransaction> {
-    void onUnspentTransacti
+    void onUnspentTransactionUpdate(AddressStatus status, List<UnspentTx> UnspentTxes);
+}
