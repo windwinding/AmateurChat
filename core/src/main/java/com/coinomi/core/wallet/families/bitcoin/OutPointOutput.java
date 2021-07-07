@@ -40,4 +40,63 @@ public class OutPointOutput {
     }
 
     public OutPointOutput(BitTransaction tx, long index) {
-        this(new TrimmedOutput(tx.getOutput((int) index), index, tx.getHash()), tx.isGener
+        this(new TrimmedOutput(tx.getOutput((int) index), index, tx.getHash()), tx.isGenerated());
+    }
+
+    public OutPointOutput(TrimmedOutput txo, boolean isGenerated) {
+        this((CoinType) txo.getParams(), txo, isGenerated);
+    }
+
+    public OutPointOutput(TransactionOutPoint outPoint, TransactionOutput output,
+                          boolean isGenerated) {
+        this(new TrimmedOutput(output, outPoint.getIndex(), outPoint.getHash()), isGenerated);
+    }
+
+    public TrimmedOutPoint getOutPoint() {
+        return outPoint;
+    }
+
+    public TransactionOutput getOutput() {
+        return output;
+    }
+
+    public TransactionInput getInput() {
+        return new TransactionInput(type, null, EMPTY_ARRAY, outPoint, value.toCoin());
+    }
+
+    public long getValueLong() {
+        return value.value;
+    }
+
+    public Value getValue() {
+        return value;
+    }
+
+    public Sha256Hash getTxHash() {
+        return outPoint.getHash();
+    }
+
+    public int getAppearedAtChainHeight() {
+        return appearedAtChainHeight;
+    }
+
+    public void setAppearedAtChainHeight(int appearedAtChainHeight) {
+        if (appearedAtChainHeight < 0)
+            throw new IllegalArgumentException("appearedAtChainHeight out of range");
+        this.appearedAtChainHeight = appearedAtChainHeight;
+        this.depth = 1;
+    }
+
+    public int getDepthInBlocks() {
+        return depth;
+    }
+
+    public void setDepthInBlocks(int depth) {
+        this.depth = depth;
+    }
+
+    public boolean isMature() {
+        return !isGenerated || depth >= type.getSpendableCoinbaseDepth();
+    }
+
+    public long getI
