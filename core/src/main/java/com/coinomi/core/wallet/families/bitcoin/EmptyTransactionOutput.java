@@ -27,4 +27,12 @@ public class EmptyTransactionOutput extends TransactionOutput {
         super(params, parent, value, scriptBytes);
     }
 
-    public static synchronized EmptyTransactionOutp
+    public static synchronized EmptyTransactionOutput get() {
+        return instance;
+    }
+
+    @Override
+    public int getIndex() {
+        throw new IllegalArgumentException("Empty outputs don't have indexes");
+    }
+}
