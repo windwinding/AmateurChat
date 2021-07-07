@@ -99,4 +99,42 @@ public class OutPointOutput {
         return !isGenerated || depth >= type.getSpendableCoinbaseDepth();
     }
 
-    public long getI
+    public long getIndex() {
+        return outPoint.getIndex();
+    }
+
+    public byte[] getScriptBytes() {
+        return output.getScriptBytes();
+    }
+
+    public Script getScriptPubKey() {
+        return output.getScriptPubKey();
+    }
+
+    public boolean isGenerated() {
+        return isGenerated;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OutPointOutput that = (OutPointOutput) o;
+
+        if (isGenerated != that.isGenerated) return false;
+        if (!type.equals(that.type)) return false;
+        if (!outPoint.equals(that.outPoint)) return false;
+        return output.equals(that.output);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = type.hashCode();
+        result = 31 * result + outPoint.hashCode();
+        result = 31 * result + output.hashCode();
+        result = 31 * result + (isGenerated ? 1 : 0);
+        return result;
+    }
+}
