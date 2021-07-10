@@ -39,4 +39,58 @@ final public class NxtFamilyKey implements EncryptableKeyChain, KeyBag, Serializ
     private final DeterministicKey entropy;
     private final byte[] publicKey;
 
-    public NxtFamilyKey(Determini
+    public NxtFamilyKey(DeterministicKey entropy, @Nullable KeyCrypter keyCrypter,
+                        @Nullable KeyParameter key) {
+        checkArgument(!entropy.isEncrypted(), "Entropy must not be encrypted");
+        this.publicKey = Crypto.getPublicKey(entropy.getPrivKeyBytes());
+        // Encrypt entropy if needed
+        if (keyCrypter != null && key != null) {
+            this.entropy = entropy.encrypt(keyCrypter, key, entropy.getParent());
+        } else {
+            this.entropy = entropy;
+        }
+    }
+
+    private NxtFamilyKey(DeterministicKey entropy, byte[] publicKey) {
+        this.entropy = entropy;
+        this.publicKey = publicKey;
+
+    }
+
+    public boolean isEncrypted() {
+        return entropy.isEncrypted();
+    }
+
+    public byte[] getPublicKey() {
+        return publicKey;
+    }
+
+    public byte[] getPrivateKey() {
+        return Crypto.convertToPrivateKey(entropy.getPrivKeyBytes());
+    }
+
+    @Nullable
+    @Override
+    public ECKey findKeyFromPubHash(byte[] pubkeyHash) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Nullable
+    @Override
+    public ECKey findKeyFromPubKey(byte[] pubkey) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Nullable
+    @Override
+    public RedeemData findRedeemDataFromScriptHash(byte[] scriptHash) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public boolean hasKey(ECKey key) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public List<? extends ECKey> getKeys(
