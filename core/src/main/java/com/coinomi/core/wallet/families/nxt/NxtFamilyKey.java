@@ -177,4 +177,35 @@ final public class NxtFamilyKey implements EncryptableKeyChain, KeyBag, Serializ
         }
 
         Protos.Key entropyProto = keys.get(0);
-        DeterministicKey entropyKey = KeyUtils.getDet
+        DeterministicKey entropyKey = KeyUtils.getDeterministicKey(entropyProto, null, crypter);
+
+        Protos.Key publicKeyProto = keys.get(1);
+        if (publicKeyProto.getType() != Protos.Key.Type.ORIGINAL) {
+            throw new UnreadableWalletException("Unexpected type for NXT public key: " +
+                    publicKeyProto.getType());
+        }
+        byte[] publicKeyBytes = publicKeyProto.getPublicKey().toByteArray();
+
+        return new NxtFamilyKey(entropyKey, publicKeyBytes);
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Encryption support
+    //
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public NxtFamilyKey toEncrypted(CharSequence password) {
+        checkNotNull(password, "Attempt to encrypt with a null password.");
+        checkArgument(password.length() > 0, "Attempt to encrypt with an empty password.");
+        checkState(!entropy.isEncrypted(), "Attempt to encrypt a key that is already encrypted.");
+        KeyCrypter scrypt = new KeyCrypterScrypt();
+        KeyParameter derivedKey = scrypt.deriveKey(password);
+        return toEncrypted(scrypt, derivedKey);
+    }
+
+    @Override
+    public NxtFamilyKey toEncrypted(KeyCrypter keyCrypter, KeyParameter aesKey) {
+        checkState(!entropy.isEncrypted(), "Attempt to encrypt a key that is already encrypted.");
+        return new NxtFamilyKey(entropy.encrypt(ke
