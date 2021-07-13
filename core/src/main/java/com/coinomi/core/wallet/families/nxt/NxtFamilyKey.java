@@ -138,4 +138,43 @@ final public class NxtFamilyKey implements EncryptableKeyChain, KeyBag, Serializ
     }
 
     List<Protos.Key.Builder> toEditableProtobuf() {
-        LinkedList<Pr
+        LinkedList<Protos.Key.Builder> entries = newLinkedList();
+
+        // Entropy
+        Protos.Key.Builder entropyProto = KeyUtils.serializeKey(entropy);
+        entropyProto.setType(Protos.Key.Type.DETERMINISTIC_KEY);
+        final Protos.DeterministicKey.Builder detKey = entropyProto.getDeterministicKeyBuilder();
+        detKey.setChainCode(ByteString.copyFrom(entropy.getChainCode()));
+        for (ChildNumber num : entropy.getPath()) {
+            detKey.addPath(num.i());
+        }
+        entries.add(entropyProto);
+
+        // NTX key
+        Protos.Key.Builder publicKeyProto = Protos.Key.newBuilder();
+        publicKeyProto.setType(Protos.Key.Type.ORIGINAL);
+        publicKeyProto.setPublicKey(ByteString.copyFrom(publicKey));
+        entries.add(publicKeyProto);
+
+        return entries;
+    }
+
+    /**
+     * Returns the key chain found in the given list of keys. Used for unencrypted chains
+     */
+    public static NxtFamilyKey fromProtobuf(List<Protos.Key> keys) throws UnreadableWalletException {
+        return fromProtobuf(keys, null);
+    }
+
+    /**
+     * Returns the key chain found in the given list of keys.
+     */
+    public static NxtFamilyKey fromProtobuf(List<Protos.Key> keys, @Nullable KeyCrypter crypter)
+            throws UnreadableWalletException {
+        if (keys.size() != 2) {
+            throw new UnreadableWalletException("Expected 2 keys, NXT secret and Curve25519 " +
+                    "pub/priv pair, instead got: " + keys.size());
+        }
+
+        Protos.Key entropyProto = keys.get(0);
+        DeterministicKey entropyKey = KeyUtils.getDet
