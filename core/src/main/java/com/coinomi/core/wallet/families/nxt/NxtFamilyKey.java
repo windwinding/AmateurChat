@@ -93,4 +93,49 @@ final public class NxtFamilyKey implements EncryptableKeyChain, KeyBag, Serializ
     }
 
     @Override
-    public List<? extends ECKey> getKeys(
+    public List<? extends ECKey> getKeys(KeyPurpose purpose, int numberOfKeys) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public ECKey getKey(KeyPurpose purpose) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public void addEventListener(KeyChainEventListener listener) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public void addEventListener(KeyChainEventListener listener, Executor executor) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public boolean removeEventListener(KeyChainEventListener listener) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Serialization support
+    //
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public List<org.bitcoinj.wallet.Protos.Key> serializeToProtobuf() {
+        throw new RuntimeException("Not implemented. Use toProtobuf() method instead.");
+    }
+
+    List<Protos.Key> toProtobuf() {
+        LinkedList<Protos.Key> entries = newLinkedList();
+        List<Protos.Key.Builder> protos = toEditableProtobuf();
+        for (Protos.Key.Builder proto : protos) {
+            entries.add(proto.build());
+        }
+        return entries;
+    }
+
+    List<Protos.Key.Builder> toEditableProtobuf() {
+        LinkedList<Pr
