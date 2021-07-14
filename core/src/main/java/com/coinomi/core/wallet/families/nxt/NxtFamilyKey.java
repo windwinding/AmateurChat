@@ -208,4 +208,44 @@ final public class NxtFamilyKey implements EncryptableKeyChain, KeyBag, Serializ
     @Override
     public NxtFamilyKey toEncrypted(KeyCrypter keyCrypter, KeyParameter aesKey) {
         checkState(!entropy.isEncrypted(), "Attempt to encrypt a key that is already encrypted.");
-        return new NxtFamilyKey(entropy.encrypt(ke
+        return new NxtFamilyKey(entropy.encrypt(keyCrypter, aesKey, null), publicKey);
+    }
+
+    @Override
+    public NxtFamilyKey toDecrypted(CharSequence password) {
+        checkNotNull(password, "Attempt to decrypt with a null password.");
+        checkArgument(password.length() > 0, "Attempt to decrypt with an empty password.");
+        KeyCrypter crypter = getKeyCrypter();
+        checkState(crypter != null, "Chain not encrypted");
+        KeyParameter derivedKey = crypter.deriveKey(password);
+        return toDecrypted(derivedKey);
+    }
+
+    @Override
+    public NxtFamilyKey toDecrypted(KeyParameter aesKey) {
+        checkState(isEncrypted(), "Key is not encrypted");
+        checkNotNull(getKeyCrypter(), "Key chain not encrypted");
+        DeterministicKey entropyDecrypted = entropy.decrypt(getKeyCrypter(), aesKey);
+        return new NxtFamilyKey(entropyDecrypted, publicKey);
+    }
+
+    @Override
+    public boolean checkPassword(CharSequence password) {
+        checkNotNull(password, "Password is null");
+        checkState(getKeyCrypter() != null, "Key chain not encrypted");
+        return checkAESKey(getKeyCrypter().deriveKey(password));
+    }
+
+    @Override
+    public boolean checkAESKey(KeyParameter aesKey) {
+        checkNotNull(aesKey, "Cannot check null KeyParameter");
+        checkNotNull(getKeyCrypter(), "Key not encrypted");
+        try {
+            return Arrays.equals(publicKey,
+                    Crypto.getPublicKey(entropy.decrypt(aesKey).getPrivKeyBytes()));
+        } catch (KeyCrypterException e) {
+            return false;
+        }
+    }
+
+ 
