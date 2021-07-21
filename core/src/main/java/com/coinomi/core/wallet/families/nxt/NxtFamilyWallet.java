@@ -1,0 +1,22 @@
+package com.coinomi.core.wallet.families.nxt;
+
+import com.coinomi.core.coins.CoinType;
+import com.coinomi.core.coins.Value;
+import com.coinomi.core.coins.nxt.Convert;
+import com.coinomi.core.coins.nxt.NxtException;
+import com.coinomi.core.coins.nxt.Transaction;
+import com.coinomi.core.exceptions.TransactionBroadcastException;
+import com.coinomi.core.network.AddressStatus;
+import com.coinomi.core.network.BlockHeader;
+import com.coinomi.core.network.NxtServerClient;
+import com.coinomi.core.network.ServerClient;
+import com.coinomi.core.network.interfaces.BlockchainConnection;
+import com.coinomi.core.network.interfaces.TransactionEventListener;
+import com.coinomi.core.protos.Protos;
+import com.coinomi.core.util.KeyUtils;
+import com.coinomi.core.wallet.AbstractAddress;
+import com.coinomi.core.wallet.AbstractTransaction;
+import com.coinomi.core.wallet.AbstractWallet;
+import com.coinomi.core.wallet.SendRequest;
+import com.coinomi.core.wallet.SignedMessage;
+import com.coinomi.core.walle

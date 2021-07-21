@@ -248,4 +248,29 @@ final public class NxtFamilyKey implements EncryptableKeyChain, KeyBag, Serializ
         }
     }
 
- 
+    @Nullable
+    @Override
+    public KeyCrypter getKeyCrypter() {
+        return entropy.getKeyCrypter();
+    }
+
+    @Override
+    public int numKeys() {
+        return 1;
+    }
+
+    @Override
+    public long getEarliestKeyCreationTime() {
+        return entropy.getCreationTimeSeconds();
+    }
+
+    @Override
+    public int numBloomFilterEntries() {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public BloomFilter getFilter(int size, double falsePositiveRate, long tweak) {
+        throw new RuntimeException("Not implemented");
+    }
+}
