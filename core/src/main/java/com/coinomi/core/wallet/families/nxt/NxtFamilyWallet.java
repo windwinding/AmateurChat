@@ -100,4 +100,47 @@ public class NxtFamilyWallet extends AbstractWallet<NxtTransaction, NxtAddress>
 
     public NxtFamilyWallet(DeterministicKey entropy, CoinType type,
                            @Nullable KeyCrypter keyCrypter, @Nullable KeyParameter key) {
-        th
+        this(new NxtFamilyKey(entropy, keyCrypter, key), type);
+    }
+
+    public NxtFamilyWallet(NxtFamilyKey key, CoinType type) {
+        this(KeyUtils.getPublicKeyId(type, key.getPublicKey()), key, type);
+    }
+
+    public NxtFamilyWallet(String id, NxtFamilyKey key, CoinType type) {
+        super(type, id);
+        rootKey = key;
+        address = new NxtAddress(type, key.getPublicKey());
+        balance = type.value(0);
+        addressesStatus = new HashMap<>();
+        addressesSubscribed = new ArrayList<>();
+        addressesPendingSubscription = new ArrayList<>();
+        statusPendingUpdates = new HashMap<>();
+        //fetchingTransactions = new HashSet<>();
+        rawtransactions = new HashMap<>();
+        listeners = new CopyOnWriteArrayList<>();
+    }
+
+    @Override
+    public byte[] getPublicKey() {
+        return rootKey.getPublicKey();
+    }
+
+    @Override
+    public String getPublicKeyMnemonic() {
+        return address.getRsAccount();
+    }
+
+    @Override
+    public SendRequest getEmptyWalletRequest(AbstractAddress destination) throws WalletAccountException {
+        checkAddress(destination);
+        return NxtSendRequest.emptyWallet(this, (NxtAddress) destination);
+    }
+
+    @Override
+    public SendRequest getSendToRequest(AbstractAddress destination, Value amount) throws WalletAccountException {
+        checkAddress(destination);
+        return NxtSendRequest.to(this, (NxtAddress) destination, amount);
+    }
+
+    private void checkAddress(AbstractAddr
