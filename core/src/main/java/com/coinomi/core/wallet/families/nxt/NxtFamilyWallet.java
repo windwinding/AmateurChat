@@ -61,4 +61,43 @@ public class NxtFamilyWallet extends AbstractWallet<NxtTransaction, NxtAddress>
     private static final Logger log = LoggerFactory.getLogger(NxtFamilyWallet.class);
     protected final Map<Sha256Hash, NxtTransaction> rawtransactions;
     @VisibleForTesting
-    final HashMa
+    final HashMap<AbstractAddress, String> addressesStatus;
+    @VisibleForTesting final transient ArrayList<AbstractAddress> addressesSubscribed;
+    @VisibleForTesting final transient ArrayList<AbstractAddress> addressesPendingSubscription;
+    @VisibleForTesting final transient HashMap<AbstractAddress, AddressStatus> statusPendingUpdates;
+    //@VisibleForTesting final transient HashSet<Sha256Hash> fetchingTransactions;
+    private final NxtAddress address;
+    NxtFamilyKey rootKey;
+    private Value balance;
+    private int lastEcBlockHeight;
+    private long lastEcBlockId;
+    // Wallet that this account belongs
+    @Nullable private transient Wallet wallet = null;
+    private NxtServerClient blockchainConnection;
+    @Nullable private Sha256Hash lastBlockSeenHash;
+    private int lastBlockSeenHeight = -1;
+    private long lastBlockSeenTimeSecs = 0;
+    private List<ListenerRegistration<WalletAccountEventListener>> listeners;
+
+
+    private Runnable saveLaterRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (wallet != null) wallet.saveLater();
+        }
+    };
+
+    private Runnable saveNowRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (wallet != null) wallet.saveNow();
+        }
+    };
+
+    public NxtFamilyWallet(DeterministicKey entropy, CoinType type) {
+        this(entropy, type, null, null);
+    }
+
+    public NxtFamilyWallet(DeterministicKey entropy, CoinType type,
+                           @Nullable KeyCrypter keyCrypter, @Nullable KeyParameter key) {
+        th
