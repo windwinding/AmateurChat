@@ -226,4 +226,77 @@ public class NxtFamilyWallet extends AbstractWallet<NxtTransaction, NxtAddress>
     @Override
     public boolean isNew() {
         // TODO implement, how can we check if this account is new?
-      
+        return true;
+    }
+
+    @Override
+    public Value getBalance() {
+        return balance;
+    }
+
+    @Override
+    public void refresh() {
+        lock.lock();
+        try {
+            log.info("Refreshing wallet pocket {}", type);
+            lastBlockSeenHash = null;
+            lastBlockSeenHeight = -1;
+            lastBlockSeenTimeSecs = 0;
+            lastEcBlockHeight = 0;
+            lastEcBlockId = 0;
+            rawtransactions.clear();
+            addressesStatus.clear();
+            clearTransientState();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private void clearTransientState() {
+        addressesSubscribed.clear();
+        addressesPendingSubscription.clear();
+        statusPendingUpdates.clear();
+        //fetchingTransactions.clear();
+    }
+
+    @Override
+    public boolean isConnected() {
+        return blockchainConnection != null;
+    }
+
+    @Override
+    public boolean isLoading() {
+//        TODO implement
+        return false;
+    }
+
+    @Override
+    public void disconnect() {
+        if (blockchainConnection != null) {
+            blockchainConnection.stopAsync();
+        }
+    }
+
+    @Override
+    public AbstractAddress getChangeAddress() {
+        return address;
+    }
+
+    @Override
+    public AbstractAddress getReceiveAddress() {
+        return address;
+    }
+
+    @Override
+    public NxtAddress getReceiveAddress(boolean isManualAddressManagement) {
+        return this.address;
+    }
+
+
+    @Override
+    public boolean hasUsedAddresses() {
+        return false;
+    }
+
+    @Override
+    public boolean canCreateNewAddre
