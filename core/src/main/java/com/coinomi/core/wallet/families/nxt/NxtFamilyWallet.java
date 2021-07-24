@@ -182,4 +182,48 @@ public class NxtFamilyWallet extends AbstractWallet<NxtTransaction, NxtAddress>
         // request.nxtTxBuilder.publicKeyAnnouncement(null);
 
         try {
-            request.tx = n
+            request.tx = new NxtTransaction(type, request.nxtTxBuilder.build());
+            request.setCompleted(true);
+        } catch (NxtException.NotValidException e) {
+            throw new WalletAccount.WalletAccountException(e);
+        }
+
+        if (request.signTransaction) {
+            signTransaction(request);
+        }
+    }
+
+    public void signTransaction(NxtSendRequest request) {
+        checkArgument(request.isCompleted(), "Send request is not completed");
+        checkArgument(request.tx != null, "No transaction found in send request");
+        Transaction tx = request.tx.getRawTransaction();
+        byte[] privateKey;
+        if (rootKey.isEncrypted()) {
+            checkArgument(request.aesKey != null, "Wallet is encrypted but no decryption key provided");
+            privateKey = rootKey.toDecrypted(request.aesKey).getPrivateKey();
+        } else {
+            privateKey = rootKey.getPrivateKey();
+        }
+        tx.sign(privateKey);
+        Arrays.fill(privateKey, (byte) 0); // clear private key
+    }
+
+    @Override
+    public void signMessage(SignedMessage unsignedMessage, @Nullable KeyParameter aesKey) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public void verifyMessage(SignedMessage signedMessage) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public String getPublicKeySerialized() {
+        return Convert.toHexString(getPublicKey());
+    }
+
+    @Override
+    public boolean isNew() {
+        // TODO implement, how can we check if this account is new?
+      
