@@ -143,4 +143,43 @@ public class NxtFamilyWallet extends AbstractWallet<NxtTransaction, NxtAddress>
         return NxtSendRequest.to(this, (NxtAddress) destination, amount);
     }
 
-    private void checkAddress(AbstractAddr
+    private void checkAddress(AbstractAddress destination) throws WalletAccountException {
+        if (!(destination instanceof NxtAddress)) {
+            throw new WalletAccountException("Incompatible address" +
+                    destination.getClass().getName() + ", expected " + NxtAddress.class.getName());
+        }
+    }
+
+
+    @Override
+    public void completeTransaction(SendRequest request) throws WalletAccountException {
+        checkSendRequest(request);
+        completeTransaction((NxtSendRequest) request);
+    }
+
+    @Override
+    public void signTransaction(SendRequest request) throws WalletAccountException {
+        checkSendRequest(request);
+        signTransaction((NxtSendRequest) request);
+    }
+
+    private void checkSendRequest(SendRequest request) throws WalletAccountException {
+        if (!(request instanceof NxtSendRequest)) {
+            throw new WalletAccountException("Incompatible request " +
+                    request.getClass().getName() + ", expected " + NxtSendRequest.class.getName());
+        }
+    }
+
+    public void completeTransaction(NxtSendRequest request) throws WalletAccountException {
+        checkArgument(!request.isCompleted(), "Given SendRequest has already been completed.");
+
+        if (request.type.getTransactionVersion() > 0) {
+            request.nxtTxBuilder.ecBlockHeight(lastEcBlockHeight);
+            request.nxtTxBuilder.ecBlockId(lastEcBlockId);
+        }
+
+        // TODO check if the destination public key was announced and if so, remove it from the tx:
+        // request.nxtTxBuilder.publicKeyAnnouncement(null);
+
+        try {
+            request.tx = n
