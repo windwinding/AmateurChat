@@ -299,4 +299,46 @@ public class NxtFamilyWallet extends AbstractWallet<NxtTransaction, NxtAddress>
     }
 
     @Override
-    public boolean canCreateNewAddre
+    public boolean canCreateNewAddresses() {
+        return false;
+    }
+
+    @Override
+    public boolean broadcastTxSync(AbstractTransaction tx) throws TransactionBroadcastException {
+        if (tx instanceof NxtTransaction) {
+            return broadcastNxtTxSync((NxtTransaction) tx);
+        } else {
+            throw new TransactionBroadcastException("Unsupported transaction class: " +
+                    tx.getClass().getName() + ", need: " + NxtTransaction.class.getName());
+        }
+    }
+
+    public boolean broadcastNxtTxSync(NxtTransaction tx) throws TransactionBroadcastException {
+        if (isConnected()) {
+            if (log.isInfoEnabled()) {
+                log.info("Broadcasting tx {}", Utils.HEX.encode(tx.getRawTransaction().getBytes()));
+            }
+            boolean success = blockchainConnection.broadcastTxSync(tx);
+            if (success) {
+                onTransactionBroadcast(tx);
+            } else {
+                onTransactionBroadcastError(tx);
+            }
+            return success;
+        } else {
+            throw new TransactionBroadcastException("No connection available");
+        }
+    }
+
+    @Override
+    public void broadcastTx(AbstractTransaction tx) throws TransactionBroadcastException {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public AbstractAddress getRefundAddress(boolean isManualAddressManagement) {
+        return address;
+    }
+
+    public Map<Sha256Hash, Transaction> getPendingRawTransactions() {
+  
