@@ -341,4 +341,64 @@ public class NxtFamilyWallet extends AbstractWallet<NxtTransaction, NxtAddress>
     }
 
     public Map<Sha256Hash, Transaction> getPendingRawTransactions() {
-  
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public Map<Sha256Hash, NxtTransaction> getTransactions() {
+        lock.lock();
+        try {
+            return ImmutableMap.copyOf(rawtransactions);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public NxtTransaction getTransaction(String transactionId) {
+        lock.lock();
+        try {
+            return rawtransactions.get(new Sha256Hash(transactionId));
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public Map<Sha256Hash, NxtTransaction> getPendingTransactions() {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public List<AbstractAddress> getActiveAddresses() {
+        return ImmutableList.of((AbstractAddress) address);
+    }
+
+    @Override
+    public void markAddressAsUsed(AbstractAddress address) { /* does not apply */ }
+
+    @Override
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    @Override
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
+    }
+
+    @Override
+    public void walletSaveLater() {
+//        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public void walletSaveNow() {
+//        throw new RuntimeException("Not implemented");
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Serialization support
+    //
+    /////////////////
