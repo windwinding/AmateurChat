@@ -401,4 +401,67 @@ public class NxtFamilyWallet extends AbstractWallet<NxtTransaction, NxtAddress>
     //
     // Serialization support
     //
-    /////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    List<Protos.Key> serializeKeychainToProtobuf() {
+        lock.lock();
+        try {
+            return rootKey.toProtobuf();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Encryption support
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean isEncryptable() {
+        return true;
+    }
+
+    @Override
+    public boolean isEncrypted() {
+        lock.lock();
+        try {
+            return rootKey.isEncrypted();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public KeyCrypter getKeyCrypter() {
+        lock.lock();
+        try {
+            return rootKey.getKeyCrypter();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public void encrypt(KeyCrypter keyCrypter, KeyParameter aesKey) {
+        checkNotNull(keyCrypter);
+        checkNotNull(aesKey);
+
+        lock.lock();
+        try {
+            this.rootKey = this.rootKey.toEncrypted(keyCrypter, aesKey);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public void decrypt(KeyParameter aesKey) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Transaction signing support
+    
