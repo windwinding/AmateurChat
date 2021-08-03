@@ -508,4 +508,51 @@ public class NxtFamilyWallet extends AbstractWallet<NxtTransaction, NxtAddress>
     //
     // Other stuff TODO implement
     //
-    //////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void addEventListener(WalletAccountEventListener listener) {
+        addEventListener(listener, Threading.USER_THREAD);
+    }
+
+    @Override
+    public void addEventListener(WalletAccountEventListener listener, Executor executor) {
+        listeners.add(new ListenerRegistration<>(listener, executor));
+    }
+
+    @Override
+    public boolean removeEventListener(WalletAccountEventListener listener) {
+        return ListenerRegistration.removeFromList(listener, listeners);
+    }
+
+    @Override
+    public boolean isAddressMine(AbstractAddress address) {
+        return this.address.equals(address);
+    }
+
+    @Override
+    public void maybeInitializeAllKeys() { /* Doesn't need initialization */ }
+
+    @Override
+    public void onConnection(BlockchainConnection blockchainConnection) {
+        this.blockchainConnection = (NxtServerClient)blockchainConnection;
+        subscribeToBlockchain();
+
+        subscribeIfNeeded();
+    }
+
+    void subscribeIfNeeded() {
+        lock.lock();
+        try {
+            if (blockchainConnection != null) {
+                List<AbstractAddress> addressesToWatch = getAddressesToWatch();
+                if (addressesToWatch.size() > 0) {
+                    addressesPendingSubscription.addAll(addressesToWatch);
+                    blockchainConnection.subscribeToAddresses(addressesToWatch, this);
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error subscribing to addresses", e);
+        } finally {
+            lock.unlock();
+  
