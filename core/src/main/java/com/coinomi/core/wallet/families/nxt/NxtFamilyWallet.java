@@ -464,4 +464,48 @@ public class NxtFamilyWallet extends AbstractWallet<NxtTransaction, NxtAddress>
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //
     // Transaction signing support
-    
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Sends coins to the given address but does not broadcast the resulting pending transaction.
+     */
+    public NxtSendRequest sendCoinsOffline(NxtAddress address, Value amount) throws WalletAccountException {
+        return sendCoinsOffline(address, amount, (KeyParameter) null);
+    }
+
+    /**
+     * {@link #sendCoinsOffline(NxtAddress, Value)}
+     */
+    public NxtSendRequest sendCoinsOffline(NxtAddress address, Value amount, @Nullable String password)
+            throws WalletAccountException {
+        KeyParameter key = null;
+        if (password != null) {
+            checkState(isEncrypted());
+            key = checkNotNull(getKeyCrypter()).deriveKey(password);
+        }
+        return sendCoinsOffline(address, amount, key);
+    }
+
+    /**
+     * {@link #sendCoinsOffline(NxtAddress, Value)}
+     */
+    public NxtSendRequest sendCoinsOffline(NxtAddress address, Value amount, @Nullable KeyParameter aesKey)
+            throws WalletAccountException {
+        NxtSendRequest request;
+        try {
+            request = NxtSendRequest.to(this, address, amount);
+        } catch (Exception e) {
+            throw new WalletAccountException(e);
+        }
+        request.aesKey = aesKey;
+
+        return request;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Other stuff TODO implement
+    //
+    //////////////////////////////////////////
