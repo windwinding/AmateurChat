@@ -606,4 +606,45 @@ public class NxtFamilyWallet extends AbstractWallet<NxtTransaction, NxtAddress>
 
     @Override
     public void onNewBlock(BlockHeader header) {
-        log.info
+        log.info("Got a {} block: {}", type.getName(), header.getBlockHeight());
+        boolean shouldSave = false;
+        lock.lock();
+        try {
+            lastBlockSeenTimeSecs = header.getTimestamp();
+            lastBlockSeenHeight = header.getBlockHeight();
+
+            queueOnNewBlock();
+        } finally {
+            lock.unlock();
+        }
+        //if (shouldSave) walletSaveLater();
+    }
+
+    @Override
+    public void onBlockUpdate(BlockHeader header) {
+        // TODO should update transaction times if needed
+    }
+
+    void queueOnNewBlock() {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        for (final ListenerRegistration<WalletAccountEventListener> registration : listeners) {
+            registration.executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    registration.listener.onNewBlock(NxtFamilyWallet.this);
+                    registration.listener.onWalletChanged(NxtFamilyWallet.this);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onAddressStatusUpdate(AddressStatus status) {
+        log.debug("Got a status {}", status);
+        lock.lock();
+        try {
+            if (status.getStatus() != null) {
+                if (isAddressStatusChanged(status)) {
+                    this.balance = Value.valueOf(this.type, Long.valueOf(status.getStatus()));
+                    //if (registerStatusForUpdate(status)) {
+                    log.info("Must get transactions for address {}
