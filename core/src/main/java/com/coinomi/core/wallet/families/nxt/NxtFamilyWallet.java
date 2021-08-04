@@ -690,4 +690,46 @@ public class NxtFamilyWallet extends AbstractWallet<NxtTransaction, NxtAddress>
             }
         }
         finally {
-            lo
+            lock.unlock();
+        }
+    }*/
+
+    private boolean isAddressStatusChanged(AddressStatus addressStatus) {
+        lock.lock();
+        try {
+            AbstractAddress address = addressStatus.getAddress();
+            String newStatus = addressStatus.getStatus();
+            if (addressesStatus.containsKey(address)) {
+                String previousStatus = addressesStatus.get(address);
+                if (previousStatus == null) {
+                    return newStatus != null; // Status changed if newStatus is not null
+                } else {
+                    return !previousStatus.equals(newStatus);
+                }
+            } else {
+                // Unused address, just mark it that we watch it
+                if (newStatus == null) {
+                    commitAddressStatus(addressStatus);
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    void commitAddressStatus(AddressStatus newStatus) {
+        lock.lock();
+        try {
+            /*AddressStatus updatingStatus = statusPendingUpdates.get(newStatus.getAddress());
+            if (updatingStatus != null && updatingStatus.equals(newStatus)) {
+                statusPendingUpdates.remove(newStatus.getAddress());
+            }*/
+            addressesStatus.put(newStatus.getAddress(), newStatus.getStatus());
+        }
+        finally {
+            lock.unlock();
+        }
+        // Skip saving null statuses
