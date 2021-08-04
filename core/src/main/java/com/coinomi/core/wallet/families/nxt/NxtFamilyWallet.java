@@ -555,4 +555,55 @@ public class NxtFamilyWallet extends AbstractWallet<NxtTransaction, NxtAddress>
             log.error("Error subscribing to addresses", e);
         } finally {
             lock.unlock();
-  
+        }
+    }
+
+    @VisibleForTesting List<AbstractAddress> getAddressesToWatch() {
+        ImmutableList.Builder<AbstractAddress> addressesToWatch = ImmutableList.builder();
+        for (AbstractAddress address : getActiveAddresses()) {
+            // If address not already subscribed or pending subscription
+            if (!addressesSubscribed.contains(address) && !addressesPendingSubscription.contains(address)) {
+                addressesToWatch.add(address);
+            }
+        }
+        return addressesToWatch.build();
+    }
+
+    private void subscribeToBlockchain() {
+        lock.lock();
+        try {
+            if (blockchainConnection != null) {
+                blockchainConnection.subscribeToBlockchain(this);
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public void onDisconnect() {
+        blockchainConnection = null;
+        queueOnConnectivity();
+    }
+
+    @Nullable
+    @Override
+    public ECKey findKeyFromPubHash(byte[] pubkeyHash) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Nullable
+    @Override
+    public ECKey findKeyFromPubKey(byte[] pubkey) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Nullable
+    @Override
+    public RedeemData findRedeemDataFromScriptHash(byte[] scriptHash) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public void onNewBlock(BlockHeader header) {
+        log.info
