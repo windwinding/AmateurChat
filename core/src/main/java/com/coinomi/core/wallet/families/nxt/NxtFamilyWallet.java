@@ -647,4 +647,47 @@ public class NxtFamilyWallet extends AbstractWallet<NxtTransaction, NxtAddress>
                 if (isAddressStatusChanged(status)) {
                     this.balance = Value.valueOf(this.type, Long.valueOf(status.getStatus()));
                     //if (registerStatusForUpdate(status)) {
-                    log.info("Must get transactions for address {}
+                    log.info("Must get transactions for address {}, status {}",
+                            status.getAddress(), status.getStatus());
+
+                    if (blockchainConnection != null) {
+                        blockchainConnection.getHistoryTx(status, this);
+                    }
+                }
+                //} else {
+                //    log.info("Status {} already updating", status.getStatus());
+                //}
+            } else {
+                commitAddressStatus(status);
+            }
+        }
+        finally {
+            lock.unlock();
+        }
+    }
+
+    /*
+    @VisibleForTesting boolean registerStatusForUpdate(AddressStatus status) {
+        checkNotNull(status.getStatus());
+
+        lock.lock();
+        try {
+            // If current address is updating
+            if (statusPendingUpdates.containsKey(status.getAddress())) {
+                AddressStatus updatingAddressStatus = statusPendingUpdates.get(status.getAddress());
+                String updatingStatus = updatingAddressStatus.getStatus();
+
+                // If the same status is updating, don't update again
+                if (updatingStatus != null && updatingStatus.equals(status.getStatus())) {
+                    return false;
+                } else { // Status is newer, so replace the updating status
+                    statusPendingUpdates.put(status.getAddress(), status);
+                    return true;
+                }
+            } else { // This status is new
+                statusPendingUpdates.put(status.getAddress(), status);
+                return true;
+            }
+        }
+        finally {
+            lo
