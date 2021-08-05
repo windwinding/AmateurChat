@@ -733,3 +733,42 @@ public class NxtFamilyWallet extends AbstractWallet<NxtTransaction, NxtAddress>
             lock.unlock();
         }
         // Skip saving null statuses
+        if (newStatus.getStatus() != null) {
+            walletSaveLater();
+        }
+    }
+
+    @Override
+    public void onTransactionHistory(AddressStatus status, List<ServerClient.HistoryTx> historyTxes) {
+        log.info("onTransactionHistory");
+        lock.lock();
+        try {
+            //AddressStatus updatingStatus = statusPendingUpdates.get(status.getAddress());
+            // Check if this updating status is valid
+                status.queueHistoryTransactions(historyTxes);
+                log.info("Fetching txs");
+                fetchTransactions(historyTxes);
+                queueOnNewBalance();
+                //tryToApplyState(updatingStatus);
+        }
+        finally {
+            lock.unlock();
+        }
+    }
+
+    private void fetchTransactions(List<? extends ServerClient.HistoryTx> txes) {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        for (ServerClient.HistoryTx tx : txes) {
+            fetchTransactionIfNeeded(tx.getTxHash());
+        }
+    }
+
+    private void fetchTransactionIfNeeded(Sha256Hash txHash) {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        // Check if need to fetch the transaction
+        log.info("Trying to fetch transaction with hash {}", txHash);
+        if (!isTransactionAvailableOrQueued(txHash)) {
+            log.info("Going to fetch transaction with hash {}", txHash);
+            //fetchingTransactions.add(txHash);
+            if (blockchainConnection != null) {
+                blockchainConnection.get
