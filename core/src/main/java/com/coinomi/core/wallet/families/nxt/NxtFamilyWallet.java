@@ -771,4 +771,56 @@ public class NxtFamilyWallet extends AbstractWallet<NxtTransaction, NxtAddress>
             log.info("Going to fetch transaction with hash {}", txHash);
             //fetchingTransactions.add(txHash);
             if (blockchainConnection != null) {
-                blockchainConnection.get
+                blockchainConnection.getTransaction(txHash, this);
+            }
+        }
+        else {
+            log.info("cannot fetch tx with hash {}", txHash);
+        }
+    }
+
+    private boolean isTransactionAvailableOrQueued(Sha256Hash txHash) {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        return rawtransactions.containsKey(txHash);
+    }
+
+    @Nullable
+    public synchronized Transaction getRawTransaction(Sha256Hash hash) {
+        lock.lock();
+        try {
+            NxtTransaction tx = rawtransactions.get(hash);
+            if (tx != null) {
+                return tx.getRawTransaction();
+            } else {
+                return null;
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public void onTransactionUpdate(NxtTransaction tx) {
+        if (log.isInfoEnabled()) log.info("Got a new transaction {}", tx.getHashAsString());
+        lock.lock();
+        try {
+            addNewTransactionIfNeeded(tx);
+        }
+        finally {
+            lock.unlock();
+        }
+
+    }
+
+
+    @VisibleForTesting
+    void addNewTransactionIfNeeded(NxtTransaction tx) {
+        lock.lock();
+        try {
+            // If was fetching this tx, remove it
+            //fetchingTransactions.remove(tx.getFullHash());
+            log.info("adding transaction to wallet");
+            // This tx not in wallet, add it
+            NxtTransaction storedTx = rawtransactions.get(tx.getHash());
+            if (storedTx == null) {
+                log.info("transaction adde
