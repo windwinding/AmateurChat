@@ -823,4 +823,40 @@ public class NxtFamilyWallet extends AbstractWallet<NxtTransaction, NxtAddress>
             // This tx not in wallet, add it
             NxtTransaction storedTx = rawtransactions.get(tx.getHash());
             if (storedTx == null) {
-                log.info("transaction adde
+                log.info("transaction added");
+                rawtransactions.put(tx.getHash(), tx);
+                //tx.getConfidence().setConfidenceType(TransactionConfidence.ConfidenceType.PENDING);
+                //addWalletTransaction(WalletTransaction.Pool.PENDING, tx, true);
+                queueOnNewBalance();
+            }
+            else {
+                storedTx.setDepthInBlocks(tx.getDepthInBlocks());
+                storedTx.setAppearedAtChainHeight(tx.getAppearedAtChainHeight());
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    void queueOnNewBalance() {
+        checkState(lock.isHeldByCurrentThread(), "Lock is held by another thread");
+        final Value balance = getBalance();
+        for (final ListenerRegistration<WalletAccountEventListener> registration : listeners) {
+            registration.executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    registration.listener.onNewBalance(balance);
+                    registration.listener.onWalletChanged(NxtFamilyWallet.this);
+                }
+            });
+        }
+    }
+
+    void queueOnConnectivity() {
+        final WalletConnectivityStatus connectivity = getConnectivityStatus();
+        for (final ListenerRegistration<WalletAccountEventListener> registration : listeners) {
+            registration.executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    registration.listener.onConnectivityStatus(connectivity);
+                    
