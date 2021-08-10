@@ -859,4 +859,27 @@ public class NxtFamilyWallet extends AbstractWallet<NxtTransaction, NxtAddress>
                 @Override
                 public void run() {
                     registration.listener.onConnectivityStatus(connectivity);
-                    
+                    registration.listener.onWalletChanged(NxtFamilyWallet.this);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onTransactionBroadcast(NxtTransaction tx) {
+        lock.lock();
+        try {
+            log.info("Transaction sent {}", tx);
+            //FIXME, when enabled it breaks the transactions connections and we get an incorrect coin balance
+            addNewTransactionIfNeeded(tx);
+        } finally {
+            lock.unlock();
+        }
+        //queueOnTransactionBroadcastSuccess(tx);
+    }
+
+    @Override
+    public void onTransactionBroadcastError(NxtTransaction tx) {
+        //queueOnTransactionBroadcastFailure(tx);
+    }
+}
