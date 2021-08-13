@@ -46,4 +46,35 @@ public class NxtSendRequest extends SendRequest<NxtTransaction> {
 
         TransactionImpl.BuilderImpl builder = new TransactionImpl.BuilderImpl(version,
                 from.getPublicKey(), amount.value, req.fee.value, timestamp,
-                NxtFamily.DEFAULT_DEADLINE, 
+                NxtFamily.DEFAULT_DEADLINE, Attachment.ORDINARY_PAYMENT);
+
+        builder.recipientId(destination.getAccountId());
+
+        // TODO extra check, query the server if the public key announcement is actually needed
+        if (destination.getPublicKey() != null) {
+            Appendix.PublicKeyAnnouncement publicKeyAnnouncement
+                    = new Appendix.PublicKeyAnnouncement(destination.getPublicKey());
+            builder.publicKeyAnnouncement(publicKeyAnnouncement);
+        }
+
+        req.nxtTxBuilder = builder;
+
+        return req;
+    }
+
+    public static NxtSendRequest emptyWallet(NxtFamilyWallet from, NxtAddress destination) {
+        checkNotNull(destination.getType(), "Address is for an unknown network");
+        checkState(destination.getType().getFeePolicy() == FeePolicy.FLAT_FEE, "Only flat fee is supported");
+
+        Value allFundsMinusFee = from.getBalance().subtract(destination.getType().getFeeValue());
+
+        return to(from, destination, allFundsMinusFee);
+    }
+
+    private static void checkTypeCompatibility(CoinType type) {
+        // Only Nxt family coins are supported
+        if (!(type instanceof NxtFamily)) {
+            throw new RuntimeException("Unsupported type: " + type);
+        }
+    }
+}
