@@ -36,4 +36,63 @@ public class VpncoinTxMessage implements TxMessage {
     public static final int MAX_TX_DATA_MSG  = MAX_TX_DATA - MAX_TX_DATA_FROM - MAX_TX_DATA_SUBJ;
 
     static final Pattern MESSAGE_REGEX =
-            Pattern.compile("(?s)@(?:FROM|SUBJ|MS
+            Pattern.compile("(?s)@(?:FROM|SUBJ|MSG)=.*?(?=@(?:FROM|SUBJ|MSG)=|$)");
+
+    static final String FROM = "@FROM=";
+    static final String SUBJ = "@SUBJ=";
+    static final String MSG  = "@MSG=";
+
+    private String from;
+    private String subject;
+    private String message;
+
+    VpncoinTxMessage() { }
+
+    VpncoinTxMessage(String message) {
+        setMessage(message);
+    }
+
+    VpncoinTxMessage(String from, String subject, String message) {
+        setFrom(from);
+        setSubject(subject);
+        setMessage(message);
+    }
+
+    private transient static VpncoinMessageFactory instance = new VpncoinMessageFactory();
+    public static MessageFactory getFactory() {
+        return instance;
+    }
+
+    public static VpncoinTxMessage create(String message) throws IllegalArgumentException {
+        return new VpncoinTxMessage(message);
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setFrom(String from) {
+        checkArgument(from.length() <= MAX_TX_DATA_FROM, "'From' field size exceeded");
+        this.from = from;
+    }
+
+    public void setSubject(String subject) {
+        checkArgument(subject.length() <= MAX_TX_DATA_SUBJ, "'Subject' field size exceeded");
+        this.subject = subject;
+    }
+
+    public void setMessage(String message) {
+        checkArgument(message.length() <= MAX_TX_DATA_MSG, "'Message' field size exceeded");
+        this.message = message;
+    }
+
+    @Nullable
+    public static VpncoinTxMessage pars
