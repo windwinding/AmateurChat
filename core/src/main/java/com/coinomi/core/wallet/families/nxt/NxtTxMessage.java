@@ -61,4 +61,14 @@ public class NxtTxMessage implements TxMessage {
         }
 
         @Override
-        public TxMessa
+        public TxMessage createPublicMessage(String message) {
+            return null;
+        }
+
+        @Nullable
+        @Override
+        public TxMessage extractPublicMessage(AbstractTransaction transaction) {
+            return null;
+        }
+    }
+}
