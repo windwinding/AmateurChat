@@ -95,4 +95,54 @@ public class VpncoinTxMessage implements TxMessage {
     }
 
     @Nullable
-    public static VpncoinTxMessage pars
+    public static VpncoinTxMessage parse(AbstractTransaction tx) {
+        Transaction rawTx = null;
+        byte[] bytes;
+        String fullMessage = null;
+        try {
+            rawTx = ((BitTransaction) tx).getRawTransaction();
+            bytes = rawTx.getExtraBytes();
+            if (bytes == null || bytes.length == 0) return null;
+
+            fullMessage = new String(bytes, Charsets.UTF_8);
+            return parseUnencrypted(fullMessage);
+        } catch (Exception e) {
+            if (rawTx == null || fullMessage == null) return null;
+            try {
+                return parseEncrypted(rawTx.getTime(), fullMessage);
+            } catch (Exception e1) {
+                log.info("Could not parse message: {}", e1.getMessage());
+                return null;
+            }
+        }
+    }
+
+    @Nullable
+    public static VpncoinTxMessage parse(String fullMessage) {
+        if (fullMessage == null || fullMessage.length() == 0) {
+            return null;
+        }
+
+        try {
+            return parseUnencrypted(fullMessage);
+        } catch (Exception e) {
+            log.info("Could not parse message: {}", e.getLocalizedMessage());
+            return null;
+        }
+    }
+
+    public boolean isEmpty() {
+        return isNullOrEmpty(from) && isNullOrEmpty(subject) && isNullOrEmpty(message);
+    }
+
+    private static boolean isNullOrEmpty(String str) {
+        return str == null || str.trim().isEmpty();
+    }
+
+    @Override
+    public Type getType() {
+        return Type.PUBLIC; // Only public is supported
+    }
+
+    @Override
+    public String t
