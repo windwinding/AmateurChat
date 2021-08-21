@@ -145,4 +145,54 @@ public class VpncoinTxMessage implements TxMessage {
     }
 
     @Override
-    public String t
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        if (!isNullOrEmpty(from)) {
+            sb.append(from);
+        }
+        if (!isNullOrEmpty(subject)) {
+            if (sb.length() != 0) sb.append("\n\n");
+            sb.append(subject);
+        }
+        if (!isNullOrEmpty(message)) {
+            if (sb.length() != 0) sb.append("\n\n");
+            sb.append(message);
+        }
+
+        return sb.toString();
+    }
+
+    @Override
+    public void serializeTo(AbstractTransaction transaction) {
+        if (transaction instanceof BitTransaction) {
+            Transaction rawTx = ((BitTransaction) transaction).getRawTransaction();
+            rawTx.setExtraBytes(serialize());
+        }
+    }
+
+    byte[] serialize() {
+        StringBuilder sb = new StringBuilder();
+        if (!isNullOrEmpty(from)) {
+            sb.append(FROM);
+            sb.append(from);
+        }
+        if (!isNullOrEmpty(subject)) {
+            sb.append(SUBJ);
+            sb.append(subject);
+        }
+        if (!isNullOrEmpty(message)) {
+            sb.append(MSG);
+            sb.append(message);
+        }
+
+        return sb.toString().getBytes(Charsets.UTF_8);
+    }
+
+    static VpncoinTxMessage parseEncrypted(long key, String fullMessage) throws Exception {
+        return parseUnencrypted(decrypt(key, fullMessage));
+    }
+
+    static VpncoinTxMessage parseUnencrypted(String fullMessage) throws Exception {
+        checkArgument(fullMessage.length() <= MAX_TX_DATA, "Maximum data size exceeded");
+
+        Matcher 
