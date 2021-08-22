@@ -195,4 +195,43 @@ public class VpncoinTxMessage implements TxMessage {
     static VpncoinTxMessage parseUnencrypted(String fullMessage) throws Exception {
         checkArgument(fullMessage.length() <= MAX_TX_DATA, "Maximum data size exceeded");
 
-        Matcher 
+        Matcher matcher = MESSAGE_REGEX.matcher(fullMessage);
+        VpncoinTxMessage msg = new VpncoinTxMessage();
+        while (matcher.find()) {
+            String part = matcher.group();
+            // Be more relaxed about each field size that we receive from the network
+            if (part.startsWith(FROM)) {
+                msg.from = part.replace(FROM, "");
+            } else if (part.startsWith(SUBJ)) {
+                msg.subject = part.replace(SUBJ, "");
+            } else if (part.startsWith(MSG)) {
+                msg.message = part.replace(MSG, "");
+            }
+        }
+        if (msg.isEmpty()) {
+            throw new Exception("Message is empty");
+        }
+        return msg;
+    }
+
+    static int checksum(byte[] data, int offset) {
+        int crc = 0xffff;
+        for (int i = offset; i < data.length; i++) {
+            byte b = data[i];
+            crc = ((crc >> 4) & 0x0fff) ^ CRC_TBL[((crc ^ b) & 15)];
+            b >>= 4;
+            crc = ((crc >> 4) & 0x0fff) ^ CRC_TBL[((crc ^ b) & 15)];
+        }
+        return ~crc & 0xffff;
+    }
+
+    static byte[] uncompress(ByteBuffer compressed) throws DataFormatException {
+        if (compressed.remaining() <= SIZE_LENGTH) {
+            throw new DataFormatException("Invalid compressed data size");
+        }
+        Inflater inflater = new Inflater();
+
+        // The first 4 bytes of the input is an integer encoding the size of the uncompressed data
+        int expectedSize = compressed.getInt();
+
+        // Check the 
