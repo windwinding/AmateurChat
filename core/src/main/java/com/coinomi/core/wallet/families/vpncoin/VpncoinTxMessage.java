@@ -272,4 +272,54 @@ public class VpncoinTxMessage implements TxMessage {
             int pos = buffer.position();
             byte curByte = buffer.get();
             buffer.position(pos);
-            buffer.put((byte)(curByte ^ lastByte ^ m_keyP
+            buffer.put((byte)(curByte ^ lastByte ^ m_keyParts[pos % 8]));
+            lastByte = curByte;
+        }
+        buffer.rewind();
+        //chop off the random number at the start
+        buffer.get();
+
+        boolean integrityOk = true;
+        if (CryptoFlag.CryptoFlagChecksum.isSet(flags)) {
+            int storedChecksum = buffer.getShort() & 0xffff;
+            int checksum = checksum(buffer.array(), buffer.position());
+            integrityOk = (checksum == storedChecksum);
+        } else if (CryptoFlag.CryptoFlagHash.isSet(flags)) {
+            throw new RuntimeException("Not implemented");
+        }
+
+        if (!integrityOk) throw new DataFormatException("Integrity failed");
+
+        if (CryptoFlag.CryptoFlagCompression.isSet(flags)) {
+            return uncompress(buffer);
+        } else {
+            return Arrays.copyOfRange(buffer.array(), buffer.position(), buffer.array().length);
+        }
+    }
+
+    private static byte[] makeKey(long key) {
+        byte[] m_keyParts = new byte[8];
+        for (int i=0;i<8;i++) {
+            long part = key;
+            for (int j=i; j>0; j--)
+                part = part >> 8;
+            part = part & 0xff;
+            m_keyParts[i] = (byte) part;
+        }
+        return m_keyParts;
+    }
+
+    enum CryptoFlag {
+        CryptoFlagNone((byte)0),
+        CryptoFlagCompression((byte)0x01),
+        CryptoFlagChecksum((byte)0x02),
+        CryptoFlagHash((byte)0x04);
+
+        private final byte flag;
+
+        CryptoFlag(byte b) {
+            flag = b;
+        }
+
+        public boolean isSet(byte flags) {
+           
