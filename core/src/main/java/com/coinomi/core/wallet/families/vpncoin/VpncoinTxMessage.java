@@ -234,4 +234,42 @@ public class VpncoinTxMessage implements TxMessage {
         // The first 4 bytes of the input is an integer encoding the size of the uncompressed data
         int expectedSize = compressed.getInt();
 
-        // Check the 
+        // Check the maximum data that we are willing to handle
+        if (expectedSize > MAX_TX_DATA * 2) {
+            throw new DataFormatException("Maximum data size exceeded");
+        }
+
+        // Ignore the size bytes when uncompressing
+        inflater.setInput(compressed.array(), compressed.position(), compressed.remaining());
+        byte[] buffer = new byte[expectedSize];
+        int size = inflater.inflate(buffer);
+
+        // Check that the uncompressed size matches the expected size
+        if (expectedSize != size) throw new DataFormatException("Unexpected data size");
+        if (!inflater.finished()) throw new DataFormatException("Data larger than expected");
+
+        return buffer;
+    }
+
+    static String decrypt(long key, String fullMessage) throws DataFormatException {
+        byte[] bytes = decryptBytes(key, Base64.decode(fullMessage));
+        return new String(bytes);
+    }
+
+    static byte[] decryptBytes(long key, byte[] data) throws DataFormatException {
+        byte[] m_keyParts = makeKey(key);
+        byte version = data[0];
+
+        if (version != 3) {  //we only work with version 3
+            throw new IllegalArgumentException("Invalid version or not a cyphertext.");
+        }
+
+        byte flags = data[1];
+        ByteBuffer buffer = ByteBuffer.wrap(Arrays.copyOfRange(data, 2, data.length));
+
+        byte lastByte = 0;
+        while (buffer.hasRemaining()) {
+            int pos = buffer.position();
+            byte curByte = buffer.get();
+            buffer.position(pos);
+            buffer.put((byte)(curByte ^ lastByte ^ m_keyP
