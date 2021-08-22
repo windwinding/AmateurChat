@@ -322,4 +322,42 @@ public class VpncoinTxMessage implements TxMessage {
         }
 
         public boolean isSet(byte flags) {
-           
+            return (flags & flag) == flag;
+        }
+    }
+
+    static final int CRC_TBL[] = {
+            0x0000, 0x1081, 0x2102, 0x3183,
+            0x4204, 0x5285, 0x6306, 0x7387,
+            0x8408, 0x9489, 0xa50a, 0xb58b,
+            0xc60c, 0xd68d, 0xe70e, 0xf78f
+    };
+
+    public static class VpncoinMessageFactory implements MessageFactory {
+        @Override
+        public int maxMessageSizeBytes() {
+            return MAX_TX_DATA_MSG;
+        }
+
+        @Override
+        public boolean canHandlePublicMessages() {
+            return true;
+        }
+
+        @Override
+        public boolean canHandlePrivateMessages() {
+            return false;
+        }
+
+        @Override
+        public TxMessage createPublicMessage(String message) {
+            return create(message);
+        }
+
+        @Override
+        @Nullable
+        public TxMessage extractPublicMessage(AbstractTransaction transaction) {
+            return parse(transaction);
+        }
+    }
+}
