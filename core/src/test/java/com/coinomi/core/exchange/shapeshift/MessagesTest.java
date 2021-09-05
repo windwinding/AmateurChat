@@ -436,3 +436,217 @@ public class MessagesTest {
                 "}");
         ShapeShiftNormalTx normalTx = new ShapeShiftNormalTx(json);
         assertNotNull(normalTx);
+        assertFalse(normalTx.isError);
+        assertEquals("btc_doge", normalTx.pair);
+        assertEquals("18ETaXCYhJ8sxurh41vpKC3E6Tu7oJ94q8", normalTx.deposit.toString());
+        assertEquals(BTC, normalTx.deposit.getType());
+        assertEquals("DMHLQYG4j96V8cZX9WSuXxLs5RnZn6ibrV", normalTx.withdrawal.toString());
+        assertEquals(DOGE, normalTx.withdrawal.getType());
+    }
+
+    @Test
+    public void testAmountTxWithoutMinerFee() throws JSONException, ShapeShiftException {
+        JSONObject json = new JSONObject(
+                "{" +
+                    "\"success\":{" +
+                        "\"pair\":\"btc_doge\"," +
+                        "\"withdrawal\":\"DMHLQYG4j96V8cZX9WSuXxLs5RnZn6ibrV\"," +
+                        "\"withdrawalAmount\":\"1000\"," +
+                        "\"deposit\":\"14gQ3xywKEUA6CfH61F8t2c6oB5nLnUjL5\"," +
+                        "\"depositAmount\":\"0.00052327\"," +
+                        "\"expiration\":1427149038191," +
+                        "\"quotedRate\":\"1911057.69230769\"" +
+                    "}" +
+                "}");
+        ShapeShiftAmountTx amountTx = new ShapeShiftAmountTx(json);
+        assertNotNull(amountTx);
+        assertFalse(amountTx.isError);
+        assertEquals("btc_doge", amountTx.pair);
+        assertEquals("14gQ3xywKEUA6CfH61F8t2c6oB5nLnUjL5", amountTx.deposit.toString());
+        assertEquals(BTC, amountTx.deposit.getType());
+        assertEquals(BTC.value("0.00052327"), amountTx.depositAmount);
+        assertEquals("DMHLQYG4j96V8cZX9WSuXxLs5RnZn6ibrV", amountTx.withdrawal.toString());
+        assertEquals(DOGE, amountTx.withdrawal.getType());
+        assertEquals(DOGE.value("1000"), amountTx.withdrawalAmount);
+        assertEquals(1427149038191L, amountTx.expiration.getTime());
+        assertEquals(BTC.value("0.00052327"), amountTx.rate.convert(Value.parse(DOGE, "1000")));
+    }
+
+    @Test
+    public void testAmountTxWithMinerFee() throws JSONException, ShapeShiftException {
+        JSONObject json = new JSONObject(
+                "{" +
+                    "\"success\":{" +
+                        "\"pair\":\"btc_doge\"," +
+                        "\"withdrawal\":\"DMHLQYG4j96V8cZX9WSuXxLs5RnZn6ibrV\"," +
+                        "\"withdrawalAmount\":\"1000\"," +
+                        "\"minerFee\":\"1\"," +
+                        "\"deposit\":\"14gQ3xywKEUA6CfH61F8t2c6oB5nLnUjL5\"," +
+                        "\"depositAmount\":\"0.00052379\"," +
+                        "\"expiration\":1427149038191," +
+                        "\"quotedRate\":\"1911057.69230769\"" +
+                    "}" +
+                "}");
+        ShapeShiftAmountTx amountTx = new ShapeShiftAmountTx(json);
+        assertNotNull(amountTx);
+        assertFalse(amountTx.isError);
+        assertEquals("btc_doge", amountTx.pair);
+        assertEquals("14gQ3xywKEUA6CfH61F8t2c6oB5nLnUjL5", amountTx.deposit.toString());
+        assertEquals(BTC, amountTx.deposit.getType());
+        assertEquals(BTC.value("0.00052379"), amountTx.depositAmount);
+        assertEquals("DMHLQYG4j96V8cZX9WSuXxLs5RnZn6ibrV", amountTx.withdrawal.toString());
+        assertEquals(DOGE, amountTx.withdrawal.getType());
+        assertEquals(DOGE.value("1000"), amountTx.withdrawalAmount);
+        assertEquals(1427149038191L, amountTx.expiration.getTime());
+        assertEquals(BTC.value("0.00052379"), amountTx.rate.convert(Value.parse(DOGE, "1000")));
+    }
+
+    @Test
+    public void testEmail() throws JSONException, ShapeShiftException {
+        JSONObject json = new JSONObject(
+                "{" +
+                    "\"email\":{" +
+                        "\"status\":\"success\"," +
+                        "\"message\":\"Email receipt sent\"" +
+                    "}" +
+                "}");
+        ShapeShiftEmail email = new ShapeShiftEmail(json);
+        assertNotNull(email);
+        assertFalse(email.isError);
+        assertEquals(ShapeShiftEmail.Status.SUCCESS, email.status);
+        assertEquals("Email receipt sent", email.message);
+    }
+
+    @Test
+    public void testCoinsError() throws JSONException, ShapeShiftException {
+        JSONObject json = new JSONObject("{ error: \"error\" }");
+        ShapeShiftCoins coins = new ShapeShiftCoins(json);
+        assertNotNull(coins);
+        assertTrue(coins.isError);
+        assertEquals("error", coins.errorMessage);
+        assertNull(coins.coins);
+    }
+
+    @Test
+    public void testCoinError() throws JSONException, ShapeShiftException {
+        JSONObject json = new JSONObject("{ error: \"error\" }");
+        ShapeShiftCoin coin = new ShapeShiftCoin(json);
+        assertNotNull(coin);
+        assertTrue(coin.isError);
+        assertEquals("error", coin.errorMessage);
+        assertNull(coin.name);
+        assertNull(coin.symbol);
+        assertNull(coin.image);
+        assertFalse(coin.isAvailable);
+    }
+
+    @Test
+    public void testRateError() throws JSONException, ShapeShiftException {
+        JSONObject json = new JSONObject("{ error: \"error\" }");
+        ShapeShiftRate rate = new ShapeShiftRate(json);
+        assertNotNull(rate);
+        assertTrue(rate.isError);
+        assertEquals("error", rate.errorMessage);
+        assertNull(rate.pair);
+        assertNull(rate.rate);
+    }
+
+    @Test
+    public void testLimitError() throws JSONException, ShapeShiftException {
+        JSONObject json = new JSONObject("{ error: \"error\" }");
+        ShapeShiftLimit limit = new ShapeShiftLimit(json);
+        assertNotNull(limit);
+        assertTrue(limit.isError);
+        assertEquals("error", limit.errorMessage);
+        assertNull(limit.pair);
+        assertNull(limit.limit);
+        assertNull(limit.minimum);
+    }
+
+    @Test
+    public void testTimeError() throws JSONException, ShapeShiftException {
+        JSONObject json = new JSONObject("{ error: \"error\" }");
+        ShapeShiftTime time = new ShapeShiftTime(json);
+        assertNotNull(time);
+        assertTrue(time.isError);
+        assertEquals("error", time.errorMessage);
+        assertNull(time.status);
+        assertEquals(-1, time.secondsRemaining);
+    }
+
+    @Test
+    public void testTxStatusError() throws JSONException, ShapeShiftException {
+        JSONObject json = new JSONObject("{ error: \"error\" }");
+        ShapeShiftTxStatus txStatus = new ShapeShiftTxStatus(json);
+        assertNotNull(txStatus);
+        assertTrue(txStatus.isError);
+        assertEquals("error", txStatus.errorMessage);
+        assertNull(txStatus.status);
+        assertNull(txStatus.address);
+        assertNull(txStatus.withdraw);
+        assertNull(txStatus.incomingValue);
+        assertNull(txStatus.outgoingValue);
+        assertNull(txStatus.transactionId);
+    }
+
+    @Test(expected = ShapeShiftException.class)
+    public void testInvalidCoins() throws ShapeShiftException, JSONException {
+        JSONObject json = new JSONObject(
+                "{" +
+                    "BTC: {" +
+                        "name: \"Bitcoin\"," +
+                        "symbol: \"BTC\"," +
+                        "image: \"https://shapeshift.io/images/coins/bitcoin.png\"," +
+                        "status: \"available\"" +
+                    "}," +
+                    "LTC: {" +
+                        "bad: \"\"" +
+                    "}" +
+                "}");
+        new ShapeShiftCoins(json);
+    }
+
+    @Test(expected = ShapeShiftException.class)
+    public void testInvalidCoin() throws ShapeShiftException, JSONException {
+        JSONObject json = new JSONObject(
+                "{" +
+                    "LTC: {" +
+                        "bad: \"\"" +
+                    "}" +
+                "}");
+        new ShapeShiftCoin(json);
+    }
+
+    @Test(expected = ShapeShiftException.class)
+    public void testInvalidMarketInfo() throws JSONException, ShapeShiftException {
+        new ShapeShiftRate(new JSONObject(
+                "{" +
+                        "\"pair\" : \"btc_nbt\"," +
+                        "\"rate\" : \"0\"," +
+                        "\"minerFee\" : \"0.01\"," +
+                        "\"limit\" : \"0\"," +
+                        "\"minimum\" : 0" +
+                        "}"));
+    }
+
+
+    @Test(expected = ShapeShiftException.class)
+    public void testInvalidRate() throws ShapeShiftException {
+        new ShapeShiftRate(new JSONObject());
+    }
+
+    @Test(expected = ShapeShiftException.class)
+    public void testInvalidLimit() throws ShapeShiftException {
+        new ShapeShiftLimit(new JSONObject());
+    }
+
+    @Test(expected = ShapeShiftException.class)
+    public void testInvalidTime() throws ShapeShiftException {
+        new ShapeShiftTime(new JSONObject());
+    }
+
+    @Test(expected = ShapeShiftException.class)
+    public void testInvalidTxStatus() throws ShapeShiftException {
+        new ShapeShiftTime(new JSONObject());
+    }
+}
