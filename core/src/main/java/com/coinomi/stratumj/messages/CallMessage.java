@@ -74,3 +74,36 @@ public class CallMessage extends BaseMessage {
             throw new RuntimeException(e);
         }
     }
+
+    public JSONArray getParams() {
+        createParamsIfNeeded();
+        try {
+            return getJSONArray("params");
+        } catch (JSONException e) {
+            // Should never happen because we created the params
+            return new JSONArray();
+        }
+    }
+
+    public void setParam(String param) {
+        setParams(Arrays.asList(param));
+    }
+
+    public void setParams(@Nullable Collection params) {
+        if (params == null) return;
+        try {
+            put("params", params);
+        } catch (JSONException e) {
+            // Should never happen because "params" is a valid JSON name
+            throw new RuntimeException(e);
+        }
+    }
+//
+//    public void addParams(Collection params) {
+//        getParams().put(params);
+//    }
+//
+//    public void addParam(String param) {
+//        getParams().put(param);
+//    }
+}
