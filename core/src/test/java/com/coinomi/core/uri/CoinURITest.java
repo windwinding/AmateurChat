@@ -21,4 +21,45 @@ package com.coinomi.core.uri;
 import com.coinomi.core.coins.BitcoinMain;
 import com.coinomi.core.coins.BitcoinTest;
 import com.coinomi.core.coins.CoinType;
-im
+import com.coinomi.core.coins.DashMain;
+import com.coinomi.core.coins.DogecoinMain;
+import com.coinomi.core.coins.LitecoinMain;
+import com.coinomi.core.coins.NuBitsMain;
+import com.coinomi.core.coins.NuSharesMain;
+import com.coinomi.core.coins.NxtMain;
+import com.coinomi.core.coins.PeercoinMain;
+import com.coinomi.core.util.GenericUtils;
+import com.coinomi.core.wallet.families.bitcoin.BitAddress;
+import com.coinomi.core.wallet.families.nxt.NxtAddress;
+
+import org.bitcoinj.core.Coin;
+import org.junit.Test;
+import org.spongycastle.util.encoders.Hex;
+
+import java.io.UnsupportedEncodingException;
+
+import static com.coinomi.core.util.BitAddressUtils.getHash160;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+public class CoinURITest {
+    private CoinURI testObject = null;
+    final CoinType BTC = BitcoinMain.get();
+    final CoinType BTC_TEST = BitcoinTest.get();
+    final CoinType LTC = LitecoinMain.get();
+    final CoinType DOGE = DogecoinMain.get();
+    final CoinType PPC = PeercoinMain.get();
+    final CoinType DASH = DashMain.get();
+    final CoinType NBT = NuBitsMain.get();
+    final CoinType NSR = NuSharesMain.get();
+    final CoinType NXT = NxtMain.get();
+
+
+    private static final String MAINNET_GOOD_ADDRESS = "1KzTSfqjF2iKCduwz59nv2uqh1W2JsTxZH";
+
+    @Test
+    public void testConvertToCoinURI() throws Exception {
+        BitAddress goodAddress = BitAddress.from(BitcoinMain.get(), 
