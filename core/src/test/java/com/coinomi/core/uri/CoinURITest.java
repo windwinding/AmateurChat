@@ -106,4 +106,32 @@ public class CoinURITest {
         // Litecoin
         goodAddress = BitAddress.from(LTC, hash160);
         goodAddressStr = goodAddress.toString();
-        assertEquals("litecoin:" + goodAddressStr + "?amount=12.34&label=Hello
+        assertEquals("litecoin:" + goodAddressStr + "?amount=12.34&label=Hello&message=AMessage", CoinURI.convertToCoinURI(goodAddress, LTC.value("12.34"), "Hello", "AMessage"));
+
+        // Dogecoin
+        goodAddress = BitAddress.from(DOGE, hash160);
+        goodAddressStr = goodAddress.toString();
+        assertEquals("dogecoin:" + goodAddressStr + "?amount=12.34&label=Hello&message=AMessage", CoinURI.convertToCoinURI(goodAddress, DOGE.value("12.34"), "Hello", "AMessage"));
+
+        // Peercoin
+        goodAddress = BitAddress.from(PPC, hash160);
+        goodAddressStr = goodAddress.toString();
+        assertEquals("peercoin:" + goodAddressStr + "?amount=12.34&label=Hello&message=AMessage", CoinURI.convertToCoinURI(goodAddress, PPC.value("12.34"), "Hello", "AMessage"));
+
+        // Darkcoin
+        goodAddress = BitAddress.from(DASH, hash160);
+        goodAddressStr = goodAddress.toString();
+        assertEquals("dash:" + goodAddressStr + "?amount=12.34&label=Hello&message=AMessage", CoinURI.convertToCoinURI(goodAddress, DASH.value("12.34"), "Hello", "AMessage"));
+
+        // NXT
+        String pubkeyStr = "3c1c0b3f8f87d6efdc2694ce43f848375a4f761624d255e5fc1194a4ebc76755";
+        byte[] pubkey = Hex.decode(pubkeyStr);
+        NxtAddress nxtGoodAddress = new NxtAddress(NXT, pubkey);
+        goodAddressStr = nxtGoodAddress.toString();
+        assertEquals("nxt:" + goodAddressStr + "?amount=12.34&label=Hello&message=AMessage&pubkey="+pubkeyStr,
+                CoinURI.convertToCoinURI(nxtGoodAddress, NXT.value("12.34"), "Hello", "AMessage", pubkeyStr));
+    }
+
+    @Test
+    public void testSharedCoinURI() throws Exception {
+        byte[
