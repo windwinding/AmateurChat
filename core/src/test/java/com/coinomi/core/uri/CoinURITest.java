@@ -82,4 +82,28 @@ public class CoinURITest {
         assertEquals("bitcoin:" + MAINNET_GOOD_ADDRESS + "?amount=12.34&label=Hello", CoinURI.convertToCoinURI(goodAddress, BTC.value("12.34"), "Hello", ""));
               
         // amount present, no label, no message
-  
+        assertEquals("bitcoin:" + MAINNET_GOOD_ADDRESS + "?amount=1000", CoinURI.convertToCoinURI(goodAddress, BTC.value("1000"), null, null));
+        assertEquals("bitcoin:" + MAINNET_GOOD_ADDRESS + "?amount=1000", CoinURI.convertToCoinURI(goodAddress, BTC.value("1000"), "", ""));
+        
+        // no amount, label present, no message
+        assertEquals("bitcoin:" + MAINNET_GOOD_ADDRESS + "?label=Hello", CoinURI.convertToCoinURI(goodAddress, null, "Hello", null));
+        
+        // no amount, no label, message present
+        assertEquals("bitcoin:" + MAINNET_GOOD_ADDRESS + "?message=Agatha", CoinURI.convertToCoinURI(goodAddress, null, null, "Agatha"));
+        assertEquals("bitcoin:" + MAINNET_GOOD_ADDRESS + "?message=Agatha", CoinURI.convertToCoinURI(goodAddress, null, "", "Agatha"));
+      
+        // no amount, no label, no message
+        assertEquals("bitcoin:" + MAINNET_GOOD_ADDRESS, CoinURI.convertToCoinURI(goodAddress, null, null, null));
+        assertEquals("bitcoin:" + MAINNET_GOOD_ADDRESS, CoinURI.convertToCoinURI(goodAddress, null, "", ""));
+    }
+
+    @Test
+    public void testAltChainsConvertToCoinURI() throws Exception {
+        byte[] hash160 = BitAddress.from(BitcoinMain.get(), MAINNET_GOOD_ADDRESS).getHash160();
+        String goodAddressStr;
+        BitAddress goodAddress;
+
+        // Litecoin
+        goodAddress = BitAddress.from(LTC, hash160);
+        goodAddressStr = goodAddress.toString();
+        assertEquals("litecoin:" + goodAddressStr + "?amount=12.34&label=Hello
