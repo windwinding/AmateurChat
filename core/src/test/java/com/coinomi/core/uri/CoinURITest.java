@@ -134,4 +134,37 @@ public class CoinURITest {
 
     @Test
     public void testSharedCoinURI() throws Exception {
-        byte[
+        byte[] hash160 = BitAddress.from(BitcoinMain.get(), MAINNET_GOOD_ADDRESS).getHash160();
+
+        // Bitcoin and Bitcoin Testnet
+        BitAddress address = BitAddress.from(BTC, hash160);
+        testObject = new CoinURI(BTC.getUriScheme() + ":" + address);
+        assertTrue(testObject.hasType());
+        assertEquals(BTC, testObject.getType());
+        assertEquals(address, testObject.getAddress());
+
+        BitAddress addressTestnet = BitAddress.from(BTC_TEST, hash160);
+        testObject = new CoinURI(BTC_TEST.getUriScheme() + ":" + addressTestnet);
+        assertEquals(BTC_TEST, testObject.getType());
+        assertEquals(addressTestnet, testObject.getAddress());
+
+        // NuBits and NuShares
+        BitAddress nuBitAddress = BitAddress.from(NBT, hash160);
+        testObject = new CoinURI(NBT.getUriScheme() + ":" + nuBitAddress);
+        assertEquals(NBT, testObject.getType());
+        assertEquals(nuBitAddress, testObject.getAddress());
+
+        BitAddress nuSharesAddress = BitAddress.from(NSR, hash160);
+        testObject = new CoinURI(NSR.getUriScheme() + ":" + nuSharesAddress);
+        assertEquals(NSR, testObject.getType());
+        assertEquals(nuSharesAddress, testObject.getAddress());
+    }
+
+    @Test
+    public void testAltChainsGoodAmount() throws Exception {
+        byte[] hash160 = BitAddress.from(BitcoinMain.get(), MAINNET_GOOD_ADDRESS).getHash160();
+        String goodAddressStr;
+        BitAddress goodAddress;
+
+        // Litecoin
+        goodAddress = BitAddress.from(LTC, has
