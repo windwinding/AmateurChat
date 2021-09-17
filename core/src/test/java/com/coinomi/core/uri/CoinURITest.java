@@ -167,4 +167,34 @@ public class CoinURITest {
         BitAddress goodAddress;
 
         // Litecoin
-        goodAddress = BitAddress.from(LTC, has
+        goodAddress = BitAddress.from(LTC, hash160);
+        goodAddressStr = goodAddress.toString();
+        testObject = new CoinURI(LTC, "litecoin:" + goodAddressStr + "?amount=12.34");
+        assertEquals("12.34", GenericUtils.formatCoinValue(LTC, testObject.getAmount()));
+
+        // Dogecoin
+        goodAddress = BitAddress.from(DOGE, hash160);
+        goodAddressStr = goodAddress.toString();
+        testObject = new CoinURI(DOGE, "dogecoin:" + goodAddressStr + "?amount=12.34");
+        assertEquals("12.34", GenericUtils.formatCoinValue(DOGE, testObject.getAmount()));
+
+        // Peercoin
+        goodAddress = BitAddress.from(PPC, hash160);
+        goodAddressStr = goodAddress.toString();
+        testObject = new CoinURI(PPC, "peercoin:" + goodAddressStr + "?amount=12.34");
+        assertEquals("12.34", GenericUtils.formatCoinValue(PPC, testObject.getAmount()));
+
+        // Darkcoin
+        goodAddress = BitAddress.from(DASH, hash160);
+        goodAddressStr = goodAddress.toString();
+        testObject = new CoinURI(DASH, "dash:" + goodAddressStr + "?amount=12.34");
+        assertEquals("12.34", GenericUtils.formatCoinValue(DASH, testObject.getAmount()));
+    }
+
+    @Test
+    public void testGood_Simple() throws CoinURIParseException {
+        testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS);
+        assertNotNull(testObject);
+        assertNull("Unexpected amount", testObject.getAmount());
+        assertNull("Unexpected label", testObject.getLabel());
+        assertNotNull(testObject.getAddress()
