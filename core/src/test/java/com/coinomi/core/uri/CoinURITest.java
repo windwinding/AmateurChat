@@ -197,4 +197,45 @@ public class CoinURITest {
         assertNotNull(testObject);
         assertNull("Unexpected amount", testObject.getAmount());
         assertNull("Unexpected label", testObject.getLabel());
-        assertNotNull(testObject.getAddress()
+        assertNotNull(testObject.getAddress());
+        assertEquals("Unexpected label", 20, getHash160(testObject.getAddress()).length);
+    }
+
+    /**
+     * Test a broken URI (bad scheme)
+     */
+    @Test
+    public void testBad_Scheme() {
+        try {
+            testObject = new CoinURI(BitcoinMain.get(), "blimpcoin:" + MAINNET_GOOD_ADDRESS);
+            fail("Expecting BitcoinURIParseException");
+        } catch (CoinURIParseException e) {
+        }
+    }
+
+    /**
+     * Test a broken URI (bad syntax)
+     */
+    @Test
+    public void testBad_BadSyntax() {
+        // Various illegal characters
+        try {
+            testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + "|" + MAINNET_GOOD_ADDRESS);
+            fail("Expecting CoinURIParseException");
+        } catch (CoinURIParseException e) {
+            assertTrue(e.getMessage().contains("Bad URI syntax"));
+        }
+
+        try {
+            testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS + "\\");
+            fail("Expecting CoinURIParseException");
+        } catch (CoinURIParseException e) {
+            assertTrue(e.getMessage().contains("Bad URI syntax"));
+        }
+
+        // Separator without field
+        try {
+            testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":");
+            fail("Expecting CoinURIParseException");
+        } catch (CoinURIParseException e) {
+            assertTrue(e.getMessage().contains("Bad URI 
