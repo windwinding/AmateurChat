@@ -285,4 +285,44 @@ public class CoinURITest {
                 + "?amount=.12345678");
         assertEquals(12345678L, testObject.getAmount().value);
 
-     
+        // Test the integer parsing
+        testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
+                + "?amount=6543210");
+        assertEquals(654321000000000L, testObject.getAmount().value);
+    }
+
+    /**
+     * Handles a simple label
+     * 
+     * @throws CoinURIParseException
+     *             If something goes wrong
+     */
+    @Test
+    public void testGood_Label() throws CoinURIParseException {
+        testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
+                + "?label=Hello%20World");
+        assertEquals("Hello World", testObject.getLabel());
+    }
+
+    /**
+     * Handles a simple label with an embedded ampersand and plus
+     * 
+     * @throws CoinURIParseException
+     *             If something goes wrong
+     * @throws UnsupportedEncodingException 
+     */
+    @Test
+    public void testGood_LabelWithAmpersandAndPlus() throws Exception {
+        String testString = "Hello Earth & Mars + Venus";
+        String encodedLabel = CoinURI.encodeURLString(testString);
+        testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS + "?label="
+                + encodedLabel);
+        assertEquals(testString, testObject.getLabel());
+    }
+
+    /**
+     * Handles a Russian label (Unicode test)
+     * 
+     * @throws CoinURIParseException
+     *             If something goes wrong
+     * @th
