@@ -238,4 +238,51 @@ public class CoinURITest {
             testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":");
             fail("Expecting CoinURIParseException");
         } catch (CoinURIParseException e) {
-            assertTrue(e.getMessage().contains("Bad URI 
+            assertTrue(e.getMessage().contains("Bad URI syntax"));
+        }
+    }
+
+    /**
+     * Test a broken URI (missing address)
+     */
+    @Test
+    public void testBad_Address() {
+        try {
+            testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme());
+            fail("Expecting CoinURIParseException");
+        } catch (CoinURIParseException e) {
+        }
+    }
+
+    /**
+     * Test a broken URI (bad address type)
+     */
+    @Test
+    public void testBad_IncorrectAddressType() {
+        try {
+            testObject = new CoinURI(BitcoinTest.get(), BitcoinTest.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS);
+            fail("Expecting CoinURIParseException");
+        } catch (CoinURIParseException e) {
+            assertTrue(e.getMessage().contains("Bad address"));
+        }
+    }
+
+    /**
+     * Handles a simple amount
+     * 
+     * @throws CoinURIParseException
+     *             If something goes wrong
+     */
+    @Test
+    public void testGood_Amount() throws CoinURIParseException {
+        // Test the decimal parsing
+        testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
+                + "?amount=6543210.12345678");
+        assertEquals(654321012345678L, testObject.getAmount().value);
+
+        // Test the decimal parsing
+        testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
+                + "?amount=.12345678");
+        assertEquals(12345678L, testObject.getAmount().value);
+
+     
