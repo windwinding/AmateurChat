@@ -361,4 +361,48 @@ public class CoinURITest {
         testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
                 + "?amount=6543210&label=Hello%20World&message=Be%20well");
         assertEquals(
-                "CoinURI['address'='1KzTSfqjF2iKCduwz59nv2uqh1W2JsTxZH','amount'
+                "CoinURI['address'='1KzTSfqjF2iKCduwz59nv2uqh1W2JsTxZH','amount'='6543210BTC','label'='Hello World','message'='Be well']",
+                testObject.toString());
+    }
+
+    /**
+     * Handles a badly formatted amount field
+     * 
+     * @throws CoinURIParseException
+     *             If something goes wrong
+     */
+    @Test
+    public void testBad_Amount() throws CoinURIParseException {
+        // Missing
+        try {
+            testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
+                    + "?amount=");
+            fail("Expecting CoinURIParseException");
+        } catch (CoinURIParseException e) {
+            assertTrue(e.getMessage().contains("amount"));
+        }
+
+        // Non-decimal (BIP 21)
+        try {
+            testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
+                    + "?amount=12X4");
+            fail("Expecting CoinURIParseException");
+        } catch (CoinURIParseException e) {
+            assertTrue(e.getMessage().contains("amount"));
+        }
+    }
+
+    @Test
+    public void testEmpty_Label() throws CoinURIParseException {
+        assertNull(new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
+                + "?label=").getLabel());
+    }
+
+    @Test
+    public void testEmpty_Message() throws CoinURIParseException {
+        assertNull(new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
+                + "?message=").getMessage());
+    }
+
+    /**
+     * Handles dup
