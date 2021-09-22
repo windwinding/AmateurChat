@@ -325,4 +325,40 @@ public class CoinURITest {
      * 
      * @throws CoinURIParseException
      *             If something goes wrong
-     * @th
+     * @throws UnsupportedEncodingException 
+     */
+    @Test
+    public void testGood_LabelWithRussian() throws Exception {
+        // Moscow in Russian in Cyrillic
+        String moscowString = "\u041c\u043e\u0441\u043a\u0432\u0430";
+        String encodedLabel = CoinURI.encodeURLString(moscowString); 
+        testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS + "?label="
+                + encodedLabel);
+        assertEquals(moscowString, testObject.getLabel());
+    }
+
+    /**
+     * Handles a simple message
+     * 
+     * @throws CoinURIParseException
+     *             If something goes wrong
+     */
+    @Test
+    public void testGood_Message() throws CoinURIParseException {
+        testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
+                + "?message=Hello%20World");
+        assertEquals("Hello World", testObject.getMessage());
+    }
+
+    /**
+     * Handles various well-formed combinations
+     * 
+     * @throws CoinURIParseException
+     *             If something goes wrong
+     */
+    @Test
+    public void testGood_Combinations() throws CoinURIParseException {
+        testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
+                + "?amount=6543210&label=Hello%20World&message=Be%20well");
+        assertEquals(
+                "CoinURI['address'='1KzTSfqjF2iKCduwz59nv2uqh1W2JsTxZH','amount'
