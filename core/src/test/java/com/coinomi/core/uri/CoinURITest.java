@@ -405,4 +405,41 @@ public class CoinURITest {
     }
 
     /**
-     * Handles dup
+     * Handles duplicated fields (sneaky address overwrite attack)
+     * 
+     * @throws CoinURIParseException
+     *             If something goes wrong
+     */
+    @Test
+    public void testBad_Duplicated() throws CoinURIParseException {
+        try {
+            testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
+                    + "?address=aardvark");
+            fail("Expecting CoinURIParseException");
+        } catch (CoinURIParseException e) {
+            assertTrue(e.getMessage().contains("address"));
+        }
+    }
+
+    @Test
+    public void testGood_ManyEquals() throws CoinURIParseException {
+        assertEquals("aardvark=zebra", new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":"
+                + MAINNET_GOOD_ADDRESS + "?label=aardvark=zebra").getLabel());
+    }
+
+    /**
+     * Handles case when there are too many question marks
+     * 
+     * @throws CoinURIParseException
+     *             If something goes wrong
+     */
+    @Test
+    public void testBad_TooManyQuestionMarks() throws CoinURIParseException {
+        try {
+            testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
+                    + "?label=aardvark?message=zebra");
+            fail("Expecting CoinURIParseException");
+        } catch (CoinURIParseException e) {
+            assertTrue(e.getMessage().contains("Too many question marks"));
+        }
+    }
