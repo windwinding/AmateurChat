@@ -480,4 +480,33 @@ public class CoinURITest {
 
     @Test
     public void brokenURIs() throws CoinURIParseException {
-        // Check we can parse the incorrectly format
+        // Check we can parse the incorrectly formatted URIs produced by blockchain.info and its iPhone app.
+        String str = "bitcoin://1KzTSfqjF2iKCduwz59nv2uqh1W2JsTxZH?amount=0.01000000";
+        CoinURI uri = new CoinURI(str);
+        assertEquals("1KzTSfqjF2iKCduwz59nv2uqh1W2JsTxZH", uri.getAddress().toString());
+        assertEquals(BTC.value(Coin.CENT), uri.getAmount());
+    }
+
+    @Test(expected = CoinURIParseException.class)
+    public void testBad_AmountTooPrecise() throws CoinURIParseException {
+        new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
+                + "?amount=0.123456789");
+    }
+
+    @Test(expected = CoinURIParseException.class)
+    public void testBad_NegativeAmount() throws CoinURIParseException {
+        new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
+                + "?amount=-1");
+    }
+
+//    @Test(expected = CoinURIParseException.class)
+//    public void testBad_TooLargeAmount() throws CoinURIParseException {
+//        new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
+//                + "?amount=100000000");
+//    }
+
+    @Test
+    public void testPaymentProtocolReq() throws Exception {
+        // Non-backwards compatible form ...
+        CoinURI uri = new CoinURI(BTC, "bitcoin:?r=https%3A%2F%2Fbitcoincore.org%2F%7Egavin%2Ff.php%3Fh%3Db0f02e7cea67f168e25ec9b9f9d584f9");
+        assertEquals("https://bitcoincore.org/~gavin/f.php?h=b0f02e7cea67f168e25ec9b9f9d584f9",
