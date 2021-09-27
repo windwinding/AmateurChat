@@ -509,4 +509,31 @@ public class CoinURITest {
     public void testPaymentProtocolReq() throws Exception {
         // Non-backwards compatible form ...
         CoinURI uri = new CoinURI(BTC, "bitcoin:?r=https%3A%2F%2Fbitcoincore.org%2F%7Egavin%2Ff.php%3Fh%3Db0f02e7cea67f168e25ec9b9f9d584f9");
-        assertEquals("https://bitcoincore.org/~gavin/f.php?h=b0f02e7cea67f168e25ec9b9f9d584f9",
+        assertEquals("https://bitcoincore.org/~gavin/f.php?h=b0f02e7cea67f168e25ec9b9f9d584f9", uri.getPaymentRequestUrl());
+        assertNull(uri.getAddress());
+
+        // Non-backwards compatible form ...
+        uri = new CoinURI("bitcoin:?r=https%3A%2F%2Fbitcoincore.org%2F%7Egavin%2Ff.php%3Fh%3Db0f02e7cea67f168e25ec9b9f9d584f9");
+        assertEquals("https://bitcoincore.org/~gavin/f.php?h=b0f02e7cea67f168e25ec9b9f9d584f9", uri.getPaymentRequestUrl());
+//        assertEquals(BTC, uri.getType());
+        assertNull(uri.getAddress());
+    }
+
+    @Test
+    public void testAddressRequest() throws Exception {
+        CoinURI uri = new CoinURI(BTC, "bitcoin:?req-addressrequest=https%3A%2F%2Fcoinomi.com");
+        assertTrue(uri.isAddressRequest());
+        assertNull(uri.getAddress());
+        assertEquals(BTC, uri.getType());
+        assertEquals("https://coinomi.com", uri.getAddressRequestUri().toString());
+        assertEquals("https://coinomi.com?address=" + MAINNET_GOOD_ADDRESS,
+                uri.getAddressRequestUriResponse(MAINNET_GOOD_ADDRESS).toString());
+
+        // Reply URI has path and query
+        uri = new CoinURI("bitcoin:?req-addressrequest=https%3A%2F%2Fcoinomi.com%2Fsome-path%3Fabc%3Dxyz");
+        assertTrue(uri.isAddressRequest());
+        assertNull(uri.getAddress());
+        assertEquals(BTC, uri.getType());
+        assertEquals("https://coinomi.com/some-path?abc=xyz", uri.getAddressRequestUri().toString());
+        assertEquals("https://coinomi.com/some-path?abc=xyz&address=" + MAINNET_GOOD_ADDRESS,
+                uri.getAddressRequestUriResponse(MAINNET_GOOD_ADDRESS).toSt
