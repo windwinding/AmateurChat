@@ -443,3 +443,41 @@ public class CoinURITest {
             assertTrue(e.getMessage().contains("Too many question marks"));
         }
     }
+    
+    /**
+     * Handles unknown fields (required and not required)
+     * 
+     * @throws CoinURIParseException
+     *             If something goes wrong
+     */
+    @Test
+    public void testUnknown() throws CoinURIParseException {
+        // Unknown not required field
+        testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
+                + "?aardvark=true");
+        assertEquals("CoinURI['address'='1KzTSfqjF2iKCduwz59nv2uqh1W2JsTxZH','aardvark'='true']", testObject.toString());
+
+        assertEquals("true", (String) testObject.getParameterByName("aardvark"));
+
+        // Unknown not required field (isolated)
+        try {
+            testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
+                    + "?aardvark");
+            fail("Expecting CoinURIParseException");
+        } catch (CoinURIParseException e) {
+            assertTrue(e.getMessage().contains("no separator"));
+        }
+
+        // Unknown and required field
+        try {
+            testObject = new CoinURI(BitcoinMain.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
+                    + "?req-aardvark=true");
+            fail("Expecting CoinURIParseException");
+        } catch (CoinURIParseException e) {
+            assertTrue(e.getMessage().contains("req-aardvark"));
+        }
+    }
+
+    @Test
+    public void brokenURIs() throws CoinURIParseException {
+        // Check we can parse the incorrectly format
