@@ -568,4 +568,23 @@ public class CoinURITest {
         assertNull(uri.getAddress());
         assertEquals(NBT, uri.getType());
         assertEquals("https://coinomi.com", uri.getAddressRequestUri().toString());
-        assertEq
+        assertEquals("https://coinomi.com?address=" + goodAddressStr,
+                uri.getAddressRequestUriResponse(goodAddressStr).toString());
+
+        // NuShares
+        goodAddressStr = BitAddress.from(NSR, hash160).toString();
+        uri = new CoinURI("nu:?req-addressrequest=https%3A%2F%2Fcoinomi.com&req-network=nsr.main");
+        assertTrue(uri.isAddressRequest());
+        assertNull(uri.getAddress());
+        assertEquals(NSR, uri.getType());
+        assertEquals("https://coinomi.com", uri.getAddressRequestUri().toString());
+        assertEquals("https://coinomi.com?address=" + goodAddressStr,
+                uri.getAddressRequestUriResponse(goodAddressStr).toString());
+    }
+
+    @Test(expected = CoinURIParseException.class)
+    public void testAddressRequestBadFormat() throws Exception {
+        new CoinURI(BitcoinTest.get(), BitcoinMain.get().getUriScheme() + ":" + MAINNET_GOOD_ADDRESS
+                + "?req-addressrequest=https%3A%2F%2Fcoinomi.com");
+    }
+}
