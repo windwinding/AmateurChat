@@ -536,4 +536,36 @@ public class CoinURITest {
         assertEquals(BTC, uri.getType());
         assertEquals("https://coinomi.com/some-path?abc=xyz", uri.getAddressRequestUri().toString());
         assertEquals("https://coinomi.com/some-path?abc=xyz&address=" + MAINNET_GOOD_ADDRESS,
-                uri.getAddressRequestUriResponse(MAINNET_GOOD_ADDRESS).toSt
+                uri.getAddressRequestUriResponse(MAINNET_GOOD_ADDRESS).toString());
+
+        // Reply is a generic URI
+        uri = new CoinURI("bitcoin:?req-addressrequest=myscheme%3A%2F%2Fmyaction");
+        assertTrue(uri.isAddressRequest());
+        assertNull(uri.getAddress());
+        assertEquals(BTC, uri.getType());
+        assertEquals("myscheme://myaction", uri.getAddressRequestUri().toString());
+        assertEquals("myscheme://myaction?address=" + MAINNET_GOOD_ADDRESS,
+                uri.getAddressRequestUriResponse(MAINNET_GOOD_ADDRESS).toString());
+
+
+        byte[] hash160 = BitAddress.from(BitcoinMain.get(), MAINNET_GOOD_ADDRESS).getHash160();
+        String goodAddressStr;
+
+        // Testnet
+        goodAddressStr = BitAddress.from(BTC_TEST, hash160).toString();
+        uri = new CoinURI("bitcoin:?req-addressrequest=https%3A%2F%2Fcoinomi.com&req-network=test");
+        assertTrue(uri.isAddressRequest());
+        assertNull(uri.getAddress());
+        assertEquals(BTC_TEST, uri.getType());
+        assertEquals("https://coinomi.com", uri.getAddressRequestUri().toString());
+        assertEquals("https://coinomi.com?address=" + goodAddressStr,
+                uri.getAddressRequestUriResponse(goodAddressStr).toString());
+
+        // NuBits
+        goodAddressStr = BitAddress.from(NBT, hash160).toString();
+        uri = new CoinURI("nu:?req-addressrequest=https%3A%2F%2Fcoinomi.com");
+        assertTrue(uri.isAddressRequest());
+        assertNull(uri.getAddress());
+        assertEquals(NBT, uri.getType());
+        assertEquals("https://coinomi.com", uri.getAddressRequestUri().toString());
+        assertEq
