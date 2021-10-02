@@ -286,3 +286,62 @@ public class MonetaryFormatTest {
         assertEquals(microcoin.negate(), MonetaryFormat.UBTC.parse(type, "-1.0"));
 
         assertEquals(cent, NO_CODE.withLocale(new Locale("hi", "IN")).parse(type, ".०१")); // Devanagari
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void parseInvalidEmpty() throws Exception {
+        NO_CODE.parse(BitcoinMain.get(), "");
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void parseInvalidWhitespaceBefore() throws Exception {
+        NO_CODE.parse(BitcoinMain.get(), " 1");
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void parseInvalidWhitespaceSign() throws Exception {
+        NO_CODE.parse(BitcoinMain.get(), "- 1");
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void parseInvalidWhitespaceAfter() throws Exception {
+        NO_CODE.parse(BitcoinMain.get(), "1 ");
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void parseInvalidMultipleDecimalMarks() throws Exception {
+        NO_CODE.parse(BitcoinMain.get(), "1.0.0");
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void parseInvalidDecimalMark() throws Exception {
+        NO_CODE.decimalMark(',').parse(BitcoinMain.get(), "1.0");
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void parseInvalidPositiveSign() throws Exception {
+        NO_CODE.positiveSign('@').parse(BitcoinMain.get(), "+1.0");
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void parseInvalidNegativeSign() throws Exception {
+        NO_CODE.negativeSign('@').parse(BitcoinMain.get(), "-1.0");
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void parseInvalidHugeNumber() throws Exception {
+        NO_CODE.parse(BitcoinMain.get(), "99999999999999999999");
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void parseInvalidHugeNegativeNumber() throws Exception {
+        NO_CODE.parse(BitcoinMain.get(), "-99999999999999999999");
+    }
+
+    private static final Value ONE_EURO = FiatValue.parse("EUR", "1");
+
+    @Test
+    public void fiat() throws Exception {
+        assertEquals(ONE_EURO, NO_CODE.parseFiat("EUR", "1"));
+    }
+}
