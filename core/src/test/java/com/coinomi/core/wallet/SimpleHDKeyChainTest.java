@@ -101,4 +101,36 @@ public class SimpleHDKeyChainTest {
     }
 
     @Test
-    public voi
+    public void getLastIssuedKey() {
+        assertNull(chain.getLastIssuedKey(KeyChain.KeyPurpose.RECEIVE_FUNDS));
+        assertNull(chain.getLastIssuedKey(KeyChain.KeyPurpose.CHANGE));
+        DeterministicKey extKey = chain.getKey(KeyChain.KeyPurpose.RECEIVE_FUNDS);
+        DeterministicKey intKey = chain.getKey(KeyChain.KeyPurpose.CHANGE);
+        assertEquals(extKey, chain.getLastIssuedKey(KeyChain.KeyPurpose.RECEIVE_FUNDS));
+        assertEquals(intKey, chain.getLastIssuedKey(KeyChain.KeyPurpose.CHANGE));
+    }
+
+    @Test
+    public void externalKeyCheck() {
+        assertFalse(chain.isExternal(chain.getKey(KeyChain.KeyPurpose.CHANGE)));
+        assertTrue(chain.isExternal(chain.getKey(KeyChain.KeyPurpose.RECEIVE_FUNDS)));
+    }
+
+    @Test
+    public void events() throws Exception {
+        // Check that we get the right events at the right time.
+        final List<List<ECKey>> listenerKeys = Lists.newArrayList();
+        long secs = 1389353062L;
+        chain.addEventListener(new AbstractKeyChainEventListener() {
+            @Override
+            public void onKeysAdded(List<ECKey> keys) {
+                listenerKeys.add(keys);
+            }
+        }, Threading.SAME_THREAD);
+        assertEquals(0, listenerKeys.size());
+        chain.setLookaheadSize(5);
+        assertEquals(0, listenerKeys.size());
+        ECKey key = chain.getKey(SimpleHDKeyChain.KeyPurpose.CHANGE);
+        assertEquals(1, listenerKeys.size());  // 1 event
+        final List<ECKey> firstEvent = listenerKeys.get(0);
+        assertEquals(1, firstEven
