@@ -70,4 +70,35 @@ public class SimpleHDKeyChainTest {
         key1.sign(Sha256Hash.ZERO_HASH);
 
         ECKey key3 = chain.getKey(SimpleHDKeyChain.KeyPurpose.CHANGE);
-        assertEquals("mqumHgVDqNzuXNrszBmi7A
+        assertEquals("mqumHgVDqNzuXNrszBmi7A2UpmwaPMx4HQ", key3.toAddress(UnitTestParams.get()).toString());
+        key3.sign(Sha256Hash.ZERO_HASH);
+    }
+
+    @Test
+    public void deriveCoin() throws Exception {
+        DeterministicHierarchy hierarchy = new DeterministicHierarchy(masterKey);
+        DeterministicKey rootKey = hierarchy.get(BitcoinMain.get().getBip44Path(0), false, true);
+        chain = new SimpleHDKeyChain(rootKey);
+
+        ECKey key1 = chain.getKey(SimpleHDKeyChain.KeyPurpose.RECEIVE_FUNDS);
+        ECKey key2 = chain.getKey(SimpleHDKeyChain.KeyPurpose.RECEIVE_FUNDS);
+
+        final Address address = new Address(BitcoinMain.get(), "1Fp7CA7ZVqZNFVNQ9TpeqWUas7K28K9zig");
+        assertEquals(address, key1.toAddress(BitcoinMain.get()));
+        assertEquals("1AKqkQM4VqyVis6hscj8695WHPCCzgHNY3", key2.toAddress(BitcoinMain.get()).toString());
+        assertEquals(key1, chain.findKeyFromPubHash(address.getHash160()));
+        assertEquals(key2, chain.findKeyFromPubKey(key2.getPubKey()));
+
+        key1.sign(Sha256Hash.ZERO_HASH);
+
+        ECKey key3 = chain.getKey(SimpleHDKeyChain.KeyPurpose.CHANGE);
+        assertEquals("18YvGiRqXKxrzB72ckfrRSizWeHgwRP94V", key3.toAddress(BitcoinMain.get()).toString());
+        key3.sign(Sha256Hash.ZERO_HASH);
+
+        ECKey key4 = chain.getKey(SimpleHDKeyChain.KeyPurpose.CHANGE);
+        assertEquals("1861TX2MbyPEUrxDQVWgV4Tp9991bK1zpy", key4.toAddress(BitcoinMain.get()).toString());
+        key4.sign(Sha256Hash.ZERO_HASH);
+    }
+
+    @Test
+    public voi
