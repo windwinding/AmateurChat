@@ -38,3 +38,36 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * @author John L. Jegutanis
+ */
+public class SimpleHDKeyChainTest {
+    SimpleHDKeyChain chain;
+    DeterministicKey masterKey;
+    byte[] ENTROPY = Sha256Hash.create("don't use a string seed like this in real life".getBytes()).getBytes();
+
+    @Before
+    public void setup() {
+        BriefLogFormatter.init();
+
+        DeterministicSeed seed = new DeterministicSeed(ENTROPY, "", 0);
+        masterKey = HDKeyDerivation.createMasterPrivateKey(seed.getSeedBytes());
+        DeterministicHierarchy hierarchy = new DeterministicHierarchy(masterKey);
+        DeterministicKey rootKey = hierarchy.get(ImmutableList.of(ChildNumber.ZERO_HARDENED), false, true);
+        chain = new SimpleHDKeyChain(rootKey);
+        chain.setLookaheadSize(10);
+    }
+
+    @Test
+    public void derive() throws Exception {
+        ECKey key1 = chain.getKey(SimpleHDKeyChain.KeyPurpose.RECEIVE_FUNDS);
+        ECKey key2 = chain.getKey(SimpleHDKeyChain.KeyPurpose.RECEIVE_FUNDS);
+
+        final Address address = new Address(UnitTestParams.get(), "n1bQNoEx8uhmCzzA5JPG6sFdtsUQhwiQJV");
+        assertEquals(address, key1.toAddress(UnitTestParams.get()));
+        assertEquals("mnHUcqUVvrfi5kAaXJDQzBb9HsWs78b42R", key2.toAddress(UnitTestParams.get()).toString());
+        assertEquals(key1, chain.findKeyFromPubHash(address.getHash160()));
+        assertEquals(key2, chain.findKeyFromPubKey(key2.getPubKey()));
+
+        key1.sign(Sha256Hash.ZERO_HASH);
+
+        ECKey key3 = chain.getKey(SimpleHDKeyChain.KeyPurpose.CHANGE);
+        assertEquals("mqumHgVDqNzuXNrszBmi7A
