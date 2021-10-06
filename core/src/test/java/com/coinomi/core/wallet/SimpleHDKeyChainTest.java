@@ -133,4 +133,33 @@ public class SimpleHDKeyChainTest {
         ECKey key = chain.getKey(SimpleHDKeyChain.KeyPurpose.CHANGE);
         assertEquals(1, listenerKeys.size());  // 1 event
         final List<ECKey> firstEvent = listenerKeys.get(0);
-        assertEquals(1, firstEven
+        assertEquals(1, firstEvent.size());
+        assertTrue(firstEvent.contains(key));   // order is not specified.
+        listenerKeys.clear();
+
+        chain.maybeLookAhead();
+        final List<ECKey> secondEvent = listenerKeys.get(0);
+        assertEquals(12, secondEvent.size());  // (5 lookahead keys, +1 lookahead threshold) * 2 chains
+        listenerKeys.clear();
+
+        chain.getKey(SimpleHDKeyChain.KeyPurpose.CHANGE);
+        // At this point we've entered the threshold zone so more keys won't immediately trigger more generations.
+        assertEquals(0, listenerKeys.size());  // 1 event
+        final int lookaheadThreshold = chain.getLookaheadThreshold() + chain.getLookaheadSize();
+        for (int i = 0; i < lookaheadThreshold; i++)
+            chain.getKey(SimpleHDKeyChain.KeyPurpose.CHANGE);
+        assertEquals(1, listenerKeys.size());  // 1 event
+        assertEquals(1, listenerKeys.get(0).size());  // 1 key.
+    }
+
+    @Test
+    public void serializeUnencryptedNormal() throws UnreadableWalletException {
+        serializeUnencrypted(chain, DETERMINISTIC_WALLET_SERIALIZATION_TXT_MASTER_KEY);
+    }
+
+    @Test
+    public void serializeUnencryptedChildRoot() throws UnreadableWalletException {
+        DeterministicHierarchy hierarchy = new DeterministicHierarchy(masterKey);
+        DeterministicKey rootKey = hierarchy.get(BitcoinTest.get().getBip44Path(0), false, true);
+        SimpleHDKeyChain newChain = new SimpleHDKeyChain(rootKey);
+        serializeUnencrypted(newChain, DETERMINISTIC_WALLET_SERI
