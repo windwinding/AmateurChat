@@ -192,4 +192,43 @@ public class SimpleHDKeyChainTest {
         int oldLookaheadSize = keyChain.getLookaheadSize();
         keyChain = SimpleHDKeyChain.fromProtobuf(keys, null);
         assertEquals(expectedSerialization, protoToString(keyChain.toProtobuf()));
-        assertEquals(key1, keyChain.f
+        assertEquals(key1, keyChain.findKeyFromPubHash(key1.getPubKeyHash()));
+        assertEquals(key2, keyChain.findKeyFromPubHash(key2.getPubKeyHash()));
+        assertEquals(key3, keyChain.findKeyFromPubHash(key3.getPubKeyHash()));
+        assertEquals(key4, keyChain.getKey(KeyChain.KeyPurpose.CHANGE));
+        key1.sign(Sha256Hash.ZERO_HASH);
+        key2.sign(Sha256Hash.ZERO_HASH);
+        key3.sign(Sha256Hash.ZERO_HASH);
+        key4.sign(Sha256Hash.ZERO_HASH);
+        assertEquals(oldLookaheadSize, keyChain.getLookaheadSize());
+    }
+
+    private String protoToString(List<Protos.Key> keys) {
+        StringBuilder sb = new StringBuilder();
+        for (Protos.Key key : keys) {
+            sb.append(key.toString());
+            sb.append("\n");
+        }
+        return sb.toString().trim();
+    }
+
+    private String checkSerialization(List<Protos.Key> keys, String filename) {
+        try {
+            String sb = protoToString(keys);
+            String expected = Resources.toString(getClass().getResource(filename), Charsets.UTF_8);
+            assertEquals(expected, sb);
+            return expected;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void notEncrypted() {
+        chain.toDecrypted("fail");
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void encryptTwice() {
+        chain = chain.toEncrypted("once");
+      
