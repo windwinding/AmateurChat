@@ -231,4 +231,37 @@ public class SimpleHDKeyChainTest {
     @Test(expected = IllegalStateException.class)
     public void encryptTwice() {
         chain = chain.toEncrypted("once");
-      
+        chain = chain.toEncrypted("twice");
+    }
+
+    private void checkEncryptedKeyChain(SimpleHDKeyChain encChain, DeterministicKey key1) {
+        // Check we can look keys up and extend the chain without the AES key being provided.
+        DeterministicKey encKey1 = encChain.findKeyFromPubKey(key1.getPubKey());
+        DeterministicKey encKey2 = encChain.getKey(KeyChain.KeyPurpose.RECEIVE_FUNDS);
+        assertFalse(key1.isEncrypted());
+        assertTrue(encKey1.isEncrypted());
+        assertEquals(encKey1.getPubKeyPoint(), key1.getPubKeyPoint());
+        final KeyParameter aesKey = checkNotNull(encChain.getKeyCrypter()).deriveKey("open secret");
+        encKey1.sign(Sha256Hash.ZERO_HASH, aesKey);
+        encKey2.sign(Sha256Hash.ZERO_HASH, aesKey);
+        assertTrue(encChain.checkAESKey(aesKey));
+        assertFalse(encChain.checkPassword("access denied"));
+        assertTrue(encChain.checkPassword("open secret"));
+    }
+
+    @Test
+    public void encryptionNormal() throws UnreadableWalletException {
+        encryption(chain);
+    }
+
+    @Test
+    public void encryptionChildRoot() throws UnreadableWalletException {
+        DeterministicHierarchy hierarchy = new DeterministicHierarchy(masterKey);
+        DeterministicKey rootKey = hierarchy.get(BitcoinTest.get().getBip44Path(0), false, true);
+        SimpleHDKeyChain newChain = new SimpleHDKeyChain(rootKey);
+
+        encryption(newChain);
+    }
+
+    public void encryption(SimpleHDKeyChain unencChain) throws UnreadableWalletException {
+        Deterministic
