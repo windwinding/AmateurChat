@@ -162,4 +162,34 @@ public class SimpleHDKeyChainTest {
         DeterministicHierarchy hierarchy = new DeterministicHierarchy(masterKey);
         DeterministicKey rootKey = hierarchy.get(BitcoinTest.get().getBip44Path(0), false, true);
         SimpleHDKeyChain newChain = new SimpleHDKeyChain(rootKey);
-        serializeUnencrypted(newChain, DETERMINISTIC_WALLET_SERI
+        serializeUnencrypted(newChain, DETERMINISTIC_WALLET_SERIALIZATION_TXT_CHILD_ROOT_KEY);
+    }
+
+
+    public void serializeUnencrypted(SimpleHDKeyChain keyChain, String expectedSerialization) throws UnreadableWalletException {
+        keyChain.setLookaheadSize(10);
+
+        keyChain.maybeLookAhead();
+        DeterministicKey key1 = keyChain.getKey(KeyChain.KeyPurpose.RECEIVE_FUNDS);
+        DeterministicKey key2 = keyChain.getKey(KeyChain.KeyPurpose.RECEIVE_FUNDS);
+        DeterministicKey key3 = keyChain.getKey(KeyChain.KeyPurpose.CHANGE);
+        List<Protos.Key> keys = keyChain.toProtobuf();
+        // 1 master key, 1 account key, 2 internal keys, 3 derived, 20 lookahead and 5 lookahead threshold.
+        int numItems =
+                          1  // master key/account key
+                        + 2  // ext/int parent keys
+                        + (keyChain.getLookaheadSize() + keyChain.getLookaheadThreshold()) * 2   // lookahead zone on each chain
+                ;
+        assertEquals(numItems, keys.size());
+
+        // Get another key that will be lost during round-tripping, to ensure we can derive it again.
+        DeterministicKey key4 = keyChain.getKey(KeyChain.KeyPurpose.CHANGE);
+
+        String sb = protoToString(keys);
+        assertEquals(expectedSerialization, sb);
+
+        // Round trip the data back and forth to check it is preserved.
+        int oldLookaheadSize = keyChain.getLookaheadSize();
+        keyChain = SimpleHDKeyChain.fromProtobuf(keys, null);
+        assertEquals(expectedSerialization, protoToString(keyChain.toProtobuf()));
+        assertEquals(key1, keyChain.f
