@@ -286,4 +286,24 @@ public class SimpleHDKeyChainTest {
         assertFalse(decKey2.isEncrypted());
         assertNotEquals(encKey1.getParent(), decKey1.getParent());   // parts of a different hierarchy
         // Check we can once again derive keys from the decrypted chain.
-        decChain.getKey(KeyChain.KeyPurpose.RECEIVE_FUNDS).sign(Sha
+        decChain.getKey(KeyChain.KeyPurpose.RECEIVE_FUNDS).sign(Sha256Hash.ZERO_HASH);
+        decChain.getKey(KeyChain.KeyPurpose.CHANGE).sign(Sha256Hash.ZERO_HASH);
+    }
+
+    // FIXME For some reason it doesn't read the resource file
+    private final static String DETERMINISTIC_WALLET_SERIALIZATION_TXT_CHILD_ROOT_KEY =
+            "type: DETERMINISTIC_KEY\n" +
+                    "secret_bytes: \"\\023\\354\\032\\244\\374<y\\254aq\\a\\362=\\345\\204\\n^;5\\213M\\267\\311\\234\\037RkX\\235\\363ae\"\n" +
+                    "public_key: \"\\002T5VO\\274\\362m\\300\\320\\352\\005\\r!\\307\\024\\250\\307C\\324\\323\\215[\\232@\\254S\\270\\217\\362\\370\\214\\362\"\n" +
+                    "deterministic_key {\n" +
+                    "  chain_code: \"F\\336\\2067\\377M\\026)%\\357ZL#\\203\\320\\324\\217-\\3305\\310\\244\\n\\205\\277E\\323L\\250ww\\314\"\n" +
+                    "  path: 2147483692\n" +
+                    "  path: 2147483649\n" +
+                    "  path: 2147483648\n" +
+                    "}\n" +
+                    "\n" +
+                    "type: DETERMINISTIC_KEY\n" +
+                    "secret_bytes: \"\\362\\305\\242\\3637\\2748Z?]\\035s\\272\\253J\\300\\033\\250\\022r\\350\\020\\277U\\036K<\\335\\237\\333/\\303\"\n" +
+                    "public_key: \"\\003\\2471\\326i\\331A\\337|\\373\\276\\3214\\257\\363\\266Q\\315x\\341\\317\\200\\243\\234\\336<s}\\261\\240,\\233\\371\"\n" +
+                    "deterministic_key {\n" +
+                    "  chain_code: \"Pd\\032#\\325\\213\\332\\307\\3755\\020\\316\\276\\002\\037\\262\\241\\213\\211k\\376\\254\\220R\\351\\270\\\"\\260V\\260\\362\\257\"\n" +
