@@ -264,4 +264,26 @@ public class SimpleHDKeyChainTest {
     }
 
     public void encryption(SimpleHDKeyChain unencChain) throws UnreadableWalletException {
-        Deterministic
+        DeterministicKey key1 = unencChain.getKey(KeyChain.KeyPurpose.RECEIVE_FUNDS);
+        SimpleHDKeyChain encChain = unencChain.toEncrypted("open secret");
+        DeterministicKey encKey1 = encChain.findKeyFromPubKey(key1.getPubKey());
+        checkEncryptedKeyChain(encChain, key1);
+
+        // Round-trip to ensure de/serialization works and that we can store two chains and they both deserialize.
+        List<Protos.Key> serialized = encChain.toProtobuf();
+        System.out.println(protoToString(serialized));
+        encChain = SimpleHDKeyChain.fromProtobuf(serialized, encChain.getKeyCrypter());
+        checkEncryptedKeyChain(encChain, unencChain.findKeyFromPubKey(key1.getPubKey()));
+
+        DeterministicKey encKey2 = encChain.getKey(KeyChain.KeyPurpose.RECEIVE_FUNDS);
+        // Decrypt and check the keys match.
+        SimpleHDKeyChain decChain = encChain.toDecrypted("open secret");
+        DeterministicKey decKey1 = decChain.findKeyFromPubHash(encKey1.getPubKeyHash());
+        DeterministicKey decKey2 = decChain.findKeyFromPubHash(encKey2.getPubKeyHash());
+        assertEquals(decKey1.getPubKeyPoint(), encKey1.getPubKeyPoint());
+        assertEquals(decKey2.getPubKeyPoint(), encKey2.getPubKeyPoint());
+        assertFalse(decKey1.isEncrypted());
+        assertFalse(decKey2.isEncrypted());
+        assertNotEquals(encKey1.getParent(), decKey1.getParent());   // parts of a different hierarchy
+        // Check we can once again derive keys from the decrypted chain.
+        decChain.getKey(KeyChain.KeyPurpose.RECEIVE_FUNDS).sign(Sha
