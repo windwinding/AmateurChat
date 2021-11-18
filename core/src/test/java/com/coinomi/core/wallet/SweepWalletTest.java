@@ -1,0 +1,27 @@
+package com.coinomi.core.wallet;
+
+import com.coinomi.core.coins.BitcoinMain;
+import com.coinomi.core.coins.CoinType;
+import com.coinomi.core.coins.DogecoinMain;
+
+import org.bitcoinj.core.ECKey;
+import org.bitcoinj.crypto.BIP38PrivateKey;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+/**
+ * @author John L. Jegutanis
+ */
+public class SweepWalletTest {
+    static final CoinType BTC = BitcoinMain.get();
+    static final CoinType DOGE = DogecoinMain.get();
+    static final String BTC_WIF_ADDR = "15uucyG2PdLRpYU1UDNucMzxm56UbVv2YG";
+    static final String BTC_WIF_PRIV = "5KT6EseSW2NxYDw66aPsqvyv6cKunUSNHUVkTtxyaiGspb3XJVz";
+    static final String BTC_BIP38_WIF_PRIV = "6PRSEfu2G7mya8YoaQo4Y5iSysAKy8VpixN574SXeh7VvCcgkNMS6BeHgm";
+    static final String BTC_BIP38_ADDR = "1BBNgmuc8hwaaGqawbPYbnD1ibr9AMSKEo";
+    static final String BTC_BIP38_PRIV = "6PRVb3WLvM3wk5U32jaENjQBxvP8fRtq2g7UpBfmZ1FLJ1ZxNLmD57yv8s";
+    static final String BTC_MINI_PRIV = "S6c56bnXQiBjk9mqSYE7ykVQ7NzrRy";
+    s
