@@ -24,4 +24,35 @@ public class SweepWalletTest {
     static final String BTC_BIP38_ADDR = "1BBNgmuc8hwaaGqawbPYbnD1ibr9AMSKEo";
     static final String BTC_BIP38_PRIV = "6PRVb3WLvM3wk5U32jaENjQBxvP8fRtq2g7UpBfmZ1FLJ1ZxNLmD57yv8s";
     static final String BTC_MINI_PRIV = "S6c56bnXQiBjk9mqSYE7ykVQ7NzrRy";
-    s
+    static final String BTC_MINI_ADDR = "1CciesT23BNionJeXrbxmjc7ywfiyM4oLW";
+    static final String DOGE_BIP38_ADDR = "D5LBizi5ZzsVxwpfuFBaP7VSu4B1NRnx5c";
+    static final String DOGE_BIP38_PRIV = "6PRWBkdj7oqcgu5TcNuqVXt51tcLG3ys6597WFwD2Qvmf8BRqJrgXaUBsu";
+    static final String BIP38_PASS = "coinomi";
+
+    @Test
+    public void testWif() throws Exception {
+        SerializedKey serializedKey = new SerializedKey(BTC_WIF_PRIV);
+        assertFalse(serializedKey.isEncrypted());
+        SerializedKey.TypedKey key = serializedKey.getKey();
+        assertTrue(key.possibleType.contains(BTC));
+        assertEquals(BTC_WIF_ADDR, key.key.toAddress(BTC).toString());
+    }
+
+    @Test
+    public void testBip38() throws Exception {
+        SerializedKey serializedKey = new SerializedKey(BTC_BIP38_WIF_PRIV);
+        assertTrue(serializedKey.isEncrypted());
+        SerializedKey.TypedKey key = serializedKey.getKey(BIP38_PASS);
+        assertTrue(key.possibleType.contains(BTC));
+        assertEquals(BTC_WIF_ADDR, key.key.toAddress(BTC).toString());
+
+        serializedKey = new SerializedKey(BTC_BIP38_PRIV);
+        assertTrue(serializedKey.isEncrypted());
+        key = serializedKey.getKey(BIP38_PASS);
+        assertTrue(key.possibleType.contains(BTC));
+        assertEquals(BTC_BIP38_ADDR, key.key.toAddress(BTC).toString());
+
+        serializedKey = new SerializedKey(DOGE_BIP38_PRIV);
+        assertTrue(serializedKey.isEncrypted());
+        key = serializedKey.getKey(BIP38_PASS);
+        
