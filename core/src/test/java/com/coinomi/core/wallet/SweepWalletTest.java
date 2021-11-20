@@ -55,4 +55,16 @@ public class SweepWalletTest {
         serializedKey = new SerializedKey(DOGE_BIP38_PRIV);
         assertTrue(serializedKey.isEncrypted());
         key = serializedKey.getKey(BIP38_PASS);
-        
+        assertTrue(key.possibleType.contains(DOGE));
+        assertEquals(DOGE_BIP38_ADDR, key.key.toAddress(DOGE).toString());
+    }
+
+    @Test
+    public void testMini() throws Exception {
+        SerializedKey serializedKey = new SerializedKey(BTC_MINI_PRIV);
+        assertFalse(serializedKey.isEncrypted());
+        SerializedKey.TypedKey key = serializedKey.getKey();
+        assertTrue(key.possibleType.contains(BTC));
+        assertEquals(BTC_MINI_ADDR, key.key.toAddress(BTC).toString());
+    }
+}
