@@ -37,4 +37,48 @@ public class WalletTest {
 
     @Before
     public void setup() throws IOException, MnemonicException {
-        Brie
+        BriefLogFormatter.init();
+
+        wallet = new Wallet(MNEMONIC);
+
+        ImmutableList<CoinType> typesToCreate = ImmutableList.of(BitcoinMain.get(),
+                LitecoinMain.get(), DogecoinMain.get());
+        wallet.createAccounts(typesToCreate, true, aesKey);
+    }
+
+    @Test
+    public void serializeUnencryptedNormal() throws Exception {
+        wallet.maybeInitializeAllPockets();
+
+        Protos.Wallet walletProto = wallet.toProtobuf();
+
+        Wallet newWallet = WalletProtobufSerializer.readWallet(walletProto);
+
+        assertEquals(walletProto.toString(), newWallet.toProtobuf().toString());
+        assertArrayEquals(MNEMONIC.toArray(), newWallet.getMnemonicCode().toArray());
+    }
+
+
+    @Test
+    public void serializeEncryptedNormal() throws Exception {
+        wallet.maybeInitializeAllPockets();
+        wallet.encrypt(crypter, aesKey);
+
+        assertNull(wallet.getSeed().getMnemonicCode());
+
+        Protos.Wallet walletProto = wallet.toProtobuf();
+
+        Wallet newWallet = WalletProtobufSerializer.readWallet(walletProto);
+
+        assertEquals(walletProto.toString(), newWallet.toProtobuf().toString());
+
+        wallet.decrypt(aesKey);
+
+        // One is encrypted, so they should not match
+        assertNotEquals(wallet.toProtobuf().toString(), newWallet.toProtobuf().toString());
+
+        newWallet.decrypt(aesKey);
+
+        assertEquals(wallet.toProtobuf().toString(), newWallet.toProtobuf().toString());
+
+        assertArrayEquals(MNEMONIC.toArray(), newWallet.getMnem
