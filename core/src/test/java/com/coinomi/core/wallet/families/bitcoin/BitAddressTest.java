@@ -33,4 +33,30 @@ public class BitAddressTest {
 
     @Test
     public void testConstructors() throws AddressFormatException {
-    
+        // BTC
+        assertEquals(BTC_P2PKH_ADDR, new BitAddress(BTC, HASH160).toString());
+        assertEquals(BTC_P2PKH_ADDR, new BitAddress(BTC, BTC.getAddressHeader(), HASH160).toString());
+        assertEquals(BTC_P2PKH_ADDR, new BitAddress(BTC, BTC_P2PKH_ADDR).toString());
+        assertEquals(BTC_P2SH_ADDR, new BitAddress(BTC, BTC.getP2SHHeader(), HASH160).toString());
+        assertEquals(BTC_P2SH_ADDR, new BitAddress(BTC, BTC_P2SH_ADDR).toString());
+
+        // LTC
+        assertEquals(LTC_P2PKH_ADDR, new BitAddress(LTC, HASH160).toString());
+        assertEquals(LTC_P2PKH_ADDR, new BitAddress(LTC, LTC.getAddressHeader(), HASH160).toString());
+        assertEquals(LTC_P2PKH_ADDR, new BitAddress(LTC, LTC_P2PKH_ADDR).toString());
+        assertEquals(LTC_P2SH_ADDR, new BitAddress(LTC, LTC.getP2SHHeader(), HASH160).toString());
+        assertEquals(LTC_P2SH_ADDR, new BitAddress(LTC, LTC_P2SH_ADDR).toString());
+    }
+
+    @Test
+    public void testFromMethods() throws AddressFormatException, AddressMalformedException {
+        // BTC
+        Address address = new Address(BTC, BTC_P2PKH_ADDR);
+        AbstractAddress abstractAddress = new AbstractAddress() {
+            @Override public CoinType getType() { return BTC; }
+            @Override public long getId() { return 0; }
+            @Override public String toString() { return BTC_P2PKH_ADDR; }
+        };
+
+        assertEquals(BTC_P2PKH_ADDR, BitAddress.from(BTC, BTC_P2PKH_ADDR).toString());
+        assertEquals(BTC_P2PKH_ADDR, Bi
