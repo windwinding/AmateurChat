@@ -81,4 +81,8 @@ public class WalletTest {
 
         assertEquals(wallet.toProtobuf().toString(), newWallet.toProtobuf().toString());
 
-        assertArrayEquals(MNEMONIC.toArray(), newWallet.getMnem
+        assertArrayEquals(MNEMONIC.toArray(), newWallet.getMnemonicCode().toArray());
+    }
+
+
+}
