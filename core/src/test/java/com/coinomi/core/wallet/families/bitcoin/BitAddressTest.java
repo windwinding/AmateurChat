@@ -59,4 +59,31 @@ public class BitAddressTest {
         };
 
         assertEquals(BTC_P2PKH_ADDR, BitAddress.from(BTC, BTC_P2PKH_ADDR).toString());
-        assertEquals(BTC_P2PKH_ADDR, Bi
+        assertEquals(BTC_P2PKH_ADDR, BitAddress.from(BTC, BTC.getAddressHeader(), HASH160).toString());
+        assertEquals(BTC_P2PKH_ADDR, BitAddress.from(BTC, new Script(P2PKH_SCRIPT)).toString());
+        assertEquals(BTC_P2PKH_ADDR, BitAddress.from(BTC, pubKey).toString());
+        assertEquals(BTC_P2PKH_ADDR, BitAddress.from(abstractAddress).toString());
+        assertEquals(BTC_P2PKH_ADDR, BitAddress.from(address).toString());
+
+        address = new Address(BTC, BTC_P2SH_ADDR);
+        abstractAddress = new AbstractAddress() {
+            @Override public CoinType getType() { return BTC; }
+            @Override public long getId() { return 0; }
+            @Override public String toString() { return BTC_P2SH_ADDR; }
+        };
+
+        assertEquals(BTC_P2SH_ADDR, BitAddress.from(BTC, BTC_P2SH_ADDR).toString());
+        assertEquals(BTC_P2SH_ADDR, BitAddress.from(BTC, BTC.getP2SHHeader(), HASH160).toString());
+        assertEquals(BTC_P2SH_ADDR, BitAddress.from(BTC, new Script(P2SH_SCRIPT)).toString());
+        assertEquals(BTC_P2SH_ADDR, BitAddress.from(abstractAddress).toString());
+        assertEquals(BTC_P2SH_ADDR, BitAddress.from(address).toString());
+
+        // LTC
+        address = new Address(LTC, LTC_P2PKH_ADDR);
+        abstractAddress = new AbstractAddress() {
+            @Override public CoinType getType() { return LTC; }
+            @Override public long getId() { return 0; }
+            @Override public String toString() { return LTC_P2PKH_ADDR; }
+        };
+
+        assertEquals(LTC_P2PKH_ADDR, BitAddre
