@@ -86,4 +86,24 @@ public class BitAddressTest {
             @Override public String toString() { return LTC_P2PKH_ADDR; }
         };
 
-        assertEquals(LTC_P2PKH_ADDR, BitAddre
+        assertEquals(LTC_P2PKH_ADDR, BitAddress.from(LTC, LTC_P2PKH_ADDR).toString());
+        assertEquals(LTC_P2PKH_ADDR, BitAddress.from(LTC, LTC.getAddressHeader(), HASH160).toString());
+        assertEquals(LTC_P2PKH_ADDR, BitAddress.from(LTC, new Script(P2PKH_SCRIPT)).toString());
+        assertEquals(LTC_P2PKH_ADDR, BitAddress.from(LTC, pubKey).toString());
+        assertEquals(LTC_P2PKH_ADDR, BitAddress.from(abstractAddress).toString());
+        assertEquals(LTC_P2PKH_ADDR, BitAddress.from(address).toString());
+
+        address = new Address(LTC, LTC_P2SH_ADDR);
+        abstractAddress = new AbstractAddress() {
+            @Override public CoinType getType() { return LTC; }
+            @Override public long getId() { return 0; }
+            @Override public String toString() { return LTC_P2SH_ADDR; }
+        };
+
+        assertEquals(LTC_P2SH_ADDR, BitAddress.from(LTC, LTC_P2SH_ADDR).toString());
+        assertEquals(LTC_P2SH_ADDR, BitAddress.from(LTC, LTC.getP2SHHeader(), HASH160).toString());
+        assertEquals(LTC_P2SH_ADDR, BitAddress.from(LTC, new Script(P2SH_SCRIPT)).toString());
+        assertEquals(LTC_P2SH_ADDR, BitAddress.from(abstractAddress).toString());
+        assertEquals(LTC_P2SH_ADDR, BitAddress.from(address).toString());
+    }
+}
