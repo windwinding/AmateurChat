@@ -47,4 +47,35 @@ public class TransactionTest {
 
     @Test
     public void uncompress() throws Exception {
-        assertArra
+        assertArrayEquals(ORIGINAL_BYTES, VpncoinTxMessage.uncompress(ByteBuffer.wrap(COMPRESSED)));
+    }
+
+    @Test
+    public void hashes() {
+        assertEquals(TX_HASH_1, TX_1.getHashAsString());
+        assertEquals(TX_HASH_2, TX_2.getHashAsString());
+        assertEquals(TX_HASH_3, TX_3.getHashAsString());
+    }
+    @Test
+    public void messageRegex() {
+        String messageString = "@FROM=" + FROM_USER + "@SUBJ=" + SUBJECT + "@MSG=" + MESSAGE;
+        Matcher matcher = VpncoinTxMessage.MESSAGE_REGEX.matcher(messageString);
+        assertTrue(matcher.find());
+        assertEquals("@FROM=" + FROM_USER, matcher.group());
+        assertTrue(matcher.find());
+        assertEquals("@SUBJ=" + SUBJECT, matcher.group());
+        assertTrue(matcher.find());
+        assertEquals("@MSG=" + MESSAGE, matcher.group());
+    }
+
+    @Test
+    public void emptyMessages() {
+        MessageFactory factory = VpncoinTxMessage.getFactory();
+        assertEquals("", factory.createPublicMessage("").toString());
+        assertEquals("", factory.createPublicMessage("     ").toString());
+        assertEquals("", factory.createPublicMessage("\n\n").toString());
+        assertEquals("", factory.createPublicMessage("   \t \t").toString());
+
+        assertEquals(0, ((VpncoinTxMessage)factory.createPublicMessage("")).serialize().length);
+        assertEquals(0, ((VpncoinTxMessage)factory.createPublicMessage("     ")).serialize().length);
+        assertEquals(0, ((VpncoinTxMessage)factory.createPublicMessage("\n\n")).seri
