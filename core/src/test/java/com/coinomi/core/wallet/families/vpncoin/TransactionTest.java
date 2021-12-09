@@ -78,4 +78,38 @@ public class TransactionTest {
 
         assertEquals(0, ((VpncoinTxMessage)factory.createPublicMessage("")).serialize().length);
         assertEquals(0, ((VpncoinTxMessage)factory.createPublicMessage("     ")).serialize().length);
-        assertEquals(0, ((VpncoinTxMessage)factory.createPublicMessage("\n\n")).seri
+        assertEquals(0, ((VpncoinTxMessage)factory.createPublicMessage("\n\n")).serialize().length);
+        assertEquals(0, ((VpncoinTxMessage)factory.createPublicMessage("   \t \t")).serialize().length);
+    }
+
+    @Test
+    public void messageStringParsing() {
+        VpncoinTxMessage message = VpncoinTxMessage.parse("@FROM=" + FROM_USER + "@SUBJ=" + SUBJECT + "@MSG=" + MESSAGE);
+        assertEquals(FROM_USER, message.getFrom());
+        assertEquals(SUBJECT, message.getSubject());
+        assertEquals(MESSAGE, message.getMessage());
+        assertEquals(FROM_USER + "\n\n"+SUBJECT+"\n\n"+MESSAGE, message.toString());
+
+        message = VpncoinTxMessage.parse("@MSG=" + MESSAGE);
+        assertNull(message.getFrom());
+        assertNull(message.getSubject());
+        assertEquals(MESSAGE, message.getMessage());
+        assertEquals(MESSAGE, message.toString());
+    }
+
+    @Test
+    public void messageSerialization() {
+        VpncoinTxMessage message = new VpncoinTxMessage(FROM_USER, SUBJECT, MESSAGE);
+        String expected = "@FROM="+FROM_USER+"@SUBJ="+SUBJECT+"@MSG="+MESSAGE;
+        assertArrayEquals(expected.getBytes(Charsets.UTF_8), message.serialize());
+
+        message = new VpncoinTxMessage(MESSAGE);
+        assertNull(message.getFrom());
+        assertNull(message.getSubject());
+        assertArrayEquals(("@MSG=" + MESSAGE).getBytes(Charsets.UTF_8), message.serialize());
+    }
+
+    @Test
+    public void messageToString() {
+        VpncoinTxMessage message = new VpncoinTxMessage(FROM_USER, SUBJECT, MESSAGE);
+        assertEquals(FROM_USER + "\n\n"+SUB
