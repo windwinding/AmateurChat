@@ -112,4 +112,35 @@ public class TransactionTest {
     @Test
     public void messageToString() {
         VpncoinTxMessage message = new VpncoinTxMessage(FROM_USER, SUBJECT, MESSAGE);
-        assertEquals(FROM_USER + "\n\n"+SUB
+        assertEquals(FROM_USER + "\n\n"+SUBJECT+"\n\n"+MESSAGE, message.toString());
+
+        message = new VpncoinTxMessage(MESSAGE);
+        assertEquals(MESSAGE, message.toString());
+    }
+/*
+    @Test
+    public void messagesEncrypted() {
+        VpncoinTxMessage message = VpncoinTxMessage.parse(TX_1);
+        assert message != null;
+        assertEquals("Bit Lee", message.getFrom());
+        assertEquals("Hello", message.getSubject());
+        assertEquals("Thanks.", message.getMessage());
+
+        message = VpncoinTxMessage.parse(TX_2);
+        assert message != null;
+        assertEquals("比特李", message.getFrom());
+        assertEquals("信息", message.getSubject());
+        assertEquals("сообщение\n" +
+                "μήνυμα\n" +
+                "رسالة", message.getMessage());
+
+        message = VpncoinTxMessage.parse(TX_3);
+        assert message != null;
+        assertNull(message.getFrom());
+        assertNull(message.getSubject());
+        assertEquals("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. " +
+                "Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur " +
+                "ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis " +
+                "sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. " +
+                "Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, " +
+                "consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis,
