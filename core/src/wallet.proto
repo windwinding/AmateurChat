@@ -76,4 +76,35 @@ message DeterministicKey {
  * if the private key is provided that the public key is provided too because deriving it is slow.
  *
  * If only the public key is provided, the key can only be used to watch the blockchain and verify
- * transact
+ * transactions, and not for spending.
+ */
+message Key {
+    enum Type {
+        /** Unencrypted - Original bitcoin secp256k1 curve */
+        ORIGINAL = 1;
+
+        /** Encrypted with Scrypt and AES - Original bitcoin secp256k1 curve */
+        ENCRYPTED_SCRYPT_AES = 2;
+
+        /**
+        * Not really a key, but rather contains the mnemonic phrase for a deterministic key hierarchy in the private_key field.
+        * The label and public_key fields are missing. Creation timestamp will exist.
+        */
+        DETERMINISTIC_MNEMONIC = 3;
+
+        /**
+         * A key that was derived deterministically. Note that the root seed that created it may NOT be present in the
+         * wallet, for the case of watching wallets. A deterministic key may or may not have the private key bytes present.
+         * However the public key bytes and the deterministic_key field are guaranteed to exist. In a wallet where there
+         * is a path from this key up to a key that has (possibly encrypted) private bytes, it's expected that the private
+         * key can be rederived on the fly.
+         */
+        DETERMINISTIC_KEY = 4;
+    }
+    required Type type = 1;
+
+    // Either the private EC key bytes (without any ASN.1 wrapping), or the deterministic root seed.
+    // If the secret is encrypted, or this is a "watching entry" then this is missing.
+    optional bytes secret_bytes = 2;
+    // If the secret data is encrypted, then secret_bytes is missing and this field is set.
+    o
