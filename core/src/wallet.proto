@@ -107,4 +107,44 @@ message Key {
     // If the secret is encrypted, or this is a "watching entry" then this is missing.
     optional bytes secret_bytes = 2;
     // If the secret data is encrypted, then secret_bytes is missing and this field is set.
-    o
+    optional EncryptedData encrypted_data = 3;
+
+    // The public EC key derived from the private key. We allow both to be stored to avoid mobile clients having to
+    // do lots of slow EC math on startup. For DETERMINISTIC_MNEMONIC entries this is missing.
+    optional bytes public_key = 4;
+
+    // User-provided label associated with the key.
+    optional string label = 5;
+
+    optional DeterministicKey deterministic_key = 6;
+}
+
+message TransactionInput {
+    // Hash of the transaction this input is using.
+    required bytes transaction_out_point_hash = 1;
+    // Index of transaction output used by this input.
+    required uint32 transaction_out_point_index = 2;
+    // Script that contains the signatures/pubkeys.
+    required bytes script_bytes = 3;
+    // Sequence number. Currently unused, but intended for contracts in future.
+    optional uint32 sequence = 4;
+    // Value of connected output, if known
+    optional int64 value = 5;
+}
+
+message TransactionOutput {
+    required int64 value = 1;
+    required bytes script_bytes = 2; // script of transaction output
+    // If spent, the hash of the transaction doing the spend.
+    optional bytes spent_by_transaction_hash = 3;
+    // If spent, the index of the transaction input of the transaction doing the spend.
+    optional int32 spent_by_transaction_index = 4;
+    // If the output is generally spent
+    optional bool is_spent = 5 [default = false];
+    // The index of this output, used in trimmed transactions
+    optional int32 index = 6;
+}
+
+message UnspentOutput {
+    // Hash of the transaction this input is using.
+    required bytes out
