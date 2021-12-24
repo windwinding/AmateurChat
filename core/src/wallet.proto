@@ -147,4 +147,36 @@ message TransactionOutput {
 
 message UnspentOutput {
     // Hash of the transaction this input is using.
-    required bytes out
+    required bytes out_point_hash = 1;
+    // Index of transaction output used by this input.
+    required uint32 out_point_index = 2;
+    // Script of transaction output
+    required bytes script_bytes = 3;
+    // Value of theoutput
+    required int64 value = 4;
+    // If this output is from a coin base or coin stake transaction
+    optional bool is_generated = 5 [default = false];
+}
+
+/**
+ * A description of the confidence we have that a transaction cannot be reversed in the future.
+ *
+ * Parsing should be lenient, since this could change for different applications yet we should
+ * maintain backward compatibility.
+ */
+message TransactionConfidence {
+    enum Type {
+        UNKNOWN = 0;
+        BUILDING = 1; // In best chain.  If and only if appeared_at_height is present.
+        PENDING = 2; // Unconfirmed and sitting in the networks memory pools, waiting to be included in the chain.
+        DEAD = 3; // Either if overriding_transaction is present or transaction is dead coinbase
+    }
+
+    // This is optional in case we add confidence types to prevent parse errors - backwards compatible.
+    optional Type type = 1;
+
+    // If type == BUILDING then this is the chain height at which the transaction was included.
+    optional int32 appeared_at_height = 2;
+
+    // If set, hash of the transaction that double spent this one into oblivion. A transaction can be double spent by
+    // multiple transactions in the case of several inputs being re-spent by sev
