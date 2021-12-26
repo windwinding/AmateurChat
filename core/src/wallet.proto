@@ -216,4 +216,38 @@ message Transaction {
     enum Pool {
         UNSPENT = 4; // In best chain, not all outputs spent
         SPENT = 5; // In best chain, all outputs spent
-        DEAD = 10; // Double-s
+        DEAD = 10; // Double-spent by a transaction in the best chain
+        PENDING = 16; // Our transaction, not in any chain
+    }
+
+    // See Wallet.java for detailed description of pool semantics
+    required int32 version = 1;
+    optional int32 time = 11; // Used by Peercoin family
+    required bytes hash = 2;
+
+    // If pool is not present, that means either:
+    //  - This Transaction is either not in a wallet at all (the proto is re-used elsewhere)
+    //  - Or it is stored but for other purposes, for example, because it is the overriding transaction of a double spend.
+    //  - Or the Pool enum got a new value which your software is too old to parse.
+    optional Pool pool = 3;
+
+    optional uint32 lock_time = 4; // The nLockTime field is useful for contracts.
+    optional int64 updated_at = 5; // millis since epoch the transaction was last updated
+
+    repeated TransactionInput transaction_input = 6;
+    optional int32 num_of_outputs = 18; // The original number of outputs, used in trimmed transactions
+    repeated TransactionOutput transaction_output = 7;
+
+    // A list of blocks in which the transaction has been observed (on any chain). Also, a number used to disambiguate
+    // ordering within a block.
+    repeated bytes block_hash = 8;
+    repeated int32 block_relativity_offsets = 9;
+
+    // Data describing where the transaction is in the chain.
+    optional TransactionConfidence confidence = 10;
+
+    optional int32 token_id = 12;
+
+    optional bytes extra_bytes = 13;
+
+    // 
