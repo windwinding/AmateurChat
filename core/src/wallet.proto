@@ -250,4 +250,49 @@ message Transaction {
 
     optional bytes extra_bytes = 13;
 
-    // 
+    // A transaction can be stored in a trimmed state where some inputs or outputs are stripped to save space.
+    optional bool is_trimmed = 14 [default = false];
+
+    // The value that the wallet sends, it is the sum of the inputs that are spending coins with keys in the wallet.
+    optional int64 value_sent = 15 [default = 0];
+    // The value that the wallet received, it is the sum of the outputs that are sending coins to a key in the wallet.
+    optional int64 value_received = 16 [default = 0];
+    // The transaction fee
+    optional int64 fee = 17;
+
+    // Next tag: 19
+}
+
+message AddressStatus {
+    required string address = 1; // The address that the wallet watches
+    required string status = 2; // The address status
+}
+
+/** A wallet pocket*/
+message WalletPocket {
+    required string network_identifier = 1; // the network used by this wallet
+
+    // A UTF8 encoded text description of the wallet that is intended for end user provided text.
+    optional string description = 2;
+
+    repeated Key key = 3;
+
+    // The SHA256 hash of the head of the best chain seen by this wallet.
+    optional bytes last_seen_block_hash = 4;
+    // The height in the chain of the last seen block.
+    optional uint32 last_seen_block_height = 5;
+    optional int64 last_seen_block_time_secs = 6;
+
+    repeated Transaction transaction = 7;
+
+    repeated AddressStatus address_status = 8;
+
+    optional string id = 9;
+
+    repeated UnspentOutput unspent_output = 10;
+
+    // Next tag: 11
+}
+
+/** The parameters used in the scrypt key derivation function.
+ *  The 
