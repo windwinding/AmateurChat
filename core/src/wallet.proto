@@ -326,4 +326,15 @@ message Wallet {
     // (i.e the wallet may contain some future format this protobuf/ code does not know about)
     optional int32 version = 1 [default = 1];
 
-    optional Key seed =
+    optional Key seed = 2;
+    optional bool seed_password_protected = 7;
+
+    required Key master_key = 3;
+
+    optional EncryptionType encryption_type = 4 [default = UNENCRYPTED];
+    optional ScryptParameters encryption_parameters = 5;
+
+    repeated WalletPocket pockets = 6;
+
+    // Next tag: 8
+}
