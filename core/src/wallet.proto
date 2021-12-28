@@ -295,4 +295,35 @@ message WalletPocket {
 }
 
 /** The parameters used in the scrypt key derivation function.
- *  The 
+ *  The default values are taken from http://www.tarsnap.com/scrypt/scrypt-slides.pdf.
+ *  They can be increased - n is the number of iterations performed and
+ *  r and p can be used to tweak the algorithm - see:
+ *  http://stackoverflow.com/questions/11126315/what-are-optimal-scrypt-work-factors
+ */
+message ScryptParameters {
+    required bytes salt = 1; // Salt to use in generation of the wallet password (8 bytes)
+    optional int64 n = 2 [default = 16384]; // CPU/ memory cost parameter
+    optional int32 r = 3 [default = 8]; // Block size parameter
+    optional int32 p = 4 [default = 1]; // Parallelisation parameter
+}
+
+/** A bitcoin wallet */
+message Wallet {
+    /**
+     * The encryption type of the wallet.
+     *
+     * The encryption type is UNENCRYPTED for wallets where the wallet does not support encryption - wallets prior to
+     * encryption support are grandfathered in as this wallet type.
+     * When a wallet is ENCRYPTED_SCRYPT_AES the keys are either encrypted with the wallet password or are unencrypted.
+     */
+    enum EncryptionType {
+        UNENCRYPTED = 1; // All keys in the wallet are unencrypted
+        ENCRYPTED_SCRYPT_AES = 2; // All keys are encrypted with a passphrase based KDF of scrypt and AES encryption
+        ENCRYPTED_AES = 3; // All keys are encrypted with AES encryption
+    }
+
+    // The version number of the wallet - used to detect wallets that were produced in the future
+    // (i.e the wallet may contain some future format this protobuf/ code does not know about)
+    optional int32 version = 1 [default = 1];
+
+    optional Key seed =
