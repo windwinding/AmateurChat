@@ -1069,4 +1069,57 @@
 		{
 			"icon": {
 				"paths": [
-					"M819.2 307.2h-640v-25.6l563.2-45.056v45.056h76.8v-76.8c0-56.32-45.619-95.846-101.325-87.91l-514.099 73.421c-55.757 7.987-101.376 60.57-101.376 116.89v512c0 56.525 45.824 102.4 102.4 102.4h614.4c56.525 0 102.4-45.875 102.4-102.4v-409.6c0
+					"M819.2 307.2h-640v-25.6l563.2-45.056v45.056h76.8v-76.8c0-56.32-45.619-95.846-101.325-87.91l-514.099 73.421c-55.757 7.987-101.376 60.57-101.376 116.89v512c0 56.525 45.824 102.4 102.4 102.4h614.4c56.525 0 102.4-45.875 102.4-102.4v-409.6c0-56.525-45.875-102.4-102.4-102.4zM742.4 665.907c-42.394 0-76.8-34.406-76.8-76.8s34.406-76.8 76.8-76.8 76.8 34.406 76.8 76.8-34.406 76.8-76.8 76.8z"
+				],
+				"attrs": [],
+				"isMulticolor": false,
+				"tags": [
+					"wallet"
+				],
+				"grid": 20
+			},
+			"attrs": [],
+			"properties": {
+				"id": 316,
+				"order": 47,
+				"prevSize": 20,
+				"code": 58919,
+				"name": "wallet"
+			},
+			"setIdx": 0,
+			"setId": 0,
+			"iconIdx": 325
+		}
+	],
+	"height": 1024,
+	"metadata": {
+		"name": "icomoon"
+	},
+	"preferences": {
+		"showGlyphs": true,
+		"showQuickUse": true,
+		"showQuickUse2": true,
+		"showSVGs": true,
+		"fontPref": {
+			"prefix": "icon-",
+			"metadata": {
+				"fontFamily": "icomoon"
+			},
+			"metrics": {
+				"emSize": 1024,
+				"baseline": 6.25,
+				"whitespace": 50
+			},
+			"embed": false
+		},
+		"imagePref": {
+			"prefix": "icon-",
+			"png": true,
+			"useClassSelector": true,
+			"color": 4473924,
+			"bgColor": 16777215
+		},
+		"historySize": 100,
+		"showCodes": false
+	}
+}
