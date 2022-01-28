@@ -11,4 +11,104 @@
 
 [class^="icon-"], [class*=" icon-"] {
 	font-family: 'icomoon';
-	
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-backup-wallet:before {
+	content: "\e600";
+}
+.icon-coins:before {
+	content: "\e601";
+}
+.icon-exchange:before {
+	content: "\e602";
+}
+.icon-lock-bip39:before {
+	content: "\e603";
+}
+.icon-lock-open-wallet:before {
+	content: "\e604";
+}
+.icon-lock-wallet:before {
+	content: "\e605";
+}
+.icon-mining:before {
+	content: "\e606";
+}
+.icon-receive-coins:before {
+	content: "\e607";
+}
+.icon-send-coins:before {
+	content: "\e608";
+}
+.icon-warning:before {
+	content: "\e609";
+}
+.icon-arrow-down:before {
+	content: "\e60a";
+}
+.icon-arrow-left:before {
+	content: "\e60b";
+}
+.icon-arrow-right:before {
+	content: "\e60c";
+}
+.icon-arrow-up:before {
+	content: "\e60d";
+}
+.icon-check:before {
+	content: "\e60e";
+}
+.icon-credit-card:before {
+	content: "\e60f";
+}
+.icon-cross:before {
+	content: "\e610";
+}
+.icon-cycle:before {
+	content: "\e611";
+}
+.icon-feather:before {
+	content: "\e612";
+}
+.icon-globe:before {
+	content: "\e613";
+}
+.icon-help:before {
+	content: "\e614";
+}
+.icon-info:before {
+	content: "\e615";
+}
+.icon-key:before {
+	content: "\e616";
+}
+.icon-language:before {
+	content: "\e617";
+}
+.icon-line-graph:before {
+	content: "\e618";
+}
+.icon-lock-open:before {
+	content: "\e619";
+}
+.icon-lock:before {
+	content: "\e61a";
+}
+.icon-mail:before {
+	content: "\e61b";
+}
+.icon-minus:before {
+	content: "\e61c";
+}
+.icon-network:before {
+	con
