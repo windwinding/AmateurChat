@@ -111,4 +111,35 @@
 	content: "\e61c";
 }
 .icon-network:before {
-	con
+	content: "\e61d";
+}
+.icon-pencil:before {
+	content: "\e61e";
+}
+.icon-plus:before {
+	content: "\e61f";
+}
+.icon-progress-empty:before {
+	content: "\e620";
+}
+.icon-progress-full:before {
+	content: "\e621";
+}
+.icon-progress-one:before {
+	content: "\e622";
+}
+.icon-progress-two:before {
+	content: "\e623";
+}
+.icon-shuffle:before {
+	content: "\e624";
+}
+.icon-swap:before {
+	content: "\e625";
+}
+.icon-v-card:before {
+	content: "\e626";
+}
+.icon-wallet:before {
+	content: "\e627";
+}
