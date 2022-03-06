@@ -97,4 +97,49 @@ public class Configuration {
     }
 
     public long getLastUsedAgo() {
-        final long now = System.currentTimeMillis
+        final long now = System.currentTimeMillis();
+
+        return now - prefs.getLong(PREFS_KEY_LAST_USED, 0);
+    }
+
+    public void touchLastUsed() {
+        final long prefsLastUsed = prefs.getLong(PREFS_KEY_LAST_USED, 0);
+        final long now = System.currentTimeMillis();
+        prefs.edit().putLong(PREFS_KEY_LAST_USED, now).apply();
+
+        log.info("just being used - last used {} minutes ago", (now - prefsLastUsed) / DateUtils.MINUTE_IN_MILLIS);
+    }
+
+    @Nullable
+    public String getLastAccountId() {
+        return prefs.getString(PREFS_KEY_LAST_ACCOUNT, null);
+    }
+
+    public void touchLastAccountId(String accountId) {
+        String lastAccountId = prefs.getString(PREFS_KEY_LAST_ACCOUNT, Constants.DEFAULT_COIN.getId());
+        if (!lastAccountId.equals(accountId)) {
+            prefs.edit().putString(PREFS_KEY_LAST_ACCOUNT, accountId).apply();
+            log.info("last used wallet account id: {}", accountId);
+        }
+    }
+
+    public Map<CoinType, Value> getFeeValues() {
+        JSONObject feesJson = getFeesJson();
+        ImmutableMap.Builder<CoinType, Value> feesMapBuilder = ImmutableMap.builder();
+
+        for (CoinType type : Constants.SUPPORTED_COINS) {
+            Value fee = getFeeFromJson(feesJson, type);
+            feesMapBuilder.put(type, fee);
+        }
+
+        return feesMapBuilder.build();
+    }
+
+    public Value getFeeValue(CoinType type) {
+        return getFeeFromJson(getFeesJson(), type);
+    }
+
+    public void resetFeeValue(CoinType type) {
+        JSONObject feesJson = getFeesJson();
+        feesJson.remove(type.getId());
+      
