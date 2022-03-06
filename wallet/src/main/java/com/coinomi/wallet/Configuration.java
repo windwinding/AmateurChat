@@ -58,4 +58,43 @@ public class Configuration {
 
     public static final String PREFS_KEY_TERMS_ACCEPTED = "terms_accepted";
 
-    
+    private static final int PREFS_DEFAULT_BTC_SHIFT = 3;
+    private static final int PREFS_DEFAULT_BTC_PRECISION = 2;
+
+    private static final Logger log = LoggerFactory.getLogger(Configuration.class);
+
+    public Configuration(final SharedPreferences prefs) {
+        this.prefs = prefs;
+
+        this.lastVersionCode = prefs.getInt(PREFS_KEY_LAST_VERSION, 0);
+    }
+
+    public void registerOnSharedPreferenceChangeListener(final OnSharedPreferenceChangeListener listener) {
+        prefs.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    public void unregisterOnSharedPreferenceChangeListener(final OnSharedPreferenceChangeListener listener) {
+        prefs.unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
+    public void updateLastVersionCode(final int currentVersionCode) {
+        if (currentVersionCode != lastVersionCode) {
+            prefs.edit().putInt(PREFS_KEY_LAST_VERSION, currentVersionCode).apply();
+        }
+
+        if (currentVersionCode > lastVersionCode)
+            log.info("detected app upgrade: " + lastVersionCode + " -> " + currentVersionCode);
+        else if (currentVersionCode < lastVersionCode)
+            log.warn("detected app downgrade: " + lastVersionCode + " -> " + currentVersionCode);
+
+        applyUpdates();
+    }
+
+    private void applyUpdates() {
+        if (prefs.contains(PREFS_KEY_LAST_POCKET)) {
+            prefs.edit().remove(PREFS_KEY_LAST_POCKET).apply();
+        }
+    }
+
+    public long getLastUsedAgo() {
+        final long now = System.currentTimeMillis
