@@ -183,4 +183,44 @@ public class Configuration {
         String defaultCode = null;
         if (useDefaultFallback) {
             defaultCode = WalletUtils.localeCurrencyCode();
-            defaultCode = defaultCode == null ? Constants.DEFAULT_EXCHANGE_CURR
+            defaultCode = defaultCode == null ? Constants.DEFAULT_EXCHANGE_CURRENCY : defaultCode;
+        }
+        return prefs.getString(PREFS_KEY_EXCHANGE_CURRENCY, defaultCode);
+    }
+
+    /**
+     * Returns the user selected currency or if not set the default
+     */
+    public String getExchangeCurrencyCode() {
+        return getExchangeCurrencyCode(true);
+    }
+
+    public void setExchangeCurrencyCode(final String exchangeCurrencyCode) {
+        prefs.edit().putString(PREFS_KEY_EXCHANGE_CURRENCY, exchangeCurrencyCode).apply();
+    }
+
+    public JSONObject getCachedExchangeRatesJson() {
+        try {
+            return new JSONObject(prefs.getString(PREFS_KEY_CACHED_EXCHANGE_RATES_JSON, ""));
+        } catch (JSONException e) {
+            return null;
+        }
+    }
+
+    public String getCachedExchangeLocalCurrency() {
+        return prefs.getString(PREFS_KEY_CACHED_EXCHANGE_LOCAL_CURRENCY, null);
+    }
+
+    public void setCachedExchangeRates(String currency, JSONObject exchangeRatesJson) {
+        final SharedPreferences.Editor edit = prefs.edit();
+        edit.putString(PREFS_KEY_CACHED_EXCHANGE_LOCAL_CURRENCY, currency);
+        edit.putString(PREFS_KEY_CACHED_EXCHANGE_RATES_JSON, exchangeRatesJson.toString());
+        edit.apply();
+    }
+
+    public boolean getLastExchangeDirection() {
+        return prefs.getBoolean(PREFS_KEY_LAST_EXCHANGE_DIRECTION, true);
+    }
+
+    public void setLastExchangeDirection(final boolean exchangeDirection) {
+        prefs.edit().putBoolean(PREFS_KEY_LAST_EXCHAN
