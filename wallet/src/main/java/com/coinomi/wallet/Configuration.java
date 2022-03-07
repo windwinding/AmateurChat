@@ -142,4 +142,45 @@ public class Configuration {
     public void resetFeeValue(CoinType type) {
         JSONObject feesJson = getFeesJson();
         feesJson.remove(type.getId());
-      
+        prefs.edit().putString(PREFS_KEY_FEES, feesJson.toString()).apply();
+
+    }
+
+    public void setFeeValue(final Value feeValue) {
+        JSONObject feesJson = getFeesJson();
+        try {
+            feesJson.put(feeValue.type.getId(), feeValue.toUnitsString());
+        } catch (JSONException e) {
+            // Should not happen
+            log.error("Error setting fee value", e);
+        }
+        prefs.edit().putString(PREFS_KEY_FEES, feesJson.toString()).apply();
+    }
+
+    private Value getFeeFromJson(JSONObject feesJson, CoinType type) {
+        String feeStr = feesJson.optString(type.getId());
+        if (feeStr.isEmpty()) {
+            return type.getDefaultFeeValue();
+        } else {
+            return Value.valueOf(type, feeStr);
+        }
+    }
+
+    private JSONObject getFeesJson() {
+        try {
+            return new JSONObject(prefs.getString(PREFS_KEY_FEES, ""));
+        } catch (JSONException e) {
+            return new JSONObject();
+        }
+    }
+
+    /**
+     * Returns the user selected currency. If defaultFallback is set to true it return a default
+     * currency is no user selected setting found.
+     */
+    @Nullable
+    public String getExchangeCurrencyCode(boolean useDefaultFallback) {
+        String defaultCode = null;
+        if (useDefaultFallback) {
+            defaultCode = WalletUtils.localeCurrencyCode();
+            defaultCode = defaultCode == null ? Constants.DEFAULT_EXCHANGE_CURR
