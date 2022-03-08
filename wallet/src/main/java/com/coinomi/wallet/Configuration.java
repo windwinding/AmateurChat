@@ -223,4 +223,27 @@ public class Configuration {
     }
 
     public void setLastExchangeDirection(final boolean exchangeDirection) {
-        prefs.edit().putBoolean(PREFS_KEY_LAST_EXCHAN
+        prefs.edit().putBoolean(PREFS_KEY_LAST_EXCHANGE_DIRECTION, exchangeDirection).apply();
+    }
+
+    public boolean isManualAddressManagement() {
+        return prefs.getBoolean(PREFS_KEY_MANUAL_RECEIVING_ADDRESSES, false);
+    }
+
+    public void setDeviceCompatible(final boolean isDeviceCompatible) {
+        prefs.edit().putBoolean(PREFS_KEY_DEVICE_COMPATIBLE, isDeviceCompatible).apply();
+    }
+
+    public boolean isDeviceCompatible() {
+        return prefs.getBoolean(PREFS_KEY_DEVICE_COMPATIBLE, false);
+    }
+
+    public boolean getTermsAccepted() {
+        return prefs.getBoolean(PREFS_KEY_TERMS_ACCEPTED, false);
+    }
+
+    public void setTermAccepted(final boolean isTermsAccepted) {
+        prefs.edit().putBoolean(PREFS_KEY_TERMS_ACCEPTED, isTermsAccepted).apply();
+    }
+
+}
