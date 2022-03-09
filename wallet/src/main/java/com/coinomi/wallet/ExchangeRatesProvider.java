@@ -119,3 +119,268 @@ public class ExchangeRatesProvider extends ContentProvider {
             localToCryptoRates = parseExchangeRates(
                     config.getCachedExchangeRatesJson(), lastLocalCurrency, true);
             localToCryptoLastUpdated = 0;
+        }
+
+        return true;
+    }
+
+    private static Uri.Builder contentUri(@Nonnull final String packageName, final boolean offline) {
+        final Uri.Builder builder =
+                Uri.parse("content://" + packageName + ".exchange_rates").buildUpon();
+        if (offline)
+            builder.appendQueryParameter(QUERY_PARAM_OFFLINE, "1");
+        return builder;
+    }
+
+    public static Uri contentUriToLocal(@Nonnull final String packageName,
+                                  @Nonnull final String coinSymbol,
+                                  final boolean offline) {
+        final Uri.Builder uri = contentUri(packageName, offline);
+        uri.appendPath("to-local").appendPath(coinSymbol);
+        return uri.build();
+    }
+
+    public static Uri contentUriToCrypto(@Nonnull final String packageName,
+                                  @Nonnull final String localSymbol,
+                                  final boolean offline) {
+        final Uri.Builder uri = contentUri(packageName, offline);
+        uri.appendPath("to-crypto").appendPath(localSymbol);
+        return uri.build();
+    }
+
+    @Nullable
+    public static ExchangeRate getRate(final Context context,
+                                       @Nonnull final String coinSymbol,
+                                       @Nonnull String localSymbol) {
+        ExchangeRate rate = null;
+
+        if (context != null) {
+            final Uri uri = contentUriToCrypto(context.getPackageName(), localSymbol, true);
+            final Cursor cursor = context.getContentResolver().query(uri, null,
+                    ExchangeRatesProvider.KEY_CURRENCY_ID, new String[]{coinSymbol}, null);
+
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    rate = getExchangeRate(cursor);
+                }
+                cursor.close();
+            }
+        }
+
+        return rate;
+    }
+
+    public static Map<String, ExchangeRate> getRates(final Context context,
+                                              @Nonnull String localSymbol) {
+        ImmutableMap.Builder<String, ExchangeRate> builder = ImmutableMap.builder();
+
+        if (context != null) {
+            final Uri uri = contentUriToCrypto(context.getPackageName(), localSymbol, true);
+            final Cursor cursor = context.getContentResolver().query(uri, null, null,
+                    new String[]{null}, null);
+
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                do {
+                    ExchangeRate rate = getExchangeRate(cursor);
+                    builder.put(rate.currencyCodeId, rate);
+                } while (cursor.moveToNext());
+                cursor.close();
+            }
+        }
+
+        return builder.build();
+    }
+
+    @Override
+    public Cursor query(final Uri uri, final String[] projection, final String selection,
+                        final String[] selectionArgs, final String sortOrder) {
+        final long now = System.currentTimeMillis();
+
+        final List<String> pathSegments = uri.getPathSegments();
+        if (pathSegments.size() != 2) {
+            throw new IllegalArgumentException("Unrecognized URI: " + uri);
+        }
+
+        final boolean offline = uri.getQueryParameter(QUERY_PARAM_OFFLINE) != null;
+        long lastUpdated;
+
+        final String symbol;
+        final boolean isLocalToCrypto;
+
+        if (pathSegments.get(0).equals("to-crypto")) {
+            isLocalToCrypto = true;
+            symbol = pathSegments.get(1);
+            lastUpdated = symbol.equals(lastLocalCurrency) ? localToCryptoLastUpdated : 0;
+        } else if (pathSegments.get(0).equals("to-local")) {
+            isLocalToCrypto = false;
+            symbol = pathSegments.get(1);
+            lastUpdated = symbol.equals(lastCryptoCurrency) ? cryptoToLocalLastUpdated : 0;
+        } else {
+            throw new IllegalArgumentException("Unrecognized URI path: " + uri);
+        }
+
+        if (!offline && (lastUpdated == 0 || now - lastUpdated > Constants.RATE_UPDATE_FREQ_MS)) {
+            URL url;
+            try {
+                if (isLocalToCrypto) {
+                    url = new URL(String.format(TO_CRYPTO_URL, symbol));
+                } else {
+                    url = new URL(String.format(TO_LOCAL_URL, symbol));
+                }
+            } catch (final MalformedURLException x) {
+                throw new RuntimeException(x); // Should not happen
+            }
+
+            JSONObject newExchangeRatesJson = requestExchangeRatesJson(url);
+            Map<String, ExchangeRate> newExchangeRates =
+                    parseExchangeRates(newExchangeRatesJson, symbol, isLocalToCrypto);
+
+            if (newExchangeRates != null) {
+                if (isLocalToCrypto) {
+                    localToCryptoRates = newExchangeRates;
+                    localToCryptoLastUpdated = now;
+                    lastLocalCurrency = symbol;
+                    config.setCachedExchangeRates(lastLocalCurrency, newExchangeRatesJson);
+                } else {
+                    cryptoToLocalRates = newExchangeRates;
+                    cryptoToLocalLastUpdated = now;
+                    lastCryptoCurrency = symbol;
+                }
+            }
+        }
+
+        Map<String, ExchangeRate> exchangeRates = isLocalToCrypto ? localToCryptoRates : cryptoToLocalRates;
+
+        if (exchangeRates == null)
+            return null;
+
+        final MatrixCursor cursor = new MatrixCursor(new String[]{BaseColumns._ID,
+                KEY_CURRENCY_ID, KEY_RATE_COIN, KEY_RATE_COIN_CODE, KEY_RATE_FIAT, KEY_RATE_FIAT_CODE, KEY_SOURCE});
+
+        if (selection == null) {
+            for (final Map.Entry<String, ExchangeRate> entry : exchangeRates.entrySet()) {
+                final ExchangeRate exchangeRate = entry.getValue();
+                addRow(cursor, exchangeRate);
+            }
+        } else if (selection.equals(KEY_CURRENCY_ID)) {
+            final ExchangeRate exchangeRate = exchangeRates.get(selectionArgs[0]);
+            if (exchangeRate != null) {
+                addRow(cursor, exchangeRate);
+            }
+        }
+
+        return cursor;
+    }
+
+    private void addRow(MatrixCursor cursor, ExchangeRate exchangeRate) {
+        final ExchangeRateBase rate = exchangeRate.rate;
+        final String codeId = exchangeRate.currencyCodeId;
+        cursor.newRow().add(codeId.hashCode()).add(codeId)
+                .add(rate.value1.value).add(rate.value1.type.getSymbol())
+                .add(rate.value2.value).add(rate.value2.type.getSymbol())
+                .add(exchangeRate.source);
+    }
+
+    public static String getCurrencyCodeId(@Nonnull final Cursor cursor) {
+        return cursor.getString(cursor.getColumnIndexOrThrow(ExchangeRatesProvider.KEY_CURRENCY_ID));
+    }
+
+    public static ExchangeRate getExchangeRate(@Nonnull final Cursor cursor) {
+        final String codeId = getCurrencyCodeId(cursor);
+        final CoinType type = CoinID.typeFromSymbol(cursor.getString(cursor.getColumnIndexOrThrow(ExchangeRatesProvider.KEY_RATE_COIN_CODE)));
+        final Value rateCoin = Value.valueOf(type, cursor.getLong(cursor.getColumnIndexOrThrow(ExchangeRatesProvider.KEY_RATE_COIN)));
+        final String fiatCode = cursor.getString(cursor.getColumnIndexOrThrow(ExchangeRatesProvider.KEY_RATE_FIAT_CODE));
+        final Value rateFiat = FiatValue.valueOf(fiatCode, cursor.getLong(cursor.getColumnIndexOrThrow(ExchangeRatesProvider.KEY_RATE_FIAT)));
+        final String source = cursor.getString(cursor.getColumnIndexOrThrow(ExchangeRatesProvider.KEY_SOURCE));
+
+        ExchangeRateBase rate = new ExchangeRateBase(rateCoin, rateFiat);
+        return new ExchangeRate(rate, codeId, source);
+    }
+
+    @Override
+    public Uri insert(final Uri uri, final ContentValues values) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int update(final Uri uri, final ContentValues values, final String selection, final String[] selectionArgs) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int delete(final Uri uri, final String selection, final String[] selectionArgs) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getType(final Uri uri) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nullable
+    private JSONObject requestExchangeRatesJson(final URL url) {
+        // Return null if no connection
+        final NetworkInfo activeInfo = connManager.getActiveNetworkInfo();
+        if (activeInfo == null || !activeInfo.isConnected()) return null;
+
+        final long start = System.currentTimeMillis();
+
+        OkHttpClient client = NetworkUtils.getHttpClient(getContext().getApplicationContext());
+        Request request = new Request.Builder().url(url).build();
+
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                log.info("fetched exchange rates from {}, took {} ms", url,
+                        System.currentTimeMillis() - start);
+                return new JSONObject(response.body().string());
+            } else {
+                log.warn("Error HTTP code '{}' when fetching exchange rates from {}",
+                        response.code(), url);
+            }
+        } catch (IOException e) {
+            log.warn("Error '{}' when fetching exchange rates from {}", e.getMessage(), url);
+        } catch (JSONException e) {
+            log.warn("Could not parse exchange rates JSON: {}", e.getMessage());
+        }
+        return null;
+    }
+
+    private Map<String, ExchangeRate> parseExchangeRates(JSONObject json, String fromSymbol, boolean isLocalToCrypto) {
+        if (json == null) return null;
+
+        final Map<String, ExchangeRate> rates = new TreeMap<String, ExchangeRate>();
+        try {
+            CoinType type = isLocalToCrypto ? null : CoinID.typeFromSymbol(fromSymbol);
+            for (final Iterator<String> i = json.keys(); i.hasNext(); ) {
+                final String toSymbol = i.next();
+                // Skip extras field
+                if (!"extras".equals(toSymbol)) {
+                    final String rateStr = json.optString(toSymbol, null);
+                    if (rateStr != null) {
+                        try {
+                            if (isLocalToCrypto) type = CoinID.typeFromSymbol(toSymbol);
+                            String localSymbol = isLocalToCrypto ? fromSymbol : toSymbol;
+                            final Value rateCoin = type.oneCoin();
+                            final Value rateLocal = FiatValue.parse(localSymbol, rateStr);
+
+                            ExchangeRateBase rate = new ExchangeRateBase(rateCoin, rateLocal);
+                            rates.put(toSymbol, new ExchangeRate(rate, toSymbol, COINOMI_SOURCE));
+                        } catch (final Exception x) {
+                            log.debug("ignoring {}/{}: {}", toSymbol, fromSymbol, x.getMessage());
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.warn("problem parsing exchange rates: {}", e.getMessage());
+        }
+
+        if (rates.size() == 0) {
+            return null;
+        } else {
+            return rates;
+        }
+    }
+}
