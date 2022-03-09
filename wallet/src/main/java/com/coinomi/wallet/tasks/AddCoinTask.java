@@ -48,4 +48,21 @@ public final class AddCoinTask  extends AsyncTask<Void, Void, Void> {
         try {
             if (wallet.isEncrypted() && wallet.getKeyCrypter() != null) {
                 key = wallet.getKeyCrypter().deriveKey(password);
-  
+            }
+            newAccount = wallet.createAccount(type, true, key);
+            if (description != null && !description.trim().isEmpty()) {
+                newAccount.setDescription(description);
+            }
+            wallet.saveNow();
+        } catch (Exception e) {
+            exception = e;
+        }
+
+        return null;
+    }
+
+    @Override
+    final protected void onPostExecute(Void aVoid) {
+        listener.onAddCoinTaskFinished(exception, newAccount);
+    }
+}
