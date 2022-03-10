@@ -28,4 +28,25 @@ public class ExchangeCheckSupportedCoinsTask extends AsyncTask<Void, Void, Void>
 
     @Override
     protected void onPreExecute() {
-        lis
+        listener.onExchangeCheckSupportedCoinsTaskStarted();
+    }
+
+    @Override
+    protected Void doInBackground(Void... params) {
+        if (application.isConnected()) {
+            try {
+                shapeShiftCoins = application.getShapeShift().getCoins();
+            } catch (Exception e) {
+                error = e;
+            }
+        } else {
+            error = new ShapeShiftException("No connection");
+        }
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void v) {
+        listener.onExchangeCheckSupportedCoinsTaskFinished(error, shapeShiftCoins);
+    }
+}
