@@ -31,4 +31,19 @@ public class CheckUpdateTask extends AsyncTask<Void, Void, Integer> {
             connection.setRequestProperty("Accept-Charset", "utf-8");
             connection.connect();
 
-            if (co
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                final BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), Charsets.UTF_8), 64);
+                String line = reader.readLine().trim();
+                reader.close();
+                return Integer.valueOf(line);
+            }
+        } catch (final Exception e) {
+            log.info("Could not check for update: {}", e.getMessage());
+        } finally {
+            if (connection != null)
+                connection.disconnect();
+        }
+
+        return null;
+    }
+}
