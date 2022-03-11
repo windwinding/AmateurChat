@@ -14,4 +14,14 @@ abstract public class AbstractWalletFragmentActivity extends FragmentActivity {
     }
 
     @Override
-    protecte
+    protected void onResume() {
+        super.onResume();
+        getWalletApplication().touchLastResume();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        getWalletApplication().touchLastStop();
+    }
+}
