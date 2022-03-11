@@ -57,4 +57,44 @@ public class AccountFragment extends Fragment {
 
     private int currentScreen;
     @Bind(R.id.pager) ViewPager viewPager;
-    NavigationDrawerFragment mNa
+    NavigationDrawerFragment mNavigationDrawerFragment;
+    @Nullable private WalletAccount account;
+    private Listener listener;
+    private WalletApplication application;
+    private final MyHandler handler = new MyHandler(this);
+
+    public static AccountFragment getInstance() {
+        AccountFragment fragment = new AccountFragment();
+        fragment.setArguments(new Bundle());
+        return fragment;
+    }
+
+    public static AccountFragment getInstance(String accountId) {
+        AccountFragment fragment = getInstance();
+        fragment.setupArgs(accountId);
+        return fragment;
+    }
+
+    private void setupArgs(String accountId) {
+        getArguments().putString(Constants.ARG_ACCOUNT_ID, accountId);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
+        // TODO handle null account
+        account = application.getAccount(getArguments().getString(Constants.ARG_ACCOUNT_ID));
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_account, container, false);
+        ButterKnife.bind(this, view);
+
+        mNavigationDrawerFragment = (NavigationDrawerFragment)
+                getFragmentManager().findFragmentById(R.id.navigation_drawer);
+
+        viewPager.setOffscreenPageLimit(OFF_SCREEN_LIMIT);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListene
