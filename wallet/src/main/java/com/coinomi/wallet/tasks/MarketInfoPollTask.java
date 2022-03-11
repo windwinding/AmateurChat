@@ -33,4 +33,32 @@ public abstract class MarketInfoPollTask extends TimerTask {
     @Override
     public void run() {
         ShapeShiftMarketInfo marketInfo = getMarketInfoSync(shapeShift, pair);
-        if (mar
+        if (marketInfo != null) {
+            onHandleMarketInfo(marketInfo);
+        }
+    }
+
+    /**
+     * Makes a call to ShapeShift about the market info of a pair. If case of a problem, it will
+     * retry 3 times and return null if there was an error.
+     *
+     * Note: do not call this from the main thread!
+     */
+    @Nullable
+    public static ShapeShiftMarketInfo getMarketInfoSync(ShapeShift shapeShift, String pair) {
+        // Try 3 times
+        for (int tries = 1; tries <= 3; tries++) {
+            try {
+                log.info("Polling market info for pair: {}", pair);
+                return shapeShift.getMarketInfo(pair);
+            } catch (Exception e) {
+                log.info("Will retry: {}", e.getMessage());
+                    /* ignore and retry, with linear backoff */
+                try {
+                    Thread.sleep(1000 * tries);
+                } catch (InterruptedException ie) { /*ignored*/ }
+            }
+        }
+        return null;
+    }
+}
