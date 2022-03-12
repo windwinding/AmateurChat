@@ -139,4 +139,46 @@ public class AccountFragment extends Fragment {
     @Override
     public void onAttach(final Context context) {
         super.onAttach(context);
-   
+        try {
+            this.listener = (Listener) context;
+            this.application = (WalletApplication) context.getApplicationContext();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement " + Listener.class);
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        listener = null;
+        super.onDetach();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(ACCOUNT_CURRENT_SCREEN, currentScreen);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            currentScreen = savedInstanceState.getInt(ACCOUNT_CURRENT_SCREEN, BALANCE);
+        } else {
+            currentScreen = BALANCE;
+        }
+        updateView();
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (mNavigationDrawerFragment != null && !mNavigationDrawerFragment.isDrawerOpen() &&
+                isVisible() && account != null) {
+
+            switch (viewPager.getCurrentItem()) {
+                case RECEIVE:
+                    inflater.inflate(R.menu.request, menu);
+                    MenuItem newAddressItem = menu.findItem(R.id.action_new_address);
+                    if (newAddressItem != null) {
+                        newAddressItem.setVisible(account.canCreateNewAddresses());
+                    }
+                    bre
