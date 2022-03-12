@@ -97,4 +97,46 @@ public class AccountFragment extends Fragment {
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
 
         viewPager.setOffscreenPageLimit(OFF_SCREEN_LIMIT);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListene
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                currentScreen = position;
+                if (position == BALANCE) Keyboard.hideKeyboard(getActivity());
+                if (listener != null) {
+                    switch (position) {
+                        case RECEIVE:
+                            listener.onReceiveSelected();
+                            break;
+                        case BALANCE:
+                            listener.onBalanceSelected();
+                            break;
+                        case SEND:
+                            listener.onSendSelected();
+                            break;
+                        default:
+                            throw new RuntimeException("Unknown screen item: " + position);
+                    }
+                }
+            }
+
+            @Override public void onPageScrolled(int pos, float posOffset, int posOffsetPixels) { }
+            @Override public void onPageScrollStateChanged(int state) { }
+        });
+
+        viewPager.setAdapter(
+                new AppSectionsPagerAdapter(getActivity(), getChildFragmentManager(), account));
+
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        ButterKnife.unbind(this);
+        mNavigationDrawerFragment = null;
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onAttach(final Context context) {
+        super.onAttach(context);
+   
