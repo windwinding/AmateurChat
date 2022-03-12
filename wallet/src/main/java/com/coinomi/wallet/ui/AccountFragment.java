@@ -181,4 +181,49 @@ public class AccountFragment extends Fragment {
                     if (newAddressItem != null) {
                         newAddressItem.setVisible(account.canCreateNewAddresses());
                     }
-                    bre
+                    break;
+                case BALANCE:
+                    inflater.inflate(R.menu.balance, menu);
+                    // Disable sign/verify for coins that don't support it
+                    menu.findItem(R.id.action_sign_verify_message)
+                            .setVisible(account.getCoinType().canSignVerifyMessages());
+                    break;
+                case SEND:
+                    inflater.inflate(R.menu.send, menu);
+                    break;
+            }
+        }
+    }
+
+    private void updateView() {
+        goToItem(currentScreen, true);
+    }
+
+    @Nullable
+    public WalletAccount getAccount() {
+        return account;
+    }
+
+    public void sendToUri(final CoinURI coinUri) {
+        if (viewPager != null) {
+            viewPager.setCurrentItem(SEND);
+            handler.sendMessage(handler.obtainMessage(SEND_TO_URI, coinUri));
+        } else {
+            // Should not happen
+            toastGenericError(getContext());
+        }
+    }
+
+    private void setSendToUri(CoinURI coinURI) {
+        if (viewPager != null) viewPager.setCurrentItem(SEND);
+        SendFragment f = getSendFragment();
+        if (f != null) {
+            try {
+                f.updateStateFrom(coinURI);
+            } catch (CoinURIParseException e) {
+                Toast.makeText(getContext(),
+                        getString(R.string.scan_error, e.getMessage()),
+                        Toast.LENGTH_LONG).show();
+            }
+        } else {
+            log.war
