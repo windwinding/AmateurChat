@@ -226,4 +226,45 @@ public class AccountFragment extends Fragment {
                         Toast.LENGTH_LONG).show();
             }
         } else {
-            log.war
+            log.warn("Expected fragment to be not null");
+            toastGenericError(getContext());
+        }
+    }
+
+    @Nullable
+    private SendFragment getSendFragment() {
+        return (SendFragment) getFragment(getChildFragmentManager(), SEND);
+    }
+
+    @Nullable
+    private static Fragment getFragment(FragmentManager fm, int item) {
+        if (fm.getFragments() == null) return null;
+
+        for (Fragment f : fm.getFragments()) {
+            switch (item) {
+                case RECEIVE:
+                    if (f instanceof AddressRequestFragment) return f;
+                    break;
+                case BALANCE:
+                    if (f instanceof BalanceFragment) return f;
+                    break;
+                case SEND:
+                    if (f instanceof SendFragment) return f;
+                    break;
+                default:
+                    throw new RuntimeException("Cannot get fragment, unknown screen item: " + item);
+            }
+        }
+        return null;
+    }
+
+    @SuppressWarnings({ "unchecked"})
+    private static <T extends Fragment> T createFragment(WalletAccount account, int item) {
+        String accountId = account.getId();
+        switch (item) {
+            case RECEIVE:
+                return (T) AddressRequestFragment.newInstance(accountId);
+            case BALANCE:
+                return (T) BalanceFragment.newInstance(accountId);
+            case SEND:
+                return (T) SendFragment.newInstance(accountId
