@@ -267,4 +267,55 @@ public class AccountFragment extends Fragment {
             case BALANCE:
                 return (T) BalanceFragment.newInstance(accountId);
             case SEND:
-                return (T) SendFragment.newInstance(accountId
+                return (T) SendFragment.newInstance(accountId);
+            default:
+                throw new RuntimeException("Cannot create fragment, unknown screen item: " + item);
+        }
+    }
+
+    public boolean goToReceive(boolean smoothScroll) {
+        return goToItem(RECEIVE, smoothScroll);
+    }
+
+    public boolean goToBalance(boolean smoothScroll) {
+        return goToItem(BALANCE, smoothScroll);
+    }
+
+    public boolean goToSend(boolean smoothScroll) {
+        return goToItem(SEND, smoothScroll);
+    }
+
+    private boolean goToItem(int item, boolean smoothScroll) {
+        if (viewPager != null && viewPager.getCurrentItem() != item) {
+            viewPager.setCurrentItem(item, smoothScroll);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean resetSend() {
+        SendFragment f = getSendFragment();
+        if (f != null) {
+            f.reset();
+            return true;
+        }
+        return false;
+    }
+
+    private static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
+        private final String receiveTitle;
+        private final String sendTitle;
+        private final String balanceTitle;
+
+        private AddressRequestFragment request;
+        private SendFragment send;
+        private BalanceFragment balance;
+
+        private WalletAccount account;
+
+        public AppSectionsPagerAdapter(Context context, FragmentManager fm, WalletAccount account) {
+            super(fm);
+            receiveTitle = context.getString(R.string.wallet_title_request);
+            sendTitle = context.getString(R.string.wallet_title_send);
+            balanceTitle = context.getString(R.string.wallet_title_balance);
+  
