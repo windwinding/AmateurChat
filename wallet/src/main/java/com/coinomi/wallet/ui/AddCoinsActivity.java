@@ -69,4 +69,38 @@ public class AddCoinsActivity extends BaseWalletActivity
     private void showAddCoinDialog() {
         Dialogs.dismissAllowingStateLoss(getFM(), ADD_COIN_DIALOG_TAG);
         ConfirmAddCoinUnlockWalletDialog.getInstance(selectedCoin, wallet.isEncrypted())
-                .show(getFM(), ADD_COIN_DI
+                .show(getFM(), ADD_COIN_DIALOG_TAG);
+    }
+
+    @Override
+    public void addCoin(CoinType type, String description, CharSequence password) {
+        if (type != null && addCoinTask == null) {
+            addCoinTask = new AddCoinTask(this, type, wallet, description, password);
+            addCoinTask.execute();
+        }
+    }
+
+    @Override
+    public void onAddCoinTaskStarted() {
+        Dialogs.ProgressDialogFragment.show(getSupportFragmentManager(),
+                getString(R.string.adding_coin_working, selectedCoin.getName()),
+                ADD_COIN_TASK_BUSY_DIALOG_TAG);
+    }
+
+    @Override
+    public void onAddCoinTaskFinished(Exception error, WalletAccount newAccount) {
+        if (Dialogs.dismissAllowingStateLoss(getSupportFragmentManager(), ADD_COIN_TASK_BUSY_DIALOG_TAG)) return;
+        addCoinTask = null;
+        final Intent result = new Intent();
+        if (error != null) {
+            if (error instanceof KeyCrypterException) {
+                new AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.unlocking_wallet_error_title))
+                        .setMessage(R.string.unlocking_wallet_error_detail)
+                        .setPositiveButton(R.string.button_retry, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                showAddCoinDialog();
+                            }
+                        })
+                        .s
