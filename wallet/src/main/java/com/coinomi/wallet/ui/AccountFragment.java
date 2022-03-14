@@ -362,4 +362,17 @@ public class AccountFragment extends Fragment {
         protected void weakHandleMessage(AccountFragment ref, Message msg) {
             switch (msg.what) {
                 case SEND_TO_URI:
-                    ref.s
+                    ref.setSendToUri((CoinURI) msg.obj);
+                    break;
+            }
+        }
+    }
+
+    public interface Listener extends BalanceFragment.Listener, SendFragment.Listener {
+        // TODO make an external interface so that SendFragment and AddressRequestFragment can use.
+        void registerActionMode(ActionMode actionMode);
+        void onReceiveSelected();
+        void onBalanceSelected();
+        void onSendSelected();
+    }
+}
