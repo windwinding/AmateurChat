@@ -318,4 +318,48 @@ public class AccountFragment extends Fragment {
             receiveTitle = context.getString(R.string.wallet_title_request);
             sendTitle = context.getString(R.string.wallet_title_send);
             balanceTitle = context.getString(R.string.wallet_title_balance);
-  
+            this.account = account;
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            switch (i) {
+                case RECEIVE:
+                    if (request == null) request = createFragment(account, i);
+                    return request;
+                case SEND:
+                    if (send == null) send = createFragment(account, i);
+                    return send;
+                case BALANCE:
+                    if (balance == null) balance = createFragment(account, i);
+                    return balance;
+                default:
+                    throw new RuntimeException("Cannot get item, unknown screen item: " + i);
+            }
+        }
+
+
+        @Override
+        public int getCount() {
+            return NUM_OF_SCREENS;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int i) {
+            switch (i) {
+                case RECEIVE: return receiveTitle;
+                case SEND: return sendTitle;
+                case BALANCE: return balanceTitle;
+                default: throw new RuntimeException("Cannot get item, unknown screen item: " + i);
+            }
+        }
+    }
+
+    private static class MyHandler extends WeakHandler<AccountFragment> {
+        public MyHandler(AccountFragment ref) { super(ref); }
+
+        @Override
+        protected void weakHandleMessage(AccountFragment ref, Message msg) {
+            switch (msg.what) {
+                case SEND_TO_URI:
+                    ref.s
