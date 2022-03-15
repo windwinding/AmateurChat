@@ -103,4 +103,20 @@ public class AddCoinsActivity extends BaseWalletActivity
                                 showAddCoinDialog();
                             }
                         })
-                        .s
+                        .setNegativeButton(R.string.button_cancel, null)
+                        .create().show();
+            } else {
+                String message = getResources().getString(R.string.add_coin_error,
+                        selectedCoin.getName(), error.getMessage());
+                Toast.makeText(AddCoinsActivity.this, message, Toast.LENGTH_LONG).show();
+                setResult(RESULT_CANCELED, result);
+                finish();
+            }
+        } else {
+            result.putExtra(Constants.ARG_ACCOUNT_ID, newAccount.getId());
+            setResult(RESULT_OK, result);
+            finish();
+        }
+
+    }
+}
