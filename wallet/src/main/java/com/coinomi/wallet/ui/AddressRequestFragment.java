@@ -191,4 +191,44 @@ public class AddressRequestFragment extends WalletFragment {
     }
 
     @Override
-    public void
+    public void onViewStateRestored(@android.support.annotation.Nullable Bundle savedInstanceState) {
+        ExchangeRatesProvider.ExchangeRate rate = getRate(getContext(), type.getSymbol(), config.getExchangeCurrencyCode());
+        if (rate != null) updateExchangeRate(rate.rate);
+        updateView();
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        amountCalculatorLink = null;
+        lastQrContent = null;
+        ButterKnife.unbind(this);
+        super.onDestroyView();
+    }
+
+    @OnClick(R.id.request_address_view)
+    public void onAddressClick() {
+        if (showAddress != null) {
+            receiveAddress =  showAddress;
+        }
+        Activity activity = getActivity();
+        ActionMode actionMode = UiUtils.startAddressActionMode(receiveAddress, activity,
+                getFragmentManager());
+        // Hack to dismiss this action mode when back is pressed
+        if (activity != null && activity instanceof WalletActivity) {
+            ((WalletActivity) activity).registerActionMode(actionMode);
+        }
+    }
+
+    @OnClick(R.id.view_previous_addresses)
+    public void onPreviousAddressesClick() {
+        Intent intent = new Intent(getActivity(), PreviousAddressesActivity.class);
+        intent.putExtra(Constants.ARG_ACCOUNT_ID, accountId);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        account.addEventListener(walletListene
