@@ -152,4 +152,43 @@ public class AddressRequestFragment extends WalletFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // The onCreateOptionsMenu is handled in com.coinomi.
+        // The onCreateOptionsMenu is handled in com.coinomi.wallet.ui.AccountFragment
+        // or in com.coinomi.wallet.ui.PreviousAddressesActivity
+        setHasOptionsMenu(true);
+
+        WalletApplication walletApplication = (WalletApplication) getActivity().getApplication();
+        Bundle args = getArguments();
+        if (args != null) {
+            accountId = args.getString(Constants.ARG_ACCOUNT_ID);
+            if (args.containsKey(Constants.ARG_ADDRESS)) {
+                showAddress = (AbstractAddress) args.getSerializable(Constants.ARG_ADDRESS);
+            }
+        }
+        // TODO
+        account = checkNotNull(walletApplication.getAccount(accountId));
+        if (account == null) {
+            Toast.makeText(getActivity(), R.string.no_such_pocket_error, Toast.LENGTH_LONG).show();
+            return;
+        }
+        type = account.getCoinType();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_request, container, false);
+        ButterKnife.bind(this, view);
+
+        sendCoinAmountView.resetType(type, true);
+
+        AmountEditView sendLocalAmountView = ButterKnife.findById(view, R.id.request_local_amount);
+        sendLocalAmountView.setFormat(FiatType.FRIENDLY_FORMAT);
+
+        amountCalculatorLink = new CurrencyCalculatorLink(sendCoinAmountView, sendLocalAmountView);
+
+        return view;
+    }
+
+    @Override
+    public void
