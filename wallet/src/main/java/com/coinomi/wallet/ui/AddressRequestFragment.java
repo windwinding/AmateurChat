@@ -65,4 +65,44 @@ public class AddressRequestFragment extends WalletFragment {
     private static final Logger log = LoggerFactory.getLogger(AddressRequestFragment.class);
 
     private static final int UPDATE_VIEW = 0;
-    private stati
+    private static final int UPDATE_EXCHANGE_RATE = 1;
+
+    // Loader IDs
+    private static final int ID_RATE_LOADER = 0;
+
+    // Fragment tags
+    private static final String NEW_ADDRESS_TAG = "new_address_tag";
+
+    private CoinType type;
+    @Nullable private AbstractAddress showAddress;
+    private AbstractAddress receiveAddress;
+    private Value amount;
+    private String label;
+    private String accountId;
+    private WalletAccount account;
+    private String message;
+
+    @Bind(R.id.request_address_label) TextView addressLabelView;
+    @Bind(R.id.request_address) TextView addressView;
+    @Bind(R.id.request_coin_amount) AmountEditView sendCoinAmountView;
+    @Bind(R.id.view_previous_addresses) View previousAddressesLink;
+    @Bind(R.id.qr_code) ImageView qrView;
+    String lastQrContent;
+    CurrencyCalculatorLink amountCalculatorLink;
+    ContentResolver resolver;
+
+    private final MyHandler handler = new MyHandler(this);
+    private final ContentObserver addressBookObserver = new AddressBookObserver(handler);
+    private Configuration config;
+
+    private static class MyHandler extends WeakHandler<AddressRequestFragment> {
+        public MyHandler(AddressRequestFragment ref) { super(ref); }
+
+        @Override
+        protected void weakHandleMessage(AddressRequestFragment ref, Message msg) {
+            switch (msg.what) {
+                case UPDATE_VIEW:
+                    ref.updateView();
+                    break;
+                case UPDATE_EXCHANGE_RATE:
+  
