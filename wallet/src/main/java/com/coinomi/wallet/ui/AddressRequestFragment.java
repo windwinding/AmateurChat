@@ -105,4 +105,51 @@ public class AddressRequestFragment extends WalletFragment {
                     ref.updateView();
                     break;
                 case UPDATE_EXCHANGE_RATE:
-  
+                    ref.updateExchangeRate((ExchangeRate) msg.obj);
+                    break;
+            }
+        }
+    }
+
+    static class AddressBookObserver extends ContentObserver {
+        private final MyHandler handler;
+
+        public AddressBookObserver(MyHandler handler) {
+            super(handler);
+            this.handler = handler;
+        }
+
+        @Override
+        public void onChange(final boolean selfChange) {
+            handler.sendEmptyMessage(UPDATE_VIEW);
+        }
+    }
+
+    public static AddressRequestFragment newInstance(Bundle args) {
+        AddressRequestFragment fragment = new AddressRequestFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static AddressRequestFragment newInstance(String accountId) {
+        return newInstance(accountId, null);
+    }
+
+    public static AddressRequestFragment newInstance(String accountId,
+                                                     @Nullable AbstractAddress showAddress) {
+        Bundle args = new Bundle();
+        args.putString(Constants.ARG_ACCOUNT_ID, accountId);
+        if (showAddress != null) {
+            args.putSerializable(Constants.ARG_ADDRESS, showAddress);
+        }
+        return newInstance(args);
+    }
+    public AddressRequestFragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // The onCreateOptionsMenu is handled in com.coinomi.
