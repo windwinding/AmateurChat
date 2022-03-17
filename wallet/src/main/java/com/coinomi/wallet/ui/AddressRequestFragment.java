@@ -231,4 +231,47 @@ public class AddressRequestFragment extends WalletFragment {
     public void onResume() {
         super.onResume();
 
-        account.addEventListener(walletListene
+        account.addEventListener(walletListener);
+        amountCalculatorLink.setListener(amountsListener);
+        resolver.registerContentObserver(AddressBookProvider.contentUri(
+                getActivity().getPackageName(), type), true, addressBookObserver);
+
+        updateView();
+    }
+
+    @Override
+    public void onPause() {
+        resolver.unregisterContentObserver(addressBookObserver);
+        amountCalculatorLink.setListener(null);
+        account.removeEventListener(walletListener);
+        walletListener.removeCallbacks();
+
+        super.onPause();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_share:
+                UiUtils.share(getActivity(), getUri());
+                return true;
+            case R.id.action_copy:
+                UiUtils.copy(getActivity(), getUri());
+                return true;
+            case R.id.action_new_address:
+                showNewAddressDialog();
+                return true;
+            case R.id.action_edit_label:
+                EditAddressBookEntryFragment.edit(getFragmentManager(), type, receiveAddress);
+                return true;
+            default:
+                // Not one of ours. Perform default menu processing
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onAttach(final Context  context) {
+        super.onAttach(context);
+        this.resolver = context.getContentResolver();
+        this.con
