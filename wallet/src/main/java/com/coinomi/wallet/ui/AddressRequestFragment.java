@@ -274,4 +274,45 @@ public class AddressRequestFragment extends WalletFragment {
     public void onAttach(final Context  context) {
         super.onAttach(context);
         this.resolver = context.getContentResolver();
-        this.con
+        this.config = ((WalletApplication) context.getApplicationContext()).getConfiguration();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getLoaderManager().initLoader(ID_RATE_LOADER, null, rateLoaderCallbacks);
+    }
+
+    @Override
+    public void onDetach() {
+        getLoaderManager().destroyLoader(ID_RATE_LOADER);
+        resolver = null;
+        super.onDetach();
+    }
+
+    private void showNewAddressDialog() {
+        if (!isVisible() || !isResumed()) return;
+        Dialogs.dismissAllowingStateLoss(getFragmentManager(), NEW_ADDRESS_TAG);
+        DialogFragment dialog = CreateNewAddressDialog.getInstance(account);
+        dialog.show(getFragmentManager(), NEW_ADDRESS_TAG);
+    }
+
+    private void updateExchangeRate(ExchangeRate exchangeRate) {
+        amountCalculatorLink.setExchangeRate((ExchangeRate) exchangeRate);
+    }
+
+    @Override
+    public void updateView() {
+        if (isRemoving() || isDetached()) return;
+        receiveAddress = null;
+        if (showAddress != null) {
+            receiveAddress =  showAddress;
+        } else {
+            receiveAddress = account.getReceiveAddress();
+        }
+
+        // Don't show previous addresses link if we are showing a specific address
+        if (showAddress == null && account.hasUsedAddresses()) {
+            previousAddressesLink.setVisibility(View.VISIBLE);
+        } else {
+            previ
