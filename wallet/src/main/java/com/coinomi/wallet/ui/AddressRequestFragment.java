@@ -315,4 +315,51 @@ public class AddressRequestFragment extends WalletFragment {
         if (showAddress == null && account.hasUsedAddresses()) {
             previousAddressesLink.setVisibility(View.VISIBLE);
         } else {
-            previ
+            previousAddressesLink.setVisibility(View.GONE);
+        }
+
+        // TODO, add message
+
+        updateLabel();
+
+        updateQrCode(getUri());
+    }
+
+    private String getUri() {
+        if (type instanceof BitFamily) {
+            return CoinURI.convertToCoinURI(receiveAddress, amount, label, message);
+        } else if (type instanceof NxtFamily){
+            return CoinURI.convertToCoinURI(receiveAddress, amount, label, message,
+                    account.getPublicKeySerialized());
+        } else {
+            throw new UnsupportedCoinTypeException(type);
+        }
+    }
+
+    /**
+     * Update qr code if the content is different
+     */
+    private void updateQrCode(final String qrContent) {
+        if (lastQrContent == null || !lastQrContent.equals(qrContent)) {
+            QrUtils.setQr(qrView, getResources(), qrContent);
+            lastQrContent = qrContent;
+        }
+    }
+
+    private void updateLabel() {
+        label = resolveLabel(receiveAddress);
+        if (label != null) {
+            addressLabelView.setText(label);
+            addressLabelView.setTypeface(Typeface.DEFAULT);
+            addressView.setText(
+                    GenericUtils.addressSplitToGroups(receiveAddress));
+            addressView.setVisibility(View.VISIBLE);
+        } else {
+            addressLabelView.setText(
+                    GenericUtils.addressSplitToGroupsMultiline(receiveAddress));
+            addressLabelView.setTypeface(Typeface.MONOSPACE);
+            addressView.setVisibility(View.GONE);
+        }
+    }
+
+    priva
