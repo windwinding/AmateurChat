@@ -362,4 +362,42 @@ public class AddressRequestFragment extends WalletFragment {
         }
     }
 
-    priva
+    private final ThrottlingWalletChangeListener walletListener = new ThrottlingWalletChangeListener() {
+        @Override
+        public void onThrottledWalletChanged() {
+            handler.sendEmptyMessage(UPDATE_VIEW);
+        }
+    };
+
+    private String resolveLabel(@Nonnull final AbstractAddress address) {
+        return AddressBookProvider.resolveLabel(getActivity(), address);
+    }
+
+    @Override
+    public WalletAccount getAccount() {
+        return account;
+    }
+
+    private final LoaderManager.LoaderCallbacks<Cursor> rateLoaderCallbacks = new LoaderManager.LoaderCallbacks<Cursor>() {
+        @Override
+        public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
+            String localSymbol = config.getExchangeCurrencyCode();
+            String coinSymbol = type.getSymbol();
+            return new ExchangeRateLoader(getActivity(), config, localSymbol, coinSymbol);
+        }
+
+        @Override
+        public void onLoadFinished(final Loader<Cursor> loader, final Cursor data) {
+            if (data != null && data.getCount() > 0) {
+                data.moveToFirst();
+                final ExchangeRatesProvider.ExchangeRate exchangeRate = ExchangeRatesProvider.getExchangeRate(data);
+                handler.sendMessage(handler.obtainMessage(UPDATE_EXCHANGE_RATE, exchangeRate.rate));
+            }
+        }
+
+        @Override
+        public void onLoaderReset(final Loader<Cursor> loader) {
+        }
+    };
+
+    private final AmountEditView.Listener amountsListener = new AmountEdit
