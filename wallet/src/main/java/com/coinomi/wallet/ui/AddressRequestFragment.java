@@ -400,4 +400,32 @@ public class AddressRequestFragment extends WalletFragment {
         }
     };
 
-    private final AmountEditView.Listener amountsListener = new AmountEdit
+    private final AmountEditView.Listener amountsListener = new AmountEditView.Listener() {
+        boolean isValid(Value amount) {
+            return amount != null && amount.isPositive()
+                    && amount.compareTo(type.getMinNonDust()) >= 0;
+        }
+
+        void checkAndUpdateAmount() {
+            Value amountParsed = amountCalculatorLink.getPrimaryAmount();
+            if (isValid(amountParsed)) {
+                amount = amountParsed;
+            } else {
+                amount = null;
+            }
+            updateView();
+        }
+
+        @Override
+        public void changed() {
+            checkAndUpdateAmount();
+        }
+
+        @Override
+        public void focusChanged(final boolean hasFocus) {
+            if (!hasFocus) {
+                checkAndUpdateAmount();
+            }
+        }
+    };
+}
