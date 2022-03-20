@@ -67,4 +67,33 @@ public class CoinExchangeListAdapter extends BaseAdapter {
         return false;
     }
 
-    @Nu
+    @Nullable
+    public ExchangeRate getExchangeRate(String code) {
+        return rates.get(code);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View row, ViewGroup parent) {
+        if (row == null) {
+            row = new CoinListItem(context);
+        }
+
+        CoinType coinType = getItem(position);
+        if (coinType != null) {
+            ((CoinListItem) row).setCoin(coinType);
+
+            ExchangeRate rate = getExchangeRate(coinType.getSymbol());
+            if (rate != null) ((CoinListItem) row).setExchangeRate(rate);
+        }
+
+
+        return row;
+    }
+
+
+}
