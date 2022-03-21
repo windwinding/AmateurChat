@@ -19,4 +19,19 @@ public class DebuggingActivity extends BaseWalletActivity implements UnlockWalle
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new DebuggingFragmen
+                    .add(R.id.container, new DebuggingFragment(), DEBUGGING_TAG)
+                    .commit();
+        }
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+    }
+
+    @Override
+    public void onPassword(CharSequence password) {
+        Fragment f = getFM().findFragmentByTag(DEBUGGING_TAG);
+        if (f != null && f instanceof DebuggingFragment) {
+            ((DebuggingFragment) f).setPassword(password);
+        }
+    }
+}
