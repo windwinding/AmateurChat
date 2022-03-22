@@ -158,3 +158,22 @@ public class DebuggingFragment extends Fragment {
                 message += "\n\n" + result.error;
             }
             DialogBuilder.warn(getActivity(), R.string.debugging_test_wallet_password)
+                    .setMessage(message)
+                    .setPositiveButton(R.string.button_ok, null).create().show();
+        }
+    }
+
+    private String getFingerprint(byte[] b) {
+        String inputFingerprint;
+        inputFingerprint = Hex.toHexString(Arrays.copyOf(Sha256Hash.create(b).getBytes(), 4));
+        return inputFingerprint;
+    }
+
+    static class UnlockResult {
+        boolean isUnlockSuccess = false;
+        String inputFingerprint;
+        String keyFingerprint;
+        @Nullable String error;
+        @Nullable Protos.ScryptParameters scryptParams;
+    }
+}
