@@ -83,4 +83,43 @@ public class DebuggingFragment extends Fragment {
         }
     }
 
-    private void showUnlo
+    private void showUnlockDialog() {
+        Dialogs.dismissAllowingStateLoss(getFragmentManager(), PASSWORD_DIALOG_TAG);
+        UnlockWalletDialog.getInstance().show(getFragmentManager(), PASSWORD_DIALOG_TAG);
+    }
+
+
+    public void setPassword(CharSequence password) {
+        this.password = password;
+        maybeStartPasswordTestTask();
+    }
+
+    private void maybeStartPasswordTestTask() {
+        if (passwordTestTask == null) {
+            passwordTestTask = new PasswordTestTask();
+            passwordTestTask.execute();
+        }
+    }
+
+    private class PasswordTestTask extends AsyncTask<Void, Void, Void> {
+        UnlockResult result = new UnlockResult();
+
+        @Override
+        protected void onPreExecute() {
+            Dialogs.ProgressDialogFragment.show(getFragmentManager(),
+                    getString(R.string.seed_working), PROCESSING_DIALOG_TAG);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            DeterministicKey masterKey = wallet.getMasterKey();
+            tryDecrypt(masterKey, password, result);
+            return null;
+        }
+
+        private void tryDecrypt(DeterministicKey masterKey, CharSequence password, UnlockResult result) {
+            KeyCrypter crypter = checkNotNull(masterKey.getKeyCrypter());
+            KeyParameter k = crypter.deriveKey(password);
+            try {
+                result.inputFingerprint = getFingerprint(password.toString().getBytes("UTF-8"));
+            } catch (UnsupportedEncodingException e) { /* Should 
