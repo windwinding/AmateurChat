@@ -122,4 +122,39 @@ public class DebuggingFragment extends Fragment {
             KeyParameter k = crypter.deriveKey(password);
             try {
                 result.inputFingerprint = getFingerprint(password.toString().getBytes("UTF-8"));
-            } catch (UnsupportedEncodingException e) { /* Should 
+            } catch (UnsupportedEncodingException e) { /* Should not happen */ }
+            result.keyFingerprint = getFingerprint(k.getKey());
+            if (crypter instanceof KeyCrypterScrypt) {
+                result.scryptParams = ((KeyCrypterScrypt) crypter).getScryptParameters();
+            }
+
+            try {
+                masterKey.decrypt(crypter, k);
+                result.isUnlockSuccess = true;
+            } catch (KeyCrypterException e) {
+                result.isUnlockSuccess = false;
+                result.error = e.getMessage();
+            }
+        }
+
+        protected void onPostExecute(Void aVoid) {
+            passwordTestTask = null;
+            if (Dialogs.dismissAllowingStateLoss(getFragmentManager(), PROCESSING_DIALOG_TAG)) return;
+
+            String yes = getString(R.string.yes);
+            String no = getString(R.string.no);
+
+            String message = getString(R.string.debugging_test_wallet_password_results,
+                    result.isUnlockSuccess ? yes : no, result.inputFingerprint, result.keyFingerprint);
+            if (result.scryptParams != null) {
+                Protos.ScryptParameters sp = result.scryptParams;
+                message += "\n\nScrypt:" +
+                        "\nS = " + Hex.toHexString(sp.getSalt().toByteArray()) +
+                        "\nN = " + sp.getN() +
+                        "\nP = " + sp.getP() +
+                        "\nR = " + sp.getR();
+            }
+            if (result.error != null) {
+                message += "\n\n" + result.error;
+            }
+            DialogBuilder.warn(getActivity(), R.string.debugging_test_wallet_password)
