@@ -60,4 +60,35 @@ public final class EditAccountFragment extends DialogFragment {
         final Bundle args = getArguments();
         final WalletAccount account = checkNotNull(app.getAccount(args.getString(ARG_ACCOUNT_ID)));
         final LayoutInflater inflater = LayoutInflater.from(context);
-        final Di
+        final DialogBuilder dialog = new DialogBuilder(context);
+        final View view = inflater.inflate(R.layout.edit_account_dialog, null);
+        final EditText descriptionView = ButterKnife.findById(view, R.id.edit_account_description);
+        descriptionView.setText(account.getDescription());
+        descriptionView.setHint(account.getCoinType().getName());
+
+        dialog.setTitle(R.string.edit_account_title);
+        dialog.setView(view);
+
+        final DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialog, final int which) {
+                if (which == DialogInterface.BUTTON_POSITIVE) {
+                    final String newDescription = descriptionView.getText().toString().trim();
+                    account.setDescription(newDescription);
+                    if (listener != null) listener.onAccountModified(account);
+                }
+
+                dismiss();
+            }
+        };
+
+        dialog.setPositiveButton(R.string.button_save, onClickListener);
+        dialog.setNegativeButton(R.string.button_cancel, onClickListener);
+
+        return dialog.create();
+    }
+
+    public interface Listener {
+        void onAccountModified(WalletAccount account);
+    }
+}
