@@ -89,4 +89,47 @@ public final class ExchangeRatesFragment extends ListFragment implements OnShare
         this.config = application.getConfiguration();
         this.wallet = application.getWallet();
 
-        this.loaderManager = 
+        this.loaderManager = getLoaderManager();
+    }
+
+    @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments() != null && getArguments().containsKey(Constants.ARG_COIN_ID)) {
+            type = CoinID.typeFromId(getArguments().getString(Constants.ARG_COIN_ID));
+        } else {
+            type = BitcoinMain.get();
+        }
+        contentUri = ExchangeRatesProvider.contentUriToLocal(context.getPackageName(),
+                type.getSymbol(), false);
+
+        defaultCurrency = config.getExchangeCurrencyCode();
+        config.registerOnSharedPreferenceChangeListener(this);
+
+        adapter = new ExchangeRatesAdapter(context);
+        setListAdapter(adapter);
+
+        loaderManager.initLoader(ID_RATE_LOADER, null, rateLoaderCallbacks);
+    }
+
+    @Override
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_exchange_rates, container, false);
+    }
+
+    @Override
+    public void setEmptyText(final CharSequence text) {
+        final TextView emptyView = (TextView) getView().findViewById(android.R.id.empty);
+        emptyView.setText(text);
+    }
+
+    @Override
+    public void onViewCreated(final View view, final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        getListView().setFastScrollEnabled(true);
+        setEmptyText(getString(R.string.exchange_rates_loading));
+    }
+
+    @Ov
