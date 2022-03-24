@@ -42,4 +42,51 @@ import com.coinomi.core.coins.CoinID;
 import com.coinomi.core.coins.CoinType;
 import com.coinomi.core.coins.Value;
 import com.coinomi.core.util.GenericUtils;
-import
+import com.coinomi.wallet.Configuration;
+import com.coinomi.wallet.Constants;
+import com.coinomi.wallet.ExchangeRatesProvider;
+import com.coinomi.wallet.ExchangeRatesProvider.ExchangeRate;
+import com.coinomi.wallet.R;
+import com.coinomi.wallet.WalletApplication;
+import com.coinomi.wallet.ui.widget.Amount;
+import com.coinomi.wallet.util.WalletUtils;
+
+import org.bitcoinj.core.Coin;
+
+import javax.annotation.CheckForNull;
+
+
+/**
+ * @author Andreas Schildbach
+ * @author John L. Jegutanis
+ */
+public final class ExchangeRatesFragment extends ListFragment implements OnSharedPreferenceChangeListener {
+    private Context context;
+    private WalletApplication application;
+    private Configuration config;
+    private com.coinomi.core.wallet.Wallet wallet;
+    private Uri contentUri;
+    private LoaderManager loaderManager;
+
+    private ExchangeRatesAdapter adapter;
+    private String query = null;
+
+    private Coin balance = null;
+    @CheckForNull
+    private String defaultCurrency = null;
+
+    private static final int ID_BALANCE_LOADER = 0;
+    private static final int ID_RATE_LOADER = 1;
+    private static final int ID_BLOCKCHAIN_STATE_LOADER = 2;
+    private CoinType type;
+
+    @Override
+    public void onAttach(final Context context) {
+        super.onAttach(context);
+
+        this.context = context;
+        this.application = (WalletApplication) context.getApplicationContext();
+        this.config = application.getConfiguration();
+        this.wallet = application.getWallet();
+
+        this.loaderManager = 
