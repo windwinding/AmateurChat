@@ -180,4 +180,47 @@ public final class ExchangeRatesFragment extends ListFragment implements OnShare
 //            public boolean onQueryTextSubmit(final String query) {
 //                searchView.clearFocus();
 //
-//                return 
+//                return true;
+//            }
+//        });
+//
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
+//
+    @Override
+    public void onListItemClick(final ListView l, final View v, final int position, final long id) {
+        final Cursor cursor = (Cursor) adapter.getItem(position);
+        final ExchangeRate exchangeRate = ExchangeRatesProvider.getExchangeRate(cursor);
+
+        defaultCurrency = exchangeRate.currencyCodeId;
+        config.setExchangeCurrencyCode(defaultCurrency);
+
+        Toast.makeText(getActivity(), getString(R.string.set_local_currency, defaultCurrency),
+                Toast.LENGTH_SHORT).show();
+
+        getActivity().finish();
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
+        if (Configuration.PREFS_KEY_EXCHANGE_CURRENCY.equals(key)) {
+            defaultCurrency = config.getExchangeCurrencyCode();
+
+            updateView();
+        }
+    }
+
+    private void updateView() {
+//        balance = application.getWallet().getBalance(BalanceType.ESTIMATED);
+
+        if (adapter != null && type != null) {
+            adapter.setRateBase(type.getOneCoin());
+        }
+    }
+
+    private final LoaderCallbacks<Cursor> rateLoaderCallbacks = new LoaderManager.LoaderCallbacks<Cursor>() {
+        @Override
+        public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
+            if (query == null) {
+                return new CursorLoader(context, contentUri, null, null, null, null);
+            } els
