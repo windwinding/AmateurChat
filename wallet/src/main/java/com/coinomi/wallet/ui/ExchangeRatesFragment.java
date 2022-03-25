@@ -132,4 +132,52 @@ public final class ExchangeRatesFragment extends ListFragment implements OnShare
         setEmptyText(getString(R.string.exchange_rates_loading));
     }
 
-    @Ov
+    @Override
+    public void onResume() {
+        super.onResume();
+
+//        loaderManager.initLoader(ID_BALANCE_LOADER, null, balanceLoaderCallbacks);
+//        loaderManager.initLoader(ID_BLOCKCHAIN_STATE_LOADER, null, blockchainStateLoaderCallbacks);
+
+        updateView();
+    }
+
+    @Override
+    public void onPause() {
+//        loaderManager.destroyLoader(ID_BALANCE_LOADER);
+//        loaderManager.destroyLoader(ID_BLOCKCHAIN_STATE_LOADER);
+
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        config.unregisterOnSharedPreferenceChangeListener(this);
+
+        loaderManager.destroyLoader(ID_RATE_LOADER);
+
+        super.onDestroy();
+    }
+//
+//    @Override
+//    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+//        inflater.inflate(R.menu.exchange_rates_fragment_options, menu);
+//
+//        final SearchView searchView = (SearchView) menu.findItem(R.id.exchange_rates_options_search).getActionView();
+//        searchView.setOnQueryTextListener(new OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextChange(final String newText) {
+//                query = newText.trim();
+//                if (query.isEmpty())
+//                    query = null;
+//
+//                getLoaderManager().restartLoader(ID_RATE_LOADER, null, rateLoaderCallbacks);
+//
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextSubmit(final String query) {
+//                searchView.clearFocus();
+//
+//                return 
