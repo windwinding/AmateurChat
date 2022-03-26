@@ -223,4 +223,43 @@ public final class ExchangeRatesFragment extends ListFragment implements OnShare
         public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
             if (query == null) {
                 return new CursorLoader(context, contentUri, null, null, null, null);
-            } els
+            } else {
+                return new CursorLoader(context, contentUri, null, null, null, null);
+            }
+        }
+
+        @Override
+        public void onLoadFinished(final Loader<Cursor> loader, final Cursor data) {
+            final Cursor oldCursor = adapter.swapCursor(data);
+
+            if (data != null && oldCursor == null && defaultCurrency != null) {
+                final int defaultCurrencyPosition = findCurrencyCode(data, defaultCurrency);
+                if (defaultCurrencyPosition >= 0)
+                    getListView().setSelection(defaultCurrencyPosition); // scroll to selection
+            }
+
+            setEmptyText(getString(query != null ? R.string.exchange_rates_empty_search
+                    : R.string.exchange_rates_load_error));
+        }
+
+        @Override
+        public void onLoaderReset(final Loader<Cursor> loader) {
+        }
+
+        private int findCurrencyCode(final Cursor cursor, final String currencyCode) {
+            final int currencyCodeColumn = cursor.getColumnIndexOrThrow(ExchangeRatesProvider.KEY_CURRENCY_ID);
+
+            cursor.moveToPosition(-1);
+            while (cursor.moveToNext()) {
+                if (cursor.getString(currencyCodeColumn).equals(currencyCode))
+                    return cursor.getPosition();
+            }
+
+            return -1;
+        }
+    };
+
+    private final class ExchangeRatesAdapter extends ResourceCursorAdapter {
+        private Coin rateBase = Coin.COIN;
+
+        private ExchangeRatesAdapter(final Context context) {
