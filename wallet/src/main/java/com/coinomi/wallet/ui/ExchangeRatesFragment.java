@@ -294,4 +294,12 @@ public final class ExchangeRatesFragment extends ListFragment implements OnShare
 
             final Amount rateAmountUnitView = (Amount) view.findViewById(R.id.exchange_rate_row_rate_unit);
             rateAmountUnitView.setAmount(GenericUtils.formatCoinValue(type, rateBase, true));
-            rateAmountUnitV
+            rateAmountUnitView.setSymbol(type.getSymbol());
+
+            final Amount rateAmountView = (Amount) view.findViewById(R.id.exchange_rate_row_rate);
+            Value fiatAmount = exchangeRate.rate.convert(type, rateBase);
+            rateAmountView.setAmount(GenericUtils.formatFiatValue(fiatAmount));
+            rateAmountView.setSymbol(fiatAmount.type.getSymbol());
+        }
+    }
+}
