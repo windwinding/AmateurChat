@@ -263,3 +263,35 @@ public final class ExchangeRatesFragment extends ListFragment implements OnShare
         private Coin rateBase = Coin.COIN;
 
         private ExchangeRatesAdapter(final Context context) {
+            super(context, R.layout.exchange_rate_row, null, true);
+        }
+
+        public void setRateBase(final Coin rateBase) {
+            this.rateBase = rateBase;
+
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public void bindView(final View view, final Context context, final Cursor cursor) {
+            final ExchangeRate exchangeRate = ExchangeRatesProvider.getExchangeRate(cursor);
+            final boolean isDefaultCurrency = exchangeRate.currencyCodeId.equals(defaultCurrency);
+
+            view.setBackgroundResource(isDefaultCurrency ? R.color.bg_list_selected : R.color.bg_list);
+
+            final TextView currencyCodeView = (TextView) view.findViewById(R.id.exchange_rate_row_currency_code);
+            currencyCodeView.setText(exchangeRate.currencyCodeId);
+
+            final TextView currencyNameView = (TextView) view.findViewById(R.id.exchange_rate_row_currency_name);
+            String currencyName = WalletUtils.getCurrencyName(exchangeRate.currencyCodeId);
+            if (currencyName != null) {
+                currencyNameView.setText(currencyName);
+                currencyNameView.setVisibility(View.VISIBLE);
+            } else {
+                currencyNameView.setText(null);
+                currencyNameView.setVisibility(View.INVISIBLE);
+            }
+
+            final Amount rateAmountUnitView = (Amount) view.findViewById(R.id.exchange_rate_row_rate_unit);
+            rateAmountUnitView.setAmount(GenericUtils.formatCoinValue(type, rateBase, true));
+            rateAmountUnitV
