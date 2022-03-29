@@ -63,4 +63,30 @@ public class FeesSettingsFragment extends Fragment implements SharedPreferences.
     @OnItemClick(R.id.coins_list)
     void editFee(int currentSelection) {
         Value fee = (Value) coinList.getItemAtPosition(currentSelection);
-        // Create the fra
+        // Create the fragment and show it as a dialog.
+        DialogFragment editFeeDialog = EditFeeDialog.newInstance(fee.type);
+        editFeeDialog.show(getFragmentManager(), EDIT_FEE_DIALOG);
+    }
+
+    @Override
+    public void onAttach(final Context context) {
+        super.onAttach(context);
+        this.context = context;
+        WalletApplication application = (WalletApplication) context.getApplicationContext();
+        config = application.getConfiguration();
+        config.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        config.unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (Configuration.PREFS_KEY_FEES.equals(key)) {
+            adapter.update();
+        }
+    }
+}
