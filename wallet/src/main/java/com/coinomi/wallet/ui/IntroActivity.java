@@ -81,4 +81,41 @@ public class IntroActivity extends AbstractWalletFragmentActivity
                     .setNegativeButton(R.string.button_cancel, null)
                     .setPositiveButton(R.string.button_confirm, new DialogInterface.OnClickListener() {
                         @Override
-    
+                        public void onClick(DialogInterface dialog, int which) {
+                            replaceFragment(RestoreFragment.newInstance());
+                        }
+                    })
+                    .create().show();
+        }
+    }
+
+    @Override
+    public void onSeedCreated(String seed) {
+        replaceFragment(RestoreFragment.newInstance(seed));
+    }
+
+    @Override
+    public void onSeedVerified(Bundle args) {
+        replaceFragment(SetPasswordFragment.newInstance(args));
+    }
+
+    @Override
+    public void onPasswordConfirmed(Bundle args) {
+        selectCoins(args);
+    }
+
+    @Override
+    public void onPasswordSet(Bundle args) {
+        selectCoins(args);
+    }
+
+    private void selectCoins(Bundle args) {
+        String message = getResources().getString(R.string.select_coins);
+        replaceFragment(SelectCoinsFragment.newInstance(message, true, args));
+    }
+
+    @Override
+    public void onCoinSelection(Bundle args) {
+        replaceFragment(FinalizeWalletRestorationFragment.newInstance(args));
+    }
+}
