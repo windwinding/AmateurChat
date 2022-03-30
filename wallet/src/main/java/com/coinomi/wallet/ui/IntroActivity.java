@@ -44,4 +44,41 @@ public class IntroActivity extends AbstractWalletFragmentActivity
 
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.conta
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(null);
+
+        // Commit the transaction
+        transaction.commit();
+    }
+
+    @Override
+    public void onCreateNewWallet() {
+        if (getWalletApplication().getWallet() == null) {
+            replaceFragment(new SeedFragment());
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.override_wallet_warning_title)
+                    .setMessage(R.string.override_new_wallet_warning_message)
+                    .setNegativeButton(R.string.button_cancel, null)
+                    .setPositiveButton(R.string.button_confirm, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            replaceFragment(new SeedFragment());
+                        }
+                    })
+                    .create().show();
+        }
+    }
+
+    @Override
+    public void onRestoreWallet() {
+        if (getWalletApplication().getWallet() == null) {
+            replaceFragment(RestoreFragment.newInstance());
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.override_wallet_warning_title)
+                    .setMessage(R.string.override_restore_wallet_warning_message)
+                    .setNegativeButton(R.string.button_cancel, null)
+                    .setPositiveButton(R.string.button_confirm, new DialogInterface.OnClickListener() {
+                        @Override
+    
