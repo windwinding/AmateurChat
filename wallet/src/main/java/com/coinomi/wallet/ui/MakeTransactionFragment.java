@@ -88,4 +88,36 @@ public class MakeTransactionFragment extends Fragment {
     private static final int SAFE_TIMEOUT_MARGIN_SEC = 60;
 
     // Loader IDs
-    
+    private static final int ID_RATE_LOADER = 0;
+
+    private static final String TRANSACTION_BROADCAST = "transaction_broadcast";
+    private static final String ERROR = "error";
+    private static final String EXCHANGE_ENTRY = "exchange_entry";
+    private static final String DEPOSIT_ADDRESS = "deposit_address";
+    private static final String DEPOSIT_AMOUNT = "deposit_amount";
+    private static final String WITHDRAW_ADDRESS = "withdraw_address";
+    private static final String WITHDRAW_AMOUNT = "withdraw_amount";
+
+    private static final String PREPARE_TRANSACTION_BUSY_DIALOG_TAG = "prepare_transaction_busy_dialog_tag";
+    private static final String SIGNING_TRANSACTION_BUSY_DIALOG_TAG = "signing_transaction_busy_dialog_tag";
+
+    private Handler handler = new MyHandler(this);
+    @Nullable private String password;
+    private Listener listener;
+    private ContentResolver contentResolver;
+    private SignAndBroadcastTask signAndBroadcastTask;
+    private CreateTransactionTask createTransactionTask;
+    private WalletApplication application;
+    private Configuration config;
+
+    @Nullable AbstractAddress sendToAddress;
+    boolean sendingToAccount;
+    @Nullable private Value sendAmount;
+    boolean emptyWallet;
+    private CoinType sourceType;
+    private SendRequest request;
+    @Nullable private AbstractWallet sourceAccount;
+    @Nullable private ExchangeEntry exchangeEntry;
+    @Nullable private AbstractAddress tradeDepositAddress;
+    @Nullable private Value tradeDepositAmount;
+    @Nullable private AbstractAddress tradeWithdrawAddress;
