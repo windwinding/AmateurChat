@@ -157,3 +157,33 @@ public class MakeTransactionFragment extends Fragment {
                 request = (SendRequest) checkNotNull(args.getSerializable(ARG_SEND_REQUEST));
                 checkState(request.isCompleted(), "Only completed requests are currently supported.");
                 checkState(request.tx.getSentTo().size() == 1, "Only one output is currently supported");
+                sendToAddress = request.tx.getSentTo().get(0).getAddress();
+                sourceType = request.type;
+                return;
+            }
+
+            String fromAccountId = args.getString(ARG_ACCOUNT_ID);
+            sourceAccount = (AbstractWallet) checkNotNull(application.getAccount(fromAccountId));
+            application.maybeConnectAccount(sourceAccount);
+            sourceType = sourceAccount.getCoinType();
+            emptyWallet = args.getBoolean(ARG_EMPTY_WALLET, false);
+            sendAmount = (Value) args.getSerializable(ARG_SEND_VALUE);
+            if (emptyWallet && sendAmount != null) {
+                throw new IllegalArgumentException(
+                        "Cannot set 'empty wallet' and 'send amount' at the same time");
+            }
+            if (args.containsKey(ARG_SEND_TO_ACCOUNT_ID)) {
+                String toAccountId = args.getString(ARG_SEND_TO_ACCOUNT_ID);
+                AbstractWallet toAccount = (AbstractWallet) checkNotNull(application.getAccount(toAccountId));
+                sendToAddress = toAccount.getReceiveAddress(config.isManualAddressManagement());
+                sendingToAccount = true;
+            } else {
+                sendToAddress = (AbstractAddress) checkNotNull(args.getSerializable(ARG_SEND_TO_ADDRESS));
+                sendingToAccount = false;
+            }
+
+            txMessage = (TxMessage) args.getSerializable(ARG_TX_MESSAGE);
+
+            if (savedState != null) {
+                error = (Exception) savedState.getSerializable(ERROR);
+       
