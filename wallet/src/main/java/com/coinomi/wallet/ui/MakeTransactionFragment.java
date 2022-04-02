@@ -121,3 +121,39 @@ public class MakeTransactionFragment extends Fragment {
     @Nullable private AbstractAddress tradeDepositAddress;
     @Nullable private Value tradeDepositAmount;
     @Nullable private AbstractAddress tradeWithdrawAddress;
+    @Nullable private Value tradeWithdrawAmount;
+    @Nullable private TxMessage txMessage;
+    private boolean transactionBroadcast = false;
+    @Nullable private Exception error;
+    private HashMap<String, ExchangeRate> localRates = new HashMap<>();
+    private CountDownTimer countDownTimer;
+
+    @Bind(R.id.transaction_info) TextView transactionInfo;
+    @Bind(R.id.password) EditText passwordView;
+    @Bind(R.id.transaction_amount_visualizer) TransactionAmountVisualizer txVisualizer;
+    @Bind(R.id.transaction_trade_withdraw) SendOutput tradeWithdrawSendOutput;
+
+    public static MakeTransactionFragment newInstance(Bundle args) {
+        MakeTransactionFragment fragment = new MakeTransactionFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+    public MakeTransactionFragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedState) {
+        super.onCreate(savedState);
+        signAndBroadcastTask = null;
+
+        setRetainInstance(true); // To handle async tasks
+
+        Bundle args = getArguments();
+        checkNotNull(args, "Must provide arguments");
+
+        try {
+            if (args.containsKey(ARG_SEND_REQUEST)) {
+                request = (SendRequest) checkNotNull(args.getSerializable(ARG_SEND_REQUEST));
+                checkState(request.isCompleted(), "Only completed requests are currently supported.");
+                checkState(request.tx.getSentTo().size() == 1, "Only one output is currently supported");
