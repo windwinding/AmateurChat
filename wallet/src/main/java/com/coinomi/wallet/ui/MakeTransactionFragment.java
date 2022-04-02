@@ -186,4 +186,36 @@ public class MakeTransactionFragment extends Fragment {
 
             if (savedState != null) {
                 error = (Exception) savedState.getSerializable(ERROR);
-       
+                transactionBroadcast = savedState.getBoolean(TRANSACTION_BROADCAST);
+                exchangeEntry = (ExchangeEntry) savedState.getSerializable(EXCHANGE_ENTRY);
+                tradeDepositAddress = (AbstractAddress) savedState.getSerializable(DEPOSIT_ADDRESS);
+                tradeDepositAmount = (Value) savedState.getSerializable(DEPOSIT_AMOUNT);
+                tradeWithdrawAddress = (AbstractAddress) savedState.getSerializable(WITHDRAW_ADDRESS);
+                tradeWithdrawAmount = (Value) savedState.getSerializable(WITHDRAW_AMOUNT);
+            }
+
+            maybeStartCreateTransaction();
+        } catch (Exception e) {
+            error = e;
+            if (listener != null) {
+                listener.onSignResult(e, null);
+            }
+        }
+
+        String localSymbol = config.getExchangeCurrencyCode();
+        for (ExchangeRatesProvider.ExchangeRate rate : getRates(getActivity(), localSymbol).values()) {
+            localRates.put(rate.currencyCodeId, rate.rate);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_make_transaction, container, false);
+        ButterKnife.bind(this, view);
+
+        if (error != null) return view;
+
+        transactionInfo.setVisibility(View.GONE);
+
+        final TextView passwordLabelView = (TextView) view.findViewById(R.id.enter_password_labe
