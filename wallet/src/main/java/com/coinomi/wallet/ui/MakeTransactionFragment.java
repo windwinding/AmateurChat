@@ -218,4 +218,48 @@ public class MakeTransactionFragment extends Fragment {
 
         transactionInfo.setVisibility(View.GONE);
 
-        final TextView passwordLabelView = (TextView) view.findViewById(R.id.enter_password_labe
+        final TextView passwordLabelView = (TextView) view.findViewById(R.id.enter_password_label);
+        if (sourceAccount != null && sourceAccount.isEncrypted()) {
+            passwordView.requestFocus();
+            passwordView.setVisibility(View.VISIBLE);
+            passwordLabelView.setVisibility(View.VISIBLE);
+        } else {
+            passwordView.setVisibility(View.GONE);
+            passwordLabelView.setVisibility(View.GONE);
+        }
+
+        tradeWithdrawSendOutput.setVisibility(View.GONE);
+        showTransaction();
+
+        TextView poweredByShapeShift = (TextView) view.findViewById(R.id.powered_by_shapeshift);
+        poweredByShapeShift.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.about_shapeshift_title)
+                        .setMessage(R.string.about_shapeshift_message)
+                        .setPositiveButton(R.string.button_ok, null)
+                        .create().show();
+            }
+        });
+        poweredByShapeShift.setVisibility((isExchangeNeeded() ? View.VISIBLE : View.GONE));
+
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @OnClick(R.id.button_confirm)
+    void onConfirmClick() {
+        if (passwordView.isShown()) {
+            Keyboard.hideKeyboard(getActivity());
+            password = passwordView.getText().toString();
+        }
+        maybeStartSignAndBroadcast();
+    }
+
+    private void s
