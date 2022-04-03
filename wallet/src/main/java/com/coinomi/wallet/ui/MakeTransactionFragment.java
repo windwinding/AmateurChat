@@ -366,4 +366,51 @@ public class MakeTransactionFragment extends Fragment {
     }
 
     @Override
-    public void onDetac
+    public void onDetach() {
+        super.onDetach();
+        getLoaderManager().destroyLoader(ID_RATE_LOADER);
+        listener = null;
+        onStopTradeCountDown();
+    }
+
+
+    void onStartTradeCountDown(int secondsLeft) {
+        if (countDownTimer != null) return;
+
+        countDownTimer = new CountDownTimer(secondsLeft * 1000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                handler.sendMessage(handler.obtainMessage(
+                        UPDATE_TRADE_TIMEOUT, (int) (millisUntilFinished / 1000)));
+            }
+
+            public void onFinish() {
+                handler.sendEmptyMessage(TRADE_EXPIRED);
+            }
+        };
+
+        countDownTimer.start();
+    }
+
+    void onStopTradeCountDown() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            countDownTimer = null;
+            handler.removeMessages(START_TRADE_TIMEOUT);
+            handler.removeMessages(UPDATE_TRADE_TIMEOUT);
+            handler.removeMessages(TRADE_EXPIRED);
+        }
+    }
+
+    private void onTradeExpired() {
+        if (transactionBroadcast) { // Transaction already sent, so the trade is not expired
+            return;
+        }
+        if (transactionInfo.getVisibility() != View.VISIBLE) {
+            transactionInfo.setVisibility(View.VISIBLE);
+        }
+        String errorString = getString(R.string.trade_expired);
+        transactionInfo.setText(errorString);
+
+        if (listener != null) {
+            error = new Exception(errorString);
+            liste
