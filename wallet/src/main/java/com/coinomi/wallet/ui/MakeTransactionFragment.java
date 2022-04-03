@@ -291,4 +291,41 @@ public class MakeTransactionFragment extends Fragment {
             createTransactionTask = new CreateTransactionTask();
             createTransactionTask.execute();
         } else if (createTransactionTask != null && createTransactionTask.getStatus() == AsyncTask.Status.FINISHED) {
-            Dialogs.dismissAllowingStateLos
+            Dialogs.dismissAllowingStateLoss(getFragmentManager(), PREPARE_TRANSACTION_BUSY_DIALOG_TAG);
+        }
+    }
+
+    private SendRequest generateSendRequest(AbstractAddress sendTo, boolean emptyWallet,
+                                            @Nullable Value amount, @Nullable TxMessage txMessage)
+            throws WalletAccount.WalletAccountException {
+
+        SendRequest sendRequest;
+        if (emptyWallet) {
+            sendRequest = sourceAccount.getEmptyWalletRequest(sendTo);
+        } else {
+            sendRequest = sourceAccount.getSendToRequest(sendTo, checkNotNull(amount));
+        }
+        sendRequest.txMessage = txMessage;
+        sendRequest.signTransaction = false;
+        sourceAccount.completeTransaction(sendRequest);
+
+        return sendRequest;
+    }
+
+    private boolean isSendingFromSourceAccount() {
+        return isEmptyWallet() || (sendAmount != null && sourceType.equals(sendAmount.type));
+    }
+
+    private boolean isEmptyWallet() {
+        return emptyWallet && sendAmount == null;
+    }
+
+    private void maybeStartSignAndBroadcast() {
+        if (signAndBroadcastTask == null && !transactionBroadcast && request != null && error == null) {
+            signAndBroadcastTask = new SignAndBroadcastTask();
+            signAndBroadcastTask.execute();
+        } else if (transactionBroadcast) {
+            Dialogs.dismissAllowingStateLoss(getFragmentManager(), SIGNING_TRANSACTION_BUSY_DIALOG_TAG);
+            Toast.makeText(getActivity(), R.string.tx_already_broadcast, Toast.LENGTH_SHORT).show();
+            if (listener != null) {
+                li
