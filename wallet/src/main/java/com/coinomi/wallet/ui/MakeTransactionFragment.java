@@ -328,4 +328,42 @@ public class MakeTransactionFragment extends Fragment {
             Dialogs.dismissAllowingStateLoss(getFragmentManager(), SIGNING_TRANSACTION_BUSY_DIALOG_TAG);
             Toast.makeText(getActivity(), R.string.tx_already_broadcast, Toast.LENGTH_SHORT).show();
             if (listener != null) {
-                li
+                listener.onSignResult(error, exchangeEntry);
+            }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(TRANSACTION_BROADCAST, transactionBroadcast);
+        outState.putSerializable(ERROR, error);
+        if (isExchangeNeeded()) {
+            outState.putSerializable(EXCHANGE_ENTRY, exchangeEntry);
+            outState.putSerializable(DEPOSIT_ADDRESS, tradeDepositAddress);
+            outState.putSerializable(DEPOSIT_AMOUNT, tradeDepositAmount);
+            outState.putSerializable(WITHDRAW_ADDRESS, tradeWithdrawAddress);
+            outState.putSerializable(WITHDRAW_AMOUNT, tradeWithdrawAmount);
+        }
+    }
+
+    @Override
+    public void onAttach(final Context context) {
+        super.onAttach(context);
+        try {
+            listener = (Listener) context;
+            contentResolver = context.getContentResolver();
+            application = (WalletApplication) context.getApplicationContext();
+            config = application.getConfiguration();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement " + Listener.class);
+        }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getLoaderManager().initLoader(ID_RATE_LOADER, null, rateLoaderCallbacks);
+    }
+
+    @Override
+    public void onDetac
