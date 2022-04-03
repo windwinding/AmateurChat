@@ -262,4 +262,33 @@ public class MakeTransactionFragment extends Fragment {
         maybeStartSignAndBroadcast();
     }
 
-    private void s
+    private void showTransaction() {
+        if (request != null && txVisualizer != null) {
+            txVisualizer.setTransaction(sourceAccount, request.tx);
+            if (tradeWithdrawAmount != null && tradeWithdrawAddress != null) {
+                tradeWithdrawSendOutput.setVisibility(View.VISIBLE);
+                if (sendingToAccount) {
+                    tradeWithdrawSendOutput.setSending(false);
+                } else {
+                    tradeWithdrawSendOutput.setSending(true);
+                    tradeWithdrawSendOutput.setLabelAndAddress(tradeWithdrawAddress);
+                }
+                tradeWithdrawSendOutput.setAmount(GenericUtils.formatValue(tradeWithdrawAmount));
+                tradeWithdrawSendOutput.setSymbol(tradeWithdrawAmount.type.getSymbol());
+                txVisualizer.getOutputs().get(0).setSendLabel(getString(R.string.trade));
+                txVisualizer.hideAddresses(); // Hide exchange address
+            }
+            updateLocalRates();
+        }
+    }
+
+    boolean isExchangeNeeded() {
+        return !sourceType.equals(sendToAddress.getType());
+    }
+
+    private void maybeStartCreateTransaction() {
+        if (createTransactionTask == null && !transactionBroadcast && error == null) {
+            createTransactionTask = new CreateTransactionTask();
+            createTransactionTask.execute();
+        } else if (createTransactionTask != null && createTransactionTask.getStatus() == AsyncTask.Status.FINISHED) {
+            Dialogs.dismissAllowingStateLos
