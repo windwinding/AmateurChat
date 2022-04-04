@@ -413,4 +413,48 @@ public class MakeTransactionFragment extends Fragment {
 
         if (listener != null) {
             error = new Exception(errorString);
-            liste
+            listener.onSignResult(error, null);
+        }
+    }
+
+
+    private void onUpdateTradeCountDown(int secondsRemaining) {
+        if (transactionInfo.getVisibility() != View.VISIBLE) {
+            transactionInfo.setVisibility(View.VISIBLE);
+        }
+
+        int minutes = secondsRemaining / 60;
+        int seconds = secondsRemaining % 60;
+
+        Resources res = getResources();
+        String timeLeft;
+
+        if (minutes > 0) {
+            timeLeft = res.getQuantityString(R.plurals.tx_confirm_timer_minute,
+                    minutes, String.format("%d:%02d", minutes, seconds));
+        } else {
+            timeLeft = res.getQuantityString(R.plurals.tx_confirm_timer_second,
+                    seconds, seconds);
+        }
+
+        String message = getString(R.string.tx_confirm_timer_message, timeLeft);
+        transactionInfo.setText(message);
+    }
+
+    /**
+     * Makes a call to ShapeShift about the time left for the trade
+     *
+     * Note: do not call this from the main thread!
+     */
+    @Nullable
+    private static ShapeShiftTime getTimeLeftSync(ShapeShift shapeShift, AbstractAddress address) {
+        // Try 3 times
+        for (int tries = 1; tries <= 3; tries++) {
+            try {
+                log.info("Getting time left for: {}", address);
+                return shapeShift.getTime(address);
+            } catch (Exception e) {
+                log.info("Will retry: {}", e.getMessage());
+                    /* ignore and retry, with linear backoff */
+                try {
+      
