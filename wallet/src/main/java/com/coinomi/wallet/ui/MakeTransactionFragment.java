@@ -494,4 +494,47 @@ public class MakeTransactionFragment extends Fragment {
         @Override
         public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
             String localSymbol = config.getExchangeCurrencyCode();
-            return new ExchangeRateLoader(getActivity(), config, localSymbo
+            return new ExchangeRateLoader(getActivity(), config, localSymbol);
+        }
+
+        @Override
+        public void onLoadFinished(final Loader<Cursor> loader, final Cursor data) {
+            if (data != null && data.getCount() > 0) {
+                HashMap<String, ExchangeRate> rates = new HashMap<>(data.getCount());
+                data.moveToFirst();
+                do {
+                    ExchangeRatesProvider.ExchangeRate rate = ExchangeRatesProvider.getExchangeRate(data);
+                    rates.put(rate.currencyCodeId, rate.rate);
+                } while (data.moveToNext());
+
+                updateLocalRates(rates);
+            }
+        }
+
+        @Override
+        public void onLoaderReset(final Loader<Cursor> loader) {
+        }
+    };
+
+    /**
+     * The fragment handler
+     */
+    private static class MyHandler extends WeakHandler<MakeTransactionFragment> {
+        public MyHandler(MakeTransactionFragment referencingObject) { super(referencingObject); }
+
+        @Override
+        protected void weakHandleMessage(MakeTransactionFragment ref, Message msg) {
+            switch (msg.what) {
+                case START_TRADE_TIMEOUT:
+                    ref.onStartTradeCountDown((int) msg.obj);
+                    break;
+                case UPDATE_TRADE_TIMEOUT:
+                    ref.onUpdateTradeCountDown((int) msg.obj);
+                    break;
+                case TRADE_EXPIRED:
+                    ref.onTradeExpired();
+                    break;
+                case STOP_TRADE_TIMEOUT:
+                    ref.onStopTradeCountDown();
+                    break;
+ 
