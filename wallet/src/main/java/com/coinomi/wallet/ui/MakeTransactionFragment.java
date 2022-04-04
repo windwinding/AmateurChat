@@ -457,4 +457,41 @@ public class MakeTransactionFragment extends Fragment {
                 log.info("Will retry: {}", e.getMessage());
                     /* ignore and retry, with linear backoff */
                 try {
-      
+                    Thread.sleep(1000 * tries);
+                } catch (InterruptedException ie) { /*ignored*/ }
+            }
+        }
+        return null;
+    }
+
+    private void updateLocalRates() {
+        if (localRates != null) {
+            if (txVisualizer != null && localRates.containsKey(sourceType.getSymbol())) {
+                txVisualizer.setExchangeRate(localRates.get(sourceType.getSymbol()));
+            }
+
+            if (tradeWithdrawAmount != null && localRates.containsKey(tradeWithdrawAmount.type.getSymbol())) {
+                ExchangeRate rate = localRates.get(tradeWithdrawAmount.type.getSymbol());
+                Value fiatAmount = rate.convert(tradeWithdrawAmount);
+                tradeWithdrawSendOutput.setAmountLocal(GenericUtils.formatFiatValue(fiatAmount));
+                tradeWithdrawSendOutput.setSymbolLocal(fiatAmount.type.getSymbol());
+            }
+        }
+    }
+
+    private void updateLocalRates(HashMap<String, ExchangeRate> rates) {
+        localRates = rates;
+        updateLocalRates();
+    }
+
+
+    public interface Listener {
+        void onSignResult(@Nullable Exception error, @Nullable ExchangeEntry exchange);
+    }
+
+    private final LoaderManager.LoaderCallbacks<Cursor> rateLoaderCallbacks = new LoaderManager.LoaderCallbacks<Cursor>() {
+
+        @Override
+        public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
+            String localSymbol = config.getExchangeCurrencyCode();
+            return new ExchangeRateLoader(getActivity(), config, localSymbo
