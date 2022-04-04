@@ -537,4 +537,37 @@ public class MakeTransactionFragment extends Fragment {
                 case STOP_TRADE_TIMEOUT:
                     ref.onStopTradeCountDown();
                     break;
- 
+            }
+        }
+    }
+
+    private class CreateTransactionTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            // Show dialog as we need to make network connections
+            if (isExchangeNeeded()) {
+                Dialogs.ProgressDialogFragment.show(getFragmentManager(),
+                        getString(R.string.contacting_exchange),
+                        PREPARE_TRANSACTION_BUSY_DIALOG_TAG);
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                if (isExchangeNeeded()) {
+
+                    ShapeShift shapeShift = application.getShapeShift();
+                    AbstractAddress refundAddress =
+                            sourceAccount.getRefundAddress(config.isManualAddressManagement());
+
+                    // If emptying wallet or the amount is the same type as the source account
+                    if (isSendingFromSourceAccount()) {
+                        ShapeShiftMarketInfo marketInfo = shapeShift.getMarketInfo(
+                                sourceType, sendToAddress.getType());
+
+                        // If no values set, make the call
+                        if (tradeDepositAddress == null || tradeDepositAmount == null ||
+                                tradeWithdrawAddress == null || tradeWithdrawAmount == null) {
+                            ShapeShiftNormalTx normalTx =
+                   
