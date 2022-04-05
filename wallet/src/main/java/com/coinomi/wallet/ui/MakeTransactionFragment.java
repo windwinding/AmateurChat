@@ -570,4 +570,26 @@ public class MakeTransactionFragment extends Fragment {
                         if (tradeDepositAddress == null || tradeDepositAmount == null ||
                                 tradeWithdrawAddress == null || tradeWithdrawAmount == null) {
                             ShapeShiftNormalTx normalTx =
-                   
+                                    shapeShift.exchange(sendToAddress, refundAddress);
+                            // TODO, show a retry message
+                            if (normalTx.isError) throw new Exception(normalTx.errorMessage);
+                            tradeDepositAddress = normalTx.deposit;
+                            tradeDepositAmount = sendAmount;
+                            tradeWithdrawAddress = sendToAddress;
+                            // set tradeWithdrawAmount after we generate the send tx
+                        }
+
+                        request = generateSendRequest(tradeDepositAddress, isEmptyWallet(),
+                                tradeDepositAmount, txMessage);
+
+                        // The amountSending could be equal to sendAmount or the actual amount if
+                        // emptying the wallet
+                        Value amountSending = request.tx.getValue(sourceAccount).negate().subtract(request.tx.getFee());
+                        tradeWithdrawAmount = marketInfo.rate.convert(amountSending);
+                    } else {
+                        // If no values set, make the call
+                        if (tradeDepositAddress == null || tradeDepositAmount == null ||
+                                tradeWithdrawAddress == null || tradeWithdrawAmount == null) {
+                            ShapeShiftAmountTx fixedAmountTx =
+                                    shapeShift.exchangeForAmount(sendAmount, sendToAddress, refundAddress);
+    
