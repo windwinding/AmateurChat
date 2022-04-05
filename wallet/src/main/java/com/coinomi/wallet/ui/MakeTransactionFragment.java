@@ -592,4 +592,35 @@ public class MakeTransactionFragment extends Fragment {
                                 tradeWithdrawAddress == null || tradeWithdrawAmount == null) {
                             ShapeShiftAmountTx fixedAmountTx =
                                     shapeShift.exchangeForAmount(sendAmount, sendToAddress, refundAddress);
-    
+                            // TODO, show a retry message
+                            if (fixedAmountTx.isError) throw new Exception(fixedAmountTx.errorMessage);
+                            tradeDepositAddress = fixedAmountTx.deposit;
+                            tradeDepositAmount = fixedAmountTx.depositAmount;
+                            tradeWithdrawAddress = fixedAmountTx.withdrawal;
+                            tradeWithdrawAmount = fixedAmountTx.withdrawalAmount;
+                        }
+
+                        ShapeShiftTime time = getTimeLeftSync(shapeShift, tradeDepositAddress);
+                        if (time != null && !time.isError) {
+                            int secondsLeft = time.secondsRemaining - SAFE_TIMEOUT_MARGIN_SEC;
+                            handler.sendMessage(handler.obtainMessage(
+                                    START_TRADE_TIMEOUT, secondsLeft));
+                        } else {
+                            throw new Exception(time == null ? "Error getting trade expiration time" : time.errorMessage);
+                        }
+                        request = generateSendRequest(tradeDepositAddress, false,
+                                tradeDepositAmount, txMessage);
+                    }
+                } else {
+                    request = generateSendRequest(sendToAddress, isEmptyWallet(),
+                            sendAmount, txMessage);
+                }
+            } catch (Exception e) {
+                error = e;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+         
