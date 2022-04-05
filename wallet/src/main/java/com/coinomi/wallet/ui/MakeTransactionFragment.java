@@ -623,4 +623,39 @@ public class MakeTransactionFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-         
+            if (Dialogs.dismissAllowingStateLoss(getFragmentManager(), PREPARE_TRANSACTION_BUSY_DIALOG_TAG)) return;
+
+            if (error != null && listener != null) {
+                listener.onSignResult(error, null);
+            } else if (error == null) {
+                showTransaction();
+            } else {
+                log.warn("Error occurred while creating transaction", error);
+            }
+        }
+    }
+
+    private class SignAndBroadcastTask extends AsyncTask<Void, Void, Exception> {
+        @Override
+        protected void onPreExecute() {
+            Dialogs.ProgressDialogFragment.show(getFragmentManager(),
+                    getString(R.string.preparing_transaction),
+                    SIGNING_TRANSACTION_BUSY_DIALOG_TAG);
+        }
+
+        @Override
+        protected Exception doInBackground(Void... params) {
+            Wallet wallet = application.getWallet();
+            if (wallet == null) return new NoSuchPocketException("No wallet found.");
+            try {
+                if (sourceAccount != null) {
+                    if (wallet.isEncrypted()) {
+                        KeyCrypter crypter = checkNotNull(wallet.getKeyCrypter());
+                        request.aesKey = crypter.deriveKey(password);
+                    }
+                    request.signTransaction = true;
+                    sourceAccount.completeAndSignTx(request);
+                }
+
+                // Before broadcasting, check if there is an error, like the trade expiration
+                if (error != null)
