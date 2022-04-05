@@ -658,4 +658,35 @@ public class MakeTransactionFragment extends Fragment {
                 }
 
                 // Before broadcasting, check if there is an error, like the trade expiration
-                if (error != null)
+                if (error != null) throw error;
+
+                if (sourceAccount != null) {
+                    if (!sourceAccount.broadcastTxSync(request.tx)) {
+                        throw new Exception("Error broadcasting transaction: " + request.tx.getHashAsString());
+                    }
+                } else {
+                    // TODO handle better
+                    WalletAccount account =
+                            wallet.getAccounts(request.tx.getSentTo().get(0).getAddress()).get(0);
+                    if (!account.broadcastTxSync(request.tx)) {
+                        throw new Exception("Error broadcasting transaction: " + request.tx.getHashAsString());
+                    }
+                }
+
+                transactionBroadcast = true;
+                if (isExchangeNeeded() && tradeDepositAddress != null && tradeDepositAmount != null) {
+                    exchangeEntry = new ExchangeEntry(tradeDepositAddress,
+                            tradeDepositAmount, request.tx.getHashAsString());
+                    Uri uri = ExchangeHistoryProvider.contentUri(application.getPackageName(),
+                            tradeDepositAddress);
+                    contentResolver.insert(uri, exchangeEntry.getContentValues());
+                }
+                handler.sendEmptyMessage(STOP_TRADE_TIMEOUT);
+            }
+            catch (Exception e) { error = e; }
+
+            return error;
+        }
+
+        protected void onPostExecute(final Exception e) {
+            if (Dialogs.dismissAllowingStateLoss(getFragmentManager(), SIGNING_TRANSACTION_BUSY_DIALO
