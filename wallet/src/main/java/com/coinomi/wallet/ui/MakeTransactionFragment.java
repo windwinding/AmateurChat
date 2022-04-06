@@ -689,4 +689,30 @@ public class MakeTransactionFragment extends Fragment {
         }
 
         protected void onPostExecute(final Exception e) {
-            if (Dialogs.dismissAllowingStateLoss(getFragmentManager(), SIGNING_TRANSACTION_BUSY_DIALO
+            if (Dialogs.dismissAllowingStateLoss(getFragmentManager(), SIGNING_TRANSACTION_BUSY_DIALOG_TAG)) return;
+
+            if (e instanceof KeyCrypterException) {
+                DialogBuilder.warn(getActivity(), R.string.unlocking_wallet_error_title)
+                        .setMessage(R.string.unlocking_wallet_error_detail)
+                        .setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                listener.onSignResult(e, exchangeEntry);
+                            }
+                        })
+                        .setPositiveButton(R.string.button_retry, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                password = null;
+                                passwordView.setText(null);
+                                signAndBroadcastTask = null;
+                                error = null;
+                            }
+                        })
+                        .create().show();
+            } else if (listener != null) {
+                listener.onSignResult(e, exchangeEntry);
+            }
+        }
+    }
+}
