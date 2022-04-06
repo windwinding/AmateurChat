@@ -22,4 +22,56 @@ import static com.coinomi.wallet.ui.NavDrawerItemType.ITEM_SEPARATOR;
  */
 public class NavDrawerListAdapter extends BaseAdapter {
     private final Context context;
-    private f
+    private final LayoutInflater inflater;
+    private List<NavDrawerItem> items = new ArrayList<>();
+
+    public NavDrawerListAdapter(final Context context, List<NavDrawerItem> items) {
+        this.context = context;
+        this.inflater = LayoutInflater.from(context);
+        this.items = items;
+    }
+
+    public void setItems(List<NavDrawerItem> items) {
+        this.items = items;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return items.get(position).itemType.ordinal();
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return NavDrawerItemType.values().length;
+    }
+
+    @Override
+    public int getCount() {
+        return items.size();
+    }
+
+    @Override
+    public NavDrawerItem getItem(int position) {
+        return items.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View row, ViewGroup parent) {
+        NavDrawerItem item = getItem(position);
+
+        if (row == null) {
+            switch (item.itemType) {
+                case ITEM_SEPARATOR:
+                    row = inflater.inflate(R.layout.nav_drawer_separator, null);
+                    break;
+                case ITEM_SECTION_TITLE:
+                    row = inflater.inflate(R.layout.nav_drawer_section_title, null);
+                    break;
+                case ITEM_COIN:
+                case ITEM_OVERVIE
