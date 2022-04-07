@@ -74,4 +74,48 @@ public class NavDrawerListAdapter extends BaseAdapter {
                     row = inflater.inflate(R.layout.nav_drawer_section_title, null);
                     break;
                 case ITEM_COIN:
-                case ITEM_OVERVIE
+                case ITEM_OVERVIEW:
+                case ITEM_TRADE:
+                    row = new NavDrawerItemView(context);
+                    break;
+                default:
+                    throw new RuntimeException("Unknown type: " + item.itemType);
+            }
+        }
+
+        if (isSeparator(item.itemType)) {
+            setNotClickable(row);
+        }
+
+        switch (item.itemType) {
+            case ITEM_SECTION_TITLE:
+                if (row instanceof TextView) ((TextView)row).setText(item.title);
+                break;
+            case ITEM_COIN:
+            case ITEM_OVERVIEW:
+            case ITEM_TRADE:
+                ((NavDrawerItemView) row).setData(item.title, item.iconRes);
+                break;
+        }
+
+        return row;
+    }
+
+    private boolean isSeparator(NavDrawerItemType itemType) {
+        return itemType == ITEM_SEPARATOR || itemType == ITEM_SECTION_TITLE;
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        return !isSeparator(getItem(position).itemType);
+    }
+
+    private void setNotClickable(View view) {
+        view.setClickable(false);
+        view.setFocusable(false);
+        view.setContentDescription("");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            view.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        }
+    }
+}
