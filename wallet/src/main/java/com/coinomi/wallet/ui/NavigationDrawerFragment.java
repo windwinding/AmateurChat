@@ -190,3 +190,132 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void run() {
                 mDrawerToggle.syncState();
+            }
+        });
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        listAdapter = new NavDrawerListAdapter(getActivity(), navDrawerItems);
+        mDrawerListView.setAdapter(listAdapter);
+        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+    }
+
+    public void setItems(List<NavDrawerItem> items) {
+        if (listAdapter != null) {
+            listAdapter.setItems(items);
+        }
+    }
+
+    private void selectItem(int position) {
+        selectItem(position, true, true);
+    }
+
+    private void selectItem(int position, boolean closeDrawer, boolean enableCallbacks) {
+        setSelectedItem(position, closeDrawer);
+        if (enableCallbacks && listener != null && listAdapter != null) {
+            NavDrawerItem item = listAdapter.getItem(position);
+
+            switch (item.itemType) {
+                case ITEM_COIN:
+                    listener.onAccountSelected((String) item.itemData);
+                    break;
+                case ITEM_TRADE:
+                    listener.onTradeSelected();
+                    break;
+                case ITEM_OVERVIEW:
+                    listener.onOverviewSelected();
+                    break;
+            }
+        }
+    }
+
+    public void setSelectedItem(int position, boolean closeDrawer) {
+        mCurrentSelectedPosition = position;
+        if (mDrawerListView != null) {
+            mDrawerListView.setItemChecked(position, true);
+        }
+        if (closeDrawer) {
+            closeDrawer();
+        }
+    }
+
+    private void addCoins() {
+        closeDrawer();
+        if (listener != null) {
+            listener.onAddCoinsSelected();
+        }
+    }
+
+    @Override
+    public void onAttach(final Context context) {
+        super.onAttach(context);
+        try {
+            listener = (Listener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Forward the new configuration the drawer toggle component.
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // If the drawer is open, show the global app actions in the action bar. See also
+        // showGlobalContextActionBar, which controls the top-left area of the action bar.
+        if (mDrawerLayout != null && isDrawerOpen()) {
+            inflater.inflate(R.menu.global, menu);
+            showGlobalContextActionBar();
+        }
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Per the navigation drawer design guidelines, updates the action bar to show the global app
+     * 'context', rather than just what's in the current screen.
+     */
+    private void showGlobalContextActionBar() {
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle(R.string.app_name);
+    }
+
+    private ActionBar getActionBar() {
+        return ((AppCompatActivity) getActivity()).getSupportActionBar();
+    }
+
+    /**
+     * Callbacks interface that all activities using this fragment must implement.
+     */
+    public interface Listener {
+        void onAccountSelected(String accountId);
+        void onAddCoinsSelected();
+        void onTradeSelected();
+        void onOverviewSelected();
+    }
+}
