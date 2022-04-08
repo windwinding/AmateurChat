@@ -89,4 +89,44 @@ public class OverviewFragment extends Fragment{
     private WalletApplication application;
     private Configuration config;
 
-    private 
+    private AccountListAdapter adapter;
+    Map<String, ExchangeRate> exchangeRates;
+    private NavigationDrawerFragment mNavigationDrawerFragment;
+
+    @Bind(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
+    @Bind(R.id.account_rows) ListView accountRows;
+    @Bind(R.id.account_balance) Amount mainAmount;
+
+    private Listener listener;
+
+    public static OverviewFragment getInstance() {
+        return new OverviewFragment();
+    }
+
+    public OverviewFragment() {}
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
+
+        wallet = application.getWallet();
+        if (wallet == null) {
+            return;
+        }
+
+        mNavigationDrawerFragment = (NavigationDrawerFragment)
+                getFragmentManager().findFragmentById(R.id.navigation_drawer);
+        exchangeRates = ExchangeRatesProvider.getRates(
+                application.getApplicationContext(), config.getExchangeCurrencyCode());
+        if (adapter != null) adapter.setExchangeRates(exchangeRates);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_overview, container, false);
+        View header = inflater.inflate(R.layout.fragment_overview_header, null);
+        accountRows = ButterKnife.findById(view,
