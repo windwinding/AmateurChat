@@ -35,4 +35,58 @@ import com.coinomi.wallet.util.UiUtils;
 import com.coinomi.wallet.util.WeakHandler;
 import com.google.common.collect.ImmutableMap;
 
-import org.bitcoinj.util
+import org.bitcoinj.utils.Threading;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnItemClick;
+import butterknife.OnItemLongClick;
+
+/**
+ * @author vbcs
+ * @author John L. Jegutanis
+ */
+public class OverviewFragment extends Fragment{
+    private static final Logger log = LoggerFactory.getLogger(OverviewFragment.class);
+
+    private static final int WALLET_CHANGED = 0;
+    private static final int UPDATE_VIEW = 1;
+    private static final int SET_EXCHANGE_RATES = 2;
+
+    private static final int ID_RATE_LOADER = 0;
+
+    private final Handler handler = new MyHandler(this);
+
+    private static class MyHandler extends WeakHandler<OverviewFragment> {
+        public MyHandler(OverviewFragment ref) { super(ref); }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        protected void weakHandleMessage(OverviewFragment ref, Message msg) {
+            switch (msg.what) {
+                case WALLET_CHANGED:
+                    ref.updateWallet();
+                    break;
+                case SET_EXCHANGE_RATES:
+                    ref.setExchangeRates((Map<String, ExchangeRate>) msg.obj);
+                    break;
+                case UPDATE_VIEW:
+                    ref.updateView();
+                    break;
+            }
+        }
+    }
+
+    private Wallet wallet;
+    private Value currentBalance;
+
+    private boolean isFullAmount = false;
+    private WalletApplication application;
+    private Configuration config;
+
+    private 
