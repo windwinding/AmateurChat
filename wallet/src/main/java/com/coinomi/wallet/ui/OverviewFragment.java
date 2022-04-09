@@ -129,4 +129,47 @@ public class OverviewFragment extends Fragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
         View header = inflater.inflate(R.layout.fragment_overview_header, null);
-        accountRows = ButterKnife.findById(view,
+        accountRows = ButterKnife.findById(view, R.id.account_rows);
+        accountRows.addHeaderView(header, null, false);
+        ButterKnife.bind(this, view);
+
+        if (wallet == null) {
+            return view;
+        }
+
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (listener != null) {
+                    listener.onRefresh();
+                }
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(
+                R.color.progress_bar_color_1,
+                R.color.progress_bar_color_2,
+                R.color.progress_bar_color_3,
+                R.color.progress_bar_color_4);
+
+        // Set a space in the end of the list
+        View listFooter = new View(getActivity());
+        listFooter.setMinimumHeight(getResources().getDimensionPixelSize(R.dimen.activity_vertical_margin));
+        accountRows.addFooterView(listFooter);
+
+        // Init list adapter
+        adapter = new AccountListAdapter(inflater.getContext(), wallet);
+        accountRows.setAdapter(adapter);
+        adapter.setExchangeRates(exchangeRates);
+
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    private final ThrottlingWalletChangeListener walletChangeListener = new 
