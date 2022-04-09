@@ -172,4 +172,50 @@ public class OverviewFragment extends Fragment{
         ButterKnife.unbind(this);
     }
 
-    private final ThrottlingWalletChangeListener walletChangeListener = new 
+    private final ThrottlingWalletChangeListener walletChangeListener = new ThrottlingWalletChangeListener() {
+
+        @Override
+        public void onThrottledWalletChanged() {
+            handler.sendMessage(handler.obtainMessage(WALLET_CHANGED));
+        }
+    };
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (mNavigationDrawerFragment != null && !mNavigationDrawerFragment.isDrawerOpen()) {
+            inflater.inflate(R.menu.overview, menu);
+        }
+    }
+
+    @Override
+    public void onAttach(final Context context) {
+        super.onAttach(context);
+        try {
+            listener = (Listener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement " + Listener.class);
+        }
+        application = (WalletApplication) context.getApplicationContext();
+        config = application.getConfiguration();
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getLoaderManager().initLoader(ID_RATE_LOADER, null, rateLoaderCallbacks);
+    }
+
+    @Override
+    public void onDetach() {
+        getLoaderManager().destroyLoader(ID_RATE_LOADER);
+        listener = null;
+        super.onDetach();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // TODO add an event listener to the Wallet class
+        for (WalletAccount account : wallet.getAllAccounts()) {
+            account.addEventListener(walletChangeListener, Thre
