@@ -338,4 +338,25 @@ public class OverviewFragment extends Fragment{
         exchangeRates = newExchangeRates;
         adapter.setExchangeRates(newExchangeRates);
         calculateNewBalance();
-       
+        updateView();
+    }
+
+    public void updateView() {
+        if (currentBalance != null) {
+            String newBalanceStr = GenericUtils.formatFiatValue(currentBalance);
+            mainAmount.setAmount(newBalanceStr);
+            mainAmount.setSymbol(currentBalance.type.getSymbol());
+        } else {
+            mainAmount.setAmount("-.--");
+            mainAmount.setSymbol("");
+        }
+
+        swipeContainer.setRefreshing(wallet.isLoading());
+    }
+
+    public interface Listener extends EditAccountFragment.Listener {
+        void onLocalAmountClick();
+        void onAccountSelected(String accountId);
+        void onRefresh();
+    }
+}
