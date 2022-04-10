@@ -260,4 +260,39 @@ public class OverviewFragment extends Fragment{
     public boolean onAmountLongClick(int position) {
         if (position >= accountRows.getHeaderViewsCount()) {
             // Note the usage of getItemAtPosition() instead of adapter's getItem() because
-            // the latter does not take 
+            // the latter does not take into account the header (which has position 0).
+            Object obj = accountRows.getItemAtPosition(position);
+            Activity activity = getActivity();
+
+            if (obj != null && obj instanceof WalletAccount && activity != null) {
+                ActionMode actionMode = UiUtils.startAccountActionMode(
+                        (WalletAccount) obj, activity, getFragmentManager());
+                // Hack to dismiss this action mode when back is pressed
+                if (activity instanceof WalletActivity) {
+                    ((WalletActivity) activity).registerActionMode(actionMode);
+                }
+
+                return true;
+            } else {
+                showGenericError();
+            }
+        }
+        return false;
+    }
+
+    private void showGenericError() {
+        Toast.makeText(getActivity(), getString(R.string.error_generic), Toast.LENGTH_LONG).show();
+    }
+
+    private final LoaderManager.LoaderCallbacks<Cursor> rateLoaderCallbacks = new LoaderManager.LoaderCallbacks<Cursor>() {
+        @Override
+        public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
+            String localSymbol = config.getExchangeCurrencyCode();
+            return new ExchangeRateLoader(getActivity(), config, localSymbol);
+        }
+
+        @Override
+        public void onLoadFinished(final Loader<Cursor> loader, final Cursor data) {
+            if (data != null && data.getCount() > 0) {
+                ImmutableMap.Builder<String, ExchangeRate> builder = ImmutableMap.builder();
+                d
