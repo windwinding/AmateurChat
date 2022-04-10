@@ -295,4 +295,47 @@ public class OverviewFragment extends Fragment{
         public void onLoadFinished(final Loader<Cursor> loader, final Cursor data) {
             if (data != null && data.getCount() > 0) {
                 ImmutableMap.Builder<String, ExchangeRate> builder = ImmutableMap.builder();
-                d
+                data.moveToFirst();
+                do {
+                    ExchangeRate rate = ExchangeRatesProvider.getExchangeRate(data);
+                    builder.put(rate.currencyCodeId, rate);
+                } while (data.moveToNext());
+
+                handler.sendMessage(handler.obtainMessage(SET_EXCHANGE_RATES, builder.build()));
+            }
+        }
+
+        @Override
+        public void onLoaderReset(final Loader<Cursor> loader) { }
+    };
+
+    public void updateWallet() {
+        if (wallet != null) {
+            adapter.replace(wallet);
+            calculateNewBalance();
+            updateView();
+        }
+    }
+
+    private void calculateNewBalance() {
+        currentBalance = null;
+        for (WalletAccount w : wallet.getAllAccounts()) {
+            ExchangeRate rate = exchangeRates.get(w.getCoinType().getSymbol());
+            if (rate == null) {
+                log.info("Missing exchange rate for {}, skipping...", w.getCoinType().getName());
+                continue;
+            }
+            if (currentBalance != null) {
+                currentBalance = currentBalance.add(rate.rate.convert(w.getBalance()));
+            }
+            else {
+                currentBalance = rate.rate.convert(w.getBalance());
+            }
+        }
+    }
+
+    public void setExchangeRates(Map<String, ExchangeRate> newExchangeRates) {
+        exchangeRates = newExchangeRates;
+        adapter.setExchangeRates(newExchangeRates);
+        calculateNewBalance();
+       
