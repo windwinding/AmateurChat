@@ -218,4 +218,46 @@ public class OverviewFragment extends Fragment{
 
         // TODO add an event listener to the Wallet class
         for (WalletAccount account : wallet.getAllAccounts()) {
-            account.addEventListener(walletChangeListener, Thre
+            account.addEventListener(walletChangeListener, Threading.SAME_THREAD);
+        }
+
+        updateWallet();
+        updateView();
+    }
+
+    @Override
+    public void onPause() {
+        // TODO add an event listener to the Wallet class
+        for (WalletAccount account : wallet.getAllAccounts()) {
+            account.removeEventListener(walletChangeListener);
+        }
+        walletChangeListener.removeCallbacks();
+
+        super.onPause();
+    }
+
+    @OnClick(R.id.account_balance)
+    public void onMainAmountClick(View v) {
+        if (listener != null) listener.onLocalAmountClick();
+    }
+
+    @OnItemClick(R.id.account_rows)
+    public void onAmountClick(int position) {
+        if (position >= accountRows.getHeaderViewsCount()) {
+            // Note the usage of getItemAtPosition() instead of adapter's getItem() because
+            // the latter does not take into account the header (which has position 0).
+            Object obj = accountRows.getItemAtPosition(position);
+
+            if (listener != null && obj != null && obj instanceof WalletAccount) {
+                listener.onAccountSelected(((WalletAccount) obj).getId());
+            } else {
+                showGenericError();
+            }
+        }
+    }
+
+    @OnItemLongClick(R.id.account_rows)
+    public boolean onAmountLongClick(int position) {
+        if (position >= accountRows.getHeaderViewsCount()) {
+            // Note the usage of getItemAtPosition() instead of adapter's getItem() because
+            // the latter does not take 
