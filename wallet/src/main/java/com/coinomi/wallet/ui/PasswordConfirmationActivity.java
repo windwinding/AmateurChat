@@ -28,3 +28,14 @@ public class PasswordConfirmationActivity extends AbstractWalletFragmentActivity
     public void onPasswordConfirmed(Bundle args) {
         final Intent result = new Intent();
         result.putExtras(args);
+        setResult(RESULT_OK, result);
+
+        // delayed finish
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        });
+    }
+}
