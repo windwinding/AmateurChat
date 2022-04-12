@@ -138,3 +138,57 @@ public class PreviousAddressesFragment extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        resolver.registerContentObserver(AddressBookProvider.contentUri(
+                getActivity().getPackageName(), type), true, addressBookObserver);
+        updateView();
+    }
+
+    @Override
+    public void onPause() {
+        resolver.unregisterContentObserver(addressBookObserver);
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        pocket.removeEventListener(walletListener);
+        walletListener.removeCallbacks();
+        super.onDestroyView();
+    }
+
+    private void updateView() {
+        adapter.replace(pocket.getIssuedReceiveAddresses(), pocket.getUsedAddresses());
+    }
+
+    private final ThrottlingWalletChangeListener walletListener = new ThrottlingWalletChangeListener() {
+        @Override
+        public void onThrottledWalletChanged() {
+            handler.sendMessage(handler.obtainMessage(UPDATE_VIEW));
+        }
+    };
+
+    @Override
+    public void onAttach(final Context context) {
+        super.onAttach(context);
+        try {
+            listener = (Listener) context;
+            resolver = context.getContentResolver();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement " + Listener.class);
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+
+    public interface Listener {
+        void onAddressSelected(Bundle args);
+    }
+}
