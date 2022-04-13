@@ -157,4 +157,7 @@ public class ScannerView extends View
             }
 
             // schedule redraw
-            postInvalidateDelayed(LASER_
+            postInvalidateDelayed(LASER_ANIMATION_DELAY_MS);
+        }
+    }
+}
