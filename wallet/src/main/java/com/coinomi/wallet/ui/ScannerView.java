@@ -64,4 +64,59 @@ public class ScannerView extends View
         maskColor = res.getColor(R.color.scan_mask);
         resultColor = res.getColor(R.color.scan_result_view);
         final int laserColor = res.getColor(R.color.scan_laser);
-        final int dotColor = res.g
+        final int dotColor = res.getColor(R.color.scan_dot);
+
+        maskPaint = new Paint();
+        maskPaint.setStyle(Style.FILL);
+
+        laserPaint = new Paint();
+        laserPaint.setColor(laserColor);
+        laserPaint.setStrokeWidth(DOT_SIZE);
+        laserPaint.setStyle(Style.STROKE);
+
+        dotPaint = new Paint();
+        dotPaint.setColor(dotColor);
+        dotPaint.setAlpha(DOT_OPACITY);
+        dotPaint.setStyle(Style.STROKE);
+        dotPaint.setStrokeWidth(DOT_SIZE);
+        dotPaint.setAntiAlias(true);
+    }
+
+    public void setFraming(@Nonnull final Rect frame, @Nonnull final Rect framePreview)
+    {
+        this.frame = frame;
+        this.framePreview = framePreview;
+
+        invalidate();
+    }
+
+    public void drawResultBitmap(@Nonnull final Bitmap bitmap)
+    {
+        resultBitmap = bitmap;
+
+        invalidate();
+    }
+
+    public void addDot(@Nonnull final ResultPoint dot)
+    {
+        dots.put(dot, System.currentTimeMillis());
+
+        invalidate();
+    }
+
+    @Override
+    public void onDraw(final Canvas canvas)
+    {
+        if (frame == null)
+            return;
+
+        final long now = System.currentTimeMillis();
+
+        final int width = canvas.getWidth();
+        final int height = canvas.getHeight();
+
+        // draw mask darkened
+        maskPaint.setColor(resultBitmap != null ? resultColor : maskColor);
+        canvas.drawRect(0, 0, width, frame.top, maskPaint);
+        canvas.drawRect(0, frame.top, frame.left, frame.bottom + 1, maskPaint);
+        canvas.drawRect(frame.right + 1, frame.top, width, frame.bot
