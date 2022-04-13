@@ -119,4 +119,42 @@ public class ScannerView extends View
         maskPaint.setColor(resultBitmap != null ? resultColor : maskColor);
         canvas.drawRect(0, 0, width, frame.top, maskPaint);
         canvas.drawRect(0, frame.top, frame.left, frame.bottom + 1, maskPaint);
-        canvas.drawRect(frame.right + 1, frame.top, width, frame.bot
+        canvas.drawRect(frame.right + 1, frame.top, width, frame.bottom + 1, maskPaint);
+        canvas.drawRect(0, frame.bottom + 1, width, height, maskPaint);
+
+        if (resultBitmap != null)
+        {
+            canvas.drawBitmap(resultBitmap, null, frame, maskPaint);
+        }
+        else
+        {
+            // draw red "laser scanner" to show decoding is active
+            final boolean laserPhase = (now / 600) % 2 == 0;
+            laserPaint.setAlpha(laserPhase ? 160 : 255);
+            canvas.drawRect(frame, laserPaint);
+
+            // draw points
+            final int frameLeft = frame.left;
+            final int frameTop = frame.top;
+            final float scaleX = frame.width() / (float) framePreview.width();
+            final float scaleY = frame.height() / (float) framePreview.height();
+
+            for (final Iterator<Map.Entry<ResultPoint, Long>> i = dots.entrySet().iterator(); i.hasNext();)
+            {
+                final Map.Entry<ResultPoint, Long> entry = i.next();
+                final long age = now - entry.getValue();
+                if (age < DOT_TTL_MS)
+                {
+                    dotPaint.setAlpha((int) ((DOT_TTL_MS - age) * 256 / DOT_TTL_MS));
+
+                    final ResultPoint point = entry.getKey();
+                    canvas.drawPoint(frameLeft + (int) (point.getX() * scaleX), frameTop + (int) (point.getY() * scaleY), dotPaint);
+                }
+                else
+                {
+                    i.remove();
+                }
+            }
+
+            // schedule redraw
+            postInvalidateDelayed(LASER_
