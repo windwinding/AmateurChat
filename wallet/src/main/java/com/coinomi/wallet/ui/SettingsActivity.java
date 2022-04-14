@@ -15,4 +15,11 @@ public class SettingsActivity extends BaseWalletActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-  
+                    .add(R.id.container, new SettingsFragment())
+                    .commit();
+        }
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+    }
+}
