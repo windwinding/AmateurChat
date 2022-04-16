@@ -67,4 +67,28 @@ public class TradeActivity extends BaseWalletActivity implements
         if (error != null) {
             getSupportFragmentManager().popBackStack();
             // Ignore wallet decryption errors
-           
+            if (!(error instanceof KeyCrypterException)) {
+                DialogBuilder builder = DialogBuilder.warn(this, R.string.trade_error);
+                builder.setMessage(getString(R.string.trade_error_sign_tx_message, error.getMessage()));
+                builder.setPositiveButton(R.string.button_ok, null)
+                        .create().show();
+            }
+        } else if (exchangeEntry != null) {
+            getSupportFragmentManager().popBackStack();
+            replaceFragment(TradeStatusFragment.newInstance(exchangeEntry, true), containerRes);
+        }
+    }
+
+    @Override
+    public void onFinish() {
+        finish();
+    }
+
+    @Override
+    public void addCoin(CoinType type, String description, CharSequence password) {
+        Fragment f = getFM().findFragmentByTag(TRADE_SELECT_FRAGMENT_TAG);
+        if (f != null && f.isVisible() && f instanceof TradeSelectFragment) {
+            ((TradeSelectFragment) f).maybeStartAddCoinAndProceedTask(description, password);
+        }
+    }
+}
