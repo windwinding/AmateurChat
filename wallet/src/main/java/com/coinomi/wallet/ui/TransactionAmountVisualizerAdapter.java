@@ -54,4 +54,52 @@ public class TransactionAmountVisualizerAdapter extends BaseAdapter {
 
         for (AbstractOutput output : tx.getSentTo()) {
             if (isSending) {
-                // When sending hide change outp
+                // When sending hide change outputs
+                if (pocket.isAddressMine(output.getAddress())) continue;
+                isInternalTransfer = false;
+            } else {
+                if (pocket.getCoinType() instanceof NxtFamily) {
+                    // TODO review the following
+                    outputs.add(new AbstractOutput(tx.getReceivedFrom().get(0), tx.getValue(pocket)));
+                    break;
+                }
+                // When receiving hide outputs that are not ours
+                if (!pocket.isAddressMine(output.getAddress())) continue;
+            }
+            outputs.add(output);
+        }
+
+        feeAmount = tx.getFee();
+        hasFee = feeAmount != null && !feeAmount.isZero();
+
+        itemCount = isInternalTransfer ? 1 : outputs.size();
+        itemCount += hasFee ? 1 : 0;
+
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getCount() {
+        return itemCount;
+    }
+
+    @Override
+    public AbstractOutput getItem(int position) {
+        if (position < outputs.size()) {
+            return outputs.get(position);
+        }
+        return null;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View row, ViewGroup parent) {
+        if (row == null) {
+            row = inflater.inflate(R.layout.transaction_details_output_row, null);
+
+            ((SendOutput) row).setSendLabel(context.getString(R.string.sent));
+            ((SendOutput) row).setReceiveLabel(context.get
