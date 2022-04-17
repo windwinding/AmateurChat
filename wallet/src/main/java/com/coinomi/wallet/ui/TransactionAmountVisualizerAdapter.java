@@ -102,4 +102,35 @@ public class TransactionAmountVisualizerAdapter extends BaseAdapter {
             row = inflater.inflate(R.layout.transaction_details_output_row, null);
 
             ((SendOutput) row).setSendLabel(context.getString(R.string.sent));
-            ((SendOutput) row).setReceiveLabel(context.get
+            ((SendOutput) row).setReceiveLabel(context.getString(R.string.received));
+        }
+
+        final SendOutput output = (SendOutput) row;
+        final AbstractOutput txo = getItem(position);
+
+        if (txo == null) {
+            if (position == 0) {
+                output.setLabel(context.getString(R.string.internal_transfer));
+                output.setSending(isSending);
+                output.setAmount(null);
+                output.setSymbol(null);
+            } else if (hasFee) {
+                output.setAmount(GenericUtils.formatCoinValue(type, feeAmount));
+                output.setSymbol(symbol);
+                output.setIsFee(true);
+            } else { // Should not happen
+                output.setLabel("???");
+                output.setAmount(null);
+                output.setSymbol(null);
+            }
+        } else {
+            Value outputAmount = txo.getValue();
+            output.setAmount(GenericUtils.formatCoinValue(type, outputAmount));
+            output.setSymbol(symbol);
+            output.setLabelAndAddress(txo.getAddress());
+            output.setSending(isSending);
+        }
+
+        return row;
+    }
+}
