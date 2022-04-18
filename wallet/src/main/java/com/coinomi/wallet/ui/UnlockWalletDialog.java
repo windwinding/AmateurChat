@@ -63,4 +63,14 @@ public class UnlockWalletDialog extends DialogFragment {
         }
     };
 
-    DialogInterface.OnClickListener dism
+    DialogInterface.OnClickListener dismissListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            dismissAllowingStateLoss();
+        }
+    };
+
+    public interface Listener {
+        void onPassword(CharSequence password);
+    }
+}
