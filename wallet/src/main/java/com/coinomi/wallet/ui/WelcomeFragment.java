@@ -53,4 +53,35 @@ public class WelcomeFragment extends Fragment {
     private View.OnClickListener getOnRestoreListener() {
         return new View.OnClickListener() {
             @Override
-            public voi
+            public void onClick(View v) {
+                log.info("Clicked restore wallet");
+                if (listener != null) {
+                    listener.onRestoreWallet();
+                }
+            }
+        };
+    }
+
+    @Override
+    public void onAttach(final Context context) {
+        super.onAttach(context);
+        try {
+            listener = (Listener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement " + Listener.class);
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+
+    public interface Listener {
+        void onCreateNewWallet();
+        void onRestoreWallet();
+        void onSeedCreated(String seed);
+        void onSeedVerified(Bundle args);
+    }
+}
