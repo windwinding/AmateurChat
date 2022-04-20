@@ -46,3 +46,23 @@ public class TermsOfUseDialog extends DialogFragment {
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
                                 listener.onTermsDisagree();
+                                break;
+                        }
+                    }
+                    dismissAllowingStateLoss();
+                }
+            };
+            builder.setNegativeButton(R.string.button_disagree, onClickListener);
+            builder.setPositiveButton(R.string.button_agree, onClickListener);
+        } else {
+            builder.setPositiveButton(R.string.button_ok, null);
+        }
+
+        return builder.create();
+    }
+
+    public interface Listener {
+        void onTermsAgree();
+        void onTermsDisagree();
+    }
+}
