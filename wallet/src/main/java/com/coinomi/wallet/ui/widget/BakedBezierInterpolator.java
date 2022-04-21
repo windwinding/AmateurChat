@@ -59,4 +59,27 @@ final class BakedBezierInterpolator implements Interpolator {
             0.9944f, 0.9955f, 0.9964f, 0.9973f, 0.9981f, 0.9986f, 0.9992f, 0.9995f, 0.9998f, 1.0f, 1.0f
     };
 
-    private static final float STEP_SIZE = 1.0f / (VALUES.length - 1)
+    private static final float STEP_SIZE = 1.0f / (VALUES.length - 1);
+
+    @Override
+    public float getInterpolation(float input) {
+        if (input >= 1.0f) {
+            return 1.0f;
+        }
+
+        if (input <= 0f) {
+            return 0f;
+        }
+
+        int position = Math.min(
+                (int)(input * (VALUES.length - 1)),
+                VALUES.length - 2);
+
+        float quantized = position * STEP_SIZE;
+        float difference = input - quantized;
+        float weight = difference / STEP_SIZE;
+
+        return VALUES[position] + weight * (VALUES[position + 1] - VALUES[position]);
+    }
+
+}
