@@ -76,4 +76,23 @@ public class CoinListItem extends LinearLayout implements Checkable {
     }
 
     @Override
-    public void setChecked(bo
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+
+        if (isChecked) {
+            view.setBackgroundResource(R.color.primary_100);
+        } else {
+            view.setBackgroundResource(0);
+        }
+    }
+
+    @Override
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    @Override
+    public void toggle() {
+        setChecked(!isChecked);
+    }
+}
