@@ -76,4 +76,44 @@ public class FontFitTextView extends TextView {
 
     @Override
     protected void onTextChanged(final CharSequence text, final int start, final int before, final int after) {
-        
+        super.setTextSize(TypedValue.COMPLEX_UNIT_PX, maxTextSize);
+    }
+
+    @Override
+    public void setTextSize(float size) {
+        log.error("Use setMaxTextSize instead");
+    }
+
+    @Override
+    public void setTextSize(int unit, float size) {
+        log.error("Use setMaxTextSize instead");
+    }
+
+    @Override
+    /** {@inheritDoc} */
+    public void setText(CharSequence text, BufferType type) {
+        final String DOUBLE_BYTE_WORDJOINER = "\u2060";
+        String fixString = "";
+        /* bug workaround https://code.google.com/p/android/issues/detail?id=17343#c9 */
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR1
+                && android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+            fixString = DOUBLE_BYTE_WORDJOINER;
+        }
+        super.setText(text + fixString, type);
+    }
+
+    /**
+     * Set the max size (in pixels) of the default text size in this TextView.
+     */
+    public void setMaxTextSize(float maxTextSize) {
+        this.maxTextSize = maxTextSize;
+        super.setTextSize(TypedValue.COMPLEX_UNIT_PX, maxTextSize);
+    }
+
+    /**
+     * Get the max size (in pixels) of the default text size in this TextView.
+     */
+    public float getMaxTextSize() {
+        return maxTextSize;
+    }
+}
