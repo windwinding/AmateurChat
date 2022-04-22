@@ -96,3 +96,114 @@ public class SendOutput extends LinearLayout {
         this.address = address;
         updateView();
     }
+
+    private void updateView() {
+        if (label != null) {
+            addressLabelView.setText(label);
+            addressLabelView.setTypeface(Typeface.DEFAULT);
+            addressLabelView.setVisibility(View.VISIBLE);
+            if (address != null) {
+                addressView.setText(GenericUtils.addressSplitToGroups(address));
+                addressView.setVisibility(View.VISIBLE);
+            } else {
+                addressView.setVisibility(View.GONE);
+            }
+        } else if (address != null) {
+            addressLabelView.setText(GenericUtils.addressSplitToGroups(address));
+            addressLabelView.setTypeface(Typeface.MONOSPACE);
+            addressLabelView.setVisibility(View.VISIBLE);
+            addressView.setVisibility(View.GONE);
+        } else {
+            addressLabelView.setVisibility(View.GONE);
+            addressView.setVisibility(View.GONE);
+        }
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+        updateView();
+    }
+
+    public void setIsFee(boolean isFee) {
+        if (isFee) {
+            setTypeLabel(getFeeLabel());
+            addressLabelView.setVisibility(GONE);
+            addressView.setVisibility(GONE);
+        } else {
+            updateDirectionLabels();
+        }
+    }
+
+    private void updateDirectionLabels() {
+        if (isSending) {
+            setTypeLabel(getSendLabel());
+        } else {
+            setTypeLabel(getReceiveLabel());
+        }
+    }
+
+    private void setTypeLabel(String typeLabel) {
+        if (typeLabel.isEmpty()) {
+            sendTypeText.setVisibility(GONE);
+        } else {
+            sendTypeText.setVisibility(VISIBLE);
+            sendTypeText.setText(typeLabel);
+        }
+    }
+
+    private String getSendLabel() {
+        if (sendLabel == null) {
+            return getResources().getString(R.string.send);
+        } else {
+            return sendLabel;
+        }
+    }
+
+    private String getReceiveLabel() {
+        if (receiveLabel == null) {
+            return getResources().getString(R.string.receive);
+        } else {
+            return receiveLabel;
+        }
+    }
+
+    private String getFeeLabel() {
+        if (feeLabel == null) {
+            return getResources().getString(R.string.fee);
+        } else {
+            return feeLabel;
+        }
+    }
+
+    public void setSendLabel(String sendLabel) {
+        this.sendLabel = sendLabel;
+        updateDirectionLabels();
+    }
+
+    public void setReceiveLabel(String receiveLabel) {
+        this.receiveLabel = receiveLabel;
+        updateDirectionLabels();
+    }
+
+    public void setFeeLabel(String feeLabel) {
+        this.feeLabel = feeLabel;
+        updateDirectionLabels();
+    }
+
+    public void setSending(boolean isSending) {
+        this.isSending = isSending;
+        updateDirectionLabels();
+    }
+
+    public void setLabelAndAddress(AbstractAddress address) {
+        this.label = AddressBookProvider.resolveLabel(context, address);
+        this.address = address;
+        updateView();
+    }
+
+    public void hideLabelAndAddress() {
+        this.label = null;
+        this.address = null;
+        updateView();
+    }
+}
