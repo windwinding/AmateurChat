@@ -37,4 +37,49 @@ import android.view.animation.Interpolator;
 final class SwipeProgressBar {
 
     // Default progress animation colors are grays.
-    private final static int COLOR1 = 0xB30
+    private final static int COLOR1 = 0xB3000000;
+    private final static int COLOR2 = 0x80000000;
+    private final static int COLOR3 = 0x4d000000;
+    private final static int COLOR4 = 0x1a000000;
+
+    // The duration of the animation cycle.
+    private static final int ANIMATION_DURATION_MS = 2000;
+
+    // The duration of the animation to clear the bar.
+    private static final int FINISH_ANIMATION_DURATION_MS = 1000;
+
+    // Interpolator for varying the speed of the animation.
+    private static final Interpolator INTERPOLATOR = BakedBezierInterpolator.getInstance();
+
+    private final Paint mPaint = new Paint();
+    private final RectF mClipRect = new RectF();
+    private float mTriggerPercentage;
+    private long mStartTime;
+    private long mFinishTime;
+    private boolean mRunning;
+
+    // Colors used when rendering the animation,
+    private int mColor1;
+    private int mColor2;
+    private int mColor3;
+    private int mColor4;
+    private View mParent;
+
+    private Rect mBounds = new Rect();
+
+    public SwipeProgressBar(View parent) {
+        mParent = parent;
+        mColor1 = COLOR1;
+        mColor2 = COLOR2;
+        mColor3 = COLOR3;
+        mColor4 = COLOR4;
+    }
+
+    /**
+     * Set the four colors used in the progress animation. The first color will
+     * also be the color of the bar that grows in response to a user swipe
+     * gesture.
+     *
+     * @param color1 Integer representation of a color.
+     * @param color2 Integer representation of a color.
+     * @param color3 Integer representation of a colo
