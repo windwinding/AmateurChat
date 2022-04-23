@@ -82,4 +82,59 @@ final class SwipeProgressBar {
      *
      * @param color1 Integer representation of a color.
      * @param color2 Integer representation of a color.
-     * @param color3 Integer representation of a colo
+     * @param color3 Integer representation of a color.
+     * @param color4 Integer representation of a color.
+     */
+    void setColorScheme(int color1, int color2, int color3, int color4) {
+        mColor1 = color1;
+        mColor2 = color2;
+        mColor3 = color3;
+        mColor4 = color4;
+    }
+
+    /**
+     * Update the progress the user has made toward triggering the swipe
+     * gesture. and use this value to update the percentage of the trigger that
+     * is shown.
+     */
+    void setTriggerPercentage(float triggerPercentage) {
+        mTriggerPercentage = triggerPercentage;
+        mStartTime = 0;
+        ViewCompat.postInvalidateOnAnimation(mParent);
+    }
+
+    /**
+     * Start showing the progress animation.
+     */
+    void start() {
+        if (!mRunning) {
+            mTriggerPercentage = 0;
+            mStartTime = AnimationUtils.currentAnimationTimeMillis();
+            mRunning = true;
+            mParent.postInvalidate();
+        }
+    }
+
+    /**
+     * Stop showing the progress animation.
+     */
+    void stop() {
+        if (mRunning) {
+            mTriggerPercentage = 0;
+            mFinishTime = AnimationUtils.currentAnimationTimeMillis();
+            mRunning = false;
+            mParent.postInvalidate();
+        }
+    }
+
+    /**
+     * @return Return whether the progress animation is currently running.
+     */
+    boolean isRunning() {
+        return mRunning || mFinishTime > 0;
+    }
+
+    void draw(Canvas canvas) {
+        final int width = mBounds.width();
+        final int height = mBounds.height();
+        final int cx = wid
