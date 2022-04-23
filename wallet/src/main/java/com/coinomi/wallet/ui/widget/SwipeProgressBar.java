@@ -137,4 +137,35 @@ final class SwipeProgressBar {
     void draw(Canvas canvas) {
         final int width = mBounds.width();
         final int height = mBounds.height();
-        final int cx = wid
+        final int cx = width / 2;
+        final int cy = height / 2;
+        boolean drawTriggerWhileFinishing = false;
+        int restoreCount = canvas.save();
+        canvas.clipRect(mBounds);
+
+        if (mRunning || (mFinishTime > 0)) {
+            long now = AnimationUtils.currentAnimationTimeMillis();
+            long elapsed = (now - mStartTime) % ANIMATION_DURATION_MS;
+            long iterations = (now - mStartTime) / ANIMATION_DURATION_MS;
+            float rawProgress = (elapsed / (ANIMATION_DURATION_MS / 100f));
+
+            // If we're not running anymore, that means we're running through
+            // the finish animation.
+            if (!mRunning) {
+                // If the finish animation is done, don't draw anything, and
+                // don't repost.
+                if ((now - mFinishTime) >= FINISH_ANIMATION_DURATION_MS) {
+                    mFinishTime = 0;
+                    return;
+                }
+
+                // Otherwise, use a 0 opacity alpha layer to clear the animation
+                // from the inside out. This layer will prevent the circles from
+                // drawing within its bounds.
+                long finishElapsed = (now - mFinishTime) % FINISH_ANIMATION_DURATION_MS;
+                float finishProgress = (finishElapsed / (FINISH_ANIMATION_DURATION_MS / 100f));
+                float pct = (finishProgress / 100f);
+                // Radius of the circle is half of the screen.
+                float clearRadius = width / 2 * INTERPOLATOR.getInterpolation(pct);
+                mClipRect.set(cx - clearRadius, 0, cx + clearRadius, height);
+                canvas
