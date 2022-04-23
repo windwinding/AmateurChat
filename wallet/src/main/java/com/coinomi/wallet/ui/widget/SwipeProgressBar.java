@@ -168,4 +168,38 @@ final class SwipeProgressBar {
                 // Radius of the circle is half of the screen.
                 float clearRadius = width / 2 * INTERPOLATOR.getInterpolation(pct);
                 mClipRect.set(cx - clearRadius, 0, cx + clearRadius, height);
-                canvas
+                canvas.saveLayerAlpha(mClipRect, 0, 0);
+                // Only draw the trigger if there is a space in the center of
+                // this refreshing view that needs to be filled in by the
+                // trigger. If the progress view is just still animating, let it
+                // continue animating.
+                drawTriggerWhileFinishing = true;
+            }
+
+            // First fill in with the last color that would have finished drawing.
+            if (iterations == 0) {
+                canvas.drawColor(mColor1);
+            } else {
+                if (rawProgress >= 0 && rawProgress < 25) {
+                    canvas.drawColor(mColor4);
+                } else if (rawProgress >= 25 && rawProgress < 50) {
+                    canvas.drawColor(mColor1);
+                } else if (rawProgress >= 50 && rawProgress < 75) {
+                    canvas.drawColor(mColor2);
+                } else {
+                    canvas.drawColor(mColor3);
+                }
+            }
+
+            // Then draw up to 4 overlapping concentric circles of varying radii, based on how far
+            // along we are in the cycle.
+            // progress 0-50 draw mColor2
+            // progress 25-75 draw mColor3
+            // progress 50-100 draw mColor4
+            // progress 75 (wrap to 25) draw mColor1
+            if ((rawProgress >= 0 && rawProgress <= 25)) {
+                float pct = (((rawProgress + 25) * 2) / 100f);
+                drawCircle(canvas, cx, cy, mColor1, pct);
+            }
+            if (rawProgress >= 0 && rawProgress <= 50) {
+               
