@@ -202,4 +202,33 @@ final class SwipeProgressBar {
                 drawCircle(canvas, cx, cy, mColor1, pct);
             }
             if (rawProgress >= 0 && rawProgress <= 50) {
-               
+                float pct = ((rawProgress * 2) / 100f);
+                drawCircle(canvas, cx, cy, mColor2, pct);
+            }
+            if (rawProgress >= 25 && rawProgress <= 75) {
+                float pct = (((rawProgress - 25) * 2) / 100f);
+                drawCircle(canvas, cx, cy, mColor3, pct);
+            }
+            if (rawProgress >= 50 && rawProgress <= 100) {
+                float pct = (((rawProgress - 50) * 2) / 100f);
+                drawCircle(canvas, cx, cy, mColor4, pct);
+            }
+            if ((rawProgress >= 75 && rawProgress <= 100)) {
+                float pct = (((rawProgress - 75) * 2) / 100f);
+                drawCircle(canvas, cx, cy, mColor1, pct);
+            }
+            if (mTriggerPercentage > 0 && drawTriggerWhileFinishing) {
+                // There is some portion of trigger to draw. Restore the canvas,
+                // then draw the trigger. Otherwise, the trigger does not appear
+                // until after the bar has finished animating and appears to
+                // just jump in at a larger width than expected.
+                canvas.restoreToCount(restoreCount);
+                restoreCount = canvas.save();
+                canvas.clipRect(mBounds);
+                drawTrigger(canvas, cx, cy);
+            }
+            // Keep running until we finish out the last cycle.
+            ViewCompat.postInvalidateOnAnimation(mParent);
+        } else {
+            // Otherwise if we're in the middle of a trigger, draw that.
+            if (mTrigge
