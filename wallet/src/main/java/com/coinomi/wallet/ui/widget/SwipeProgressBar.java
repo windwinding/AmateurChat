@@ -231,4 +231,44 @@ final class SwipeProgressBar {
             ViewCompat.postInvalidateOnAnimation(mParent);
         } else {
             // Otherwise if we're in the middle of a trigger, draw that.
-            if (mTrigge
+            if (mTriggerPercentage > 0 && mTriggerPercentage <= 1.0) {
+                drawTrigger(canvas, cx, cy);
+            }
+        }
+        canvas.restoreToCount(restoreCount);
+    }
+
+    private void drawTrigger(Canvas canvas, int cx, int cy) {
+        mPaint.setColor(mColor1);
+        canvas.drawCircle(cx, cy, cx * mTriggerPercentage, mPaint);
+    }
+
+    /**
+     * Draws a circle centered in the view.
+     *
+     * @param canvas the canvas to draw on
+     * @param cx the center x coordinate
+     * @param cy the center y coordinate
+     * @param color the color to draw
+     * @param pct the percentage of the view that the circle should cover
+     */
+    private void drawCircle(Canvas canvas, float cx, float cy, int color, float pct) {
+        mPaint.setColor(color);
+        canvas.save();
+        canvas.translate(cx, cy);
+        float radiusScale = INTERPOLATOR.getInterpolation(pct);
+        canvas.scale(radiusScale, radiusScale);
+        canvas.drawCircle(0, 0, cx, mPaint);
+        canvas.restore();
+    }
+
+    /**
+     * Set the drawing bounds of this SwipeProgressBar.
+     */
+    void setBounds(int left, int top, int right, int bottom) {
+        mBounds.left = left;
+        mBounds.top = top;
+        mBounds.right = right;
+        mBounds.bottom = bottom;
+    }
+}
