@@ -113,4 +113,42 @@ public class TransactionAmountVisualizer extends LinearLayout {
                     break;
                 case PUBLIC:
                     txMessageLabel.setText(R.string.tx_message_public);
-               
+                    break;
+            }
+            txMessageLabel.setVisibility(VISIBLE);
+
+            txMessage.setText(message.toString());
+            txMessage.setVisibility(VISIBLE);
+        }
+    }
+
+    public void setExchangeRate(ExchangeRate rate) {
+        if (outputAmount != null) {
+            Value fiatAmount = rate.convert(type, outputAmount.toCoin());
+            output.setAmountLocal(GenericUtils.formatFiatValue(fiatAmount));
+            output.setSymbolLocal(fiatAmount.type.getSymbol());
+        }
+
+        if (isSending && feeAmount != null) {
+            Value fiatAmount = rate.convert(type, feeAmount.toCoin());
+            fee.setAmountLocal(GenericUtils.formatFiatValue(fiatAmount));
+            fee.setSymbolLocal(fiatAmount.type.getSymbol());
+        }
+    }
+
+    /**
+     * Hide the output address and label. Useful when we are exchanging, where the send address is
+     * not important to the user.
+     */
+    public void hideAddresses() {
+        output.hideLabelAndAddress();
+    }
+
+    public void resetLabels() {
+        output.setLabelAndAddress(address);
+    }
+
+    public List<SendOutput> getOutputs() {
+        return ImmutableList.of(output);
+    }
+}
