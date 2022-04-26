@@ -72,4 +72,45 @@ public class TransactionAmountVisualizer extends LinearLayout {
         List<AbstractOutput> outputs = tx.getSentTo();
         for (AbstractOutput txo : outputs) {
             if (isSending) {
-                if (pocket != null && pocket.is
+                if (pocket != null && pocket.isAddressMine(txo.getAddress())) continue;
+                isInternalTransfer = false;
+            } else {
+                if (pocket != null && !pocket.isAddressMine(txo.getAddress())) continue;
+            }
+
+            // TODO support more than one output
+            outputAmount = txo.getValue();
+            output.setAmount(GenericUtils.formatCoinValue(type, outputAmount));
+            output.setSymbol(symbol);
+            address = txo.getAddress();
+            output.setLabelAndAddress(address);
+            break; // TODO remove when supporting more than one output
+        }
+
+        if (isInternalTransfer) {
+            output.setLabel(getResources().getString(R.string.internal_transfer));
+        }
+
+        output.setSending(isSending);
+
+        feeAmount = tx.getFee();
+        if (isSending && feeAmount != null && !feeAmount.isZero()) {
+            fee.setVisibility(View.VISIBLE);
+            fee.setAmount(GenericUtils.formatCoinValue(type, feeAmount));
+            fee.setSymbol(symbol);
+        }
+
+        if (type.canHandleMessages()) {
+            setMessage(type.getMessagesFactory().extractPublicMessage(tx));
+        }
+    }
+
+    private void setMessage(@Nullable TxMessage message) {
+        if (message != null) {
+            switch (message.getType()) {
+                case PRIVATE:
+                    txMessageLabel.setText(R.string.tx_message_private);
+                    break;
+                case PUBLIC:
+                    txMessageLabel.setText(R.string.tx_message_public);
+               
