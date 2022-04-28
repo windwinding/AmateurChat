@@ -64,4 +64,55 @@ public class Base43
             temp[--j] = (byte) ALPHABET[mod];
         }
 
-        // Strip e
+        // Strip extra '1' if there are some after decoding.
+        while (j < temp.length && temp[j] == ALPHABET[0])
+            ++j;
+
+        // Add as many leading '1' as there were leading zeros.
+        while (--zeroCount >= 0)
+            temp[--j] = (byte) ALPHABET[0];
+
+        final byte[] output = copyOfRange(temp, j, temp.length);
+
+        return new String(output, Charset.forName("US-ASCII"));
+    }
+
+    public static byte[] decode(@Nonnull final String input) throws IllegalArgumentException
+    {
+        if (input.length() == 0)
+            return new byte[0];
+
+        final byte[] input43 = new byte[input.length()];
+        // Transform the String to a base43 byte sequence
+        for (int i = 0; i < input.length(); ++i)
+        {
+            final char c = input.charAt(i);
+
+            int digit43 = -1;
+
+            if (c >= 0 && c < 128)
+                digit43 = INDEXES[c];
+
+            if (digit43 < 0)
+                throw new IllegalArgumentException("Illegal character " + c + " at " + i);
+
+            input43[i] = (byte) digit43;
+        }
+
+        // Count leading zeroes
+        int zeroCount = 0;
+        while (zeroCount < input43.length && input43[zeroCount] == 0)
+            ++zeroCount;
+
+        // The encoding
+        final byte[] temp = new byte[input.length()];
+        int j = temp.length;
+
+        int startAt = zeroCount;
+        while (startAt < input43.length)
+        {
+            byte mod = divmod256(input43, startAt);
+            if (input43[startAt] == 0)
+                ++startAt;
+
+            t
