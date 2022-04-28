@@ -115,4 +115,59 @@ public class Base43
             if (input43[startAt] == 0)
                 ++startAt;
 
-            t
+            temp[--j] = mod;
+        }
+
+        // Do no add extra leading zeroes, move j to first non null byte.
+        while (j < temp.length && temp[j] == 0)
+            ++j;
+
+        return copyOfRange(temp, j - zeroCount, temp.length);
+    }
+
+    //
+    // number -> number / 43, returns number % 43
+    //
+    private static byte divmod43(final byte[] number, final int startAt)
+    {
+        int remainder = 0;
+        for (int i = startAt; i < number.length; i++)
+        {
+            final int digit256 = (int) number[i] & 0xFF;
+            final int temp = remainder * 256 + digit256;
+
+            number[i] = (byte) (temp / 43);
+
+            remainder = temp % 43;
+        }
+
+        return (byte) remainder;
+    }
+
+    //
+    // number -> number / 256, returns number % 256
+    //
+    private static byte divmod256(final byte[] number43, final int startAt)
+    {
+        int remainder = 0;
+        for (int i = startAt; i < number43.length; i++)
+        {
+            final int digit58 = (int) number43[i] & 0xFF;
+            final int temp = remainder * 43 + digit58;
+
+            number43[i] = (byte) (temp / 256);
+
+            remainder = temp % 256;
+        }
+
+        return (byte) remainder;
+    }
+
+    private static byte[] copyOfRange(final byte[] source, final int from, final int to)
+    {
+        final byte[] range = new byte[to - from];
+        System.arraycopy(source, from, range, 0, range.length);
+
+        return range;
+    }
+}
