@@ -72,3 +72,25 @@ public class QrUtils {
             hints.put(EncodeHintType.MARGIN, marginSize);
             hints.put(EncodeHintType.ERROR_CORRECTION, ERROR_CORRECTION_LEVEL);
             final BitMatrix result =
+                    QR_CODE_WRITER.encode(content, BarcodeFormat.QR_CODE, size, size, hints);
+
+            final int width = result.getWidth();
+            final int height = result.getHeight();
+            final int[] pixels = new int[width * height];
+
+            for (int y = 0; y < height; y++) {
+                final int offset = y * width;
+                for (int x = 0; x < width; x++) {
+                    pixels[offset + x] = result.get(x, y) ? darkColor : lightColor;
+                }
+            }
+
+            final Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+            return bitmap;
+        } catch (final WriterException x) {
+            log.info("Could not create qr code", x);
+            return null;
+        }
+    }
+}
