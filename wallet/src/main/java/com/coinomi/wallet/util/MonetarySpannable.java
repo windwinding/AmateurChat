@@ -69,3 +69,47 @@ public final class MonetarySpannable extends SpannableString {
         applyMarkup(this, prefixSpan1, prefixSpan2, BOLD_SPAN, insignificantSpan);
         return this;
     }
+
+    public static final Object BOLD_SPAN = new StyleSpan(Typeface.BOLD);
+    public static final RelativeSizeSpan SMALLER_SPAN = new RelativeSizeSpan(0.85f);
+
+    public static void applyMarkup(@Nonnull final Spannable spannable, @Nullable final Object prefixSpan1, @Nullable final Object prefixSpan2,
+                                   @Nullable final Object significantSpan, @Nullable final Object insignificantSpan) {
+        if (prefixSpan1 != null)
+            spannable.removeSpan(prefixSpan1);
+        if (prefixSpan2 != null)
+            spannable.removeSpan(prefixSpan2);
+        if (significantSpan != null)
+            spannable.removeSpan(significantSpan);
+        if (insignificantSpan != null)
+            spannable.removeSpan(insignificantSpan);
+
+        final Matcher m = Formats.PATTERN_MONETARY_SPANNABLE.matcher(spannable);
+        if (m.find()) {
+            int i = 0;
+
+            if (m.group(Formats.PATTERN_GROUP_PREFIX) != null) {
+                final int end = m.end(Formats.PATTERN_GROUP_PREFIX);
+                if (prefixSpan1 != null)
+                    spannable.setSpan(prefixSpan1, i, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                if (prefixSpan2 != null)
+                    spannable.setSpan(prefixSpan2, i, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                i = end;
+            }
+
+            if (m.group(Formats.PATTERN_GROUP_SIGNIFICANT) != null) {
+                final int end = m.end(Formats.PATTERN_GROUP_SIGNIFICANT);
+                if (significantSpan != null)
+                    spannable.setSpan(significantSpan, i, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                i = end;
+            }
+
+            if (m.group(Formats.PATTERN_GROUP_INSIGNIFICANT) != null) {
+                final int end = m.end(Formats.PATTERN_GROUP_INSIGNIFICANT);
+                if (insignificantSpan != null)
+                    spannable.setSpan(insignificantSpan, i, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                i = end;
+            }
+        }
+    }
+}
