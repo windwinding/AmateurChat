@@ -36,4 +36,39 @@ public class QrUtils {
         return setQr(view, res, content, R.dimen.qr_code_size, R.dimen.qr_code_quite_zone_pixels);
     }
 
-    priva
+    private static boolean setQr(ImageView view, Resources res, String content,
+                                 int viewSizeResId, int qrQuiteZoneResId) {
+
+        int qrCodeViewSize = res.getDimensionPixelSize(viewSizeResId);
+        int qrQuiteZone = (int) res.getDimension(qrQuiteZoneResId);
+
+        Bitmap bitmap = create(content, qrQuiteZone);
+        if (bitmap == null) {
+            return false;
+        }
+
+        BitmapDrawable qr = new BitmapDrawable(res, bitmap);
+        qr.setFilterBitmap(false);
+        int qrSize = (qrCodeViewSize / qr.getIntrinsicHeight()) * qr.getIntrinsicHeight();
+        view.getLayoutParams().height = qrSize;
+        view.getLayoutParams().width = qrSize;
+        view.requestLayout();
+        view.setImageDrawable(qr);
+
+        return true;
+    }
+
+    public static Bitmap create(final String content, final int marginSize) {
+        return create(content, DARK_COLOR, LIGHT_COLOR, marginSize);
+    }
+
+    public static Bitmap create(final String content, final int darkColor, final int lightColor,
+                                   final int marginSize) {
+        try {
+            QRCode code = Encoder.encode(content, ERROR_CORRECTION_LEVEL, null);
+            int size = code.getMatrix().getWidth();
+
+            final Hashtable<EncodeHintType, Object> hints = new Hashtable<>();
+            hints.put(EncodeHintType.MARGIN, marginSize);
+            hints.put(EncodeHintType.ERROR_CORRECTION, ERROR_CORRECTION_LEVEL);
+            final BitMatrix result =
