@@ -41,4 +41,37 @@ public class UiUtils {
     private static final Logger log = LoggerFactory.getLogger(UiUtils.class);
 
     static public void toastGenericError(Context context) {
-        Toast.makeText(context, R.string.error
+        Toast.makeText(context, R.string.error_generic, Toast.LENGTH_LONG).show();
+    }
+
+    static public void replyAddressRequest(Activity activity, CoinURI uri, WalletAccount pocket) throws CoinURIParseException {
+        try {
+            String uriString = uri.getAddressRequestUriResponse(pocket.getReceiveAddress()).toString();
+            Intent intent = Intent.parseUri(uriString, 0);
+            activity.startActivity(intent);
+        } catch (Exception e) {
+            // Should not happen
+            ACRA.getErrorReporter().handleSilentException(e);
+            Toast.makeText(activity, R.string.error_generic, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    static public void share(Activity activity, String text) {
+        ShareCompat.IntentBuilder builder = ShareCompat.IntentBuilder.from(activity)
+                .setType("text/plain")
+                .setText(text);
+
+        activity.startActivity(Intent.createChooser(
+                builder.getIntent(),
+                activity.getString(R.string.action_share)));
+    }
+
+    public static void copy(Context context, String string) {
+        Object clipboardService = context.getSystemService(Context.CLIPBOARD_SERVICE);
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                ClipboardManager clipboard = (ClipboardManager) clipboardService;
+                clipboard.setPrimaryClip(ClipData.newPlainText("simple text", string));
+            } else {
+                android.text.ClipboardManager clipboard = (android.text.ClipboardManager) clipbo
