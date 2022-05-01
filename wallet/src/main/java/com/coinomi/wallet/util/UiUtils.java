@@ -74,4 +74,41 @@ public class UiUtils {
                 ClipboardManager clipboard = (ClipboardManager) clipboardService;
                 clipboard.setPrimaryClip(ClipData.newPlainText("simple text", string));
             } else {
-                android.text.ClipboardManager clipboard = (android.text.ClipboardManager) clipbo
+                android.text.ClipboardManager clipboard = (android.text.ClipboardManager) clipboardService;
+                clipboard.setText(string);
+            }
+            Toast.makeText(context, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            // Should not normally happen
+            ACRA.getErrorReporter().handleSilentException(e);
+            Toast.makeText(context, R.string.error_generic, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public static void setVisible(View view) {
+        setVisibility(view, View.VISIBLE);
+    }
+
+    public static void setInvisible(View view) {
+        setVisibility(view, View.INVISIBLE);
+    }
+
+    public static void setGone(View view) {
+        setVisibility(view, View.GONE);
+    }
+
+    public static void setVisibility(View view, int visibility) {
+        if (view.getVisibility() != visibility) view.setVisibility(visibility);
+    }
+
+    public static ActionMode startActionMode(final Activity activity, final ActionMode.Callback callback) {
+        if (activity == null || !(activity instanceof AppCompatActivity)) {
+            log.warn("To show action mode, your activity must extend " + AppCompatActivity.class);
+            return null;
+        }
+        return ((AppCompatActivity) activity).startSupportActionMode(callback);
+    }
+
+    public static ActionMode startAddressActionMode(final AbstractAddress address,
+                                                    final Activity activity,
+                                                    final FragmentManager fragmentManager) {
