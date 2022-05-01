@@ -39,4 +39,6 @@ public class TimeUtils {
      */
     public static CharSequence toTimeString(Context context, long seconds) {
         return DateUtils.formatDateTime(context, seconds * DateUtils.SECOND_IN_MILLIS,
-                D
+                DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_DATE);
+    }
+}
