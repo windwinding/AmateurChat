@@ -148,4 +148,44 @@ public class UiUtils {
         }
 
         @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu m
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.address_options, menu);
+            final String label = AddressBookProvider.resolveLabel(context, address);
+            mode.setTitle(label != null ? label : GenericUtils.addressSplitToGroups(address));
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) { return false; }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.action_edit_label:
+                    EditAddressBookEntryFragment.edit(fragmentManager, address);
+                    mode.finish();
+                    return true;
+                case R.id.action_copy:
+                    UiUtils.copy(context, CoinURI.convertToCoinURI(address));
+                    mode.finish();
+                    return true;
+            }
+
+            return false;
+        }
+
+        @Override public void onDestroyActionMode(ActionMode actionMode) { }
+    }
+
+    public static class CopyShareActionModeCallback implements ActionMode.Callback {
+        private final String string;
+        private final Activity activity;
+
+        public CopyShareActionModeCallback(final String string,
+                                         final Activity activity) {
+            this.string = string;
+            this.activity = activity;
+        }
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Me
