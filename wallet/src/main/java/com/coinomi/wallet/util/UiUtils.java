@@ -112,3 +112,40 @@ public class UiUtils {
     public static ActionMode startAddressActionMode(final AbstractAddress address,
                                                     final Activity activity,
                                                     final FragmentManager fragmentManager) {
+        return startActionMode(activity,
+                new AddressActionModeCallback(address, activity, fragmentManager));
+    }
+
+    public static ActionMode startCopyShareActionMode(final String string,
+                                                      final Activity activity) {
+        return startActionMode(activity,
+                new CopyShareActionModeCallback(string, activity));
+    }
+
+    public static ActionMode startAccountActionMode(final WalletAccount account,
+                                                    final Activity activity,
+                                                    final FragmentManager fragmentManager) {
+        return startActionMode(activity,
+                new AccountActionModeCallback(account, activity, fragmentManager));
+    }
+
+    public static class AddressActionModeCallback implements ActionMode.Callback {
+        private final AbstractAddress address;
+        private final Context context;
+        private final FragmentManager fragmentManager;
+
+
+        public AddressActionModeCallback(final AbstractAddress address,
+                                         final Context context,
+                                         final FragmentManager fragmentManager) {
+            this.address = address;
+            this.context = context;
+            this.fragmentManager = fragmentManager;
+        }
+
+        public AbstractAddress getAddress() {
+            return address;
+        }
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu m
