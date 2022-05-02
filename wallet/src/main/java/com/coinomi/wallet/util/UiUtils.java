@@ -188,4 +188,47 @@ public class UiUtils {
         }
 
         @Override
-        public boolean onCreateActionMode(ActionMode mode, Me
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.copy_share_options, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.action_share:
+                    UiUtils.share(activity, string);
+                    mode.finish();
+                    return true;
+                case R.id.action_copy:
+                    UiUtils.copy(activity, string);
+                    mode.finish();
+                    return true;
+            }
+
+            return false;
+        }
+
+        @Override public void onDestroyActionMode(ActionMode actionMode) { }
+    }
+
+    public static class AccountActionModeCallback implements ActionMode.Callback {
+        private final WalletAccount account;
+        private final Activity activity;
+        private final FragmentManager fragmentManager;
+
+        public AccountActionModeCallback(final WalletAccount account,
+                                         final Activity activity,
+                                         final FragmentManager fragmentManager) {
+            this.account = account;
+            this.activity = activity;
+            this.fragmentManager = fragmentManager;
+        }
+
+        @Override
+        public boolean onCreateActionM
