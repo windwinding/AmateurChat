@@ -260,4 +260,24 @@ public class UiUtils {
                             .setMessage(R.string.edit_account_delete_description)
                             .setNegativeButton(R.string.button_cancel, null)
                             .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-                                @Ove
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Wallet wallet = account.getWallet();
+                                    wallet.deleteAccount(account.getId());
+                                    if (activity instanceof EditAccountFragment.Listener) {
+                                        ((EditAccountFragment.Listener) activity)
+                                                .onAccountModified(account);
+                                    }
+                                }
+                            })
+                            .create().show();
+                    mode.finish();
+                    return true;
+            }
+
+            return false;
+        }
+
+        @Override public void onDestroyActionMode(ActionMode actionMode) { }
+    }
+}
