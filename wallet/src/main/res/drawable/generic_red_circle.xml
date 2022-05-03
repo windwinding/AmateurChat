@@ -4,4 +4,9 @@
     android:shape="oval">
 
     <solid
-        android:color=
+        android:color="@color/fg_error"/>
+
+    <size
+        android:width="@dimen/generic_circle_bg_size"
+        android:height="@dimen/generic_circle_bg_size"/>
+</shape>
