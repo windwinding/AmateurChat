@@ -231,4 +231,33 @@ public class UiUtils {
         }
 
         @Override
-        public boolean onCreateActionM
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.account_options, menu);
+            mode.setTitle(account.getDescriptionOrCoinName());
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) { return false; }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.action_edit_description:
+                    EditAccountFragment.edit(fragmentManager, account);
+                    mode.finish();
+                    return true;
+                case R.id.action_account_details:
+                    Intent intent = new Intent(activity, AccountDetailsActivity.class);
+                    intent.putExtra(Constants.ARG_ACCOUNT_ID, account.getId());
+                    activity.startActivity(intent);
+                    mode.finish();
+                    return true;
+                case R.id.action_delete:
+                    new AlertDialog.Builder(activity)
+                            .setTitle(activity.getString(R.string.edit_account_delete_title,
+                                    account.getDescriptionOrCoinName()))
+                            .setMessage(R.string.edit_account_delete_description)
+                            .setNegativeButton(R.string.button_cancel, null)
+                            .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+                                @Ove
