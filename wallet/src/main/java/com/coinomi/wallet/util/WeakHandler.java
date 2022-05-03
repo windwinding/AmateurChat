@@ -18,4 +18,16 @@ public abstract class WeakHandler<T> extends Handler {
     @Override
     public void handleMessage(Message msg) {
         T ref = reference.get();
-        if
+        if (ref != null) {
+            // Do not call if is a detached fragment
+            if (ref instanceof Fragment) {
+                Fragment f = (Fragment) ref;
+                if (f.isRemoving() || f.isDetached() || f.getActivity() == null) return;
+            }
+
+            weakHandleMessage(ref, msg);
+        }
+    }
+
+    protected abstract void weakHandleMessage(T ref, Message msg);
+}
