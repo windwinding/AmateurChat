@@ -47,4 +47,8 @@
         <TextView
             android:id="@+id/address_row_usage"
             style="@style/SecondaryText"
-            androi
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Used address" />
+    </LinearLayout>
+</LinearLayout>
