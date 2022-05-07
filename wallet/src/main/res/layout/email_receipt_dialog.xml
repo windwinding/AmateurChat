@@ -16,4 +16,18 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@s
+            style="@style/NormalText"
+            android:text="@string/email_receipt_message" />
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/NormalText"
+            android:imeOptions="flagNoExtractUi"
+            android:inputType="textEmailAddress"
+            android:singleLine="true" >
+            <requestFocus />
+        </EditText>
+    </LinearLayout>
+</ScrollView>
