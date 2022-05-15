@@ -41,4 +41,11 @@
                 android:text="@string/debugging_test_wallet_password" />
 
             <Button
-                android:id="@+id/button_execut
+                android:id="@+id/button_execute_password_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_execute" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
