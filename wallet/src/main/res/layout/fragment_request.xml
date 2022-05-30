@@ -110,4 +110,30 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    and
+                    android:layout_height="wrap_content">
+
+                    <com.coinomi.wallet.ui.widget.AmountEditView
+                        android:id="@+id/request_coin_amount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5" />
+
+                    <com.coinomi.wallet.ui.widget.AmountEditView
+                        android:id="@+id/request_local_amount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/view_previous_addresses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                style="@style/BorderlessButtonLink"
+                android:text="@string/view_previous_addresses" />
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>
