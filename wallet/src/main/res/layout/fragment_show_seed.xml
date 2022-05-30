@@ -38,4 +38,35 @@
                     <TextView
                         android:id="@+id/seed"
                         style="@style/SeedText"
-                        android:layout_width="wra
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textIsSelectable="true"
+                        tools:text="deliver broken make enrich core vendor ski help sock spy purse roast token jewel female" />
+
+
+                    <LinearLayout
+                        android:id="@+id/seed_password_protected"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:id="@+id/seed_password_protected_lock"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/font_icon_lock_bip39"
+                            android:layout_marginEnd="4dp"
+                            android:layout_marginRight="4dp"
+                            tools:text="CD" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/seed_password_protected"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_
