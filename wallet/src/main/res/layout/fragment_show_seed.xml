@@ -69,4 +69,40 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:layout_
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:minWidth="500dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/qr_code_seed"
+                        android:layout_width="@dimen/qr_code_size"
+                        android:layout_height="@dimen/qr_code_size"
+                        tools:background="@color/gray_87_text"
+                        android:background="@color/qr_code_normal_bg"
+                        android:layout_margin="@dimen/qr_code_margin" />
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/seed_encrypted_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/NormalText"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/wallet_locked_message" />
+
+                <TextView
+                    android:id="@+id/lock_icon"
+                    style="@style/FontIconBig"
+                    android:layout_width="@dimen/font_icon_bg_size"
+                    androi
