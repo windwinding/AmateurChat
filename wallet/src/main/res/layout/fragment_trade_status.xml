@@ -91,4 +91,30 @@
                         android:id="@+id/trade_exchange_status_icon"
                         style="@style/GenericCircleGreen"
                         android:layout_width="@dimen/generic_circle_bg_size"
-                        android:layout_height="@dimen/generic_c
+                        android:layout_height="@dimen/generic_circle_bg_size"
+                        android:layout_marginLeft="@dimen/half_standard_margin"
+                        android:layout_marginStart="@dimen/half_standard_margin"
+                        android:layout_marginRight="@dimen/standard_margin"
+                        android:layout_marginEnd="@dimen/standard_margin"
+                        android:gravity="center"
+                        android:text="@string/font_icon_check"
+                        tools:visibility="gone"/>
+
+                    <ProgressBar
+                        android:id="@+id/trade_exchange_status_progress"
+                        style="@style/Widget.AppCompat.ProgressBar"
+                        android:layout_width="@dimen/generic_circle_bg_size"
+                        android:layout_height="@dimen/generic_circle_bg_size"
+                        android:layout_marginLeft="@dimen/half_standard_margin"
+                        android:layout_marginStart="@dimen/half_standard_margin"
+                        android:layout_marginRight="@dimen/standard_margin"
+                        android:layout_marginEnd="@dimen/standard_margin"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:id="@+id/trade_exchange_status_text"
+                        style="@style/NormalText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Waiting for trade..." />
+         
