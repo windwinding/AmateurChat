@@ -144,4 +144,38 @@
                         style="@style/NormalText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="Trade fail
+                        tools:text="Trade failed: error message" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/trade_view_transaction"
+                    style="@style/BorderlessButtonLink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/trade_status_view_transaction"/>
+
+                <Button
+                    android:id="@+id/trade_email_receipt"
+                    style="@style/BorderlessButtonLink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/trade_status_email_receipt"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="bottom">
+                <Button
+                    android:id="@+id/button_exit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/button_return" />
+
+                <include
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_ali
