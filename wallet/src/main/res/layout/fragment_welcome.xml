@@ -47,4 +47,12 @@
             <Button
                 android:id="@+id/restore_wallet"
                 android:layout_width="@dimen/intro_button_width"
-                android:la
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/restore_wallet" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
+
+
+
