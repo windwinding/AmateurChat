@@ -14,4 +14,7 @@
         app:showAsAction="ifRoom" />
 
     <item android:id="@+id/action_edit_label"
-   
+        android:title="@string/action_edit_label"
+        android:icon="@drawable/edit_menu"
+        app:showAsAction="ifRoom" />
+</menu>
