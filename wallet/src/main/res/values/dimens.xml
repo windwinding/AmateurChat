@@ -92,4 +92,30 @@
     <dimen name="transaction_row_margin_direction">@dimen/row_font_icon_margin</dimen>
     <dimen name="transaction_row_direction_font_icon_size">@dimen/row_font_icon_size</dimen>
     <dimen name="transaction_row_direction_bg_size">@dimen/row_font_icon_bg_size</dimen>
-    <dimen name="transaction_row_confirmations
+    <dimen name="transaction_row_confirmations_font_icon_size">18sp</dimen>
+    <dimen name="transaction_row_message_font_icon_size">14sp</dimen>
+    <dimen name="transaction_row_text_size_direction_text">@dimen/row_text_size_header_text</dimen>
+    <dimen name="transaction_row_text_size_amount">@dimen/row_text_size_amount</dimen>
+    <dimen name="transaction_row_text_size_date">@dimen/row_text_size_date</dimen>
+    <dimen name="transaction_row_padding_vertical">@dimen/row_padding_vertical</dimen>
+    <dimen name="transaction_row_padding_horizontal">@dimen/row_padding_horizontal</dimen>
+
+    <!-- About Activity -->
+    <dimen name="app_name_long">32sp</dimen>
+
+    <!-- Exchange row -->
+    <dimen name="exchange_row_margin_symbol">@dimen/row_font_icon_margin</dimen>
+    <dimen name="exchange_row_symbol_text_size">16sp</dimen>
+    <dimen name="exchange_row_symbol_bg_size">50dp</dimen>
+    <dimen name="exchange_row_text_size_amount">@dimen/row_text_size_amount</dimen>
+    <dimen name="exchange_row_text_size_label">@dimen/row_text_size_label</dimen>
+    <dimen name="exchange_row_text_size_date">@dimen/row_text_size_date</dimen>
+    <dimen name="exchange_row_padding_vertical">@dimen/row_padding_vertical</dimen>
+    <dimen name="exchange_row_padding_horizontal">@dimen/row_padding_horizontal</dimen>
+
+    <!-- Coin list row -->
+    <dimen name="coin_list_row_padding_vertical">@dimen/quarter_standard_margin</dimen>
+
+    <!-- Address row -->
+    <dimen name="address_row_status_bg_size">22dp</dimen>
+    <dimen name="address_row_status_text_size">10
