@@ -22,4 +22,34 @@
     <string name="action_delete">Delete</string>
     <string name="action_change_address_type">Change address type</string>
     <!-- Errors -->
-    <string name="erro
+    <string name="error_generic">Error occurred while performing action</string>
+    <string name="error_could_not_read_wallet">Could not read wallet</string>
+    <string name="error_camera">Could not access the device camera</string>
+    <!-- Generic items -->
+    <string name="button_ok">OK</string>
+    <string name="button_next">Next</string>
+    <string name="button_finish">Finish</string>
+    <string name="button_return">Return</string>
+    <string name="button_confirm">Confirm</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_default">Default</string>
+    <string name="button_dismiss">Dismiss</string>
+    <string name="button_delete">Delete</string>
+    <string name="button_add">Add</string>
+    <string name="button_save">Save</string>
+    <string name="button_remove">Remove</string>
+    <string name="button_edit">Edit</string>
+    <string name="button_send">Send</string>
+    <string name="button_sign">Sign</string>
+    <string name="button_verify">Verify</string>
+    <string name="button_skip">Skip</string>
+    <string name="button_retry">Retry</string>
+    <string name="button_download">Download</string>
+    <string name="button_agree">Agree</string>
+    <string name="button_disagree">Disagree</string>
+    <string name="button_add_coins">+ Coins</string>
+    <string name="button_execute">Execute</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="scan_qr_code">Scan QR code</string>
+    <string name="erase_address">Erase address
