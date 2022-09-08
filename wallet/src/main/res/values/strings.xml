@@ -52,4 +52,29 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="scan_qr_code">Scan QR code</string>
-    <string name="erase_address">Erase address
+    <string name="erase_address">Erase address</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="wallet_title_request">receive</string>
+    <string name="wallet_title_balance">balance</string>
+    <string name="wallet_title_send">send</string>
+    <string name="wallet_locked_message">Your wallet is locked</string>
+    <string name="wallet_is_not_locked_message">Your wallet is not locked</string>
+    <string name="unlock_wallet_title">Unlock your wallet</string>
+    <!-- &#8230; is the ... character -->
+    <string name="unlocking_wallet_working">Unlocking your wallet&#8230;</string>
+    <string name="unlocking_wallet_error_title">Could not unlock your wallet</string>
+    <string name="unlocking_wallet_error_detail">Are you using the correct password? Please make sure that your password was entered correctly. Attempt to restore using the recovery phrase if this error persists.</string>
+    <string name="powered_by">Powered by</string>
+    <!-- Nav drawer -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_services">Services</string>
+    <string name="navigation_drawer_wallet">Wallet</string>
+    <!-- SendOutput widget -->
+    <string name="fee">Transaction fee</string>
+    <string name="send">Send</string>
+    <string name="trade">Exchange</string>
+    <string name="receive">Receive</string>
+    <!-- Welcome fragment -->
+    <string name="welcome_text">Welcome to NavCoin wallet</string>
+    <string name="create_wallet">C
