@@ -77,4 +77,17 @@
     <string name="receive">Receive</string>
     <!-- Welcome fragment -->
     <string name="welcome_text">Welcome to NavCoin wallet</string>
-    <string name="create_wallet">C
+    <string name="create_wallet">Create a new wallet</string>
+    <string name="restore_wallet">Restore a wallet</string>
+    <string name="test_wallet">Test wallet</string>
+    <!-- Intro -->
+    <string name="override_wallet_warning_title">Override existing wallet?</string>
+    <string name="override_new_wallet_warning_message">If you create a new wallet, your existing wallet will be lost unless you backed up you <i>recovery phrase</i>.</string>
+    <string name="override_restore_wallet_warning_message">If you restore a wallet, your existing wallet will be lost unless you backed up you <i>recovery phrase</i>.</string>
+    <string name="incompatible_device_warning_title">Incompatible device</string>
+    <string name="incompatible_device_warning_message">This device cannot perform certain cryptographic functions due to software or hardware bugs.\nThis could be solved with an update from the device manufacturer.\n\nContact us if you have any questions: support@coinomi.com</string>
+    <!-- Recovery fragment -->
+    <string name="seed_info">This is your <i>recovery phrase</i>, which is used to generate the keys for your wallet. Please write it down on a paper and keep it in a secure place, as you would with paper money. Anyone with access to it has access to the wallet\'s funds.\nIf you lose your recovery phrase, your wallet cannot be recovered.</string>
+    <string name="seed_title">Your recovery phrase</string>
+    <string name="seed_regenerate_title">Touch to generate a new recovery phrase</string>
+    <string name="backed_up_seed">I have safely sto
