@@ -105,4 +105,26 @@
     <!-- Wallet activity -->
     <string name="test_wallet_message">This is a test wallet, where you can send and receive testnet Bitcoins, Litecoin and Dogecoins.\n\nIf you want to use the wallet with real money please go to: <b>Settings &gt; Restore wallet &gt; Create a new wallet</b>.</string>
     <string name="wallet_update_title">New version available</string>
-    <string name="wallet_update_message">A new version of Coinomi is available, it contains new features and fixes.</strin
+    <string name="wallet_update_message">A new version of Coinomi is available, it contains new features and fixes.</string>
+    <string name="pay_with">Send with</string>
+    <string name="exchange_and_pay_title">Exchange and send</string>
+    <!-- PayToDialog-->
+    <!-- Ambiguous address means that the wallet cannot deduce the correct address coin type -->
+    <string name="ambiguous_address_title">Ambiguous address</string>
+    <string name="ambiguous_address_message">Please select the correct coin type</string>
+    <!-- Balance fragment -->
+    <string name="wallet_transactions_coinbase">Mined</string>
+    <string name="history_empty">No coins received so far!\n\nYou can get some through an exchange, trading and selling goods or services.</string>
+    <string name="sent_to">sent to</string>
+    <string name="received_with">received with</string>
+    <string name="received_from">received from</string>
+    <string name="get_tx_info_error">Could not get transaction information</string>
+    <string name="disconnected_label">No connection</string>
+    <string name="no_wallet_pocket_selected">No wallet account selected</string>
+    <string name="get_tx_broadcast_error">Transaction broadcast error</string>
+    <!-- Receive fragment -->
+    <string name="receive_address_label">My address</string>
+    <string name="create_new_address">Create a new address?</string>
+    <string name="create_new_address_name">Name (optional)</string>
+    <string name="view_previous_addresses">Previous addresses</string>
+    <string name="too_many_unused_addresses">Too many unused addresses, try to use one of the previous add
