@@ -127,4 +127,26 @@
     <string name="create_new_address">Create a new address?</string>
     <string name="create_new_address_name">Name (optional)</string>
     <string name="view_previous_addresses">Previous addresses</string>
-    <string name="too_many_unused_addresses">Too many unused addresses, try to use one of the previous add
+    <string name="too_many_unused_addresses">Too many unused addresses, try to use one of the previous addresses before creating a new one.</string>
+    <!-- Send Activity -->
+    <string name="send_coins_activity_title">Send coins</string>
+    <!-- Send fragment -->
+    <string name="send_coins_fragment_receiving_address_label">Pay to</string>
+    <string name="send_coins_fragment_receiving_address_tip">name or address</string>
+    <string name="send_coins_fragment_receiving_address_error">Invalid Bitcoin Address!</string>
+    <string name="send_coins_fragment_amount_label">Amount to pay</string>
+    <string name="send_coins_fragment_button_send">Send</string>
+    <string name="send_coins_fragment_button_back">Back</string>
+    <string name="send_coins_failed_msg">Failed!</string>
+    <string name="send_coins_error_network">Could not connect to the coin network</string>
+    <string name="send_coins_error_dust">The sending amount is too small and will be rejected by the network</string>
+    <!-- Here the %1$s is a detailed error message -->
+    <string name="send_coins_error">Could not send coins: %1$s</string>
+    <string name="pay_to_label">Pay to</string>
+    <string name="amount_to_send_label">Amount</string>
+    <string name="scan_error">There was a problem scanning: %1$s</string>
+    <!-- Here the \"%1$s\" is the "coin name"-->
+    <string name="unsupported_coin">Coin \"%1$s\" is not supported.</string>
+    <string name="address_error">The provided address is not valid.</string>
+    <string name="amount_error">The provided amount is not valid</string>
+    <string name="amount_erro
