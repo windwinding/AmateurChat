@@ -168,4 +168,21 @@
     <string name="password_too_short_error">Password is too short, minimum %1$d characters.</string>
     <string name="passwords_mismatch">Passwords don\'t match</string>
     <string name="password_error">Could not proceed, password errors detected.</string>
-    <string name="password_skip_warn">By n
+    <string name="password_skip_warn">By not setting a password, your wallet can be accessed without authorization.</string>
+    <string name="password_wallet_recovery">To restore your wallet, please provide the same BIP39 passphrase you used when created the protected recovery phrase.\nIf you enter a different passphrase, a new empty wallet will be created.</string>
+    <!-- FinalizeWalletRestorationFragment -->
+    <string name="wallet_restoration">Please wait while your wallet is being restored</string>
+    <string name="wallet_restoration_master_key">Creating master key</string>
+    <!-- The %1$s is a coin name e.g. Creating key for Bitcoin -->
+    <string name="wallet_restoration_coin">Creating key for %1$s</string>
+    <!-- The %1$s is an error message -->
+    <string name="wallet_restoration_error">Could not restore your wallet.\n\n%1$s</string>
+    <!-- PasswordConfirmationFragment -->
+    <string name="enter_password">Enter your password</string>
+    <!-- SignTransactionFragment -->
+    <!-- &#8230; is the ... character -->
+    <string name="contacting_exchange">Contacting exchange&#8230;</string>
+    <string name="preparing_transaction">Please wait while your transaction is being prepared and sent.</string>
+    <string name="no_such_pocket_error">An error occurred while accessing this wallet account. If the problem persists, try restoring the wallet using the recovery phrase.</string>
+    <string name="password_failed">The password entered is not valid.</string>
+    <!-- &#
