@@ -206,4 +206,21 @@
     <string name="about_licence">An open source project\nhttps://github.com/Coinomi/coinomi-android</string>
     <string name="about_credits_nubits">Server infrastructure donated by NuBits - The World\'s First Stable Digital Currency\nhttps://nubits.com/</string>
     <string name="about_credits_translations">Translations provided by:</string>
-    <string name="about_credits_translations_credits" translatable="false">Tamara Castellano (Italian)\nJorge Nicolas Karmis (Spanish)\nGeorge Kimionis (Greek)\n@visvirial (Japanese)\nДенис Рейн (Ru
+    <string name="about_credits_translations_credits" translatable="false">Tamara Castellano (Italian)\nJorge Nicolas Karmis (Spanish)\nGeorge Kimionis (Greek)\n@visvirial (Japanese)\nДенис Рейн (Russian, Ukrainian)</string>
+    <string name="about_credits_bitcoinj">Uses Bitcoinj library\nhttp://bitcoinj.github.io/</string>
+    <string name="about_credits_electrum">Uses Electrum server software\nhttps://electrum.org/</string>
+    <string name="about_credits_schildbach">Influenced by Andreas Schildbach\nhttps://github.com/schildbach/bitcoin-wallet/</string>
+    <string name="about_credits_zxing">QR-code functionality by ZXing\nhttps://github.com/zxing/zxing</string>
+    <string name="about_credits_crypto_icons">Crypto-icons by Chris Shepherd\nhttps://github.com/shphrd/crypto-icons</string>
+    <string name="about_credits_font_icons">Font-icons by Daniel Bruce\nhttp://www.entypo.com</string>
+    <string name="about_credits_exchange_rates">Exchange rates provided by\nhttp://www.cryptocoincharts.info/\nhttps://bitcoinaverage.com/</string>
+    <string name="about_coinomi_copyright" translatable="false">\u00A9 2014–2016 Coinomi</string>
+    <!-- Add Coins -->
+    <string name="title_activity_add_coins">Add coins</string>
+    <!-- %1$s is the coin name e.g. ... create a Bitcoin account ... -->
+    <string name="password_add_coin">You are about to create a %1$s account in your wallet.</string>
+    <!-- %1$s is the coin name e.g. Add Bitcoin? -->
+    <string name="adding_coin_confirmation_title">Add %1$s?</string>
+    <!-- %1$s is the coin name e.g. ... a new Bitcoin account -->
+    <string name="adding_coin_working">Please wait while creating a new %1$s account</string>
+    <!-- %1$s is the coin name and %2$s 
