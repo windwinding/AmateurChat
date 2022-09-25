@@ -248,4 +248,26 @@
     <string name="status_pending">Waiting for transaction confirmation</string>
     <string name="status_unknown">Transaction status unknown</string>
     <!-- Exchange Rates -->
-    <string name="title_activity_exchange
+    <string name="title_activity_exchange_rates">Exchange rates</string>
+    <!-- %1$s is the symbol of a fiat currency e.g. Set EUR as a ... -->
+    <string name="set_local_currency">Set %1$s as a local currency</string>
+    <string name="exchange_rates_loading">Loading exchange rates</string>
+    <string name="exchange_rates_load_error">Could not load exchange rates</string>
+    <string name="exchange_rates_empty_search">Could not find exchange rate</string>
+    <!-- Select Coins -->
+    <string name="select_coins">Select the coins you wish to use with your wallet. You can add more later.</string>
+    <!-- Previous Addresses -->
+    <string name="title_activity_previous_addresses">My previous addresses</string>
+    <string name="previous_addresses_used">Used address</string>
+    <string name="previous_addresses_unused">Unused address</string>
+    <!-- Edit Address Book Entry -->
+    <string name="edit_address_book_entry_dialog_title_add">Add address</string>
+    <string name="edit_address_book_entry_dialog_title_edit">Edit address</string>
+    <string name="edit_address_book_entry_dialog_address_label">Address</string>
+    <string name="edit_address_book_entry_dialog_label_label">Name</string>
+    <!-- Edit Account -->
+    <string name="edit_account_title">Edit account</string>
+    <string name="edit_account_description_label">Description</string>
+    <!-- %1$s is the name of the account e.g. Remove account Bitcoin? -->
+    <string name="edit_account_delete_title">Remove account %1$s?</string>
+    <string name="edit_account_delete_description">This removes the account
