@@ -185,4 +185,25 @@
     <string name="preparing_transaction">Please wait while your transaction is being prepared and sent.</string>
     <string name="no_such_pocket_error">An error occurred while accessing this wallet account. If the problem persists, try restoring the wallet using the recovery phrase.</string>
     <string name="password_failed">The password entered is not valid.</string>
-    <!-- &#
+    <!-- &#8230; is the ... character -->
+    <string name="sending_msg">Sending&#8230;</string>
+    <string name="sent_msg">Sent! Please wait for transaction confirmation.</string>
+    <string name="tx_already_broadcast">Money already sent</string>
+    <string name="trade_expired">Exchange expired</string>
+    <!-- %1$s is the time remaining e.g. ... in the next 8 minutes 35 seconds-->
+    <string name="tx_confirm_timer_message">Please confirm this transaction in the next %1$s</string>
+    <plurals name="tx_confirm_timer_minute">
+        <item quantity="one">%s minute</item>
+        <item quantity="other">%s minutes</item>
+    </plurals>
+    <plurals name="tx_confirm_timer_second">
+        <item quantity="one">%d second</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
+    <!-- About Activity -->
+    <string name="title_activity_about">About Coinomi</string>
+    <string name="app_name_long">Coinomi for Android</string>
+    <string name="about_licence">An open source project\nhttps://github.com/Coinomi/coinomi-android</string>
+    <string name="about_credits_nubits">Server infrastructure donated by NuBits - The World\'s First Stable Digital Currency\nhttps://nubits.com/</string>
+    <string name="about_credits_translations">Translations provided by:</string>
+    <string name="about_credits_translations_credits" translatable="false">Tamara Castellano (Italian)\nJorge Nicolas Karmis (Spanish)\nGeorge Kimionis (Greek)\n@visvirial (Japanese)\nДенис Рейн (Ru
