@@ -223,4 +223,29 @@
     <string name="adding_coin_confirmation_title">Add %1$s?</string>
     <!-- %1$s is the coin name e.g. ... a new Bitcoin account -->
     <string name="adding_coin_working">Please wait while creating a new %1$s account</string>
-    <!-- %1$s is the coin name and %2$s 
+    <!-- %1$s is the coin name and %2$s is and error message e.g. Error adding Bitcoin: some error message -->
+    <string name="add_coin_error">Error adding %1$s: %2$s</string>
+    <!-- %1$s is the coin name e.g. Bitcoin already added -->
+    <string name="coin_already_added_title">%1$s already added</string>
+    <string name="coin_already_added">Additional accounts are not yet supported</string>
+    <!-- Transaction amount visualizer -->
+    <!-- Internal transfer means that the wallet send money to itself.-->
+    <string name="internal_transfer">Internal transfer</string>
+    <!-- Transaction Details -->
+    <string name="title_activity_transaction_details">Transaction details</string>
+    <string name="sent">Sent</string>
+    <string name="received">Received</string>
+    <!-- Status of a transaction, could be pending for confirmations or confirmed -->
+    <string name="status_label">Status</string>
+    <string name="date_label">Date</string>
+    <string name="transaction_id_label">Transaction id</string>
+    <string name="view_at_a_blockchain_explorer_link">View on blockchain explorer</string>
+    <!-- %d is the number of confirmations -->
+    <plurals name="status_building">
+        <item quantity="one">%d confirmation</item>
+        <item quantity="other">%d confirmations</item>
+    </plurals>
+    <string name="status_pending">Waiting for transaction confirmation</string>
+    <string name="status_unknown">Transaction status unknown</string>
+    <!-- Exchange Rates -->
+    <string name="title_activity_exchange
