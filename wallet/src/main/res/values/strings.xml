@@ -270,4 +270,24 @@
     <string name="edit_account_description_label">Description</string>
     <!-- %1$s is the name of the account e.g. Remove account Bitcoin? -->
     <string name="edit_account_delete_title">Remove account %1$s?</string>
-    <string name="edit_account_delete_description">This removes the account
+    <string name="edit_account_delete_description">This removes the account from the wallet but it is still possible to re-add it and recover the coins.</string>
+    <!-- Settings -->
+    <string name="title_activity_settings">Settings</string>
+    <string name="pref_title_restore_wallet">Restore wallet</string>
+    <string name="pref_title_exchange_rates">Exchange rates</string>
+    <string name="pref_title_manual_receiving_addresses">Manual receiving addresses</string>
+    <string name="pref_summary_manual_receiving_addresses">Do not automatically create a new address for every transaction</string>
+    <!-- Show Seed -->
+    <string name="title_activity_show_seed">Show recovery phrase</string>
+    <string name="seed_not_available_title">No recovery phrase found</string>
+    <string name="seed_not_available">Your recovery phrase is not saved on this device.\nTry restoring your wallet to solve this.</string>
+    <!-- &#8230; is the ... character -->
+    <string name="seed_working">Please wait&#8230;</string>
+    <string name="seed_password_protected">This recovery phrase is protected with a BIP39 passphrase</string>
+    <!-- Wallet locked -->
+    <string name="touch_to_decrypt_wallet">Touch to unlock</string>
+    <!-- Debugging -->
+    <string name="title_activity_debugging">Debugging</string>
+    <string name="debugging_info">You can use a collection of tools to debug various issues with your wallet.</string>
+    <string name="debugging_test_wallet_password">Wallet unlocking tests</string>
+    <string name="debug
