@@ -290,4 +290,21 @@
     <string name="title_activity_debugging">Debugging</string>
     <string name="debugging_info">You can use a collection of tools to debug various issues with your wallet.</string>
     <string name="debugging_test_wallet_password">Wallet unlocking tests</string>
-    <string name="debug
+    <string name="debugging_test_wallet_password_results">Unlocked wallet: %1$s\n\nFingerprints\nInput: %2$s\nKey: %3$s</string>
+    <!-- Overview -->
+    <string name="title_activity_overview">Overview</string>
+    <!-- Exchange -->
+    <string name="title_activity_trade">Exchange</string>
+    <string name="trade_info">Select the coins you wish to exchange.\nThe converted coins will be automatically added to your wallet.</string>
+    <string name="trade_info_rates">Given rate includes ShapeShift.io transaction fee</string>
+    <string name="trade_from_coin_label">Exchange</string>
+    <string name="trade_to_coin_label">Receive</string>
+    <string name="trade_warn_no_account_found">You will be prompted to add a %1$s wallet</string>
+    <string name="trade_warn_no_connection_title">No connection</string>
+    <string name="trade_warn_no_connection_message">Internet connection is needed to exchange coins.</string>
+    <string name="trade_error">Exchange error</string>
+    <string name="trade_error_no_supported_source_accounts">No supported accounts found</string>
+    <string name="trade_error_service_not_available">Service temporary unavailable, please try again in a minute</string>
+    <string name="trade_error_market_info">Service temporary unavailable.\nNo information about %1$s - %2$s pair</string>
+    <string name="trade_error_sign_tx_message">An error occurred while signing and broadcasting transaction.\n\nTechnical details:\n\n<b>%1$s</b></string>
+    <string name="trade_error_m
