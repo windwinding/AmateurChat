@@ -307,4 +307,25 @@
     <string name="trade_error_service_not_available">Service temporary unavailable, please try again in a minute</string>
     <string name="trade_error_market_info">Service temporary unavailable.\nNo information about %1$s - %2$s pair</string>
     <string name="trade_error_sign_tx_message">An error occurred while signing and broadcasting transaction.\n\nTechnical details:\n\n<b>%1$s</b></string>
-    <string name="trade_error_m
+    <string name="trade_error_max_limit">The supplied amount exceeds the limit of %1$s. Please use a smaller amount.</string>
+    <string name="trade_error_min_limit">The minimum amount is at least %1$s</string>
+    <!-- Exchange Status -->
+    <string name="title_activity_exchange_status">Exchange status</string>
+    <string name="trade_status_message">Your order will complete shortly. You can exit this screen without affecting the exchange.</string>
+    <string name="trade_status_complete_message">Your order completed successfully.</string>
+    <string name="trade_status_label">Status</string>
+    <!-- &#8230; is the ... character -->
+    <string name="trade_status_waiting_deposit">Waiting for deposit&#8230;</string>
+    <string name="trade_status_received_deposit">Received deposit of %1$s</string>
+    <!-- &#8230; is the ... character -->
+    <string name="trade_status_waiting_trade">Waiting for exchange&#8230;</string>
+    <string name="trade_status_complete_detail">Exchange complete, sent %1$s</string>
+    <string name="trade_status_complete">Exchange complete</string>
+    <string name="trade_status_view_transaction">View transaction</string>
+    <string name="trade_status_email_receipt">Email receipt</string>
+    <!-- %1$s is an error message -->
+    <string name="trade_status_failed_detail">Exchange failed: %1$s</string>
+    <string name="trade_status_failed">Exchange failed</string>
+    <string name="trade_status_delete_message">Remove from history?</string>
+    <string name="trade_status_tx_not_available">Transaction not found, try again in a few seconds</string>
+    <!-- Em
