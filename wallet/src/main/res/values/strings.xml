@@ -347,4 +347,26 @@
     <string name="message_signed">Message signed</string>
     <string name="message_verified">Message verified</string>
     <string name="message_verification_failed">Message verification failed</string>
-    <!-- Messages 
+    <!-- Messages -->
+    <string name="tx_message_public">Public message</string>
+    <string name="tx_message_private">Private message</string>
+    <string name="tx_message_public_add">Add public message</string>
+    <string name="tx_message_private_add">Add private message</string>
+    <string name="tx_message_public_remove">Remove public message</string>
+    <string name="tx_message_private_remove">Remove private message</string>
+    <string name="tx_message_from">From</string>
+    <string name="tx_message_subject">Subject</string>
+    <string name="tx_message">Message</string>
+    <!-- Account details -->
+    <string name="title_activity_account_details">Account details</string>
+    <string name="account_description_label">Description</string>
+    <string name="account_public_key_label">Public key</string>
+    <string name="account_extended_public_key_label">Extended public key</string>
+    <string name="account_public_key_warning">Sharing your public key will allow anybody to view your balance and transaction history.</string>
+    <string name="account_private_key_label">Private key</string>
+    <string name="account_extended_private_key_label">Extended private key</string>
+    <string name="account_private_key_warning">The private key allows you to send coins from this account. It is not necessary to backup this key as it is derived from your <i>recovery phrase</i></string>
+    <!-- Support -->
+    <string name="support_message">Contact Coinomi support</string>
+    <!-- Sweep wallet -->
+    <!-- Sweep paper wallet means to redeem coins from a code usually printed on
