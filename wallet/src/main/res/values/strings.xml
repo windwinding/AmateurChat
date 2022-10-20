@@ -328,4 +328,23 @@
     <string name="trade_status_failed">Exchange failed</string>
     <string name="trade_status_delete_message">Remove from history?</string>
     <string name="trade_status_tx_not_available">Transaction not found, try again in a few seconds</string>
-    <!-- Em
+    <!-- Email receipt dialog -->
+    <string name="email_receipt_title">Email receipt</string>
+    <string name="email_receipt_message">Receive an email for this exchange transaction</string>
+    <!-- Exchange History -->
+    <string name="title_activity_exchange_history">Exchange history</string>
+    <string name="exchange_history_empty">No exchanges made</string>
+    <!-- ShapeShift -->
+    <string name="about_shapeshift_title">About ShapeShift.io</string>
+    <string name="about_shapeshift_message">ShapeShift.io is an instant altcoin exchange that provides Bitcoin and altcoin conversion. The platform (available in both web and API flavors) represents the fastest, most efficient way to convert between Bitcoin and dozens of altcoins within the Bitcoin ecosystem. No account needed.</string>
+    <!-- Sign Message -->
+    <string name="title_activity_sign_verify_message">Sign/verify message</string>
+    <string name="signing_info">You can sign or verify a message using an address.</string>
+    <string name="signing_address_label">Signing address</string>
+    <string name="address_not_found_error">The provided address could not be found in this account.</string>
+    <string name="message_to_sign_label">Message</string>
+    <string name="signature_label">Signature</string>
+    <string name="message_signed">Message signed</string>
+    <string name="message_verified">Message verified</string>
+    <string name="message_verification_failed">Message verification failed</string>
+    <!-- Messages 
