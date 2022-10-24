@@ -387,4 +387,27 @@
     <!-- &#8230; is the ... character -->
     <string name="sweep_wallet_key_signing">Creating transaction&#8230;</string>
     <!-- Fees settings -->
-    <string name="title_activity_tr
+    <string name="title_activity_transaction_fees">Transaction fees</string>
+    <!-- Example: Bitcoin transaction fees-->
+    <string name="tx_fees_title">%1$s transaction fees</string>
+    <!-- Example: The fee value is per kilobyte.-->
+    <string name="tx_fees_description">The fee value is %1$s.</string>
+    <string name="tx_fees_per_kilobyte">per kilobyte of transaction data</string>
+    <string name="tx_fees_per_byte">per byte of transaction data</string>
+    <string name="tx_fees_per_transaction">per transaction</string>
+
+    <!-- Terms -->
+    <string name="terms_of_service_title">Terms of service</string>
+    <!-- TODO translate to other languages -->
+    <string name="terms_of_service" translatable="false">LEGAL DISCLAIMER\n
+\n
+\n
+1. Risks related to the use of Coinomi Wallet\n
+\n
+Coinomi will not be responsible for any losses, damages or claims arising from events falling within the scope of the following five categories:\n
+\n
+(1) Mistakes made by the user of any cryptocurrency-related software or service, e.g., forgotten passwords, payments sent to wrong coin addresses, and accidental deletion of wallets.\n
+\n
+(2) Software problems of the wallet and/or any cryptocurrency-related software or service, e.g., corrupted wallet file, incorrectly constructed transactions, unsafe cryptographic libraries, malware affecting the wallet and/or any cryptocurrency-related software or service.\n
+\n
+(3) Technical failures in the hardware of the user of any cryptocurrency-related software or service, e.g., data loss due to a f
