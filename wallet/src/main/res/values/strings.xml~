@@ -176,3 +176,280 @@
     <string name="wallet_restoration_master_key">Creating master key</string>
     <!-- The %1$s is a coin name e.g. Creating key for Bitcoin -->
     <string name="wallet_restoration_coin">Creating key for %1$s</string>
+    <!-- The %1$s is an error message -->
+    <string name="wallet_restoration_error">Could not restore your wallet.\n\n%1$s</string>
+    <!-- PasswordConfirmationFragment -->
+    <string name="enter_password">Enter your password</string>
+    <!-- SignTransactionFragment -->
+    <!-- &#8230; is the ... character -->
+    <string name="contacting_exchange">Contacting exchange&#8230;</string>
+    <string name="preparing_transaction">Please wait while your transaction is being prepared and sent.</string>
+    <string name="no_such_pocket_error">An error occurred while accessing this wallet account. If the problem persists, try restoring the wallet using the recovery phrase.</string>
+    <string name="password_failed">The password entered is not valid.</string>
+    <!-- &#8230; is the ... character -->
+    <string name="sending_msg">Sending&#8230;</string>
+    <string name="sent_msg">Sent! Please wait for transaction confirmation.</string>
+    <string name="tx_already_broadcast">Money already sent</string>
+    <string name="trade_expired">Exchange expired</string>
+    <!-- %1$s is the time remaining e.g. ... in the next 8 minutes 35 seconds-->
+    <string name="tx_confirm_timer_message">Please confirm this transaction in the next %1$s</string>
+    <plurals name="tx_confirm_timer_minute">
+        <item quantity="one">%s minute</item>
+        <item quantity="other">%s minutes</item>
+    </plurals>
+    <plurals name="tx_confirm_timer_second">
+        <item quantity="one">%d second</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
+    <!-- About Activity -->
+    <string name="title_activity_about">About Coinomi</string>
+    <string name="app_name_long">Coinomi for Android</string>
+    <string name="about_licence">An open source project\nhttps://github.com/Coinomi/coinomi-android</string>
+    <string name="about_credits_nubits">Server infrastructure donated by NuBits - The World\'s First Stable Digital Currency\nhttps://nubits.com/</string>
+    <string name="about_credits_translations">Translations provided by:</string>
+    <string name="about_credits_translations_credits" translatable="false">Tamara Castellano (Italian)\nJorge Nicolas Karmis (Spanish)\nGeorge Kimionis (Greek)\n@visvirial (Japanese)\nДенис Рейн (Russian, Ukrainian)</string>
+    <string name="about_credits_bitcoinj">Uses Bitcoinj library\nhttp://bitcoinj.github.io/</string>
+    <string name="about_credits_electrum">Uses Electrum server software\nhttps://electrum.org/</string>
+    <string name="about_credits_schildbach">Influenced by Andreas Schildbach\nhttps://github.com/schildbach/bitcoin-wallet/</string>
+    <string name="about_credits_zxing">QR-code functionality by ZXing\nhttps://github.com/zxing/zxing</string>
+    <string name="about_credits_crypto_icons">Crypto-icons by Chris Shepherd\nhttps://github.com/shphrd/crypto-icons</string>
+    <string name="about_credits_font_icons">Font-icons by Daniel Bruce\nhttp://www.entypo.com</string>
+    <string name="about_credits_exchange_rates">Exchange rates provided by\nhttp://www.cryptocoincharts.info/\nhttps://bitcoinaverage.com/</string>
+    <string name="about_coinomi_copyright" translatable="false">\u00A9 2014–2016 Coinomi</string>
+    <!-- Add Coins -->
+    <string name="title_activity_add_coins">Add coins</string>
+    <!-- %1$s is the coin name e.g. ... create a Bitcoin account ... -->
+    <string name="password_add_coin">You are about to create a %1$s account in your wallet.</string>
+    <!-- %1$s is the coin name e.g. Add Bitcoin? -->
+    <string name="adding_coin_confirmation_title">Add %1$s?</string>
+    <!-- %1$s is the coin name e.g. ... a new Bitcoin account -->
+    <string name="adding_coin_working">Please wait while creating a new %1$s account</string>
+    <!-- %1$s is the coin name and %2$s is and error message e.g. Error adding Bitcoin: some error message -->
+    <string name="add_coin_error">Error adding %1$s: %2$s</string>
+    <!-- %1$s is the coin name e.g. Bitcoin already added -->
+    <string name="coin_already_added_title">%1$s already added</string>
+    <string name="coin_already_added">Additional accounts are not yet supported</string>
+    <!-- Transaction amount visualizer -->
+    <!-- Internal transfer means that the wallet send money to itself.-->
+    <string name="internal_transfer">Internal transfer</string>
+    <!-- Transaction Details -->
+    <string name="title_activity_transaction_details">Transaction details</string>
+    <string name="sent">Sent</string>
+    <string name="received">Received</string>
+    <!-- Status of a transaction, could be pending for confirmations or confirmed -->
+    <string name="status_label">Status</string>
+    <string name="date_label">Date</string>
+    <string name="transaction_id_label">Transaction id</string>
+    <string name="view_at_a_blockchain_explorer_link">View on blockchain explorer</string>
+    <!-- %d is the number of confirmations -->
+    <plurals name="status_building">
+        <item quantity="one">%d confirmation</item>
+        <item quantity="other">%d confirmations</item>
+    </plurals>
+    <string name="status_pending">Waiting for transaction confirmation</string>
+    <string name="status_unknown">Transaction status unknown</string>
+    <!-- Exchange Rates -->
+    <string name="title_activity_exchange_rates">Exchange rates</string>
+    <!-- %1$s is the symbol of a fiat currency e.g. Set EUR as a ... -->
+    <string name="set_local_currency">Set %1$s as a local currency</string>
+    <string name="exchange_rates_loading">Loading exchange rates</string>
+    <string name="exchange_rates_load_error">Could not load exchange rates</string>
+    <string name="exchange_rates_empty_search">Could not find exchange rate</string>
+    <!-- Select Coins -->
+    <string name="select_coins">Select the coins you wish to use with your wallet. You can add more later.</string>
+    <!-- Previous Addresses -->
+    <string name="title_activity_previous_addresses">My previous addresses</string>
+    <string name="previous_addresses_used">Used address</string>
+    <string name="previous_addresses_unused">Unused address</string>
+    <!-- Edit Address Book Entry -->
+    <string name="edit_address_book_entry_dialog_title_add">Add address</string>
+    <string name="edit_address_book_entry_dialog_title_edit">Edit address</string>
+    <string name="edit_address_book_entry_dialog_address_label">Address</string>
+    <string name="edit_address_book_entry_dialog_label_label">Name</string>
+    <!-- Edit Account -->
+    <string name="edit_account_title">Edit account</string>
+    <string name="edit_account_description_label">Description</string>
+    <!-- %1$s is the name of the account e.g. Remove account Bitcoin? -->
+    <string name="edit_account_delete_title">Remove account %1$s?</string>
+    <string name="edit_account_delete_description">This removes the account from the wallet but it is still possible to re-add it and recover the coins.</string>
+    <!-- Settings -->
+    <string name="title_activity_settings">Settings</string>
+    <string name="pref_title_restore_wallet">Restore wallet</string>
+    <string name="pref_title_exchange_rates">Exchange rates</string>
+    <string name="pref_title_manual_receiving_addresses">Manual receiving addresses</string>
+    <string name="pref_summary_manual_receiving_addresses">Do not automatically create a new address for every transaction</string>
+    <!-- Show Seed -->
+    <string name="title_activity_show_seed">Show recovery phrase</string>
+    <string name="seed_not_available_title">No recovery phrase found</string>
+    <string name="seed_not_available">Your recovery phrase is not saved on this device.\nTry restoring your wallet to solve this.</string>
+    <!-- &#8230; is the ... character -->
+    <string name="seed_working">Please wait&#8230;</string>
+    <string name="seed_password_protected">This recovery phrase is protected with a BIP39 passphrase</string>
+    <!-- Wallet locked -->
+    <string name="touch_to_decrypt_wallet">Touch to unlock</string>
+    <!-- Debugging -->
+    <string name="title_activity_debugging">Debugging</string>
+    <string name="debugging_info">You can use a collection of tools to debug various issues with your wallet.</string>
+    <string name="debugging_test_wallet_password">Wallet unlocking tests</string>
+    <string name="debugging_test_wallet_password_results">Unlocked wallet: %1$s\n\nFingerprints\nInput: %2$s\nKey: %3$s</string>
+    <!-- Overview -->
+    <string name="title_activity_overview">Overview</string>
+    <!-- Exchange -->
+    <string name="title_activity_trade">Exchange</string>
+    <string name="trade_info">Select the coins you wish to exchange.\nThe converted coins will be automatically added to your wallet.</string>
+    <string name="trade_info_rates">Given rate includes ShapeShift.io transaction fee</string>
+    <string name="trade_from_coin_label">Exchange</string>
+    <string name="trade_to_coin_label">Receive</string>
+    <string name="trade_warn_no_account_found">You will be prompted to add a %1$s wallet</string>
+    <string name="trade_warn_no_connection_title">No connection</string>
+    <string name="trade_warn_no_connection_message">Internet connection is needed to exchange coins.</string>
+    <string name="trade_error">Exchange error</string>
+    <string name="trade_error_no_supported_source_accounts">No supported accounts found</string>
+    <string name="trade_error_service_not_available">Service temporary unavailable, please try again in a minute</string>
+    <string name="trade_error_market_info">Service temporary unavailable.\nNo information about %1$s - %2$s pair</string>
+    <string name="trade_error_sign_tx_message">An error occurred while signing and broadcasting transaction.\n\nTechnical details:\n\n<b>%1$s</b></string>
+    <string name="trade_error_max_limit">The supplied amount exceeds the limit of %1$s. Please use a smaller amount.</string>
+    <string name="trade_error_min_limit">The minimum amount is at least %1$s</string>
+    <!-- Exchange Status -->
+    <string name="title_activity_exchange_status">Exchange status</string>
+    <string name="trade_status_message">Your order will complete shortly. You can exit this screen without affecting the exchange.</string>
+    <string name="trade_status_complete_message">Your order completed successfully.</string>
+    <string name="trade_status_label">Status</string>
+    <!-- &#8230; is the ... character -->
+    <string name="trade_status_waiting_deposit">Waiting for deposit&#8230;</string>
+    <string name="trade_status_received_deposit">Received deposit of %1$s</string>
+    <!-- &#8230; is the ... character -->
+    <string name="trade_status_waiting_trade">Waiting for exchange&#8230;</string>
+    <string name="trade_status_complete_detail">Exchange complete, sent %1$s</string>
+    <string name="trade_status_complete">Exchange complete</string>
+    <string name="trade_status_view_transaction">View transaction</string>
+    <string name="trade_status_email_receipt">Email receipt</string>
+    <!-- %1$s is an error message -->
+    <string name="trade_status_failed_detail">Exchange failed: %1$s</string>
+    <string name="trade_status_failed">Exchange failed</string>
+    <string name="trade_status_delete_message">Remove from history?</string>
+    <string name="trade_status_tx_not_available">Transaction not found, try again in a few seconds</string>
+    <!-- Email receipt dialog -->
+    <string name="email_receipt_title">Email receipt</string>
+    <string name="email_receipt_message">Receive an email for this exchange transaction</string>
+    <!-- Exchange History -->
+    <string name="title_activity_exchange_history">Exchange history</string>
+    <string name="exchange_history_empty">No exchanges made</string>
+    <!-- ShapeShift -->
+    <string name="about_shapeshift_title">About ShapeShift.io</string>
+    <string name="about_shapeshift_message">ShapeShift.io is an instant altcoin exchange that provides Bitcoin and altcoin conversion. The platform (available in both web and API flavors) represents the fastest, most efficient way to convert between Bitcoin and dozens of altcoins within the Bitcoin ecosystem. No account needed.</string>
+    <!-- Sign Message -->
+    <string name="title_activity_sign_verify_message">Sign/verify message</string>
+    <string name="signing_info">You can sign or verify a message using an address.</string>
+    <string name="signing_address_label">Signing address</string>
+    <string name="address_not_found_error">The provided address could not be found in this account.</string>
+    <string name="message_to_sign_label">Message</string>
+    <string name="signature_label">Signature</string>
+    <string name="message_signed">Message signed</string>
+    <string name="message_verified">Message verified</string>
+    <string name="message_verification_failed">Message verification failed</string>
+    <!-- Messages -->
+    <string name="tx_message_public">Public message</string>
+    <string name="tx_message_private">Private message</string>
+    <string name="tx_message_public_add">Add public message</string>
+    <string name="tx_message_private_add">Add private message</string>
+    <string name="tx_message_public_remove">Remove public message</string>
+    <string name="tx_message_private_remove">Remove private message</string>
+    <string name="tx_message_from">From</string>
+    <string name="tx_message_subject">Subject</string>
+    <string name="tx_message">Message</string>
+    <!-- Account details -->
+    <string name="title_activity_account_details">Account details</string>
+    <string name="account_description_label">Description</string>
+    <string name="account_public_key_label">Public key</string>
+    <string name="account_extended_public_key_label">Extended public key</string>
+    <string name="account_public_key_warning">Sharing your public key will allow anybody to view your balance and transaction history.</string>
+    <string name="account_private_key_label">Private key</string>
+    <string name="account_extended_private_key_label">Extended private key</string>
+    <string name="account_private_key_warning">The private key allows you to send coins from this account. It is not necessary to backup this key as it is derived from your <i>recovery phrase</i></string>
+    <!-- Support -->
+    <string name="support_message">Contact Coinomi support</string>
+    <!-- Sweep wallet -->
+    <!-- Sweep paper wallet means to redeem coins from a code usually printed on a paper -->
+    <string name="title_activity_sweep_wallet">Sweep paper wallet</string>
+    <string name="sweep_wallet_info">You are about to transfer coins from a paper wallet to your Coinomi wallet.\nAfter the transfer is complete, please avoid reusing the paper wallet for security reasons.\n\nSupported formats: WIF, BIP38, Mini private key.</string>
+    <string name="sweep_wallet_key_title">Private key</string>
+    <string name="sweep_wallet_key_password">Private key password</string>
+    <string name="sweep_wallet_key_hint">type or scan a private key</string>
+    <string name="sweep_wallet_bad_format">Could not recognize the private key format.</string>
+    <string name="sweep_wallet_bad_coin_type">The private key type does not match the destination account type.</string>
+    <string name="sweep_wallet_bad_password">Incorrect password.</string>
+    <string name="sweep_wallet_zero_coins">The private key does not contain any funds.</string>
+    <string name="sweep_wallet_key_wait">Please wait while sweeping your paper wallet</string>
+    <!-- &#8230; is the ... character -->
+    <string name="sweep_wallet_key_decoding">Decoding private key&#8230;</string>
+    <!-- &#8230; is the ... character -->
+    <string name="sweep_wallet_key_loading">Loading balance&#8230;</string>
+    <!-- &#8230; is the ... character -->
+    <string name="sweep_wallet_key_signing">Creating transaction&#8230;</string>
+    <!-- Fees settings -->
+    <string name="title_activity_transaction_fees">Transaction fees</string>
+    <!-- Example: Bitcoin transaction fees-->
+    <string name="tx_fees_title">%1$s transaction fees</string>
+    <!-- Example: The fee value is per kilobyte.-->
+    <string name="tx_fees_description">The fee value is %1$s.</string>
+    <string name="tx_fees_per_kilobyte">per kilobyte of transaction data</string>
+    <string name="tx_fees_per_byte">per byte of transaction data</string>
+    <string name="tx_fees_per_transaction">per transaction</string>
+
+    <!-- Terms -->
+    <string name="terms_of_service_title">Terms of service</string>
+    <!-- TODO translate to other languages -->
+    <string name="terms_of_service" translatable="false">LEGAL DISCLAIMER\n
+\n
+\n
+1. Risks related to the use of Coinomi Wallet\n
+\n
+Coinomi will not be responsible for any losses, damages or claims arising from events falling within the scope of the following five categories:\n
+\n
+(1) Mistakes made by the user of any cryptocurrency-related software or service, e.g., forgotten passwords, payments sent to wrong coin addresses, and accidental deletion of wallets.\n
+\n
+(2) Software problems of the wallet and/or any cryptocurrency-related software or service, e.g., corrupted wallet file, incorrectly constructed transactions, unsafe cryptographic libraries, malware affecting the wallet and/or any cryptocurrency-related software or service.\n
+\n
+(3) Technical failures in the hardware of the user of any cryptocurrency-related software or service, e.g., data loss due to a faulty or damaged storage device.\n
+\n
+(4) Security problems experienced by the user of any cryptocurrency-related software or service, e.g., unauthorized access to users\' wallets and/or accounts.\n
+\n
+(5) Actions or inactions of third parties and/or events experienced by third parties, e.g., bankruptcy of service providers, information security attacks on service providers, and fraud conducted by third parties.\n
+\n
+\n
+2. Trading and Investment risks\n
+\n
+There is considerable exposure to risk in any crypto-currency exchange transaction. Any transaction involving currencies involves risks including, but not limited to, the potential for changing economic conditions that may substantially affect the price or liquidity of a currency. Investments in crypto-currency exchange speculation may also be susceptible to sharp rises and falls as the relevant market values fluctuate. It is for this reason that when speculating in such markets it is advisable to use only risk capital. \n
+\n
+\n
+3. Electronic Trading Risks\n
+\n
+Before you engage in transactions using an electronic system, you should carefully review the rules and regulations of the exchanges offering the system and/or listing the instruments you intend to trade. Online trading has inherent risk due to system response and access times that may vary due to market conditions, system performance, and other factors. You should understand these and additional risks before trading.\n
+\n
+\n
+4. Compliance with tax obligations\n
+\n
+The users of the wallet are solely responsible to determinate what, if any, taxes apply to their crypto-currency transactions. The owners of, or contributors to, the wallet are NOT responsible for determining the taxes that apply to crypto-currency transactions.\n
+\n
+\n
+5. No warranties\n
+\n
+The wallet is provided on an \"as is\" basis without any warranties of any kind regarding the wallet and/or any content, data, materials and/or services provided on the wallet.\n
+\n
+\n
+6. Limitation of liability\n
+\n
+Unless otherwise required by law, in no event shall the owners of, or contributors to, the wallet be liable for any damages of any kind, including, but not limited to, loss of use, loss of profits, or loss of data arising out of or in any way connected with the use of the wallet. In no way are the owners of, or contributors to, the wallet responsible for the actions, decisions, or other behavior taken or not taken by you in reliance upon the wallet.\n
+\n
+\n
+7. Arbitration\n
+\n
+The user of the wallet agrees to arbitrate any dispute arising from or in connection with the wallet or this disclaimer, except for disputes related to copyrights, logos, trademarks, trade names, trade secrets or patents.\n
+\n
+\n
+8. Last amendment\n
+\n
+This disclaimer was amended for the last time on January 1st, 2016.</string>
+
+</resources>
