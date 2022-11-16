@@ -113,4 +113,36 @@
     <style name="AmountSmall" parent="Amount">
         <item name="android:textSize">@dimen/amount_text_size_small</item>
     </style>
-    <style
+    <style name="AmountPending" parent="Amount">
+        <item name="android:textSize">@dimen/amount_pending_text_size</item>
+        <item name="android:textColor">@color/gray_26_hint_text</item>
+    </style>
+    <style name="AmountSymbol" parent="SecondaryText">
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="AmountSymbolBig" parent="AmountSymbol">
+        <item name="android:textSize">@dimen/amount_symbol_text_size</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="AmountSymbolSmall" parent="AmountSymbol">
+        <item name="android:textSize">@dimen/amount_text_size_small</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- Widget send output -->
+    <style name="SendOutputTypeText" parent="NormalText">
+        <item name="android:textColor">@color/primary_500</item>
+    </style>
+    <style name="SendOutputAmount" parent="NormalText">
+        <item name="android:textSize">@dimen/send_output_amount_text_size</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- Transaction row -->
+    <style name="TransactionRowDirectionFontIcon" parent="SecondaryText">
+        <item name="android:textSize">@dimen/transaction_row_direction_font_icon_size</item>
+    </style>
+    <style name="TransactionRowConfidenceFontIcon" parent="SecondaryText">
+        <item name="android:textSize">@dimen/transaction_row_confirmations_font_icon_size</item>
+    </style>
+    <style name="TransactionRowMessageFontIcon" parent="SecondaryTex
