@@ -68,4 +68,49 @@
     </style>
 
     <style name="ErrorText" parent="">
-        <item name="android:textColor">@color/fg_error</it
+        <item name="android:textColor">@color/fg_error</item>
+    </style>
+
+    <style name="WarningText" parent="">
+        <item name="android:textColor">@color/fg_warning</item>
+    </style>
+
+    <style name="OkText" parent="">
+        <item name="android:textColor">@color/fg_ok</item>
+    </style>
+
+    <style name="SeedText" parent="">
+        <item name="android:textColor">@color/primary_500</item>
+        <item name="android:textSize">@dimen/seed_text_size</item>
+    </style>
+
+    <style name="GenericCircle" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/generic_circle_text_size</item>
+    </style>
+
+    <style name="GenericCircleGreen" parent="GenericCircle">
+        <item name="android:background">@drawable/generic_green_circle</item>
+    </style>
+
+    <style name="GenericCircleRed" parent="GenericCircle">
+        <item name="android:background">@drawable/generic_red_circle</item>
+    </style>
+
+    <!-- PagerTabStrip style -->
+    <style name="PagerTabStrip" parent="NormalText">
+        <item name="android:background">@color/actionbar_bg</item>
+        <item name="android:textColor">@color/actionbar_fg</item>
+    </style>
+
+    <!-- Widget amount style -->
+    <style name="Amount" parent="NormalText">
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="AmountBig" parent="Amount">
+        <item name="android:textSize">@dimen/amount_text_size_big</item>
+    </style>
+    <style name="AmountSmall" parent="Amount">
+        <item name="android:textSize">@dimen/amount_text_size_small</item>
+    </style>
+    <style
