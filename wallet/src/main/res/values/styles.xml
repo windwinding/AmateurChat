@@ -145,4 +145,38 @@
     <style name="TransactionRowConfidenceFontIcon" parent="SecondaryText">
         <item name="android:textSize">@dimen/transaction_row_confirmations_font_icon_size</item>
     </style>
-    <style name="TransactionRowMessageFontIcon" parent="SecondaryTex
+    <style name="TransactionRowMessageFontIcon" parent="SecondaryText">
+        <item name="android:textSize">@dimen/transaction_row_message_font_icon_size</item>
+    </style>
+    <style name="TransactionRowDirectionText" parent="SecondaryText">
+        <item name="android:textSize">@dimen/transaction_row_text_size_direction_text</item>
+    </style>
+    <style name="TransactionRowDate" parent="SecondaryText">
+        <item name="android:textSize">@dimen/transaction_row_text_size_date</item>
+    </style>
+    <style name="AddressRowLabel" parent="NormalText">
+        <item name="android:textSize">@dimen/row_text_size_label</item>
+    </style>
+    <style name="TransactionRowAmount" parent="Amount">
+        <item name="android:textSize">@dimen/transaction_row_text_size_amount</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- About Activity -->
+    <style name="AppNameLong">
+        <item name="android:textSize">@dimen/app_name_long</item>
+    </style>
+
+    <!-- Exchange row -->
+    <style name="ExchangeRowSymbol" parent="FontIconBig">
+        <item name="android:textSize">@dimen/exchange_row_symbol_text_size</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="ExchangeRowLabel" parent="NormalText">
+        <item name="android:textSize">@dimen/exchange_row_text_size_label</item>
+    </style>
+    <style name="ExchangeRowAmount" parent="Amount">
+        <item name="android:textSize">@dimen/exchange_row_text_size_amount</item>
+    </style>
+
+</resources>

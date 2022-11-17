@@ -1,0 +1,53 @@
+
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_scan_qr_code">Σάρωση</string>
+    <string name="action_share">Διαμοιρασμός</string>
+    <string name="action_copy">Αντιγραφή</string>
+    <string name="action_edit_label">Επεξεργασία ετικέτας</string>
+    <string name="action_empty_wallet">Άδειασμα πορτοφολιού</string>
+	<string name="action_sweep_wallet">Sweep wallet</string>
+    <string name="action_settings">Ρυθμίσεις</string>
+	<string name="action_support">Contact support</string>
+    <string name="action_about">Σχετικά</string>
+    <string name="action_refresh">Ανανέωση</string>
+    <string name="action_sign_verify_message">Υπογραφή/επαλήθευση μηνύματος</string>
+    <string name="action_account_details">Λεπτομέρειες λογαριασμού</string>
+    <string name="action_exchange_history">Ιστορικό συναλλαγών</string>
+    <string name="action_new_address">Νέα διεύθυνση</string>
+    <string name="action_swap_coins">Αντιστροφή νομισμάτων</string>
+    <string name="action_delete">Διαγραφή</string>
+    <string name="action_change_address_type">Αλλαγή τύπου διεύθυνσης</string>
+    <!-- Errors -->
+    <string name="error_generic">Παρουσιάστηκε κάποιο σφάλμα στη διαδικασία</string>
+    <string name="error_could_not_read_wallet">Το άνοιγμα του πορτοφολιού απέτυχε</string>
+	<string name="error_camera">Could not access the device camera</string>
+    <!-- Generic items -->
+    <string name="button_ok">ΟΚ</string>
+    <string name="button_next">Επόμενο</string>
+    <string name="button_finish">Τέλος</string>
+    <string name="button_return">Επιστροφή</string>
+    <string name="button_confirm">Επιβεβαίωση</string>
+    <string name="button_cancel">Ακύρωση</string>
+	<string name="button_default">Default</string>
+    <string name="button_dismiss">Κλείσιμο</string>
+    <string name="button_delete">Διαγραφή</string>
+    <string name="button_add">Προσθήκη</string>
+    <string name="button_save">Αποθήκευση</string>
+    <string name="button_remove">Απομάκρυνση</string>
+    <string name="button_edit">Επεξεργασία</string>
+    <string name="button_send">Αποστολή</string>
+    <string name="button_sign">Υπογραφή</string>
+    <string name="button_verify">Επαλήθευση</string>
+    <string name="button_skip">Παράλειψη</string>
+    <string name="button_retry">Επανάληψη</string>
+    <string name="button_download">Κατέβασμα</string>
+    <string name="button_agree">Συμφωνώ</string>
+    <string name="button_disagree">Διαφωνώ</string>
+    <string name="button_add_coins">+ Νομίσματα</string>
+	<string name="button_execute">Execute</string>
+	<string name="yes">Yes</string>
+	<string name="no">No</string>
+    <string name="scan_qr_code">Σάρωση QR code</string>
+    <string name="erase_address">Διαγραφή διεύθυνσης</string>
+    <string name="copied_to_clipboard">Αντιγράφηκε στη μνήμη</string>
