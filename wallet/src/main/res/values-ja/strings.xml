@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_scan_qr_code">スキャン</string>
+    <string name="action_share">シェア</string>
+    <string name="action_copy">コピー</string>
+    <string name="action_edit_label">ラベル編集</string>
+    <string name="action_empty_wallet">ウォレットを空にする</string>
+	<string name="action_sweep_wallet">Sweep wallet</string>
+    <string name="action_settings">設定</string>
+	<string name="action_support">C
