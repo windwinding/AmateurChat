@@ -38,4 +38,32 @@
     <string name="button_send">送る</string>
     <string name="button_sign">署名</string>
     <string name="button_verify">検証</string>
-    <string name="button_skip">スキップ</str
+    <string name="button_skip">スキップ</string>
+    <string name="button_retry">再試行</string>
+    <string name="button_download">ダウンロード</string>
+    <string name="button_agree">了解</string>
+    <string name="button_disagree">拒否</string>
+    <string name="button_add_coins">コイン追加</string>
+	<string name="button_execute">Execute</string>
+	<string name="yes">Yes</string>
+	<string name="no">No</string>
+    <string name="scan_qr_code">QRコードをスキャン</string>
+    <string name="erase_address">アドレスを削除</string>
+    <string name="copied_to_clipboard">クリップボードにコピーされました</string>
+    <string name="wallet_title_request">受け取る</string>
+    <string name="wallet_title_balance">残高</string>
+    <string name="wallet_title_send">送る</string>
+    <string name="wallet_locked_message">ウォレットはロックされています</string>
+	<string name="wallet_is_not_locked_message">Your wallet is not locked</string>
+    <string name="unlock_wallet_title">ウォレットのロックを解除する</string>
+    <string name="unlocking_wallet_working">ウォレットのロックを解除しています&#8230;</string>
+    <string name="unlocking_wallet_error_title">ウォレットのロックを解除できませんでした</string>
+    <string name="unlocking_wallet_error_detail">パスワードは正しいですか？パスワードが正しく入力されていることをご確認ください。何度やってもこのエラーが表示されてしまう場合には、復元フレーズを用いた復旧をお試しください。</string>
+    <string name="powered_by">Powered by</string>
+    <!-- Nav drawer -->
+    <string name="navigation_drawer_open">ナビゲーション・ドロワーを開く</string>
+    <string name="navigation_drawer_close">ナビゲーション・ドロワーを閉じる</string>
+    <string name="navigation_drawer_services">サービス</string>
+    <string name="navigation_drawer_wallet">ウォレット</string>
+    <!-- SendOutput widget -->
+    <string name="fee"
