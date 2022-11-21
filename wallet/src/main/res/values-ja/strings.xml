@@ -7,4 +7,35 @@
     <string name="action_empty_wallet">ウォレットを空にする</string>
 	<string name="action_sweep_wallet">Sweep wallet</string>
     <string name="action_settings">設定</string>
-	<string name="action_support">C
+	<string name="action_support">Contact support</string>
+    <string name="action_about">Coinomiについて</string>
+    <string name="action_refresh">更新</string>
+    <string name="action_sign_verify_message">メッセージの署名と検証</string>
+    <string name="action_account_details">アカウント詳細</string>
+    <string name="action_exchange_history">両替履歴</string>
+    <string name="action_new_address">新しいアドレス</string>
+    <string name="action_swap_coins">コインを交換</string>
+    <string name="action_delete">削除</string>
+    <string name="action_change_address_type">アドレスタイプ変更</string>
+    <!-- Errors -->
+    <string name="error_generic">アクションを実行中にエラーが発生しました</string>
+    <string name="error_could_not_read_wallet">ウォレットを読み込めませんでした</string>
+	<string name="error_camera">Could not access the device camera</string>
+    <!-- Generic items -->
+    <string name="button_ok">OK</string>
+    <string name="button_next">次へ</string>
+    <string name="button_finish">完了</string>
+    <string name="button_return">戻る</string>
+    <string name="button_confirm">確認</string>
+    <string name="button_cancel">キャンセル</string>
+	<string name="button_default">Default</string>
+    <string name="button_dismiss">却下</string>
+    <string name="button_delete">削除</string>
+    <string name="button_add">追加</string>
+    <string name="button_save">保存</string>
+    <string name="button_remove">削除</string>
+    <string name="button_edit">編集</string>
+    <string name="button_send">送る</string>
+    <string name="button_sign">署名</string>
+    <string name="button_verify">検証</string>
+    <string name="button_skip">スキップ</str
