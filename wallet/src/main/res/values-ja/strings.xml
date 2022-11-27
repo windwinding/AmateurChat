@@ -87,4 +87,25 @@
     <string name="seed_regenerate_title">タッチして新しい復元フレーズを生成する</string>
     <string name="backed_up_seed">私は復元フレーズを安全な場所に保管しました</string>
     <!-- Restore fragment -->
-    <string 
+    <string name="restore_info">復元フレーズを入力してください：</string>
+    <string name="restore_seed_protected">この復元フレーズにはパスワードがかかっています (BIP39)</string>
+    <string name="restore_skip_title">検証のスキップ</string>
+    <string name="restore_skip_info1">復元フレーズが以下のものに合致するか確認してください：</string>
+    <string name="restore_skip_info2">スペルミスを発見できますので、検証のスキップは推奨されません。</string>
+    <string name="restore_error_checksum">復元フレーズが正しくありません。スペルミスがないかご確認ください。</string>
+    <string name="restore_error_words">復元フレーズに認識できない単語が含まれています。</string>
+    <string name="restore_error_mismatch">入力された復元フレーズは、正しい復元フレーズに一致しません。</string>
+    <string name="restore_error">復元フレーズの検証に失敗しました。%1$s</string>
+    <string name="extra_entropy">追加のエントロピー</string>
+    <!-- Wallet activity -->
+    <string name="test_wallet_message">これはテストウォレットです。テストネットのBitcoin、Litecoin、Dogecoinを送ったり受け取ったりできます。\n\n本物のおかねを扱うことのできるウォレットを使いたい場合には、<b>設定 &gt; ウォレットを復旧する &gt; 新しいウォレットを作成する</b>を選択してください。</string>
+    <string name="wallet_update_title">新しいバージョンが利用可能です。</string>
+    <string name="wallet_update_message">新しいバージョンのCoinomiが利用可能です。これには新しい機能やバグ修正が含まれます。</string>
+    <string name="pay_with">次のもので送金する：</string>
+    <string name="exchange_and_pay_title">両替と送金</string>
+    <!-- PayToDialog-->
+    <string name="ambiguous_address_title">曖昧なアドレス</string>
+    <string name="ambiguous_address_message">正しいコインタイプを選択してください</string>
+    <!-- Balance fragment -->
+    <string name="wallet_transactions_coinbase">採掘された</string>
+    <string name="history_empty">コインの受け取り履歴は\nありません！\n\n交換所やトレード経由、もしくは品物やサービスを売ったりしてコ
