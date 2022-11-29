@@ -108,4 +108,29 @@
     <string name="ambiguous_address_message">正しいコインタイプを選択してください</string>
     <!-- Balance fragment -->
     <string name="wallet_transactions_coinbase">採掘された</string>
-    <string name="history_empty">コインの受け取り履歴は\nありません！\n\n交換所やトレード経由、もしくは品物やサービスを売ったりしてコ
+    <string name="history_empty">コインの受け取り履歴は\nありません！\n\n交換所やトレード経由、もしくは品物やサービスを売ったりしてコインを入手しましょう。</string>
+    <string name="sent_to">送り先</string>
+    <string name="received_with">受け取り元</string>
+	<string name="received_from">received from</string>
+    <string name="get_tx_info_error">トランザクションの情報を取得できませんでした</string>
+    <string name="disconnected_label">接続なし</string>
+    <string name="no_wallet_pocket_selected">ウォレットのアカウントが選択されていません</string>
+    <string name="get_tx_broadcast_error">トランザクションのブロードキャストに失敗しました</string>
+    <!-- Receive fragment -->
+    <string name="receive_address_label">自分のアドレス</string>
+    <string name="create_new_address">新しいアドレスを作成しますか？</string>
+    <string name="create_new_address_name">ラベル (オプション)</string>
+    <string name="view_previous_addresses">以前のアドレス</string>
+    <string name="too_many_unused_addresses">未使用のアドレスが多すぎます。新しいアドレスを作成する前に、以前のアドレスのうちどれかひとつを使用してみてください。</string>
+    <!-- Send Activity -->
+    <string name="send_coins_activity_title">コインを送る</string>
+    <!-- Send fragment -->
+    <string name="send_coins_fragment_receiving_address_label">支払い先</string>
+    <string name="send_coins_fragment_receiving_address_tip">ラベルかアドレスを入力</string>
+    <string name="send_coins_fragment_receiving_address_error">無効なアドレスです！</string>
+    <string name="send_coins_fragment_amount_label">支払い金額</string>
+    <string name="send_coins_fragment_button_send">送る</string>
+    <string name="send_coins_fragment_button_back">戻る</string>
+    <string name="send_coins_failed_msg">失敗しました！</string>
+    <string name="send_coins_error_network">コインのネットワークに接続できませんでした</string>
+    <string name="send_coins_error_dust">送金額が小さすぎるため、ネットワークから拒否されてしま
