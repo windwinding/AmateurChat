@@ -156,4 +156,27 @@
     <string name="password_too_short_error">パスワードが短すぎます。最低でも %1$d 文字以上にしてください。</string>
     <string name="passwords_mismatch">パスワードが一致しません</string>
     <string name="password_error">パスワードに関するエラーを検知したため、処理を継続できません。</string>
-    <string name="passw
+    <string name="password_skip_warn">パスワードを設定しないと、認証なしでウォレットにアクセスできるようになります。</string>
+    <string name="password_wallet_recovery">ウォレットを復旧するためには、保護された復元フレーズを作成した際に用いたパスワードと全く同じものを入力してください。\n異なるパスワードを入力した場合には、新しい空のウォレットが作成されます。</string>
+    <!-- FinalizeWalletRestorationFragment -->
+    <string name="wallet_restoration">ウォレットが復旧されるまでしばらくお待ちください</string>
+    <string name="wallet_restoration_master_key">マスター鍵を生成しています</string>
+    <string name="wallet_restoration_coin">%1$s に対する鍵を生成しています</string>
+    <string name="wallet_restoration_error">ウォレットを復旧できませんでした。\n\n%1$s</string>
+    <!-- PasswordConfirmationFragment -->
+    <string name="enter_password">パスワードを入力してください</string>
+    <!-- SignTransactionFragment -->
+    <string name="contacting_exchange">両替所に接続しています&#8230;</string>
+    <string name="preparing_transaction">トランザクションの準備と送信をしています。しばらくお待ちください。</string>
+    <string name="no_such_pocket_error">ウォレットアカウントへのアクセスの際にエラーが発生しました。問題が継続する場合には、復元フレーズを用いてウォレットを復旧してください。</string>
+    <string name="password_failed">入力されたパスワードが正しくありません。</string>
+    <string name="sending_msg">送信しています&#8230;</string>
+    <string name="sent_msg">送信しました！トランザクションが検証されるまでしばらくお待ちください。</string>
+    <string name="tx_already_broadcast">おかねは既に送られています</string>
+    <string name="trade_expired">両替の有効期限が切れました</string>
+    <string name="tx_confirm_timer_message">%1$s後にこのトランザクションを確認してください</string>
+    <plurals name="tx_confirm_timer_minute">
+        <item quantity="other">%s 分</item>
+    </plurals>
+    <plurals name="tx_confirm_timer_second">
+        <item quantity="
