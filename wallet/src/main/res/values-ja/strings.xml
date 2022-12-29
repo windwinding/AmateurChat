@@ -196,4 +196,32 @@
     <string name="about_credits_exchange_rates">為替レートは以下により提供されています\nhttp://www.cryptocoincharts.info/\nhttps://bitcoinaverage.com/</string>
     <!-- Add Coins -->
     <string name="title_activity_add_coins">コインを追加する</string>
-    <string name="password_add_coin">ウォレットの中に %1$s のアカウントを作成しようとしています。</stri
+    <string name="password_add_coin">ウォレットの中に %1$s のアカウントを作成しようとしています。</string>
+    <string name="adding_coin_confirmation_title">%1$s を追加しますか？</string>
+    <string name="adding_coin_working">新しい %1$s のアカウントを追加しています。しばらくお待ちください</string>
+    <string name="add_coin_error">%1$s を追加する際にエラーが発生しました: %2$s</string>
+    <string name="coin_already_added_title">%1$s は既に追加されています</string>
+    <string name="coin_already_added">追加のアカウントは現在のところサポートされていません</string>
+    <!-- Transaction amount visualizer -->
+    <string name="internal_transfer">ウォレット内部の送金</string>
+    <!-- Transaction Details -->
+    <string name="title_activity_transaction_details">トランザクション詳細</string>
+    <string name="sent">送金額</string>
+    <string name="received">受取額</string>
+    <string name="status_label">状態</string>
+    <string name="date_label">日付</string>
+    <string name="transaction_id_label">トランザクションID</string>
+    <string name="view_at_a_blockchain_explorer_link">ブロックエクスプローラで確認する</string>
+    <plurals name="status_building">
+        <item quantity="other">%d 検証</item>
+    </plurals>
+    <string name="status_pending">トランザクションの検証を待っています</string>
+    <string name="status_unknown">トランザクションの状態は未知です</string>
+    <!-- Exchange Rates -->
+    <string name="title_activity_exchange_rates">為替レート</string>
+    <string name="set_local_currency">%1$s を標準の通貨として設定しました</string>
+    <string name="exchange_rates_loading">為替レートを読み込んでいます</string>
+    <string name="exchange_rates_load_error">為替レートを読み込めませんでした</string>
+    <string name="exchange_rates_empty_search">為替レートが見つかりませんでした</string>
+    <!-- Select Coins -->
+    <string name="select_coins">
