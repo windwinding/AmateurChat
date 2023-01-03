@@ -224,4 +224,27 @@
     <string name="exchange_rates_load_error">為替レートを読み込めませんでした</string>
     <string name="exchange_rates_empty_search">為替レートが見つかりませんでした</string>
     <!-- Select Coins -->
-    <string name="select_coins">
+    <string name="select_coins">ウォレットで利用したいコインを選択してください。後ほど追加することもできます。</string>
+    <!-- Previous Addresses -->
+    <string name="title_activity_previous_addresses">以前のアドレス</string>
+    <string name="previous_addresses_used">使用済みアドレス</string>
+    <string name="previous_addresses_unused">未使用アドレス</string>
+    <!-- Edit Address Book Entry -->
+    <string name="edit_address_book_entry_dialog_title_add">アドレスを追加する</string>
+    <string name="edit_address_book_entry_dialog_title_edit">アドレスを編集する</string>
+    <string name="edit_address_book_entry_dialog_address_label">アドレス</string>
+    <string name="edit_address_book_entry_dialog_label_label">ラベル</string>
+	    <!-- Edit Account -->
+    <string name="edit_account_title">Edit account</string>
+    <string name="edit_account_description_label">Description</string>
+    <!-- %1$s is the name of the account e.g. Remove account Bitcoin? -->
+    <string name="edit_account_delete_title">Remove account %1$s?</string>
+    <string name="edit_account_delete_description">This removes the account from the wallet but it is still possible to re-add it and recover the coins.</string>
+    <!-- Settings -->
+    <string name="title_activity_settings">設定</string>
+    <string name="pref_title_restore_wallet">ウォレットを復旧する</string>
+    <string name="pref_title_exchange_rates">為替レート</string>
+    <string name="pref_title_manual_receiving_addresses">手動の受け取りアドレス</string>
+    <string name="pref_summary_manual_receiving_addresses">トランザクションごとに自動的に新しいアドレスを作成しない</string>
+    <!-- Show Seed -->
+    
