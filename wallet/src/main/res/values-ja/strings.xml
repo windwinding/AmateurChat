@@ -247,4 +247,26 @@
     <string name="pref_title_manual_receiving_addresses">手動の受け取りアドレス</string>
     <string name="pref_summary_manual_receiving_addresses">トランザクションごとに自動的に新しいアドレスを作成しない</string>
     <!-- Show Seed -->
-    
+    <string name="title_activity_show_seed">復元フレーズを表示する</string>
+    <string name="seed_not_available_title">復元フレーズが見つかりませんでした</string>
+    <string name="seed_not_available">復元フレーズはこのデバイスに保存されていません。\nこの問題を解決するためには、ウォレットの復旧を行ってください。</string>
+    <string name="seed_working">お待ちください&#8230;</string>
+    <string name="seed_password_protected">この復元フレーズはパスワードにより保護されています (BIP39)</string>
+    <!-- Wallet locked -->
+    <string name="touch_to_decrypt_wallet">タッチしてロックを解除</string>
+	    <!-- Debugging -->
+    <string name="title_activity_debugging">Debugging</string>
+    <string name="debugging_info">You can use a collection of tools to debug various issues with your wallet.</string>
+    <string name="debugging_test_wallet_password">Wallet unlocking tests</string>
+    <string name="debugging_test_wallet_password_results">Unlocked wallet: %1$s\n\nFingerprints\nInput: %2$s\nKey: %3$s</string>
+    <!-- Overview -->
+    <string name="title_activity_overview">Overview</string>
+    <!-- Exchange -->
+    <string name="title_activity_trade">両替所</string>
+    <string name="trade_info">両替を行いたいコインを選択してください。\n両替されたコインは自動的にウォレットに追加されます。</string>
+    <string name="trade_info_rates">表示されているレートには、ShapeShift.ioのトランザクション手数料が含まれています</string>
+    <string name="trade_from_coin_label">支払うコイン</string>
+    <string name="trade_to_coin_label">受け取るコイン</string>
+    <string name="trade_warn_no_account_found">%1$s のウォレットを追加する手続を開始します</string>
+    <string name="trade_warn_no_connection_title">接続がありません</string>
+    <string name="trade_warn_no_c
