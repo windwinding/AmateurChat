@@ -269,4 +269,24 @@
     <string name="trade_to_coin_label">受け取るコイン</string>
     <string name="trade_warn_no_account_found">%1$s のウォレットを追加する手続を開始します</string>
     <string name="trade_warn_no_connection_title">接続がありません</string>
-    <string name="trade_warn_no_c
+    <string name="trade_warn_no_connection_message">コインを両替するためにはインターネット接続が必要です。</string>
+    <string name="trade_error">両替エラー</string>
+    <string name="trade_error_no_supported_source_accounts">サポートされているアカウントがみつかりません</string>
+    <string name="trade_error_service_not_available">サービスが一時的に利用できません。数分後に再度お試しください</string>
+    <string name="trade_error_market_info">サービスが一時的に利用できません。\n%1$s - %2$s のペアに関する情報が見つかりません</string>
+    <string name="trade_error_sign_tx_message">トランザクションの署名とブロードキャストを行う際にエラーが発生しました。\n\n技術的な詳細:\n\n<b>%1$s</b></string>
+    <string name="trade_error_max_limit">与えられた金額は %1$s の上限を超えています。より小さな額を入力してください。</string>
+    <string name="trade_error_min_limit">最小の金額は少なくとも %1$s です</string>
+    <!-- Exchange Status -->
+    <string name="title_activity_exchange_status">両替ステータス</string>
+    <string name="trade_status_message">注文はすぐに完了します。両替には影響ありませんので、このスクリーンを閉じても構いません。</string>
+    <string name="trade_status_complete_message">注文は正常に完了しました。</string>
+    <string name="trade_status_label">状態</string>
+    <string name="trade_status_waiting_deposit">入金を待っています&#8230;</string>
+    <string name="trade_status_received_deposit">%1$s の受け取りを確認しました</string>
+    <string name="trade_status_waiting_trade">両替を待っています&#8230;</string>
+    <string name="trade_status_complete_detail">両替が完了しました。%1$s を送金しました</string>
+    <string name="trade_status_complete">両替が完了しました</string>
+    <string name="trade_status_view_transaction">トランザクションを見る</string>
+    <string name="trade_status_email_receipt">レシートメール</string>
+    <string name
