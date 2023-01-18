@@ -289,4 +289,28 @@
     <string name="trade_status_complete">両替が完了しました</string>
     <string name="trade_status_view_transaction">トランザクションを見る</string>
     <string name="trade_status_email_receipt">レシートメール</string>
-    <string name
+    <string name="trade_status_failed_detail">両替に失敗しました: %1$s</string>
+    <string name="trade_status_failed">両替に失敗しました</string>
+    <string name="trade_status_delete_message">履歴から削除しますか？</string>
+    <string name="trade_status_tx_not_available">トランザクションが見つかりませんでした。数秒後に再度お試しください</string>
+    <!-- Email receipt dialog -->
+    <string name="email_receipt_title">レシートメール</string>
+    <string name="email_receipt_message">この両替トランザクションに対するメールを受け取る</string>
+    <!-- Exchange History -->
+    <string name="title_activity_exchange_history">両替履歴</string>
+    <string name="exchange_history_empty">両替は一度も行っていません</string>
+    <!-- ShapeShift -->
+    <string name="about_shapeshift_title">ShapeShift.ioについて</string>
+    <string name="about_shapeshift_message">ShapeShift.ioは、Bitcoinとオルトコインの変換サービスを提供する、即時オルトコイン両替所です。Bitcoinの生態系の中で、Bitcoinと数多のオルトコインの変換を行う、最も高速で、最も効率的なプラットフォーム（ウェブおよびAPI経由で利用可能）の代表格です。アカウントの作成は必要ありません。</string>
+    <!-- Sign Message -->
+    <string name="title_activity_sign_verify_message">メッセージの署名と検証</string>
+    <string name="signing_info">アドレスを使用することでメッセージの署名や検証ができます。</string>
+    <string name="signing_address_label">署名を行うアドレス</string>
+    <string name="address_not_found_error">指定されたアドレスはアカウント内に存在しません。</string>
+    <string name="message_to_sign_label">メッセージ</string>
+    <string name="signature_label">署名</string>
+    <string name="message_signed">メッセージの署名を行いました</string>
+    <string name="message_verified">メッセージの検証を行いました</string>
+    <string name="message_verification_failed">メッセージの検証に失敗しました</string>
+    <!-- Messages -->
+    <string name="tx_message_public">公
