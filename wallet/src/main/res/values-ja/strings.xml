@@ -313,4 +313,27 @@
     <string name="message_verified">メッセージの検証を行いました</string>
     <string name="message_verification_failed">メッセージの検証に失敗しました</string>
     <!-- Messages -->
-    <string name="tx_message_public">公
+    <string name="tx_message_public">公開メッセージ</string>
+    <string name="tx_message_private">非公開メッセージ</string>
+    <string name="tx_message_public_add">公開メッセージの追加</string>
+    <string name="tx_message_private_add">非公開メッセージの追加</string>
+    <string name="tx_message_public_remove">公開メッセージの削除</string>
+    <string name="tx_message_private_remove">非公開メッセージの削除</string>
+    <string name="tx_message_from">送信元</string>
+    <string name="tx_message_subject">件名</string>
+    <string name="tx_message">メッセージ</string>
+    <!-- Account details -->
+    <string name="title_activity_account_details">アカウント詳細</string>
+    <string name="account_description_label">説明</string>
+    <string name="account_public_key_label">公開鍵</string>
+    <string name="account_extended_public_key_label">拡張公開鍵</string>
+    <string name="account_public_key_warning">公開鍵を共有すると、共有した相手があなたの残高やトランザクション履歴を閲覧できるようになります。</string>
+    <string name="account_private_key_label">秘密鍵</string>
+    <string name="account_extended_private_key_label">拡張秘密鍵</string>
+    <string name="account_private_key_warning">秘密鍵があればこのアカウントからコインを送金できます。この鍵は<i>復元フレーズ</i>から計算することができますので、この鍵をバックアップする必要はありません。</string>
+	    <!-- Support -->
+    <string name="support_message">Contact Coinomi support</string>
+    <!-- Sweep wallet -->
+    <!-- Sweep paper wallet means to redeem coins from a code usually printed on a paper -->
+    <string name="title_activity_sweep_wallet">Sweep paper wallet</string>
+    <string name="sweep_wallet_info">You are about to transfer 
