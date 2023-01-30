@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_scan_qr_code">Сканировать</string>
+    <string name="action_share">Поделиться</string>
+    <string name="action_copy">Копировать</string>
+    <string name="action_edit_label">Редактировать метку</string>
+    <string name="action_empty_wallet">"Опустошить кошелек "</string>
+	<string name="action_sweep_wallet">Sweep wallet</string>
+    <string name="action_settings">Настройки</string>
+	<string name="action_support">Contact support</string>
+    <string name="action_about">О программе</string>
+    <string name="action_refresh">Обновить</string>
+    <string name="action_sign_verify_message">Подписать/проверить сообщение</string>
+    <string name="action_account_details">Детали учетной записи</string>
+    <string name="action_exchange_history">История обменов</string>
+    <string name="action_new_address">Новый адрес</string>
+    <string name="action_swap_coins">Обменять моне

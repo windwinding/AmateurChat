@@ -354,4 +354,13 @@
     <!-- Fees settings -->
     <string name="title_activity_transaction_fees">Transaction fees</string>
     <!-- Example: Bitcoin transaction fees-->
-    <
+    <string name="tx_fees_title">%1$s transaction fees</string>
+    <!-- Example: The fee value is per kilobyte.-->
+    <string name="tx_fees_description">The fee value is %1$s.</string>
+    <string name="tx_fees_per_kilobyte">per kilobyte of transaction data</string>
+    <string name="tx_fees_per_byte">per byte of transaction data</string>
+    <string name="tx_fees_per_transaction">per transaction</string>
+
+    <!-- Terms -->
+    <string name="terms_of_service_title">Terms of service</string>
+</resources>
