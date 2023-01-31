@@ -14,4 +14,32 @@
     <string name="action_account_details">Детали учетной записи</string>
     <string name="action_exchange_history">История обменов</string>
     <string name="action_new_address">Новый адрес</string>
-    <string name="action_swap_coins">Обменять моне
+    <string name="action_swap_coins">Обменять монеты</string>
+    <string name="action_delete">Удалить</string>
+    <string name="action_change_address_type">Изменить тип адреса</string>
+    <!-- Errors -->
+    <string name="error_generic">При выполнении задачи произошла ошибка</string>
+    <string name="error_could_not_read_wallet">Открытие кошелька не удалось</string>
+	<string name="error_camera">Could not access the device camera</string>
+    <!-- Generic items -->
+    <string name="button_ok">ОК</string>
+    <string name="button_next">Дальше</string>
+    <string name="button_finish">Завершить</string>
+    <string name="button_return">Назад</string>
+    <string name="button_confirm">Подтвердить</string>
+    <string name="button_cancel">Отмена</string>
+	<string name="button_default">Default</string>
+    <string name="button_dismiss">Отклонить</string>
+    <string name="button_delete">Удалить</string>
+    <string name="button_add">Добавить</string>
+    <string name="button_save">Сохранить</string>
+    <string name="button_remove">Удалить</string>
+    <string name="button_edit">Редактировать</string>
+    <string name="button_send">Отправить</string>
+    <string name="button_sign">Подписать</string>
+    <string name="button_verify">Проверить</string>
+    <string name="button_skip">Пропустить</string>
+    <string name="button_retry">Повторить</string>
+    <string name="button_download">Скачать</string>
+    <string name="button_agree">Согласен</string>
+    <string name="button
