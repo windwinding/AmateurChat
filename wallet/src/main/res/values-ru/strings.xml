@@ -42,4 +42,24 @@
     <string name="button_retry">Повторить</string>
     <string name="button_download">Скачать</string>
     <string name="button_agree">Согласен</string>
-    <string name="button
+    <string name="button_disagree">Не согласен</string>
+    <string name="button_add_coins">Добавить кошелек</string>
+	<string name="button_execute">Execute</string>
+	<string name="yes">Yes</string>
+	<string name="no">No</string>
+    <string name="scan_qr_code">Отсканировать QR-код</string>
+    <string name="erase_address">Удалить адрес</string>
+    <string name="copied_to_clipboard">Скопировано в буфер обмена</string>
+    <string name="wallet_title_request">получить</string>
+    <string name="wallet_title_balance">баланс</string>
+    <string name="wallet_title_send">отправить</string>
+    <string name="wallet_locked_message">Ваш кошелёк заблокирован</string>
+	<string name="wallet_is_not_locked_message">Your wallet is not locked</string>
+    <string name="unlock_wallet_title">Разблокировать Ваш кошелёк</string>
+    <string name="unlocking_wallet_working">Ваш кошелёк разблокируется&#8230;</string>
+    <string name="unlocking_wallet_error_title">Не удалось разблокировать Ваш кошелёк</string>
+    <string name="unlocking_wallet_error_detail">Вы ввели правильный пароль? Пожалуйста, удостоверьтесь, что пароль был введен без ошибок. Попытайтесь восстановить используя восстанавливающую фразу, если ошибка сохранится.</string>
+    <string name="powered_by">Поддерживается</string>
+    <!-- Nav drawer -->
+    <string name="navigation_drawer_open">Открыть боковое меню</string>
+    <string name="navigation_drawer_close">Закрыть боковое меню</str
