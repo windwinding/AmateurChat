@@ -93,4 +93,21 @@
     <string name="restore_skip_info1">Пожалуйста удостоверитесь, что Ваша восстанавливающая фраза совпадает с этой :</string>
     <string name="restore_skip_info2">Мы рекомендуем не пропускать проверку, что бы не допустить ошибок.</string>
     <string name="restore_error_checksum">Не правильная восстанавливающая фраза. Убедитесь в правильности ввода.</string>
-    <string name="restore_error_words">Восстанавливающая фраза содер
+    <string name="restore_error_words">Восстанавливающая фраза содержит нераспознаваемые слова.</string>
+    <string name="restore_error_mismatch">Введенная Вами восстанавливающая фраза не совпадает с восстанавливающей фразой вашего кошелька.</string>
+    <string name="restore_error">Не удалось проверить Вашу восстанавливающую фразу. %1$s</string>
+    <string name="extra_entropy">Усиленная энтропия</string>
+    <!-- Wallet activity -->
+    <string name="test_wallet_message">Это тестовый кошелек, где Вы можете отправлять и получать Bitcoin, Litecoin, Dogecoin используя testnet.\n\nЕсли Вы хотите использовать кошелёк с настоящими деньгами, пожалуйста зайдите в: <b>Настройки &gt; Восстановить кошелёк &gt; Создать новый кошелёк</b>.</string>
+    <string name="wallet_update_title">Доступна новая версия</string>
+    <string name="wallet_update_message">Доступна новая версия Coinomi, она содержит новые функции и исправления.</string>
+    <string name="pay_with">Отправить используя</string>
+    <string name="exchange_and_pay_title">Обменять и отправить</string>
+    <!-- PayToDialog-->
+    <string name="ambiguous_address_title">Сомнительный адрес</string>
+    <string name="ambiguous_address_message">Пожалуйста выберите нужный тип монет</string>
+    <!-- Balance fragment -->
+    <string name="wallet_transactions_coinbase">добытые посредством майнинга</string>
+    <string name="history_empty">Ваш кошелёк ещё не содержит монет!\n\nМожно приобрести немного монет посредством обмена или меняя их на товары и услуги.</string>
+    <string name="sent_to">Отправили</string>
+    <string name="received_with
