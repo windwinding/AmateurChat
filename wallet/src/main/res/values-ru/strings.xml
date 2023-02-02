@@ -62,4 +62,24 @@
     <string name="powered_by">Поддерживается</string>
     <!-- Nav drawer -->
     <string name="navigation_drawer_open">Открыть боковое меню</string>
-    <string name="navigation_drawer_close">Закрыть боковое меню</str
+    <string name="navigation_drawer_close">Закрыть боковое меню</string>
+    <string name="navigation_drawer_services">Сервис</string>
+    <string name="navigation_drawer_wallet">Кошелёк</string>
+    <!-- SendOutput widget -->
+    <string name="fee">налог на транзакцию</string>
+    <string name="send">отправить</string>
+    <string name="trade">обмен</string>
+    <string name="receive">получить</string>
+    <!-- Welcome fragment -->
+    <string name="welcome_text">Добро пожаловать в Coinomi</string>
+    <string name="create_wallet">Создать новый кошелёк</string>
+    <string name="restore_wallet">Восстановить кошелёк</string>
+    <string name="test_wallet">Тестовый кошелёк</string>
+    <!-- Intro -->
+	<string name="override_wallet_warning_title">Override existing wallet?</string>
+	<string name="override_new_wallet_warning_message">If you create a new wallet, your existing wallet will be lost unless you backed up you <i>recovery phrase</i>.</string>
+	<string name="override_restore_wallet_warning_message">If you restore a wallet, your existing wallet will be lost unless you backed up you <i>recovery phrase</i>.</string>
+    <string name="incompatible_device_warning_title">Устройство не поддерживается</string>
+    <string name="incompatible_device_warning_message">Ваш аппарат не может осуществить некоторые криптографические операции по причине дефектов в операционной системе или в самом аппарате.\nЭту проблему может решить обновление ПО от производителя устройства.\n\nПожалуйста, обратитесь к нам , если у Вас есть вопросы : support@coinomi.com</string>
+    <!-- Recovery fragment -->
+    <
