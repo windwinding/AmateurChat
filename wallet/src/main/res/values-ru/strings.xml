@@ -110,4 +110,25 @@
     <string name="wallet_transactions_coinbase">добытые посредством майнинга</string>
     <string name="history_empty">Ваш кошелёк ещё не содержит монет!\n\nМожно приобрести немного монет посредством обмена или меняя их на товары и услуги.</string>
     <string name="sent_to">Отправили</string>
-    <string name="received_with
+    <string name="received_with">Получили от</string>
+	<string name="received_from">received from</string>
+    <string name="get_tx_info_error">Невозможно получить информацию о транзакции</string>
+    <string name="disconnected_label">Отсутствует подключение</string>
+    <string name="no_wallet_pocket_selected">Кошелёк не выбран</string>
+    <string name="get_tx_broadcast_error">Ошибка при передаче транзакции</string>
+    <!-- Receive fragment -->
+    <string name="receive_address_label">мой адрес</string>
+    <string name="create_new_address">Создать новый адрес?</string>
+    <string name="create_new_address_name">Имя (по желанию)</string>
+    <string name="view_previous_addresses">Предыдущие адреса</string>
+    <string name="too_many_unused_addresses">Слишком много неиспользованных адресов, попробуйте попользоваться одним из предыдущих адресов перед тем как создавать новый.</string>
+    <!-- Send Activity -->
+    <string name="send_coins_activity_title">Отправить монеты</string>
+    <!-- Send fragment -->
+    <string name="send_coins_fragment_receiving_address_label">Оплатить</string>
+    <string name="send_coins_fragment_receiving_address_tip">введите имя или адрес</string>
+    <string name="send_coins_fragment_receiving_address_error">Неверный Bitcoin Адрес!</string>
+    <string name="send_coins_fragment_amount_label">Сумма оплаты</string>
+    <string name="send_coins_fragment_button_send">Отправить</string>
+    <string name="send_coins_fragment_button_back">Назад</string>
+    <string name="send_coins_failed_ms
