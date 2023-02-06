@@ -131,4 +131,23 @@
     <string name="send_coins_fragment_amount_label">Сумма оплаты</string>
     <string name="send_coins_fragment_button_send">Отправить</string>
     <string name="send_coins_fragment_button_back">Назад</string>
-    <string name="send_coins_failed_ms
+    <string name="send_coins_failed_msg">Неудача!</string>
+    <string name="send_coins_error_network">Невозможно подключится к валютной сети</string>
+    <string name="send_coins_error_dust">Сумма которую Вы пытаетесь отправить очень мала и будет отторгнута валютной сетью.</string>
+    <string name="send_coins_error">Невозможно отправить монеты: %1$s</string>
+    <string name="pay_to_label">отправить</string>
+    <string name="amount_to_send_label">сумма</string>
+    <string name="scan_error">Ошибка при сканировании: %1$s</string>
+    <string name="unsupported_coin">Данные тип монет не поддерживаются: %1$s</string>
+    <string name="address_error">Введен не верный адрес.</string>
+    <string name="amount_error">Введена не верная сумма</string>
+    <string name="amount_error_empty">Пожалуйста, введите сумму</string>
+    <string name="amount_error_negative">Сумма должна быть больше нуля</string>
+    <string name="amount_error_too_small">Минимальная сумма %1$s</string>
+    <string name="amount_error_not_enough_money_plain">Недостаточно денег</string>
+    <string name="amount_error_not_enough_money">Недостаточно денег, Ваш текущий баланс %1$s</string>
+    <string name="amount_warn_fees_apply">Будет отправлено немного меньше по причине оплаты налогов</string>
+    <!-- Set Password fragment -->
+    <string name="set_password_info">Установите пароль для защиты Вашего кошелька в ежедневном применении.</string>
+	<string name="set_bip39_passphrase">Type your BIP39 passphrase</string>
+    <string name="set_password1">Введите Ваш пароль<
