@@ -166,4 +166,28 @@
     <!-- PasswordConfirmationFragment -->
     <string name="enter_password">Введите Ваш пароль</string>
     <!-- SignTransactionFragment -->
-    <string name="contacting_exchange">Подключаемся к сервису обмена&#8230;</stri
+    <string name="contacting_exchange">Подключаемся к сервису обмена&#8230;</string>
+    <string name="preparing_transaction">Пожалуйста, подождите пока Ваша транзакция будет подготовлена и отправлена.</string>
+    <string name="no_such_pocket_error">При попытке доступа к кошельку произошла ошибка. Если проблема останется, попробуйте восстановить кошелёк используя восстанавливающую фразу.</string>
+    <string name="password_failed">Введен не верный пароль.</string>
+    <string name="sending_msg">Отправка&#8230;</string>
+    <string name="sent_msg">Отправлено! Пожалуйста, подождите подтверждения успешного завершения транзакции.</string>
+    <string name="tx_already_broadcast">Деньги уже были отправлены</string>
+    <string name="trade_expired">Сервис обмена не доступен</string>
+    <string name="tx_confirm_timer_message">Пожалуйста, подтвердите этот обмен в следующие %1$s</string>
+    <plurals name="tx_confirm_timer_minute">
+        <item quantity="one">%s минута</item>
+        <item quantity="other">%s минут</item>
+        <item quantity="few">%s минуты</item>
+        <item quantity="many">%s минут</item>
+    </plurals>
+    <plurals name="tx_confirm_timer_second">
+        <item quantity="one">%d секунда</item>
+        <item quantity="other">%d секунд</item>
+        <item quantity="few">%d секунды</item>
+        <item quantity="many">%d секунд</item>
+    </plurals>
+    <!-- About Activity -->
+    <string name="title_activity_about">О Coinomi</string>
+    <string name="app_name_long">Coinomi для Android</string>
+    <string name="about_licence">Программа с открытым исходным кодом\nhttps:/
