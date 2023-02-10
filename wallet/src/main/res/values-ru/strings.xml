@@ -150,4 +150,20 @@
     <!-- Set Password fragment -->
     <string name="set_password_info">Установите пароль для защиты Вашего кошелька в ежедневном применении.</string>
 	<string name="set_bip39_passphrase">Type your BIP39 passphrase</string>
-    <string name="set_password1">Введите Ваш пароль<
+    <string name="set_password1">Введите Ваш пароль</string>
+    <string name="set_password2">Введите Ваш пароль еще раз</string>
+    <string name="password_too_common_error">Пароль \"%1$s\" слишком простой и не гарантирует Вам надежной защиты.</string>
+    <string name="password_too_short_error">Пароль слишком короткий, требуется, как минимум, %1$d символов.</string>
+    <string name="passwords_mismatch">Пароли не совпадают</string>
+    <string name="password_error">Дальнейшее выполнение невозможно, обнаружены ошибки в пароле.</string>
+    <string name="password_skip_warn">Не устанавливая пароль, доступ к Вашему кошельку может быть получен кем-угодно, без подтверждения личности.</string>
+    <string name="password_wallet_recovery">Чтобы восстановить Ваш кошелёк, пожалуйста, введите тот же пароль, что был использован при создании защищенной восстанавливающей фразы.\nЕсли Вы введёте другой пароль, будет создан новый пустой кошелёк.</string>
+    <!-- FinalizeWalletRestorationFragment -->
+    <string name="wallet_restoration">Пожалуйста, подождите, Ваш кошелёк восстанавливается</string>
+    <string name="wallet_restoration_master_key">Создание мастер-ключа</string>
+    <string name="wallet_restoration_coin">Создание ключа для %1$s</string>
+    <string name="wallet_restoration_error">Невозможно восстановить Ваш кошелёк.\n\n%1$s</string>
+    <!-- PasswordConfirmationFragment -->
+    <string name="enter_password">Введите Ваш пароль</string>
+    <!-- SignTransactionFragment -->
+    <string name="contacting_exchange">Подключаемся к сервису обмена&#8230;</stri
