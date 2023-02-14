@@ -250,4 +250,23 @@
     <string name="edit_account_delete_title">Remove account %1$s?</string>
     <string name="edit_account_delete_description">This removes the account from the wallet but it is still possible to re-add it and recover the coins.</string>
     <!-- Settings -->
-    <string name="title_a
+    <string name="title_activity_settings">Настройки</string>
+    <string name="pref_title_restore_wallet">Восстановить кошелёк</string>
+    <string name="pref_title_exchange_rates">Курсы валют</string>
+    <string name="pref_title_manual_receiving_addresses">Ручное получение адреса</string>
+    <string name="pref_summary_manual_receiving_addresses">Не создавать автоматически новый адрес для каждой транзакции</string>
+    <!-- Show Seed -->
+    <string name="title_activity_show_seed">Показать восстанавливающую фразу</string>
+    <string name="seed_not_available_title">Не найдена восстанавливающая фраза</string>
+    <string name="seed_not_available">Ваша восстанавливающая фраза не сохранена на этом устройстве.\nПопробуйте восстановить Ваш кошелёк , чтобы исправить это.</string>
+    <string name="seed_working">Пожалуйста подождите &#8230;</string>
+    <string name="seed_password_protected">Эта восстанавливающая фраза защищена паролем (BIP39)</string>
+    <!-- Wallet locked -->
+    <string name="touch_to_decrypt_wallet">Дотроньтесь для разблокировки</string>
+	    <!-- Debugging -->
+    <string name="title_activity_debugging">Debugging</string>
+    <string name="debugging_info">You can use a collection of tools to debug various issues with your wallet.</string>
+    <string name="debugging_test_wallet_password">Wallet unlocking tests</string>
+    <string name="debugging_test_wallet_password_results">Unlocked wallet: %1$s\n\nFingerprints\nInput: %2$s\nKey: %3$s</string>
+    <!-- Overview -->
+    <string na
