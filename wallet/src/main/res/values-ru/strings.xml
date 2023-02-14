@@ -229,4 +229,25 @@
     <!-- Exchange Rates -->
     <string name="title_activity_exchange_rates">Курсы валют</string>
     <string name="set_local_currency">Установить %1$s в качестве местной валюты</string>
-    <string name="exchange_rates_loading">Загрузка курсов валют<
+    <string name="exchange_rates_loading">Загрузка курсов валют</string>
+    <string name="exchange_rates_load_error">Не удалось загрузить курсы валют</string>
+    <string name="exchange_rates_empty_search">Невозможно найти обменный курс</string>
+    <!-- Select Coins -->
+    <string name="select_coins">Выберите валюту , которую желаете употребить в Вашем кошельке. Вы всегда можете добавить и другие позже.</string>
+    <!-- Previous Addresses -->
+    <string name="title_activity_previous_addresses">Мои предыдущие адреса</string>
+    <string name="previous_addresses_used">Использованный адрес</string>
+    <string name="previous_addresses_unused">Неиспользованный адрес</string>
+    <!-- Edit Address Book Entry -->
+    <string name="edit_address_book_entry_dialog_title_add">Добавить адрес</string>
+    <string name="edit_address_book_entry_dialog_title_edit">Редактировать адрес</string>
+    <string name="edit_address_book_entry_dialog_address_label">Адрес</string>
+    <string name="edit_address_book_entry_dialog_label_label">Имя</string>
+	    <!-- Edit Account -->
+    <string name="edit_account_title">Edit account</string>
+    <string name="edit_account_description_label">Description</string>
+    <!-- %1$s is the name of the account e.g. Remove account Bitcoin? -->
+    <string name="edit_account_delete_title">Remove account %1$s?</string>
+    <string name="edit_account_delete_description">This removes the account from the wallet but it is still possible to re-add it and recover the coins.</string>
+    <!-- Settings -->
+    <string name="title_a
