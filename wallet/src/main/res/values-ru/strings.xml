@@ -204,4 +204,29 @@
     <string name="title_activity_add_coins">Добавить монеты</string>
     <string name="password_add_coin">Вы собираетесь создать %1$s счёт в Вашем кошельке.</string>
     <string name="adding_coin_confirmation_title">Добавить %1$s?</string>
-    <string name="adding_coin_worki
+    <string name="adding_coin_working">Пожалуйста подождите пока создаётся новый %1$s счёт</string>
+    <string name="add_coin_error">Ошибка добавления %1$s: %2$s</string>
+    <string name="coin_already_added_title">%1$s уже добавлен</string>
+    <string name="coin_already_added">Дополнительные учетные записи пока не поддерживаются</string>
+    <!-- Transaction amount visualizer -->
+    <string name="internal_transfer">Внутренний перевод</string>
+    <!-- Transaction Details -->
+    <string name="title_activity_transaction_details">Детали транзакции</string>
+    <string name="sent">Отправлено</string>
+    <string name="received">Получено</string>
+    <string name="status_label">состояние</string>
+    <string name="date_label">дата</string>
+    <string name="transaction_id_label">id транзакции</string>
+    <string name="view_at_a_blockchain_explorer_link">Просмотреть на blockchain explorer</string>
+    <plurals name="status_building">
+        <item quantity="one">%d подтверждение</item>
+        <item quantity="other">%d подтверждениям</item>
+        <item quantity="few">%d подтверждения</item>
+        <item quantity="many">%d подтверждений</item>
+    </plurals>
+    <string name="status_pending">Ожидание подтверждения транзакции</string>
+    <string name="status_unknown">Состояние транзакции неизвестно</string>
+    <!-- Exchange Rates -->
+    <string name="title_activity_exchange_rates">Курсы валют</string>
+    <string name="set_local_currency">Установить %1$s в качестве местной валюты</string>
+    <string name="exchange_rates_loading">Загрузка курсов валют<
