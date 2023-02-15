@@ -269,4 +269,19 @@
     <string name="debugging_test_wallet_password">Wallet unlocking tests</string>
     <string name="debugging_test_wallet_password_results">Unlocked wallet: %1$s\n\nFingerprints\nInput: %2$s\nKey: %3$s</string>
     <!-- Overview -->
-    <string na
+    <string name="title_activity_overview">Overview</string>
+    <!-- Exchange -->
+    <string name="title_activity_trade">Обменять</string>
+    <string name="trade_info">Выберите валюту которую желаете обменять.\nПосле обмена валюта автоматически добавится в Ваш кошелёк.</string>
+    <string name="trade_info_rates">Предоставленный курс включает в себя налоги на транзакцию ShapeShift.io</string>
+    <string name="trade_from_coin_label">обменять</string>
+    <string name="trade_to_coin_label">получить</string>
+    <string name="trade_warn_no_account_found">Вам будет предложено добавить %1$s кошелёк</string>
+    <string name="trade_warn_no_connection_title">Отсутствует подключение</string>
+    <string name="trade_warn_no_connection_message">Необходимо подключение к сети интернет для обмена валюты.</string>
+    <string name="trade_error">Ошибка при обмене</string>
+    <string name="trade_error_no_supported_source_accounts">Не найдено поддерживаемых кошельков</string>
+    <string name="trade_error_service_not_available">Сервис временно не доступен, пожалуйста попробуйте снова через несколько минут</string>
+    <string name="trade_error_market_info">Сервис временно не доступен.\nНет информации о валютной паре %1$s - %2$s</string>
+    <string name="trade_error_sign_tx_message">Произошла какая-то ошибка при процедуре подписи и передачи обмена.\n\nТехнические детали:\n\n<b>%1$s</b></string>
+    <string name="trade_error_max_limit">Введенная сумма превышает лимит  %1$s. Пожалуйста воспользуйтесь меньшей суммой.</string>
