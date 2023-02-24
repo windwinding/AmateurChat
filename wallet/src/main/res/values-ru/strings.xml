@@ -285,3 +285,23 @@
     <string name="trade_error_market_info">Сервис временно не доступен.\nНет информации о валютной паре %1$s - %2$s</string>
     <string name="trade_error_sign_tx_message">Произошла какая-то ошибка при процедуре подписи и передачи обмена.\n\nТехнические детали:\n\n<b>%1$s</b></string>
     <string name="trade_error_max_limit">Введенная сумма превышает лимит  %1$s. Пожалуйста воспользуйтесь меньшей суммой.</string>
+    <string name="trade_error_min_limit">Минимальная сумма %1$s</string>
+    <!-- Exchange Status -->
+    <string name="title_activity_exchange_status">Состояние обмена</string>
+    <string name="trade_status_message">Ваша транзакция скоро будет завершена. Можете закрыть этот диалог без риска повлиять на процесс обмена.</string>
+    <string name="trade_status_complete_message">Ваша транзакция успешно завершена.</string>
+    <string name="trade_status_label">состояние</string>
+    <string name="trade_status_waiting_deposit">Ожидание депозита&#8230;</string>
+    <string name="trade_status_received_deposit">Получен депозит %1$s</string>
+    <string name="trade_status_waiting_trade">Ожидание обмена&#8230;</string>
+    <string name="trade_status_complete_detail">Обмен завершен, отправлено %1$s</string>
+    <string name="trade_status_complete">Обмен завершен</string>
+    <string name="trade_status_view_transaction">Просмотреть транзакцию</string>
+    <string name="trade_status_email_receipt">Почтовое подтверждение</string>
+    <string name="trade_status_failed_detail">Обмен не выполнен: %1$s</string>
+    <string name="trade_status_failed">Обмен не выполнен</string>
+    <string name="trade_status_delete_message">Удалить из истории?</string>
+    <string name="trade_status_tx_not_available">Транзакции не обнаружены, попробуйте снова через несколько секунд</string>
+    <!-- Email receipt dialog -->
+    <string name="email_receipt_title">Почтовое подтверждение</string>
+    <string name="email_r
