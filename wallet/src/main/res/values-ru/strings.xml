@@ -304,4 +304,23 @@
     <string name="trade_status_tx_not_available">Транзакции не обнаружены, попробуйте снова через несколько секунд</string>
     <!-- Email receipt dialog -->
     <string name="email_receipt_title">Почтовое подтверждение</string>
-    <string name="email_r
+    <string name="email_receipt_message">Получить почтовое подтверждение для данной обменной операции</string>
+    <!-- Exchange History -->
+    <string name="title_activity_exchange_history">История обменов</string>
+    <string name="exchange_history_empty">Обмен валюты еще не производился</string>
+    <!-- ShapeShift -->
+    <string name="about_shapeshift_title">О ShapeShift.io</string>
+    <string name="about_shapeshift_message">ShapeShift.io это сервис, обеспечивающий  моментальный обмен между Bitcoin и другими криптовалютами. Платформа (доступна в браузерной и API версиях) предоставляет самый быстрый и эффективный метод обмена между Bitcoin и множеством альтернативных криптовалют. Аккаунт не требуется.</string>
+    <!-- Sign Message -->
+    <string name="title_activity_sign_verify_message">Подписать/проверить сообщение</string>
+    <string name="signing_info">Вы можете подписать или проверить сообщение используя адрес.</string>
+    <string name="signing_address_label">адрес подписи</string>
+    <string name="address_not_found_error">Введенный в этом аккаунте адрес не обнаружен.</string>
+    <string name="message_to_sign_label">сообщение</string>
+    <string name="signature_label">подпись</string>
+    <string name="message_signed">Сообщение подписано</string>
+    <string name="message_verified">Сообщение проверенно</string>
+    <string name="message_verification_failed">Проверка сообщения не удалась</string>
+    <!-- Messages -->
+    <string name="tx_message_public">публичное сообщение</string>
+    <string name="tx_message_private">личное сообщение
